@@ -5,10 +5,10 @@ import {
   BrowserRouter,
   Routes,
   Route
-} from "react-router-dom";
+} from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Home from "./routes/home";
+import Home from './routes/home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -1,18 +1,33 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
+import { getCntrprty } from '../api';
+import ListElements from './shared/list_elements';
 
-class Homemedia extends React.Component {
+class Home extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            elements: [],
+            mempool_empty: null,
+            mempool_full: [],
+            get_running_info: null,
         };
     }
 
     async fetchData() {
+        const mempool_response = await getCntrprty('/mempool');
+
+        const mempool_full = mempool_response.mempool;
+
+        let mempool_empty = false;
+        if (mempool_full.length === 0) {
+            mempool_empty = true;
+        }
+
         this.setState({
-            elements: [],
+            mempool_empty,
+            mempool_full,
+            get_running_info: mempool_response.get_running_info,
         });
     }
 
@@ -22,9 +37,34 @@ class Homemedia extends React.Component {
     }
 
     render() {
+
+        let mempool_element_contents = (<p>loading...</p>);
+        if (this.state.mempool_empty) {
+            mempool_element_contents = (
+                <p>Refresh the page in a couple of seconds...</p>
+            );
+        }
+        else if (this.state.mempool_full.length) {
+            mempool_element_contents = (
+                <table>
+                    <tbody>
+                        {this.state.mempool_full.map((mempool_row, index) => {
+                            return ListElements.getTableRowMempool(mempool_row, index);
+                        })}
+                    </tbody>
+                </table>
+            );
+        }
+        const mempool_element = (
+            <>
+                <h2>Mempool:</h2>
+                {mempool_element_contents}
+            </>
+        );
+
         return (
             <main style={{ padding: "1rem" }}>
-                <h2>Mempool</h2>
+                {mempool_element}
                 <p>
                     [xcp.dev v1.0]
                     <br />
@@ -33,6 +73,7 @@ class Homemedia extends React.Component {
             </main>
         );
     }
+
 }
 
-export default withRouter(Homemedia);
+export default withRouter(Home);
