@@ -13,6 +13,7 @@ class App extends React.Component {
         <div style={{ padding: "1rem" }}>
 
           <h1>xcp.dev</h1>
+          <h3>Counterparty Bitcoin block explorer</h3>
 
           <nav
             style={{
