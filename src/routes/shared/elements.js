@@ -362,6 +362,43 @@ function formattedBroadcastsInsertElement(mempool_row, index, page) {
     );
 }
 
+function formattedDividendsInsertElement(mempool_row, index, page) {
+    const bindings = JSON.parse(mempool_row.bindings);
+    const source = bindings.source;
+    const fancy = (
+        <>
+            <a href={`https://mempool.space/tx/${mempool_row.tx_hash}`} target="_blank">{bindings.asset}</a>
+            {' -> '}
+            <a href={`https://mempool.space/tx/${mempool_row.tx_hash}`} target="_blank">{bindings.dividend_asset}</a>
+        </>
+    )
+
+    let link_to_tx;
+    if (page === 'home') {
+        link_to_tx = (
+            <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
+        );
+    }
+    else if (page === 'tx') {
+        link_to_tx = null;
+    }
+    else {
+        link_to_tx = (
+            <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
+        );
+    }
+
+    return (
+        <tr key={index} style={{ padding: "0.25rem" }}>
+            {link_to_tx}
+            <td style={{ padding: "0 1rem 0 0" }}>{mempool_row.category}</td>
+            <td style={{ padding: "0 1rem 0 0" }}>{source_format(source)}</td>
+            <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso_format(mempool_row.timestamp)}</td>
+            <td style={{ padding: "0 1rem 0 0" }}>{fancy}</td>
+        </tr>
+    );
+}
+
 class ListElements {
     static getTableRowMempool(mempool_row, index, page) {
         const category = mempool_row.category;
@@ -394,6 +431,9 @@ class ListElements {
         else if (category === 'broadcasts' && mempool_row.command === 'insert') {
             return formattedBroadcastsInsertElement(mempool_row, index, page);
         }
+        else if (category === 'dividends' && mempool_row.command === 'insert') {
+            return formattedDividendsInsertElement(mempool_row, index, page);
+        }
         else {
             return (
                 <tr key={index} style={{ padding: "0.25rem" }}>
@@ -405,10 +445,58 @@ class ListElements {
             )
         }
     }
-
-    // static getTableRowAddress(address_row, index) {
-    //     return ListElements.getTableRowMempool(address_row, index);
-    // }
 }
 
-export default ListElements;
+function formattedFirstOnesParsedDataElement(data_type, data_parsed) {
+
+    return (
+        <ul>
+            <li>data_type: {data_type}</li>
+            <li>data_parsed: {JSON.stringify(data_parsed)}</li>
+        </ul>
+    );
+
+}
+
+class OnlyElements {
+    static getTransactionDataParsed(data_type, data_parsed) {
+
+        // may be an array, and an empty one
+        if (Array.isArray(data_parsed) && data_parsed.length === 0) {
+            return (
+                <ul>
+                    <li>data_type: {data_type}</li>
+                    <li>data_parsed: (empty)</li>
+                </ul>
+            );
+        }
+
+        // const category = mempool_row.category;
+        const first_ones = [
+            'destructions',
+            'dispensers',
+            'dispenses',
+            'issuances',
+            // 'sends',
+        ];
+        if (first_ones.includes(data_type)) {
+            return formattedFirstOnesParsedDataElement(data_type, data_parsed);
+            // return formattedFirstOnesElement(mempool_row, index);
+        }
+        else {
+
+            return (
+                <ul>
+                    <li>data_type: {data_type}</li>
+                    <li>data_parsed: {JSON.stringify(data_parsed)}</li>
+                </ul>
+            );
+
+        }
+    }
+}
+
+export {
+    ListElements,
+    OnlyElements,
+};

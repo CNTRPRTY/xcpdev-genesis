@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
-import ListElements from './shared/list_elements';
+import { ListElements } from './shared/elements';
 
 class Home extends React.Component {
 
