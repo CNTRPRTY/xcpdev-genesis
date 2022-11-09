@@ -708,6 +708,11 @@ function formattedMessageSendsInsertElement(message_row, index, page) {
         </tr>
     );
 }
+
+function formattedMessagesOrdersInsertElement(mempool_row, index, page) {
+    // trying this because some (or all?) seem to be the same...
+    return formattedMempoolOrdersInsertElement(mempool_row, index, page);
+}
 ////////
 
 class ListElements {
@@ -760,23 +765,27 @@ class ListElements {
         }
     }
 
-    static getTableRowMessage(message_row, index, page) {
+    static getTableRowMessage(message_row, index) {
+        const page = 'tx';
         const category = message_row.category;
         const command = message_row.command;
-        if (category === 'dispensers' && command === 'insert') {
-            return formattedMessageDispensersInsertElement(message_row, index, page);
-        }
-        else if (category === 'dispenses' && command === 'insert') {
-            return formattedMessageDispensesInsertElement(message_row, index, page);
-        }
-        else if (category === 'debits' && command === 'insert') {
+        if (category === 'debits' && command === 'insert') {
             return formattedMessageDebitsInsertElement(message_row, index, page);
         }
         else if (category === 'credits' && command === 'insert') {
             return formattedMessageCreditsInsertElement(message_row, index, page);
         }
+        else if (category === 'dispensers' && command === 'insert') {
+            return formattedMessageDispensersInsertElement(message_row, index, page);
+        }
+        else if (category === 'dispenses' && command === 'insert') {
+            return formattedMessageDispensesInsertElement(message_row, index, page);
+        }
         else if (category === 'sends' && command === 'insert') {
             return formattedMessageSendsInsertElement(message_row, index, page);
+        }
+        else if (category === 'orders' && command === 'insert') {
+            return formattedMessagesOrdersInsertElement(message_row, index, page);
         }
         else {
             return (
