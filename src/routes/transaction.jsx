@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
-import { ListElements } from './shared/elements';
+import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 
 class Transaction extends React.Component {
@@ -193,16 +193,17 @@ class Transaction extends React.Component {
             </>
         );
 
-        return (
-            <main style={{ padding: "1rem" }}>
-                {transaction_element}
-                <p>
-                    [xcp.dev v1.0]
-                    <br />
-                    [counterparty-lib v9.59] in [Bitcoin Core v0.21]
-                </p>
-            </main>
-        );
+        return OneElements.getFullPageForRouteElement(transaction_element);
+        // return (
+        //     <main style={{ padding: "1rem" }}>
+        //         {transaction_element}
+        //         <p>
+        //             [xcp.dev v1.0]
+        //             <br />
+        //             [counterparty-lib v9.59] in [Bitcoin Core v0.21]
+        //         </p>
+        //     </main>
+        // );
     }
 
 }

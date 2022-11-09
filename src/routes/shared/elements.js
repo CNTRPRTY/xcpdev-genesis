@@ -814,6 +814,22 @@ class ListElements {
 
 }
 
+class OneElements {
+    static getFullPageForRouteElement(route_element) {
+        return (
+            <main style={{ padding: "1rem" }}>
+                {route_element}
+                <p>
+                    [xcp.dev v1.0]
+                    <br />
+                    [counterparty-lib v9.59] in [Bitcoin Core v0.21...?]
+                </p>
+            </main>
+        );
+    }
+}
+
 export {
     ListElements,
+    OneElements,
 };
