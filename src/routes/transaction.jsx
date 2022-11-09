@@ -11,6 +11,7 @@ class Transaction extends React.Component {
             tx_hash: props.router.params.txHash,
             transaction_not_found: null,
             transaction: null,
+            messages_maybe: [],
             messages: [],
             mempool: [],
             // mempool_transaction_messages: null, // can be 1 or multiple
@@ -35,6 +36,7 @@ class Transaction extends React.Component {
             this.setState({
                 // tx_hash,
                 transaction: transaction_response.transaction,
+                messages_maybe: transaction_response.messages_maybe,
                 messages: transaction_response.messages,
             });
         }
@@ -110,7 +112,7 @@ class Transaction extends React.Component {
                         <table>
                             <tbody>
                                 {this.state.messages.map((message_row, index) => {
-                                    return ListElements.getTableRowMessage(message_row, index, null);
+                                    return ListElements.getTableRowMessage(message_row, index);
                                 })}
                             </tbody>
                         </table>
@@ -120,12 +122,34 @@ class Transaction extends React.Component {
                             <li>data: {JSON.stringify(this.state.transaction.data.data)}</li> */}
                         {/* </ul> */}
                     </li>
-                    {/* <li>tx_index: {this.state.transaction.tx_index}</li>
-                    <li>source: {this.state.transaction.source}</li>
-                    <li>supported: {this.state.transaction.supported}</li>
-                    <li>data_type: {this.state.transaction.data.type}</li>
-                    <li>data: {JSON.stringify(this.state.transaction.data.data)}</li> */}
-                    {/* <li>{JSON.stringify(this.state.transaction)}</li> */}
+
+
+                    <li>
+                        <h3>Other (possibly related) block messages:</h3>
+                        <table>
+                            <tbody>
+                                {this.state.messages_maybe.map((message_row, index) => {
+
+                                    // // basic filters here to remove what is more likely NOT part of this
+
+                                    // if (this.state.messages.includes(message_row)) {
+                                    //     return null;
+                                    // }
+
+                                    // const bindings = JSON.parse(message_row.bindings);
+                                    // if (bindings.tx_hash && bindings.tx_hash !== this.state.tx_hash) {
+                                    //     return null;
+                                    // }
+                                    // else if (bindings.event && bindings.event !== this.state.tx_hash) {
+                                    //     return null;
+                                    // }
+
+                                    return ListElements.getTableRowMessage(message_row, index);
+                                })}
+                            </tbody>
+                        </table>
+                    </li>
+
                 </ul>
 
                 // <table>
