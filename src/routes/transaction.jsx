@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
-import { ListElements, OnlyElements } from './shared/elements';
+import { ListElements } from './shared/elements';
+// import { ListElements, OnlyElements } from './shared/elements';
 
 class Transaction extends React.Component {
     constructor(props) {
