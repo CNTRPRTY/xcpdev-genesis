@@ -10,6 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Home from './routes/home';
 import Transaction from './routes/transaction';
+import Block from './routes/block';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
           <Route path="tx/:txHash" element={<Transaction />} />
+          <Route path="block/:block" element={<Block />} />
           <Route
             path="*"
             element={
