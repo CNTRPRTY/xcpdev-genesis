@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
-import ListElements from './shared/list_elements';
+import { ListElements, OnlyElements } from './shared/elements';
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -10,55 +10,44 @@ class Transaction extends React.Component {
             tx_hash: props.router.params.txHash,
             transaction_not_found: null,
             transaction: null,
-            mempool_transaction_messages: null, // can be 1 or multiple
-            // mempool_transaction: null, // can be multiple
+            messages: [],
+            mempool: [],
+            // mempool_transaction_messages: null, // can be 1 or multiple
+            // // mempool_transaction: null, // can be multiple
         };
     }
 
     async fetchData(tx_hash) {
-        const transaction_response = await getCntrprty(`/transactions/${tx_hash}`);
+        const transaction_response = await getCntrprty(`/tx/${tx_hash}`);
 
         // console.log(`rrr1`);
         // console.log(JSON.stringify(transaction_response));
         // console.log(`rrr2`);
 
-        if (transaction_response.transactions.length > 1) {
-            alert(`unexpected!`);
+        if (
+            !transaction_response.transaction &&
+            !transaction_response.mempool.length
+        ) {
+            this.setState({ transaction_not_found: true });
         }
-        else {
-
-            // it can be a block transaction or a mempool transaction
-
-            if (!transaction_response.transactions.length) {
-
-                // now try to find this tx in the mempool
-                const mempool_response = await getCntrprty(`/mempool/${tx_hash}`);
-
-                // console.log(`rrr3`);
-                // console.log(JSON.stringify(mempool_response));
-                // console.log(`rrr4`);
-
-                if (mempool_response.mempool.length) {
-                    this.setState({
-                        tx_hash,
-                        mempool_transaction_messages: mempool_response.mempool,
-                    });
-                }
-                else {
-                    this.setState({ transaction_not_found: true });
-                }
-
-                // this.setState({ transaction_not_found: true });
-            }
-
-            else {
-                this.setState({
-                    tx_hash,
-                    transaction: transaction_response.transactions[0],
-                });
-            }
-
+        else if (transaction_response.transaction) {
+            this.setState({
+                // tx_hash,
+                transaction: transaction_response.transaction,
+                messages: transaction_response.messages,
+            });
         }
+        else { // transaction_response.mempool.length
+            this.setState({
+                // tx_hash,
+                mempool: transaction_response.mempool
+            });
+        }
+
+        // this.setState({
+        //     tx_hash,
+        //     // transaction: transaction_response.transactions[0],
+        // });
 
     }
 
@@ -83,21 +72,52 @@ class Transaction extends React.Component {
                     {/* <li>block_time: {this.state.transaction.block_time}</li> */}
                     <li>block_time_iso: {(new Date(this.state.transaction.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
+                    <li>source: {this.state.transaction.source}</li>
+                    {this.state.transaction.destination ? (
+                        <li>destination: {this.state.transaction.destination}</li>
+                    ) : null}
                     <li>
-                        <ul>
-                            <li>source: {this.state.transaction.source}</li>
-                            <li>tx_index: {this.state.transaction.tx_index}</li>
-                            <li>
-                                <ul>
-                                    <li>supported: {this.state.transaction.supported}</li>
-                                    <li>data_type: {this.state.transaction.data.type}</li>
-                                    <li>data: {JSON.stringify(this.state.transaction.data.data)}</li>
-                                </ul>
-                            </li>
-                            {/* <li>supported: {this.state.transaction.supported}</li>
+                        {/* CNTRPRTY: */}
+                        {/* {'{'} */}
+                        <table>
+                            <tbody>
+                                <tr style={{ padding: "0.25rem" }}>
+                                    <td style={{ padding: "0 1rem 0 0" }}>tx_index: {this.state.transaction.tx_index}</td>
+                                    <td style={{ padding: "0 1rem 0 0" }}>supported: {this.state.transaction.supported}</td>
+                                    <td style={{ padding: "0 1rem 0 0" }}>data_type: {this.state.transaction.data.type}</td>
+                                    {/* <td style={{ padding: "0 1rem 0 0" }}>CNTRPRTY: {'{'}data: {JSON.stringify(this.state.transaction.data.data)}{'}'}</td> */}
+                                    <td style={{ padding: "0 1rem 0 0" }}>data: {JSON.stringify(this.state.transaction.data.data)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {/* {'}'} */}
+                    </li>
+                    <li>
+                        {/* <ul> */}
+                        {/* <li>source: {this.state.transaction.source}</li> */}
+                        {/* {this.state.transaction.destination ? (
+                                <li>destination: {this.state.transaction.destination}</li>
+                            ) : null} */}
+                        {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
+
+                        {/* </ul> */}
+
+                        <h3>Messages:</h3>
+
+                        {/* <ul>
+                            <li> */}
+                        <table>
+                            <tbody>
+                                {this.state.messages.map((message_row, index) => {
+                                    return ListElements.getTableRowMessage(message_row, index, null);
+                                })}
+                            </tbody>
+                        </table>
+                        {/* </li> */}
+                        {/* <li>supported: {this.state.transaction.supported}</li>
                             <li>data_type: {this.state.transaction.data.type}</li>
                             <li>data: {JSON.stringify(this.state.transaction.data.data)}</li> */}
-                        </ul>
+                        {/* </ul> */}
                     </li>
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li>
                     <li>source: {this.state.transaction.source}</li>
@@ -118,7 +138,7 @@ class Transaction extends React.Component {
 
             );
         }
-        else if (this.state.mempool_transaction_messages) {
+        else if (this.state.mempool.length) {
             transaction_element_contents = (
                 <>
                     <h3>In mempool...</h3>
@@ -127,7 +147,7 @@ class Transaction extends React.Component {
 
                     <table>
                         <tbody>
-                            {this.state.mempool_transaction_messages.map((mempool_row, index) => {
+                            {this.state.mempool.map((mempool_row, index) => {
                                 const page = 'tx';
                                 return ListElements.getTableRowMempool(mempool_row, index, page);
                                 // return ListElements.getTableRowMempool(mempool_row, index);
