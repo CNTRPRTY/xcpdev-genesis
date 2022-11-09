@@ -508,6 +508,10 @@ function formattedMempoolDividendsInsertElement(mempool_row, index, page) {
 }
 
 ////////
+function formattedMessageDispensersUpdateElement(message_row, index, page) {
+    return formattedMempoolDispensersUpdateElement(message_row, index, page);
+}
+
 function formattedMessageDispensersInsertElement(message_row, index, page) {
     // function formattedFirstOnesElement(mempool_row, index) {
     const bindings = JSON.parse(message_row.bindings);
@@ -617,6 +621,10 @@ function formattedMessageDispensesInsertElement(message_row, index, page) {
             {/* <td style={{ padding: "0 1rem 0 0" }}>{mempool_row.timestamp}</td> */}
         </tr>
     );
+}
+
+function formattedMessageIssuancesInsertElement(message_row, index, page) {
+    return formattedMempoolIssuancesInsertElement(message_row, index, page);
 }
 
 function formattedMessageDebitsInsertElement(message_row, index, page) {
@@ -775,11 +783,17 @@ class ListElements {
         else if (category === 'credits' && command === 'insert') {
             return formattedMessageCreditsInsertElement(message_row, index, page);
         }
+        else if (category === 'dispensers' && command === 'update') {
+            return formattedMessageDispensersUpdateElement(message_row, index, page);
+        }
         else if (category === 'dispensers' && command === 'insert') {
             return formattedMessageDispensersInsertElement(message_row, index, page);
         }
         else if (category === 'dispenses' && command === 'insert') {
             return formattedMessageDispensesInsertElement(message_row, index, page);
+        }
+        else if (category === 'issuances' && command === 'insert') {
+            return formattedMessageIssuancesInsertElement(message_row, index, page);
         }
         else if (category === 'sends' && command === 'insert') {
             return formattedMessageSendsInsertElement(message_row, index, page);
