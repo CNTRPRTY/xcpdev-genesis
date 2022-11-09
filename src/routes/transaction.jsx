@@ -3,6 +3,7 @@ import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
+import { Link } from "react-router-dom";
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -69,10 +70,11 @@ class Transaction extends React.Component {
                 // at least for now, not using tables for single element result
                 // just using a simple ul for now
                 <ul>
-                    <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li>
-                    {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
+                    {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
+                    <li>tx_hash: {this.state.transaction.tx_hash}</li>
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                    <li>block_index: {this.state.transaction.block_index}</li>
+                    <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
+                    {/* <li>block_index: {this.state.transaction.block_index}</li> */}
                     {/* <li>block_time: {this.state.transaction.block_time}</li> */}
                     <li>block_time_iso: {(new Date(this.state.transaction.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
