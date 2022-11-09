@@ -69,7 +69,8 @@ class Transaction extends React.Component {
                 // at least for now, not using tables for single element result
                 // just using a simple ul for now
                 <ul>
-                    <li>tx_hash: {this.state.transaction.tx_hash}</li>
+                    <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li>
+                    {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
                     <li>block_index: {this.state.transaction.block_index}</li>
                     {/* <li>block_time: {this.state.transaction.block_time}</li> */}
@@ -80,6 +81,7 @@ class Transaction extends React.Component {
                         <li>destination: {this.state.transaction.destination}</li>
                     ) : null}
                     <li>
+                        <h3>CNTRPRTY data:</h3>
                         {/* CNTRPRTY: */}
                         {/* {'{'} */}
                         <table>
@@ -185,7 +187,8 @@ class Transaction extends React.Component {
         }
         const transaction_element = (
             <>
-                <h2>Transaction: {this.state.tx_hash}</h2>
+                <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
+                {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                 {transaction_element_contents}
             </>
         );
