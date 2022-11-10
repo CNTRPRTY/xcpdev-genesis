@@ -116,7 +116,8 @@ class Transaction extends React.Component {
                         <table>
                             <tbody>
                                 {this.state.messages.map((message_row, index) => {
-                                    return ListElements.getTableRowMessage(message_row, index);
+                                    const page = 'tx';
+                                    return ListElements.getTableRowMessage(message_row, index, page);
                                 })}
                             </tbody>
                         </table>
@@ -148,7 +149,8 @@ class Transaction extends React.Component {
                                     //     return null;
                                     // }
 
-                                    return ListElements.getTableRowMessage(message_row, index);
+                                    const page = 'tx';
+                                    return ListElements.getTableRowMessage(message_row, index, page);
                                 })}
                             </tbody>
                         </table>

@@ -773,8 +773,9 @@ class ListElements {
         }
     }
 
-    static getTableRowMessage(message_row, index) {
-        const page = 'tx';
+    static getTableRowMessage(message_row, index, page) {
+        // static getTableRowMessage(message_row, index) {
+        // const page = 'tx';
         const category = message_row.category;
         const command = message_row.command;
         if (category === 'debits' && command === 'insert') {
