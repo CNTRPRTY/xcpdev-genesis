@@ -15,6 +15,9 @@ class Transaction extends React.Component {
             messages_maybe: [],
             messages: [],
             mempool: [],
+
+            main_messages: [],
+            // main_message: null,
             // mempool_transaction_messages: null, // can be 1 or multiple
             // // mempool_transaction: null, // can be multiple
         };
@@ -39,6 +42,7 @@ class Transaction extends React.Component {
                 transaction: transaction_response.transaction,
                 messages_maybe: transaction_response.messages_maybe,
                 messages: transaction_response.messages,
+                main_messages: transaction_response.main_messages,
             });
         }
         else { // transaction_response.mempool.length
@@ -82,23 +86,27 @@ class Transaction extends React.Component {
                     {this.state.transaction.destination ? (
                         <li>destination: {this.state.transaction.destination}</li>
                     ) : null}
-                    <li>
+
+                    {/* <li>
                         <h3>CNTRPRTY data:</h3>
-                        {/* CNTRPRTY: */}
-                        {/* {'{'} */}
+                        // CNTRPRTY:
+                        // {'{'}
                         <table>
                             <tbody>
                                 <tr style={{ padding: "0.25rem" }}>
                                     <td style={{ padding: "0 1rem 0 0" }}>tx_index: {this.state.transaction.tx_index}</td>
                                     <td style={{ padding: "0 1rem 0 0" }}>supported: {this.state.transaction.supported}</td>
                                     <td style={{ padding: "0 1rem 0 0" }}>data_type: {this.state.transaction.data.type}</td>
-                                    {/* <td style={{ padding: "0 1rem 0 0" }}>CNTRPRTY: {'{'}data: {JSON.stringify(this.state.transaction.data.data)}{'}'}</td> */}
+                                    // <td style={{ padding: "0 1rem 0 0" }}>CNTRPRTY: {'{'}data: {JSON.stringify(this.state.transaction.data.data)}{'}'}</td>
                                     <td style={{ padding: "0 1rem 0 0" }}>data: {JSON.stringify(this.state.transaction.data.data)}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        {/* {'}'} */}
-                    </li>
+                        // {'}'}
+                    </li> */}
+
+                    <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li>
+
                     <li>
                         {/* <ul> */}
                         {/* <li>source: {this.state.transaction.source}</li> */}
@@ -109,7 +117,28 @@ class Transaction extends React.Component {
 
                         {/* </ul> */}
 
-                        <h3>Messages:</h3>
+
+                        {this.state.main_messages.length ? (
+                            <>
+                                <h3>Main messages:</h3>
+                                {/* <h3>Main message:</h3> */}
+
+                                <table>
+                                    <tbody>
+                                        {this.state.main_messages.map((message_row, index) => {
+                                            const page = 'tx';
+                                            return ListElements.getTableRowMessage(message_row, index, page);
+                                        })}
+                                        {/* {ListElements.getTableRowMessage(this.state.main_message, 0, 'tx')} */}
+                                    </tbody>
+                                </table>
+                            </>
+                        ) : null}
+
+
+                        {/* TODO ALL! */}
+                        <h3>All messages:</h3>
+                        {/* <h3>Messages:</h3> */}
 
                         {/* <ul>
                             <li> */}
@@ -129,7 +158,7 @@ class Transaction extends React.Component {
                     </li>
 
 
-                    <li>
+                    {/* <li>
                         <h3>Other (possibly related) block messages:</h3>
                         <table>
                             <tbody>
@@ -154,7 +183,7 @@ class Transaction extends React.Component {
                                 })}
                             </tbody>
                         </table>
-                    </li>
+                    </li> */}
 
                 </ul>
 
