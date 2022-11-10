@@ -13,7 +13,8 @@ class App extends React.Component {
         <div style={{ padding: "1rem" }}>
 
           <h1>xcp.dev</h1>
-          <h3>Counterparty Bitcoin explorer</h3>
+          <h3>Counterparty Bitcoin data explorer</h3>
+          {/* <h3>Counterparty Bitcoin explorer</h3> */}
           {/* <h3>Counterparty Bitcoin block explorer</h3> */}
 
           <nav
@@ -23,10 +24,15 @@ class App extends React.Component {
             }}
           >
 
-            <Link to="/">Home</Link> |{" "}
+            <Link to="/">Mempool</Link> |{" "}
+            <Link to="/blocks">Blocks</Link>
+            {/* <Link to="/blocks">Blocks</Link> |{" "}
+            <Link to="/tables">Tables</Link> */}
+            {/* <Link to="/">Home</Link> */}
+            {/* <Link to="/">Home</Link> |{" "}
             <Link to="/asset">Assets</Link> |{" "}
             <Link to="/address">Addresses</Link> |{" "}
-            <Link to="/block">Blocks</Link>
+            <Link to="/block">Blocks</Link> */}
 
           </nav>
           <Outlet />
