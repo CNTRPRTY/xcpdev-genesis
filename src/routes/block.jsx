@@ -50,9 +50,15 @@ class Block extends React.Component {
                 <p>block not found</p>
             );
         }
-        else if (this.state.messages !== null) {
-            // else {
-            // if (this.state.messages.length) {
+        else if (this.state.messages && !this.state.messages.length) {
+            block_element_contents = (
+                <>
+                    <h3>Messages:</h3>
+                    <p>no messages in block</p>
+                </>
+            );
+        }
+        else if (this.state.messages && this.state.messages.length) {
             block_element_contents = (
                 <>
                     <h3>Messages:</h3>
