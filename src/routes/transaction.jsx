@@ -138,9 +138,10 @@ class Transaction extends React.Component {
                         ) : null}
 
 
-                        {/* TODO ALL! */}
-                        <h3>All messages:</h3>
-                        {/* <h3>Messages:</h3> */}
+                        {/* TODO ALL?! */}
+                        {/* <h3>"All" (WIP) messages:</h3> */}
+                        {/* <h3>All messages:</h3> */}
+                        <h3>Messages:</h3>
 
                         {/* <ul>
                             <li> */}
