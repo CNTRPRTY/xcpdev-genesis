@@ -823,7 +823,7 @@ class OneElements {
                 <p>
                     [xcp.dev v1.0]
                     <br />
-                    [counterparty-lib v9.59] in [Bitcoin Core v0.21...?]
+                    [counterparty-lib v9.59] in [Bitcoin Core v0.21.1]
                 </p>
             </main>
         );
