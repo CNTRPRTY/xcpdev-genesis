@@ -65,9 +65,11 @@ class Block extends React.Component {
 
                     <table>
                         <tbody>
+                            {ListElements.getTableRowMessageBlockHeader()}
                             {this.state.messages.map((message_row, index) => {
-                                const page = 'home'; // TODO?
-                                return ListElements.getTableRowMessage(message_row, index, page);
+                                return ListElements.getTableRowMessageBlock(message_row, index);
+                                // const page = 'home'; // TODO?
+                                // return ListElements.getTableRowMessage(message_row, index, page);
                             })}
                         </tbody>
                     </table>

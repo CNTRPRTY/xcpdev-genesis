@@ -125,9 +125,11 @@ class Transaction extends React.Component {
 
                                 <table>
                                     <tbody>
+                                        {ListElements.getTableRowMessageTxHeader()}
                                         {this.state.main_messages.map((message_row, index) => {
-                                            const page = 'tx';
-                                            return ListElements.getTableRowMessage(message_row, index, page);
+                                            return ListElements.getTableRowMessageTx(message_row, index);
+                                            // const page = 'tx';
+                                            // return ListElements.getTableRowMessage(message_row, index, page);
                                         })}
                                         {/* {ListElements.getTableRowMessage(this.state.main_message, 0, 'tx')} */}
                                     </tbody>
@@ -144,9 +146,11 @@ class Transaction extends React.Component {
                             <li> */}
                         <table>
                             <tbody>
+                                {ListElements.getTableRowMessageTxHeader()}
                                 {this.state.messages.map((message_row, index) => {
-                                    const page = 'tx';
-                                    return ListElements.getTableRowMessage(message_row, index, page);
+                                    return ListElements.getTableRowMessageTx(message_row, index);
+                                    // const page = 'tx';
+                                    // return ListElements.getTableRowMessage(message_row, index, page);
                                 })}
                             </tbody>
                         </table>
@@ -207,9 +211,11 @@ class Transaction extends React.Component {
 
                     <table>
                         <tbody>
+                            {ListElements.getTableRowMempoolTxHeader()}
                             {this.state.mempool.map((mempool_row, index) => {
-                                const page = 'tx';
-                                return ListElements.getTableRowMempool(mempool_row, index, page);
+                                return ListElements.getTableRowMempoolTx(mempool_row, index);
+                                // const page = 'tx';
+                                // return ListElements.getTableRowMempool(mempool_row, index, page);
                                 // return ListElements.getTableRowMempool(mempool_row, index);
                             })}
                         </tbody>

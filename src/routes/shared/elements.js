@@ -725,93 +725,237 @@ function formattedMessagesOrdersInsertElement(mempool_row, index, page) {
 
 class ListElements {
 
-    static getTableRowMempool(mempool_row, index, page) {
+    static getTableRowMempoolHomeHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+            </tr>
+        );
+    }
+    static getTableRowMempoolHome(mempool_row, index) {
         const category = mempool_row.category;
         const command = mempool_row.command;
-        if (category === 'dispensers' && command === 'update') { // TODO insert
-            return formattedMempoolDispensersUpdateElement(mempool_row, index, page);
-        }
-        else if (category === 'dispenses' && command === 'insert') {
-            return formattedMempoolDispensesInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'issuances' && command === 'insert') {
-            return formattedMempoolIssuancesInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'destructions' && command === 'insert') {
-            return formattedMempoolDestructionsInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'sends' && command === 'insert') {
-            return formattedMempoolSendsInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'orders' && command === 'update') {
-            return formattedMempoolOrdersUpdateElement(mempool_row, index, page);
-        }
-        else if (category === 'orders' && command === 'insert') {
-            return formattedMempoolOrdersInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'cancels' && command === 'insert') {
-            return formattedMempoolCancelsInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'sweeps' && command === 'insert') {
-            return formattedMempoolSweepsInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'broadcasts' && command === 'insert') {
-            return formattedMempoolBroadcastsInsertElement(mempool_row, index, page);
-        }
-        else if (category === 'dividends' && command === 'insert') {
-            return formattedMempoolDividendsInsertElement(mempool_row, index, page);
-        }
-        else {
-            return (
-                <tr key={index} style={{ padding: "0.25rem" }}>
-                    <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td>
-                </tr>
-            );
-        }
+        // const tx_hash = mempool_row.tx_hash;
+        const timestamp_iso = block_time_iso_format(mempool_row.timestamp);
+        const bindings = JSON.parse(mempool_row.bindings);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${tx_hash}`}>{tx_hash}</Link></td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{tx_hash}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
+            </tr>
+        );
     }
 
-    static getTableRowMessage(message_row, index, page) {
+    static getTableRowMempoolTxHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+            </tr>
+        );
+    }
+    static getTableRowMempoolTx(mempool_row, index) {
+        const category = mempool_row.category;
+        const command = mempool_row.command;
+        const timestamp_iso = block_time_iso_format(mempool_row.timestamp);
+        const bindings = JSON.parse(mempool_row.bindings);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
+            </tr>
+        );
+    }
+
+    static getTableRowMessageTxHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+            </tr>
+        );
+    }
+    static getTableRowMessageTx(message_row, index) {
         // static getTableRowMessage(message_row, index) {
         // const page = 'tx';
         const category = message_row.category;
         const command = message_row.command;
-        if (category === 'debits' && command === 'insert') {
-            return formattedMessageDebitsInsertElement(message_row, index, page);
-        }
-        else if (category === 'credits' && command === 'insert') {
-            return formattedMessageCreditsInsertElement(message_row, index, page);
-        }
-        else if (category === 'dispensers' && command === 'update') {
-            return formattedMessageDispensersUpdateElement(message_row, index, page);
-        }
-        else if (category === 'dispensers' && command === 'insert') {
-            return formattedMessageDispensersInsertElement(message_row, index, page);
-        }
-        else if (category === 'dispenses' && command === 'insert') {
-            return formattedMessageDispensesInsertElement(message_row, index, page);
-        }
-        else if (category === 'issuances' && command === 'insert') {
-            return formattedMessageIssuancesInsertElement(message_row, index, page);
-        }
-        else if (category === 'sends' && command === 'insert') {
-            return formattedMessageSendsInsertElement(message_row, index, page);
-        }
-        else if (category === 'orders' && command === 'insert') {
-            return formattedMessagesOrdersInsertElement(message_row, index, page);
-        }
-        else {
-            return (
-                <tr key={index} style={{ padding: "0.25rem" }}>
-                    <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td>
-                </tr>
-            );
-        }
+        const message_index = message_row.message_index;
+        // const block_time_iso = block_time_iso_format(message_row.timestamp);
+        const bindings = JSON.parse(message_row.bindings);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
+            </tr>
+        );
     }
+
+    static getTableRowMessageBlockHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx/state</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+            </tr>
+        );
+    }
+    static getTableRowMessageBlock(message_row, index) {
+        // static getTableRowMessage(message_row, index) {
+        // const page = 'tx';
+        const category = message_row.category;
+        const command = message_row.command;
+        // const block_time_iso = block_time_iso_format(message_row.timestamp); // repeated, better just use the block
+        const message_index = message_row.message_index;
+        const bindings = JSON.parse(message_row.bindings);
+
+        let txhash_or_event = false;
+        if (bindings.tx_hash) {
+            txhash_or_event = bindings.tx_hash;
+        }
+        else if (bindings.event) {
+            txhash_or_event = bindings.event;
+        }
+
+        // special cases found
+        if (
+            category === 'credits' &&
+            command === 'insert' &&
+            (bindings.action && bindings.action === 'order match')
+        ) {
+            txhash_or_event = bindings.event.split('_')[1];
+        }
+
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{
+                    txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
+                }</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+            </tr>
+        );
+    }
+
+    // static getTableRowMempool(mempool_row, index, page) {
+    //     const category = mempool_row.category;
+    //     const command = mempool_row.command;
+    //     if (category === 'dispensers' && command === 'update') { // TODO insert
+    //         return formattedMempoolDispensersUpdateElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'dispenses' && command === 'insert') {
+    //         return formattedMempoolDispensesInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'issuances' && command === 'insert') {
+    //         return formattedMempoolIssuancesInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'destructions' && command === 'insert') {
+    //         return formattedMempoolDestructionsInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'sends' && command === 'insert') {
+    //         return formattedMempoolSendsInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'orders' && command === 'update') {
+    //         return formattedMempoolOrdersUpdateElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'orders' && command === 'insert') {
+    //         return formattedMempoolOrdersInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'cancels' && command === 'insert') {
+    //         return formattedMempoolCancelsInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'sweeps' && command === 'insert') {
+    //         return formattedMempoolSweepsInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'broadcasts' && command === 'insert') {
+    //         return formattedMempoolBroadcastsInsertElement(mempool_row, index, page);
+    //     }
+    //     else if (category === 'dividends' && command === 'insert') {
+    //         return formattedMempoolDividendsInsertElement(mempool_row, index, page);
+    //     }
+    //     else {
+    //         return (
+    //             <tr key={index} style={{ padding: "0.25rem" }}>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td>
+    //             </tr>
+    //         );
+    //     }
+    // }
+
+    // static getTableRowMessage(message_row, index, page) {
+    //     // static getTableRowMessage(message_row, index) {
+    //     // const page = 'tx';
+    //     const category = message_row.category;
+    //     const command = message_row.command;
+    //     if (category === 'debits' && command === 'insert') {
+    //         return formattedMessageDebitsInsertElement(message_row, index, page);
+    //     }
+    //     else if (category === 'credits' && command === 'insert') {
+    //         return formattedMessageCreditsInsertElement(message_row, index, page);
+    //     }
+    //     else if (category === 'dispensers' && command === 'update') {
+    //         return formattedMessageDispensersUpdateElement(message_row, index, page);
+    //     }
+    //     else if (category === 'dispensers' && command === 'insert') {
+    //         return formattedMessageDispensersInsertElement(message_row, index, page);
+    //     }
+    //     else if (category === 'dispenses' && command === 'insert') {
+    //         return formattedMessageDispensesInsertElement(message_row, index, page);
+    //     }
+    //     else if (category === 'issuances' && command === 'insert') {
+    //         return formattedMessageIssuancesInsertElement(message_row, index, page);
+    //     }
+    //     else if (category === 'sends' && command === 'insert') {
+    //         return formattedMessageSendsInsertElement(message_row, index, page);
+    //     }
+    //     else if (category === 'orders' && command === 'insert') {
+    //         return formattedMessagesOrdersInsertElement(message_row, index, page);
+    //     }
+    //     else {
+    //         return (
+    //             <tr key={index} style={{ padding: "0.25rem" }}>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+    //                 <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td>
+    //             </tr>
+    //         );
+    //     }
+    // }
 
 }
 

@@ -48,8 +48,11 @@ class Home extends React.Component {
             mempool_element_contents = (
                 <table>
                     <tbody>
+                        {ListElements.getTableRowMempoolHomeHeader()}
                         {this.state.mempool_full.map((mempool_row, index) => {
-                            return ListElements.getTableRowMempool(mempool_row, index);
+                            // {this.state.mempool_grouped.map((mempool_row, index) => {
+                            return ListElements.getTableRowMempoolHome(mempool_row, index);
+                            // return ListElements.getTableRowMempool(mempool_row, index);
                         })}
                     </tbody>
                 </table>
