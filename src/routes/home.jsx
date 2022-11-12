@@ -15,7 +15,8 @@ class Home extends React.Component {
     }
 
     async fetchData() {
-        const mempool_response = await getCntrprty('/mempool');
+        const mempool_response = await getCntrprty('/');
+        // const mempool_response = await getCntrprty('/mempool');
 
         const mempool_full = mempool_response.mempool;
 
