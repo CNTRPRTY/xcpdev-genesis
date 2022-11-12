@@ -12,11 +12,11 @@ class Transaction extends React.Component {
             tx_hash: props.router.params.txHash,
             transaction_not_found: null,
             transaction: null,
-            messages_maybe: [],
+            // messages_maybe: [],
             messages: [],
             mempool: [],
 
-            main_messages: [],
+            // main_messages: [],
             // main_message: null,
             // mempool_transaction_messages: null, // can be 1 or multiple
             // // mempool_transaction: null, // can be multiple
@@ -24,7 +24,17 @@ class Transaction extends React.Component {
     }
 
     async fetchData(tx_hash) {
-        const transaction_response = await getCntrprty(`/tx/${tx_hash}`);
+        // const transaction_response = await getCntrprty(`/tx/${tx_hash}`);
+        let transaction_response = {};
+        try {
+            transaction_response = await getCntrprty(`/tx/${tx_hash}`);
+        }
+        catch (e) {
+            transaction_response = {
+                transaction: null,
+                mempool: [],
+            };
+        }
 
         // console.log(`rrr1`);
         // console.log(JSON.stringify(transaction_response));
@@ -40,9 +50,9 @@ class Transaction extends React.Component {
             this.setState({
                 // tx_hash,
                 transaction: transaction_response.transaction,
-                messages_maybe: transaction_response.messages_maybe,
+                // messages_maybe: transaction_response.messages_maybe,
                 messages: transaction_response.messages,
-                main_messages: transaction_response.main_messages,
+                // main_messages: transaction_response.main_messages,
             });
         }
         else { // transaction_response.mempool.length
@@ -118,10 +128,10 @@ class Transaction extends React.Component {
                         {/* </ul> */}
 
 
-                        {this.state.main_messages.length ? (
+                        {/* {this.state.main_messages.length ? (
                             <>
                                 <h3>Main messages:</h3>
-                                {/* <h3>Main message:</h3> */}
+                                // <h3>Main message:</h3>
 
                                 <table>
                                     <tbody>
@@ -131,11 +141,11 @@ class Transaction extends React.Component {
                                             // const page = 'tx';
                                             // return ListElements.getTableRowMessage(message_row, index, page);
                                         })}
-                                        {/* {ListElements.getTableRowMessage(this.state.main_message, 0, 'tx')} */}
+                                        // {ListElements.getTableRowMessage(this.state.main_message, 0, 'tx')}
                                     </tbody>
                                 </table>
                             </>
-                        ) : null}
+                        ) : null} */}
 
 
                         {/* TODO ALL?! */}
