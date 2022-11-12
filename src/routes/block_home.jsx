@@ -1,8 +1,7 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
-import { OneElements, ListElements } from './shared/elements';
-// import { ListElements, OnlyElements } from './shared/elements';
+import { OneElements } from './shared/elements';
 import { Link } from "react-router-dom";
 
 class BlockHome extends React.Component {
@@ -14,7 +13,9 @@ class BlockHome extends React.Component {
     }
 
     async fetchData() {
-        const block_response = await getCntrprty(`/block`);
+        // TODO cache instead of repeating the call?
+        const block_response = await getCntrprty('/');
+        // const block_response = await getCntrprty(`/block`);
 
         // console.log(`rrr1`);
         // console.log(JSON.stringify(block_response));
