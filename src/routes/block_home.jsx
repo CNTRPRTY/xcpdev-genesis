@@ -14,8 +14,9 @@ class BlockHome extends React.Component {
 
     async fetchData() {
         // TODO cache instead of repeating the call?
-        const block_response = await getCntrprty('/');
-        // const block_response = await getCntrprty(`/block`);
+        const block_response = await getCntrprty('/mempool');
+        // const block_response = await getCntrprty('/');
+        // // const block_response = await getCntrprty(`/block`);
 
         // console.log(`rrr1`);
         // console.log(JSON.stringify(block_response));
