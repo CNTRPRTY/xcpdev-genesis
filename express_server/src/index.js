@@ -123,7 +123,8 @@ async function getMessagesByBlockLatest() {
 
 
 
-app.get('/', async (req, res) => {
+app.get('/mempool', async (req, res) => {
+    // app.get('/', async (req, res) => {
     const mempool = await getMempoolRows();
     const blocks = await getMessagesByBlockLatest();
     res.status(200).json({
