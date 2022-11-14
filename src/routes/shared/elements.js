@@ -883,7 +883,8 @@ class ListElements {
         let quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{mainname}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{mainname}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
