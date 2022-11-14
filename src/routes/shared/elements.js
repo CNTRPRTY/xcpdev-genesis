@@ -869,6 +869,29 @@ class ListElements {
         );
     }
 
+    ///////////////
+    static getTableRowBalanceAddressHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
+            </tr>
+        );
+    }
+    static getTableRowBalanceAddress(balance_row, index) {
+        let mainname = balance_row.asset_longname ? balance_row.asset_longname : balance_row.asset;
+        let quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}>{mainname}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+            </tr>
+        );
+    }
+    ///////////////
+
     // static getTableRowMempool(mempool_row, index, page) {
     //     const category = mempool_row.category;
     //     const command = mempool_row.command;

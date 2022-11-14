@@ -12,6 +12,7 @@ import Home from './routes/home';
 import Transaction from './routes/transaction';
 import BlockHome from './routes/block_home';
 import Block from './routes/block';
+import Address from './routes/address';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
           <Route path="tx/:txHash" element={<Transaction />} />
           <Route path="blocks" element={<BlockHome />} />
           <Route path="block/:block" element={<Block />} />
+          <Route path="address/:address" element={<Address />} />
           <Route
             path="*"
             element={
