@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements } from './shared/elements';
+import { Link } from "react-router-dom";
 
 class Asset extends React.Component {
     constructor(props) {
@@ -73,7 +74,8 @@ class Asset extends React.Component {
                         }
                         <li>asset_name: {this.state.asset_row.asset_name}</li>
                         <li>asset_id: {this.state.asset_row.asset_id}</li>
-                        <li>block_index: {this.state.asset_row.block_index}</li>
+                        <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li>
+                        {/* <li>block_index: {this.state.asset_row.block_index}</li> */}
                         {/* <li>{JSON.stringify(this.state.asset_row)}</li> */}
                     </ul>
                 </>
