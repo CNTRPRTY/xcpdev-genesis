@@ -741,16 +741,139 @@ class ListElements {
         const command = mempool_row.command;
         // const tx_hash = mempool_row.tx_hash;
         const timestamp_iso = block_time_iso_format(mempool_row.timestamp);
-        const bindings = JSON.parse(mempool_row.bindings);
+
+        const bindingsPRE = JSON.parse(mempool_row.bindings);
+        // const bindings = JSON.parse(mempool_row.bindings);
+
+        //
+        // const link_bindings_pre = JSON.parse(JSON.stringify(bindings))
+        // const keys = Object.keys(bindings);
+
+        const entries = Object.entries(bindingsPRE);
+        // const entries = Object.entries(bindings);
+
+
+        const bindings = {}; // elements as values
+        // const link_bindings = {}; // elements as values
+        for (const obj of entries) {
+            const key = obj[0];
+            const value = obj[1];
+            if (key === 'tx_hash') {
+                bindings.tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+            }
+            else if (key === 'offer_hash') {
+                bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+            }
+            else if (key === 'asset') {
+                bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+            }
+            else if (key === 'dividend_asset') {
+                bindings.dividend_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+            }
+            else if (key === 'get_asset') {
+                bindings.get_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+            }
+            else if (key === 'give_asset') {
+                bindings.give_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+            }
+            else if (key === 'address') {
+                bindings.address = (<Link to={`/address/${value}`}>{value}</Link>);
+            }
+            else if (key === 'issuer') {
+                bindings.issuer = (<Link to={`/address/${value}`}>{value}</Link>);
+            }
+            else if (key === 'source') {
+                bindings.source = (<Link to={`/address/${value}`}>{value}</Link>);
+            }
+            else if (key === 'destination') {
+                bindings.destination = (<Link to={`/address/${value}`}>{value}</Link>);
+            }
+
+            else {
+                bindings[key] = (<>{value}</>);
+            }
+        }
+
+
+        // const linked_keys = Object.entries(link_bindings).filter(obj => {
+        //     const key = obj[0];
+        //     console.log(`rrrr1`);
+        //     console.log(key);
+        //     console.log(`rrrr2`);
+        //     // console.log(`key: ${obj}`);
+        //     // console.log(`key[0]: ${obj[0]}`);
+        //     // console.log(`key[1]: ${key[1]}`);
+        //     // console.log(`typeof key: ${typeof key}`);
+        //     // console.log(`value: ${value}`);
+        //     // console.log(`typeof value: ${typeof value}`);
+        //     // console.log(`rrrr2`);
+        //     const options = [
+        //         'asset',
+        //         'address',
+        //         'source',
+        //         'destination',
+        //     ];
+        //     return options.includes(key);
+        // });
+
+        // //
+        // const link_components = {};
+        // for (const obj of linked_keys) {
+        //     const key = obj[0];
+        //     const value = obj[1];
+        //     if (key === 'asset') {
+        //         link_components.asset = (<Link to={`/asset/${value}`}>tx</Link>);
+        //     }
+        //     else if () {
+        //         link_components.address = (<Link to={`/address/${value}`}>tx</Link>);
+        //     }
+        // }
+
+        const bindings_entries = Object.entries(bindings);
+        // const last_index = bindings_entries.length - 1;
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${tx_hash}`}>{tx_hash}</Link></td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{tx_hash}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>
+
+
+                    <table>
+                        <tbody>
+                            <tr key={index} style={{ padding: "0.25rem" }}>
+                                {bindings_entries.map((obj, index) => {
+                                    const key = obj[0];
+                                    const element_value = obj[1];
+                                    // return (<>[{key}:{element_value}]</>);
+                                    return (
+                                        <td style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
+                                    );
+                                })}
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    {/* {'{'} */}
+                    {/* {bindings_entries.map((obj, index) => { */}
+                    {/* // {Object.entries(link_bindings).map((obj, index) => {
+                        // const key = obj[0];
+                        // const element_value = obj[1];
+                        // return (<>[{key}:{element_value}]</>);
+                        // const quotes_or_not = (typeof element_value === 'string') ? '"' : '';
+                        // const comma_or_not = (index === last_index) ? '' : ',';
+                        // return (<>"{key}":{quotes_or_not}{element_value}{quotes_or_not}{comma_or_not}</>);
+                        // // return (<>"{key}":"{element_value}",</>);
+                        // })} */}
+                    {/* {'}'} */}
+                </td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindingsPRE)}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
