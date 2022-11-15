@@ -81,6 +81,11 @@ function createLinkElementBindings(bindings_json_stringified) {
             bindings.tx1_block_index = (<Link to={`/block/${value}`}>{value}</Link>);
         }
 
+        else if (key === 'status') {
+            bindings.status = ((typeof value === 'string') && value.startsWith('invalid')) ?
+                (<strong>{value}</strong>) : (<>{value}</>);
+        }
+
         else {
             bindings[key] = (<>{value}</>);
         }
