@@ -91,91 +91,15 @@ class ListElements {
     static getTableRowMempoolHome(mempool_row, index) {
         const category = mempool_row.category;
         const command = mempool_row.command;
-        // const tx_hash = mempool_row.tx_hash;
         const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
-
-        // const bindingsPRE = JSON.parse(mempool_row.bindings);
-        // const bindings = JSON.parse(mempool_row.bindings);
-
-        // const entries = Object.entries(bindingsPRE);
-        // // const entries = Object.entries(bindings);
-
-        // const bindings = {}; // elements as values
-        // for (const obj of entries) {
-        //     const key = obj[0];
-        //     const value = obj[1];
-        //     if (key === 'tx_hash') {
-        //         bindings.tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'offer_hash') {
-        //         bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'dispenser_tx_hash') {
-        //         bindings.dispenser_tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'asset') {
-        //         bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'dividend_asset') {
-        //         bindings.dividend_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'get_asset') {
-        //         bindings.get_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'give_asset') {
-        //         bindings.give_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'address') {
-        //         bindings.address = (<Link to={`/address/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'issuer') {
-        //         bindings.issuer = (<Link to={`/address/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'source') {
-        //         bindings.source = (<Link to={`/address/${value}`}>{value}</Link>);
-        //     }
-        //     else if (key === 'destination') {
-        //         bindings.destination = (<Link to={`/address/${value}`}>{value}</Link>);
-        //     }
-
-        //     else {
-        //         bindings[key] = (<>{value}</>);
-        //     }
-        // }
-
         const bindings = createLinkElementBindings(mempool_row.bindings);
-
-        // const bindings_entries = Object.entries(bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${tx_hash}`}>{tx_hash}</Link></td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{tx_hash}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>
-
-                    {linkElementBindingsElement(bindings, index)}
-
-                    {/* <table>
-                        <tbody>
-                            <tr key={index} style={{ padding: "0.25rem" }}>
-                                {bindings_entries.map((obj, index) => {
-                                    const key = obj[0];
-                                    const element_value = obj[1];
-                                    // return (<>[{key}:{element_value}]</>);
-                                    return (
-                                        <td style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
-                                    );
-                                })}
-                            </tr>
-                        </tbody>
-                    </table> */}
-
-                </td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindingsPRE)}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
@@ -202,7 +126,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
@@ -235,7 +159,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </tr>
         );
@@ -289,7 +213,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindings)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
             </tr>
         );
     }
@@ -317,94 +241,6 @@ class ListElements {
         );
     }
     ///////////////
-
-    // static getTableRowMempool(mempool_row, index, page) {
-    //     const category = mempool_row.category;
-    //     const command = mempool_row.command;
-    //     if (category === 'dispensers' && command === 'update') { // TODO insert
-    //         return formattedMempoolDispensersUpdateElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'dispenses' && command === 'insert') {
-    //         return formattedMempoolDispensesInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'issuances' && command === 'insert') {
-    //         return formattedMempoolIssuancesInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'destructions' && command === 'insert') {
-    //         return formattedMempoolDestructionsInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'sends' && command === 'insert') {
-    //         return formattedMempoolSendsInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'orders' && command === 'update') {
-    //         return formattedMempoolOrdersUpdateElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'orders' && command === 'insert') {
-    //         return formattedMempoolOrdersInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'cancels' && command === 'insert') {
-    //         return formattedMempoolCancelsInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'sweeps' && command === 'insert') {
-    //         return formattedMempoolSweepsInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'broadcasts' && command === 'insert') {
-    //         return formattedMempoolBroadcastsInsertElement(mempool_row, index, page);
-    //     }
-    //     else if (category === 'dividends' && command === 'insert') {
-    //         return formattedMempoolDividendsInsertElement(mempool_row, index, page);
-    //     }
-    //     else {
-    //         return (
-    //             <tr key={index} style={{ padding: "0.25rem" }}>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td>
-    //             </tr>
-    //         );
-    //     }
-    // }
-
-    // static getTableRowMessage(message_row, index, page) {
-    //     // static getTableRowMessage(message_row, index) {
-    //     // const page = 'tx';
-    //     const category = message_row.category;
-    //     const command = message_row.command;
-    //     if (category === 'debits' && command === 'insert') {
-    //         return formattedMessageDebitsInsertElement(message_row, index, page);
-    //     }
-    //     else if (category === 'credits' && command === 'insert') {
-    //         return formattedMessageCreditsInsertElement(message_row, index, page);
-    //     }
-    //     else if (category === 'dispensers' && command === 'update') {
-    //         return formattedMessageDispensersUpdateElement(message_row, index, page);
-    //     }
-    //     else if (category === 'dispensers' && command === 'insert') {
-    //         return formattedMessageDispensersInsertElement(message_row, index, page);
-    //     }
-    //     else if (category === 'dispenses' && command === 'insert') {
-    //         return formattedMessageDispensesInsertElement(message_row, index, page);
-    //     }
-    //     else if (category === 'issuances' && command === 'insert') {
-    //         return formattedMessageIssuancesInsertElement(message_row, index, page);
-    //     }
-    //     else if (category === 'sends' && command === 'insert') {
-    //         return formattedMessageSendsInsertElement(message_row, index, page);
-    //     }
-    //     else if (category === 'orders' && command === 'insert') {
-    //         return formattedMessagesOrdersInsertElement(message_row, index, page);
-    //     }
-    //     else {
-    //         return (
-    //             <tr key={index} style={{ padding: "0.25rem" }}>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-    //                 <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td>
-    //             </tr>
-    //         );
-    //     }
-    // }
 
 }
 
