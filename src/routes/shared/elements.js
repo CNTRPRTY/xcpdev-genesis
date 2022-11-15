@@ -119,7 +119,7 @@ class ListElements {
         const category = mempool_row.category;
         const command = mempool_row.command;
         const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
-        const bindings = JSON.parse(mempool_row.bindings);
+        const bindings = createLinkElementBindings(mempool_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
@@ -150,7 +150,7 @@ class ListElements {
         const command = message_row.command;
         const message_index = message_row.message_index;
         // const block_time_iso = timeIsoFormat(message_row.timestamp);
-        const bindings = JSON.parse(message_row.bindings);
+        const bindings = createLinkElementBindings(message_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td>
@@ -183,7 +183,7 @@ class ListElements {
         const command = message_row.command;
         // const block_time_iso = timeIsoFormat(message_row.timestamp); // repeated, better just use the block
         const message_index = message_row.message_index;
-        const bindings = JSON.parse(message_row.bindings);
+        const bindings = createLinkElementBindings(message_row.bindings);
 
         let txhash_or_event = false;
         if (bindings.tx_hash) {
