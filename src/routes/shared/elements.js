@@ -131,11 +131,19 @@ class ListElements {
         const category = mempool_row.category;
         const command = mempool_row.command;
         const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
+        const bindings = JSON.parse(mempool_row.bindings);
         const bindingsElements = createLinkElementBindings(mempool_row.bindings);
+        // surfacing the invalid here by having asset === null
+        const status_by_asset = bindings.asset;
+        let invalid_tx_notice = null;
+        if (status_by_asset === null) {
+            invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
+        }
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
@@ -158,11 +166,19 @@ class ListElements {
         const category = mempool_row.category;
         const command = mempool_row.command;
         const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
+        const bindings = JSON.parse(mempool_row.bindings);
         const bindingsElements = createLinkElementBindings(mempool_row.bindings);
+        // surfacing the invalid here by having asset === null
+        const status_by_asset = bindings.asset;
+        let invalid_tx_notice = null;
+        if (status_by_asset === null) {
+            invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
+        }
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
@@ -189,12 +205,27 @@ class ListElements {
         const command = message_row.command;
         const message_index = message_row.message_index;
         // const block_time_iso = timeIsoFormat(message_row.timestamp);
+
+        const bindings = JSON.parse(message_row.bindings);
         const bindingsElements = createLinkElementBindings(message_row.bindings);
+
+        //////////////
+        // surfacing the invalid
+        const status = bindings.status;
+        let invalid_tx_notice = null;
+        if (status && (typeof status === 'string') && status.startsWith('invalid')) {
+            invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
+            // invalid_tx_notice = (<>{` invalid`}</>);
+            // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
+        }
+        //////////////
+
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
@@ -224,7 +255,6 @@ class ListElements {
         const message_index = message_row.message_index;
 
         const bindings = JSON.parse(message_row.bindings);
-
         const bindingsElements = createLinkElementBindings(message_row.bindings);
 
         let txhash_or_event = false;
@@ -244,13 +274,24 @@ class ListElements {
             txhash_or_event = bindings.event.split('_')[1];
         }
 
+        // surfacing the invalid
+        const status = bindings.status;
+        let invalid_tx_notice = null;
+        if (status && (typeof status === 'string') && status.startsWith('invalid')) {
+            invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
+            // invalid_tx_notice = (<>{` invalid`}</>);
+            // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
+        }
+
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{
+                    // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
                 }</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
