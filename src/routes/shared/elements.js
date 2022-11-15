@@ -126,14 +126,14 @@ class ListElements {
         const category = mempool_row.category;
         const command = mempool_row.command;
         const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
-        const bindings = createLinkElementBindings(mempool_row.bindings);
+        const bindingsElements = createLinkElementBindings(mempool_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
@@ -153,14 +153,14 @@ class ListElements {
         const category = mempool_row.category;
         const command = mempool_row.command;
         const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
-        const bindings = createLinkElementBindings(mempool_row.bindings);
+        const bindingsElements = createLinkElementBindings(mempool_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
@@ -184,7 +184,7 @@ class ListElements {
         const command = message_row.command;
         const message_index = message_row.message_index;
         // const block_time_iso = timeIsoFormat(message_row.timestamp);
-        const bindings = createLinkElementBindings(message_row.bindings);
+        const bindingsElements = createLinkElementBindings(message_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td>
@@ -193,7 +193,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </tr>
         );
