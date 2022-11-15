@@ -59,7 +59,7 @@ class Address extends React.Component {
 
     render() {
 
-        let address_metadata = null;
+        let address_metadata = (<p>loading...</p>);
         if (this.state.tables) {
             address_metadata = (
                 <>
