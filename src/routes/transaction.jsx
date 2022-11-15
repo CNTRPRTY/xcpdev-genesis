@@ -92,9 +92,11 @@ class Transaction extends React.Component {
                     {/* <li>block_time: {this.state.transaction.block_time}</li> */}
                     <li>block_time_iso: {(new Date(this.state.transaction.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                    <li>source: {this.state.transaction.source}</li>
+                    <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
+                    {/* <li>source: {this.state.transaction.source}</li> */}
                     {this.state.transaction.destination ? (
-                        <li>destination: {this.state.transaction.destination}</li>
+                        <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
+                        // <li>destination: {this.state.transaction.destination}</li>
                     ) : null}
 
                     {/* <li>
