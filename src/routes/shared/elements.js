@@ -50,6 +50,9 @@ class ListElements {
             else if (key === 'offer_hash') {
                 bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
             }
+            else if (key === 'dispenser_tx_hash') {
+                bindings.dispenser_tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+            }
             else if (key === 'asset') {
                 bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
             }
