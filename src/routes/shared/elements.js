@@ -13,8 +13,12 @@ function createLinkElementBindings(bindings_json_stringified) {
     for (const obj of entries) {
         const key = obj[0];
         const value = obj[1];
+
         if (key === 'tx_hash') {
             bindings.tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        }
+        else if (key === 'event') {
+            bindings.event = (<Link to={`/tx/${value}`}>{value}</Link>);
         }
         else if (key === 'offer_hash') {
             bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
@@ -22,6 +26,13 @@ function createLinkElementBindings(bindings_json_stringified) {
         else if (key === 'dispenser_tx_hash') {
             bindings.dispenser_tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
         }
+        else if (key === 'tx0_hash') {
+            bindings.tx0_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        }
+        else if (key === 'tx1_hash') {
+            bindings.tx1_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        }
+
         else if (key === 'asset') {
             bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
         }
@@ -34,6 +45,13 @@ function createLinkElementBindings(bindings_json_stringified) {
         else if (key === 'give_asset') {
             bindings.give_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
         }
+        else if (key === 'backward_asset') {
+            bindings.backward_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        }
+        else if (key === 'forward_asset') {
+            bindings.forward_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        }
+
         else if (key === 'address') {
             bindings.address = (<Link to={`/address/${value}`}>{value}</Link>);
         }
@@ -45,6 +63,22 @@ function createLinkElementBindings(bindings_json_stringified) {
         }
         else if (key === 'destination') {
             bindings.destination = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+        else if (key === 'tx0_address') {
+            bindings.tx0_address = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+        else if (key === 'tx1_address') {
+            bindings.tx1_address = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+
+        else if (key === 'block_index') {
+            bindings.block_index = (<Link to={`/block/${value}`}>{value}</Link>);
+        }
+        else if (key === 'tx0_block_index') {
+            bindings.tx0_block_index = (<Link to={`/block/${value}`}>{value}</Link>);
+        }
+        else if (key === 'tx1_block_index') {
+            bindings.tx1_block_index = (<Link to={`/block/${value}`}>{value}</Link>);
         }
 
         else {
