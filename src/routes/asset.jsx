@@ -64,7 +64,16 @@ class Asset extends React.Component {
     render() {
 
         let asset_metadata = null;
-        if (this.state.asset_row) {
+        if (!this.state.asset_row) {
+            asset_metadata = (
+                <p>asset not found (or genesis issuance is still in the mempool...)</p>
+                // <p>asset not found (or is still in the mempool...)</p>
+                // <p>asset not found (maybe is still in the mempool...)</p>
+                // <p>asset not found</p>
+            );
+        }
+        // if (this.state.asset_row) {
+        else {
             asset_metadata = (
                 <>
                     <ul>
