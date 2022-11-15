@@ -1,19 +1,79 @@
 import { Link } from "react-router-dom";
 
-////////
-// function link_to_tx_format(tx_hash) {
-//     return (
-//         <>
-//             [<Link to={`/tx/${tx_hash}`}>tx</Link>]
-//         </>
-//     );
-// }
-
-function block_time_iso_format(block_time) {
+function timeIsoFormat(block_time) {
     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
 }
-////////
+
+function createLinkElementBindings(bindings_json_stringified) {
+    const bindingsPRE = JSON.parse(bindings_json_stringified);
+    const entries = Object.entries(bindingsPRE);
+    const bindings = {}; // elements as values
+
+    for (const obj of entries) {
+        const key = obj[0];
+        const value = obj[1];
+        if (key === 'tx_hash') {
+            bindings.tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        }
+        else if (key === 'offer_hash') {
+            bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        }
+        else if (key === 'dispenser_tx_hash') {
+            bindings.dispenser_tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        }
+        else if (key === 'asset') {
+            bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        }
+        else if (key === 'dividend_asset') {
+            bindings.dividend_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        }
+        else if (key === 'get_asset') {
+            bindings.get_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        }
+        else if (key === 'give_asset') {
+            bindings.give_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        }
+        else if (key === 'address') {
+            bindings.address = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+        else if (key === 'issuer') {
+            bindings.issuer = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+        else if (key === 'source') {
+            bindings.source = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+        else if (key === 'destination') {
+            bindings.destination = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
+
+        else {
+            bindings[key] = (<>{value}</>);
+        }
+    }
+
+    return bindings;
+}
+
+function linkElementBindingsElement(link_element_bindings, index) {
+    const bindings_entries = Object.entries(link_element_bindings);
+    return (
+        <table>
+            <tbody>
+                <tr key={index} style={{ padding: "0.25rem" }}>
+                    {bindings_entries.map((obj, index2) => {
+                        const key = obj[0];
+                        const element_value = obj[1];
+                        // return (<>[{key}:{element_value}]</>);
+                        return (
+                            <td style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
+                        );
+                    })}
+                </tr>
+            </tbody>
+        </table>
+    );
+}
 
 class ListElements {
 
@@ -32,58 +92,60 @@ class ListElements {
         const category = mempool_row.category;
         const command = mempool_row.command;
         // const tx_hash = mempool_row.tx_hash;
-        const timestamp_iso = block_time_iso_format(mempool_row.timestamp);
+        const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
 
-        const bindingsPRE = JSON.parse(mempool_row.bindings);
+        // const bindingsPRE = JSON.parse(mempool_row.bindings);
         // const bindings = JSON.parse(mempool_row.bindings);
 
-        const entries = Object.entries(bindingsPRE);
-        // const entries = Object.entries(bindings);
+        // const entries = Object.entries(bindingsPRE);
+        // // const entries = Object.entries(bindings);
 
-        const bindings = {}; // elements as values
-        for (const obj of entries) {
-            const key = obj[0];
-            const value = obj[1];
-            if (key === 'tx_hash') {
-                bindings.tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
-            }
-            else if (key === 'offer_hash') {
-                bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
-            }
-            else if (key === 'dispenser_tx_hash') {
-                bindings.dispenser_tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
-            }
-            else if (key === 'asset') {
-                bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-            }
-            else if (key === 'dividend_asset') {
-                bindings.dividend_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-            }
-            else if (key === 'get_asset') {
-                bindings.get_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-            }
-            else if (key === 'give_asset') {
-                bindings.give_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
-            }
-            else if (key === 'address') {
-                bindings.address = (<Link to={`/address/${value}`}>{value}</Link>);
-            }
-            else if (key === 'issuer') {
-                bindings.issuer = (<Link to={`/address/${value}`}>{value}</Link>);
-            }
-            else if (key === 'source') {
-                bindings.source = (<Link to={`/address/${value}`}>{value}</Link>);
-            }
-            else if (key === 'destination') {
-                bindings.destination = (<Link to={`/address/${value}`}>{value}</Link>);
-            }
+        // const bindings = {}; // elements as values
+        // for (const obj of entries) {
+        //     const key = obj[0];
+        //     const value = obj[1];
+        //     if (key === 'tx_hash') {
+        //         bindings.tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'offer_hash') {
+        //         bindings.offer_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'dispenser_tx_hash') {
+        //         bindings.dispenser_tx_hash = (<Link to={`/tx/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'asset') {
+        //         bindings.asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'dividend_asset') {
+        //         bindings.dividend_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'get_asset') {
+        //         bindings.get_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'give_asset') {
+        //         bindings.give_asset = (<Link to={`/asset/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'address') {
+        //         bindings.address = (<Link to={`/address/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'issuer') {
+        //         bindings.issuer = (<Link to={`/address/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'source') {
+        //         bindings.source = (<Link to={`/address/${value}`}>{value}</Link>);
+        //     }
+        //     else if (key === 'destination') {
+        //         bindings.destination = (<Link to={`/address/${value}`}>{value}</Link>);
+        //     }
 
-            else {
-                bindings[key] = (<>{value}</>);
-            }
-        }
+        //     else {
+        //         bindings[key] = (<>{value}</>);
+        //     }
+        // }
 
-        const bindings_entries = Object.entries(bindings);
+        const bindings = createLinkElementBindings(mempool_row.bindings);
+
+        // const bindings_entries = Object.entries(bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
@@ -95,7 +157,9 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>
 
-                    <table>
+                    {linkElementBindingsElement(bindings, index)}
+
+                    {/* <table>
                         <tbody>
                             <tr key={index} style={{ padding: "0.25rem" }}>
                                 {bindings_entries.map((obj, index) => {
@@ -108,7 +172,7 @@ class ListElements {
                                 })}
                             </tr>
                         </tbody>
-                    </table>
+                    </table> */}
 
                 </td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(bindingsPRE)}</td> */}
@@ -130,7 +194,7 @@ class ListElements {
     static getTableRowMempoolTx(mempool_row, index) {
         const category = mempool_row.category;
         const command = mempool_row.command;
-        const timestamp_iso = block_time_iso_format(mempool_row.timestamp);
+        const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
         const bindings = JSON.parse(mempool_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
@@ -161,7 +225,7 @@ class ListElements {
         const category = message_row.category;
         const command = message_row.command;
         const message_index = message_row.message_index;
-        // const block_time_iso = block_time_iso_format(message_row.timestamp);
+        // const block_time_iso = timeIsoFormat(message_row.timestamp);
         const bindings = JSON.parse(message_row.bindings);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
@@ -193,7 +257,7 @@ class ListElements {
         // const page = 'tx';
         const category = message_row.category;
         const command = message_row.command;
-        // const block_time_iso = block_time_iso_format(message_row.timestamp); // repeated, better just use the block
+        // const block_time_iso = timeIsoFormat(message_row.timestamp); // repeated, better just use the block
         const message_index = message_row.message_index;
         const bindings = JSON.parse(message_row.bindings);
 
