@@ -100,7 +100,7 @@ function linkElementBindingsElement(link_element_bindings, index) {
                         const element_value = obj[1];
                         // return (<>[{key}:{element_value}]</>);
                         return (
-                            <td style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
+                            <td key={index2} style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
                         );
                     })}
                 </tr>
@@ -217,7 +217,10 @@ class ListElements {
         const command = message_row.command;
         // const block_time_iso = timeIsoFormat(message_row.timestamp); // repeated, better just use the block
         const message_index = message_row.message_index;
-        const bindings = createLinkElementBindings(message_row.bindings);
+
+        const bindings = JSON.parse(message_row.bindings);
+
+        const bindingsElements = createLinkElementBindings(message_row.bindings);
 
         let txhash_or_event = false;
         if (bindings.tx_hash) {
@@ -247,7 +250,8 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindings, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </tr>
         );
     }
@@ -257,7 +261,9 @@ class ListElements {
         return (
             <tr style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are satoshi divisible)</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are divisible)</td> */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td> */}
             </tr>
         );
     }
