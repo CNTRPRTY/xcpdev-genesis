@@ -394,6 +394,13 @@ class ListElements {
         ) {
             tag = '';
         }
+        else if (
+            issuance_event_row.tag &&
+            (issuance_event_row.tag.type === 'Buffer') &&
+            (issuance_event_row.tag.data.length > 0)
+        ) {
+            tag = (<><strong>[data]</strong></>);
+        }
         else { // TODO discover the best approach...
             tag = issuance_event_row.tag;
             // tag = JSON.stringify(issuance_event_row.tag);
