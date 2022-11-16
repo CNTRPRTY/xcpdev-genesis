@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
 
-function timeIsoFormat(block_time) {
-    // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
-    return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
-}
+// function timeIsoFormat(block_time) {
+//     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
+//     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
+// }
 
 function createLinkElementBindings(bindings_json_stringified) {
     const bindingsPRE = JSON.parse(bindings_json_stringified);
@@ -314,8 +315,9 @@ class ListElements {
         );
     }
     static getTableRowBalanceAddress(balance_row, index) {
-        let mainname = balance_row.asset_longname ? balance_row.asset_longname : balance_row.asset;
-        let quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
+        const mainname = balance_row.asset_longname ? balance_row.asset_longname : balance_row.asset;
+        const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, balance_row.quantity);
+        // const quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>
