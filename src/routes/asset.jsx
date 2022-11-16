@@ -131,7 +131,8 @@ class Asset extends React.Component {
 
             asset_metadata = (
                 <>
-                    <h3>Genesis issuance:</h3>
+                    <h3>Genesis:</h3>
+                    {/* <h3>Genesis issuance:</h3> */}
                     <ul>
                         {this.state.asset_row.asset_longname ?
                             (<li>asset_longname: {this.state.asset_row.asset_longname}</li>)
