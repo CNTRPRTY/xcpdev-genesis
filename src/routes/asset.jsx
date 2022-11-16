@@ -10,6 +10,7 @@ class Asset extends React.Component {
         super(props);
         this.state = {
             asset_name: props.router.params.assetName,
+            asset_btc_xcp: false,
             asset_not_found: null,
             asset_row: null,
             issuances: [],
@@ -32,9 +33,22 @@ class Asset extends React.Component {
         // console.log(JSON.stringify(asset_response));
         // console.log(`rrr2`);
 
-        if (!asset_response.asset_row) {
+        if (['BTC', 'XCP'].includes(asset_name)) {
             this.setState({
                 asset_name,
+                asset_btc_xcp: true,
+                asset_not_found: false,
+                asset_row: asset_response.asset_row,
+                issuances: [],
+                destructions: [],
+                // tables: null,
+            });
+        }
+        else if (!asset_response.asset_row) {
+            // if (!asset_response.asset_row) {
+            this.setState({
+                asset_name,
+                asset_btc_xcp: false,
                 asset_not_found: true,
                 asset_row: null,
                 issuances: [],
@@ -45,6 +59,7 @@ class Asset extends React.Component {
         else {
             this.setState({
                 asset_name,
+                asset_btc_xcp: false,
                 asset_not_found: null,
                 asset_row: asset_response.asset_row,
                 issuances: asset_response.issuances,
@@ -79,6 +94,18 @@ class Asset extends React.Component {
                 // <p>asset not found (or is still in the mempool...)</p>
                 // <p>asset not found (maybe is still in the mempool...)</p>
                 // <p>asset not found</p>
+            );
+        }
+        else if (this.state.asset_btc_xcp) {
+            // TODO when the backend is ready maybe elaborate...
+            asset_metadata = (
+                <>
+                    <h3>Protocol asset: {this.state.asset_name}</h3>
+                    <ul>
+                        <li>asset_id: {this.state.asset_row.asset_id}</li>
+                        <li>divisible: true</li>
+                    </ul>
+                </>
             );
         }
         else if (this.state.asset_row) {
@@ -186,6 +213,7 @@ class Asset extends React.Component {
                     </table>
                 </>
             );
+
         }
 
         const asset_element = (
