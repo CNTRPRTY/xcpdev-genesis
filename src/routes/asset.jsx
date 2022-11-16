@@ -125,6 +125,10 @@ class Asset extends React.Component {
             const quantity_with_divisibility = quantityWithDivisibility(genesis_issuance.divisible, total_integer);
             // const quantity_with_divisibility = genesis_issuance.divisible ? (total_integer / (10 ** 8)).toFixed(8) : total_integer;
 
+            const issuance_events_message = this.state.destructions.length ?
+                `All issuance (and destroy) events:` :
+                `All issuance events:`;
+
             asset_metadata = (
                 <>
                     <h3>Genesis issuance:</h3>
@@ -142,7 +146,8 @@ class Asset extends React.Component {
                         <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li>
                     </ul>
 
-                    <h3>All issuance (and destroy) events:</h3>
+                    <h3>{issuance_events_message}</h3>
+                    {/* <h3>All issuance (and destroy) events:</h3> */}
                     {/* <h3>All issuance / destroy events:</h3> */}
 
                     <ul>
