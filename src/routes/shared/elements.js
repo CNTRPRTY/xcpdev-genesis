@@ -95,7 +95,21 @@ function createLinkElementBindings(bindings_json_stringified) {
     return bindings;
 }
 
-function linkElementBindingsElement(link_element_bindings, index) {
+function createNonLinkElement(json_stringified) {
+    const bindingsPRE = JSON.parse(json_stringified);
+    const entries = Object.entries(bindingsPRE);
+    const bindings = {}; // elements as values
+
+    for (const obj of entries) {
+        const key = obj[0];
+        const value = obj[1];
+        bindings[key] = (<>{value}</>);
+    }
+
+    return bindings;
+}
+
+function linksElement(link_element_bindings, index) {
     const bindings_entries = Object.entries(link_element_bindings);
     return (
         <table>
@@ -147,7 +161,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
@@ -182,7 +196,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
             </tr>
         );
@@ -230,7 +244,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </tr>
         );
@@ -297,7 +311,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{linkElementBindingsElement(bindingsElements, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </tr>
         );
@@ -326,6 +340,49 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+            </tr>
+        );
+    }
+
+    // address broadcasts
+    static getTableRowBroadcastAddressHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>rooow</td> */}
+            </tr>
+        );
+    }
+    static getTableRowBroadcastAddress(broadcast_row, index) {
+        const timestamp_iso = timeIsoFormat(broadcast_row.timestamp);
+        
+        // surfacing the invalid
+        let invalid_tx_notice = null;
+        if (broadcast_row.status !== 'valid') {
+            invalid_tx_notice = (<>{' '}<strong>{broadcast_row.status}</strong></>);
+        }
+
+        const additional_data = {
+            // TODO anything missing?
+            value: broadcast_row.value,
+            fee_fraction_int: broadcast_row.fee_fraction_int,
+            locked: broadcast_row.locked,
+        };
+        const nonlinkElements = createNonLinkElement(JSON.stringify(additional_data));
+
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(broadcast_row)}</td> */}
             </tr>
         );
     }

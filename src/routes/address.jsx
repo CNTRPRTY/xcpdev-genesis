@@ -61,9 +61,9 @@ class Address extends React.Component {
 
         let address_metadata = (<p>loading...</p>);
         if (this.state.tables) {
-            address_metadata = (
+
+            const address_balances_element = (
                 <>
-                    <h3>Balances:</h3>
                     <table>
                         <tbody>
                             {ListElements.getTableRowBalanceAddressHeader()}
@@ -72,6 +72,29 @@ class Address extends React.Component {
                             })}
                         </tbody>
                     </table>
+                </>
+            );
+
+            const address_broadcasts_element = (
+                <>
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowBroadcastAddressHeader()}
+                            {this.state.tables.broadcasts.map((broadcast_row, index) => {
+                                return ListElements.getTableRowBroadcastAddress(broadcast_row, index);
+                            })}
+                        </tbody>
+                    </table>
+                </>
+            );
+
+            address_metadata = (
+                <>
+                    <h3>Balances:</h3>
+                    {address_balances_element}
+
+                    <h3>Broadcasts:</h3>
+                    {address_broadcasts_element}
                 </>
             );
         }
