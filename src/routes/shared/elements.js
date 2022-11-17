@@ -359,7 +359,7 @@ class ListElements {
     }
     static getTableRowBroadcastAddress(broadcast_row, index) {
         const timestamp_iso = timeIsoFormat(broadcast_row.timestamp);
-        
+
         // surfacing the invalid
         let invalid_tx_notice = null;
         if (broadcast_row.status !== 'valid') {
@@ -493,7 +493,7 @@ class OneElements {
             <main style={{ padding: "1rem" }}>
                 {route_element}
                 <p>
-                    [xcp.dev v0.3.0]
+                    [xcp.dev v0.4.0]
                     <br />
                     [counterparty-lib v9.59] in [Bitcoin Core v0.21.1]
                 </p>
