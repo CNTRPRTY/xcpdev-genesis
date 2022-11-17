@@ -90,7 +90,8 @@ class Asset extends React.Component {
         if (this.state.asset_not_found) {
             // if (!this.state.asset_row) {
             asset_metadata = (
-                <p>asset not found (or genesis issuance is still in the mempool...)</p>
+                <p>asset not found... or it is misspelled (is case sensitive)... or genesis issuance is still in the mempool...</p>
+                // <p>asset not found (or genesis issuance is still in the mempool...)</p>
                 // <p>asset not found (or is still in the mempool...)</p>
                 // <p>asset not found (maybe is still in the mempool...)</p>
                 // <p>asset not found</p>
