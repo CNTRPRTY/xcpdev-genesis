@@ -67,7 +67,8 @@ class Address extends React.Component {
                     <table>
                         <tbody>
                             {ListElements.getTableRowBalanceAddressHeader()}
-                            {this.state.tables.balances.map((balance_row, index) => {
+                            {this.state.tables.balances.sort((a, b) => b.quantity - a.quantity).map((balance_row, index) => {
+                                // {this.state.tables.balances.map((balance_row, index) => {
                                 return ListElements.getTableRowBalanceAddress(balance_row, index);
                             })}
                         </tbody>
@@ -90,7 +91,8 @@ class Address extends React.Component {
 
             address_metadata = (
                 <>
-                    <h3>Balances:</h3>
+                    <h3>Balances (sorted by most units on top):</h3>
+                    {/* <h3>Balances:</h3> */}
                     {address_balances_element}
 
                     <h3>Broadcasts:</h3>

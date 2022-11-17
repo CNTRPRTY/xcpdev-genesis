@@ -326,6 +326,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are satoshi divisible)</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are divisible)</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>units</td>
             </tr>
         );
     }
@@ -340,6 +341,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td>
             </tr>
         );
     }
