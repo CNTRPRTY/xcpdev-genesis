@@ -45,7 +45,8 @@ class BlockHome extends React.Component {
                     <ul>
                         {this.state.blocks.map((block_row, index) => {
                             return (
-                                <li key={index}>block: <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link> [{block_row.messages} messages]</li>
+                                <li key={index}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link> [{block_row.messages} messages]</li>
+                                // <li key={index}>block: <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link> [{block_row.messages} messages]</li>
                                 // <li key={index}>block: {block_row.block_index} [{block_row.messages} messages]</li>
                                 // <li key={index}>{JSON.stringify(block_row)}</li>
                             );
