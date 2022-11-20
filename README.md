@@ -1,3 +1,14 @@
+# xcp.dev
+
+## Libre Counterparty Bitcoin Data Explorer
+
+This is an open source Counterparty data explorer server + client application. It requires a fednode to run the server...
+
+(WIP)
+
+---
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
