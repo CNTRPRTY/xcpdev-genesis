@@ -2,9 +2,9 @@
 
 ## Libre Counterparty Bitcoin Data Explorer
 
-This is an open source Counterparty data explorer server + client application. It requires a fednode to run the server...
+THIS IS ALPHA SOFTWARE, but is live at https://www.xcp.dev.
 
-(WIP)
+This is an open source Counterparty data explorer server + client application. It requires a fednode to run the server... (WIP)
 
 ---
 ---
