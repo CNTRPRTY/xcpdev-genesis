@@ -62,9 +62,11 @@ class Asset extends React.Component {
                 asset_btc_xcp: false,
                 asset_not_found: null,
                 asset_row: asset_response.asset_row,
-                issuances: asset_response.issuances,
-                destructions: asset_response.destructions,
-                // tables: asset_response.tables,
+                issuances: asset_response.tables.issuances,
+                destructions: asset_response.tables.destructions,
+                // issuances: asset_response.issuances,
+                // destructions: asset_response.destructions,
+                // // tables: asset_response.tables,
             });
         }
 
