@@ -151,6 +151,64 @@ class TableQueries {
         };
         return queryDBRows(db, sql, params_obj);
     }
+
+    static async getAssetsRowByAssetName(db, asset_name) {
+        const sql = `
+            SELECT *
+            FROM assets
+            WHERE asset_name = $asset_name;
+        `;
+        const params_obj = {
+            $asset_name: asset_name,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        if (rows.length > 1) throw Error(`unexpected getAssetsRowByAssetName:${asset_name}`);
+        else if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+
+    static async getIssuancesRowsByAssetName(db, asset_name) {
+        const sql = `
+            SELECT i.*, b.block_time
+            FROM issuances i
+            JOIN blocks b ON i.block_index = b.block_index
+            WHERE i.asset = $asset_name
+            ORDER BY i.block_index ASC;
+        `;
+        // const sql = `
+        //     SELECT i.*
+        //     FROM issuances i
+        //     WHERE i.asset = $asset_name
+        //     ORDER BY block_index ASC;
+        // `;
+        const params_obj = {
+            $asset_name: asset_name,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
+    static async getDestructionsRowsByAssetName(db, asset_name) {
+        const sql = `
+            SELECT d.*, b.block_time
+            FROM destructions d
+            JOIN blocks b ON d.block_index = b.block_index
+            WHERE d.asset = $asset_name
+            ORDER BY d.block_index ASC;
+        `;
+        // const sql = `
+        //     SELECT d.*
+        //     FROM destructions d
+        //     WHERE d.asset = $asset_name
+        //     ORDER BY block_index ASC;
+        // `;
+        const params_obj = {
+            $asset_name: asset_name,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 }
 
 export {

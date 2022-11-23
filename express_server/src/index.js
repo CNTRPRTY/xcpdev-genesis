@@ -161,6 +161,33 @@ app.get('/address/:address', async (req, res) => {
     });
 });
 
+app.get('/asset/:assetName', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const asset_row = await TableQueries.getAssetsRowByAssetName(db, asset_name);
+    if (!asset_row) {
+        res.status(404).json({
+            error: '404 Not Found'
+        });
+    }
+    else {
+        let issuances = [];
+        let destructions = [];
+        // TODO more! there are XCP destroys... and do something with the burns?
+        if (!['BTC', 'XCP'].includes(asset_name)) {
+            issuances = await TableQueries.getIssuancesRowsByAssetName(db, asset_name);
+            destructions = await TableQueries.getDestructionsRowsByAssetName(db, asset_name);
+        }
+        res.status(200).json({
+            asset_row,
+            // mixed is ok!
+            tables: {
+                issuances,
+                destructions
+            },
+        });
+    }
+});
+
 
 
 app.listen(port, () => {
