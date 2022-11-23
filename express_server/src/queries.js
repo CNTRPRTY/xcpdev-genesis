@@ -211,7 +211,7 @@ class TableQueries {
     }
 }
 
-export {
+module.exports =  {
     StartQueries,
     TableQueries,
 };
