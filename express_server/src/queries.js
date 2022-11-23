@@ -47,18 +47,6 @@ class StartQueries {
         }
     }
 
-    static async getMessagesRowsByBlock(db, block_index) {
-        const sql = `
-            SELECT *
-            FROM messages
-            WHERE block_index = $block_index;
-        `;
-        const params_obj = {
-            $block_index: block_index,
-        };
-        return queryDBRows(db, sql, params_obj);
-    }
-
     static async getBlocksRow(db, block_index) {
         const sql = `
             SELECT *
