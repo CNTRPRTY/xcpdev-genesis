@@ -56,7 +56,7 @@ app.get('/tx/:txHash', async (req, res) => {
         // get the block...
         const block_index = transaction.block_index;
         // then get all messages from block...
-        messages_all = await getMessagesRowsByBlock(block_index);
+        messages_all = await StartQueries.getMessagesRowsByBlock(db, block_index);
         for (const message of messages_all) {
 
             const bindings = JSON.parse(message.bindings);
