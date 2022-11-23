@@ -62,12 +62,30 @@ class Address extends React.Component {
         let address_metadata = (<p>loading...</p>);
         if (this.state.tables) {
 
+            function balancesSort(a, b) {
+                if (b.quantity === a.quantity) {
+                    const mainname_a = a.asset_longname ? a.asset_longname : a.asset;
+                    const mainname_b = b.asset_longname ? b.asset_longname : b.asset;
+                    if (mainname_a < mainname_b) {
+                        return -1;
+                    }
+                    if (mainname_a > mainname_b) {
+                        return 1;
+                    }
+                    return 0;
+                }
+                else {
+                    return b.quantity - a.quantity;
+                }
+            };
+
             const address_balances_element = (
                 <>
                     <table>
                         <tbody>
                             {ListElements.getTableRowBalanceAddressHeader()}
-                            {this.state.tables.balances.sort((a, b) => b.quantity - a.quantity).map((balance_row, index) => {
+                            {this.state.tables.balances.sort(balancesSort).map((balance_row, index) => {
+                                // {this.state.tables.balances.sort((a, b) => b.quantity - a.quantity).map((balance_row, index) => {
                                 // {this.state.tables.balances.map((balance_row, index) => {
                                 return ListElements.getTableRowBalanceAddress(balance_row, index);
                             })}
@@ -91,7 +109,8 @@ class Address extends React.Component {
 
             address_metadata = (
                 <>
-                    <h3>Balances (sorted by most units on top):</h3>
+                    <h3>Balances (sorted by most units on top, then alphabetically):</h3>
+                    {/* <h3>Balances (sorted by most units on top):</h3> */}
                     {/* <h3>Balances:</h3> */}
                     {address_balances_element}
 
