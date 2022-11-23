@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 
-const { StartQueries } = require('./queries');
+const { StartQueries, TableQueries } = require('./queries');
 
 const app = express();
 app.use(cors())
@@ -149,6 +149,16 @@ app.get('/block/:blockIndex', async (req, res) => {
             messages,
         });
     }
+});
+
+app.get('/address/:address', async (req, res) => {
+    const address = req.params.address;
+    const tables = {};
+    tables.balances = await getBalancesRowsByAddress(address);
+    tables.broadcasts = await getBroadcastsRowsByAddress(address);
+    res.status(200).json({
+        tables,
+    });
 });
 
 

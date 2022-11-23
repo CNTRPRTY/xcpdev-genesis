@@ -104,6 +104,56 @@ class StartQueries {
     }
 }
 
+class TableQueries {
+    static async getBalancesRowsByAddress(db, address) {
+        // broken with CIP3 reset assets
+        const sql = `
+            SELECT b.*, a.asset_longname, i.divisible
+            FROM balances b
+            JOIN assets a ON b.asset = a.asset_name
+            JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
+            WHERE b.address = $address;
+        `;
+        // const sql = `
+        //     SELECT b.*, a.asset_longname
+        //     FROM balances b
+        //     JOIN assets a
+        //     ON b.asset = a.asset_name
+        //     WHERE address = $address;
+        // `;
+        // const sql = `
+        //     SELECT *
+        //     FROM balances
+        //     WHERE address = $address;
+        // `;
+        const params_obj = {
+            $address: address,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
+    static async getBroadcastsRowsByAddress(db, address) {
+        const sql = `
+            SELECT *, bl.block_time
+            FROM broadcasts br
+            JOIN blocks bl ON br.block_index = bl.block_index
+            WHERE br.source = $source
+            ORDER BY block_index ASC;
+        `;
+        // const sql = `
+        //     SELECT *
+        //     FROM broadcasts
+        //     WHERE source = $source
+        //     ORDER BY block_index ASC;
+        // `;
+        const params_obj = {
+            $source: address,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+}
+
 export {
     StartQueries,
+    TableQueries,
 };
