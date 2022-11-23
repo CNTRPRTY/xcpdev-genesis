@@ -95,7 +95,7 @@ class StartQueries {
             FROM messages
             GROUP BY block_index
             ORDER BY block_index DESC
-            LIMIT 10;
+            LIMIT 100;
         `;
         const params_obj = {
             // $block_index: block_index,
