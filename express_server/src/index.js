@@ -3,12 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 
+const { StartQueries } = require('./queries');
+
 const app = express();
 app.use(cors())
 const port = 3000;
 
 const BITCOIN_VERSION = '0.21.1'; // fednode exec bitcoin bitcoin-cli -version
-const COUNTERPARTY_VERSION = '9.59.6'; // fednode exec counterparty counterparty-client --version (TODO? only up to subversion because there will be continuous minor fixes applied (no forks though))
+const COUNTERPARTY_VERSION = '9.59.6'; // fednode exec counterparty counterparty-client --version (we want continuous improvements, but avoid forks as much as possible)
 
 // read only
 const DB_PATH = '/var/lib/docker/volumes/federatednode_counterparty-data/_data/counterparty.db'
@@ -16,123 +18,26 @@ const DB_PATH = '/var/lib/docker/volumes/federatednode_counterparty-data/_data/c
 // https://github.com/TryGhost/node-sqlite3/wiki/API
 const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);
 
-function queryDBRows(db, sql, params_obj) {
-    return new Promise(function (resolve, reject) {
-        db.all(sql, params_obj, function (err, rows) {
-            if (err) return reject(err);
-            else return resolve(rows); // rows is an array. If the result set is empty, it will be an empty array
-        });
-    });
-}
-
-
-
-async function getMempoolRows() {
-    const sql = `
-        SELECT * FROM mempool;
-    `;
-    const params_obj = {};
-    return queryDBRows(db, sql, params_obj);
-}
-
-async function getTransactionsRow(tx_hash) {
-    const sql = `
-        SELECT *
-        FROM transactions
-        WHERE tx_hash = $tx_hash;
-    `;
-    const params_obj = {
-        $tx_hash: tx_hash,
-    };
-    const rows = await queryDBRows(db, sql, params_obj);
-    // return queryDBRows(db, sql, params_obj)
-    if (rows.length > 1) throw Error(`unexpected getTransactionsRow:${tx_hash}`);
-    else if (rows.length === 0) return null;
-    else { // rows.length === 1
-        return rows[0];
-    }
-}
-
-async function getMessagesRowsByBlock(block_index) {
-    const sql = `
-        SELECT *
-        FROM messages
-        WHERE block_index = $block_index;
-    `;
-    const params_obj = {
-        $block_index: block_index,
-    };
-    return queryDBRows(db, sql, params_obj);
-}
-
-async function getMempoolRowsByTxhash(tx_hash) {
-    const sql = `
-        SELECT *
-        FROM mempool
-        WHERE tx_hash = $tx_hash;
-    `;
-    const params_obj = {
-        $tx_hash: tx_hash,
-    };
-    return queryDBRows(db, sql, params_obj);
-}
-
-async function getBlocksRow(block_index) {
-    const sql = `
-        SELECT *
-        FROM blocks
-        WHERE block_index = $block_index;
-    `;
-    const params_obj = {
-        $block_index: block_index,
-    };
-    const rows = await queryDBRows(db, sql, params_obj);
-    // return queryDBRows(db, sql, params_obj)
-    if (rows.length > 1) throw Error(`unexpected getBlocksRow:${block_index}`);
-    else if (rows.length === 0) return null;
-    else { // rows.length === 1
-        return rows[0];
-    }
-}
-
-async function getMessagesRowsByBlock(block_index) {
-    const sql = `
-        SELECT *
-        FROM messages
-        WHERE block_index = $block_index;
-    `;
-    const params_obj = {
-        $block_index: block_index,
-    };
-    return queryDBRows(db, sql, params_obj);
-}
-
-async function getMessagesByBlockLatest() {
-    const sql = `
-        SELECT block_index, COUNT(*) AS messages
-        FROM messages
-        GROUP BY block_index
-        ORDER BY block_index DESC
-        LIMIT 10;
-    `;
-    const params_obj = {
-        // $block_index: block_index,
-    };
-    return queryDBRows(db, sql, params_obj);
-}
-
 
 
 app.get('/mempool', async (req, res) => {
-    // app.get('/', async (req, res) => {
-    const mempool = await getMempoolRows();
-    const blocks = await getMessagesByBlockLatest();
+    const mempool = await StartQueries.getMempoolRows(db);
     res.status(200).json({
         node: {
             BITCOIN_VERSION,
             COUNTERPARTY_VERSION,
         },
         mempool,
+    });
+});
+
+app.get('/blocks', async (req, res) => {
+    const blocks = await StartQueries.getMessagesByBlockLatest(db);
+    res.status(200).json({
+        node: {
+            BITCOIN_VERSION,
+            COUNTERPARTY_VERSION,
+        },
         blocks,
     });
 });
@@ -146,7 +51,7 @@ app.get('/tx/:txHash', async (req, res) => {
     let messages = [];
 
     let messages_all = []; // also returning all block messages to continue discovering
-    let transaction = await getTransactionsRow(tx_hash);
+    let transaction = await StartQueries.getTransactionsRow(db, tx_hash);
     if (transaction) {
         // get the block...
         const block_index = transaction.block_index;
@@ -210,7 +115,7 @@ app.get('/tx/:txHash', async (req, res) => {
 
     }
     else { // try if is in mempool
-        mempool = await getMempoolRowsByTxhash(tx_hash);
+        mempool = await StartQueries.getMempoolRowsByTxhash(db, tx_hash);
     }
 
     if (!transaction && !mempool.length) {
@@ -231,14 +136,14 @@ app.get('/tx/:txHash', async (req, res) => {
 
 app.get('/block/:blockIndex', async (req, res) => {
     const block_index = req.params.blockIndex;
-    const block_row = await getBlocksRow(block_index);
+    const block_row = await StartQueries.getBlocksRow(db, block_index);
     if (!block_row) {
         res.status(404).json({
             error: '404 Not Found'
         });
     }
     else {
-        const messages = await getMessagesRowsByBlock(block_index);
+        const messages = await StartQueries.getMessagesRowsByBlock(db, block_index);
         res.status(200).json({
             block_row,
             messages,
