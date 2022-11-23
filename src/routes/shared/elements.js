@@ -498,7 +498,8 @@ class OneElements {
             <main style={{ padding: "1rem" }}>
                 {route_element}
                 <p>
-                    [xcp.dev v0.5.0]
+                    [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v0.5</a>]
+                    {/* [xcp.dev v0.5.0] */}
                     <br />
                     [counterparty-lib v9.59] in [Bitcoin Core v0.21.1]
                 </p>
