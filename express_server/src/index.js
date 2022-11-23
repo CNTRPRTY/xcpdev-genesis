@@ -154,8 +154,8 @@ app.get('/block/:blockIndex', async (req, res) => {
 app.get('/address/:address', async (req, res) => {
     const address = req.params.address;
     const tables = {};
-    tables.balances = await getBalancesRowsByAddress(address);
-    tables.broadcasts = await getBroadcastsRowsByAddress(address);
+    tables.balances = await TableQueries.getBalancesRowsByAddress(db, address);
+    tables.broadcasts = await TableQueries.getBroadcastsRowsByAddress(db, address);
     res.status(200).json({
         tables,
     });

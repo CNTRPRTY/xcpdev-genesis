@@ -17,6 +17,18 @@ class StartQueries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getMempoolRowsByTxhash(db, tx_hash) {
+        const sql = `
+            SELECT *
+            FROM mempool
+            WHERE tx_hash = $tx_hash;
+        `;
+        const params_obj = {
+            $tx_hash: tx_hash,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getTransactionsRow(db, tx_hash) {
         const sql = `
             SELECT *
@@ -43,18 +55,6 @@ class StartQueries {
         `;
         const params_obj = {
             $block_index: block_index,
-        };
-        return queryDBRows(db, sql, params_obj);
-    }
-
-    static async getMempoolRowsByTxhash(db, tx_hash) {
-        const sql = `
-            SELECT *
-            FROM mempool
-            WHERE tx_hash = $tx_hash;
-        `;
-        const params_obj = {
-            $tx_hash: tx_hash,
         };
         return queryDBRows(db, sql, params_obj);
     }
