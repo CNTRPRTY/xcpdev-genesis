@@ -159,6 +159,28 @@ class Asset extends React.Component {
                 `All issuance (and destroy) events:` :
                 `All issuance events:`;
 
+
+            // CIP3 dumb!
+            const reset_issuance = this.state.issuances.find((obj) => (obj.status === 'valid' && obj.reset === 1));
+
+            let issuances_summary_element = (
+                <ul>
+                    <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
+                    <li>current supply: {quantity_with_divisibility}</li>
+                    {/* // <li>most recent description: {last_description.description}</li> */}
+                    {/* // <li>current supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li> */}
+                    {/* // <li>supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li> */}
+                </ul>
+            );
+            if (reset_issuance) {
+                issuances_summary_element = (
+                    <ul>
+                        <li>locked supply: (v9.60 RESET ASSET)</li>
+                        <li>current supply: (v9.60 RESET ASSET)</li>
+                    </ul>
+                );
+            }
+
             asset_metadata = (
                 <>
                     <h3>Genesis:</h3>
@@ -181,13 +203,14 @@ class Asset extends React.Component {
                     {/* <h3>All issuance (and destroy) events:</h3> */}
                     {/* <h3>All issuance / destroy events:</h3> */}
 
-                    <ul>
+                    {issuances_summary_element}
+                    {/* <ul>
                         <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
                         <li>current supply: {quantity_with_divisibility}</li>
-                        {/* <li>most recent description: {last_description.description}</li> */}
-                        {/* <li>current supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li> */}
-                        {/* <li>supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li> */}
-                    </ul>
+                        // <li>most recent description: {last_description.description}</li>
+                        // <li>current supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li>
+                        // <li>supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li>
+                    </ul> */}
 
                     {/* <h3>Issuance events</h3> */}
 
