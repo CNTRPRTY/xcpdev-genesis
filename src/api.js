@@ -1,7 +1,10 @@
 
-const api_host = '';
+const BITCOIN_VERSION = "";
+const COUNTERPARTY_VERSION = "";
+const api_host = "";
 
-export async function getCntrprty(path) {
+async function getCntrprty(path) {
+    // export async function getCntrprty(path) {
     // export async function getCP(path) {
     const options = {
         method: "GET",
@@ -14,3 +17,9 @@ export async function getCntrprty(path) {
     const data = await res.json();
     return data.data;
 }
+
+export {
+    BITCOIN_VERSION,
+    COUNTERPARTY_VERSION,
+    getCntrprty,
+};

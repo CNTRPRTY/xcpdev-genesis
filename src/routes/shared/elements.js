@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
+import { BITCOIN_VERSION, COUNTERPARTY_VERSION } from '../../api';
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -501,7 +502,8 @@ class OneElements {
                     [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v0.5</a>]
                     {/* [xcp.dev v0.5.0] */}
                     <br />
-                    [counterparty-lib v9.59] in [Bitcoin Core v0.21.1]
+                    [counterparty-lib v{COUNTERPARTY_VERSION}] in [Bitcoin Core v{BITCOIN_VERSION}]
+                    {/* [counterparty-lib v9.59] in [Bitcoin Core v0.21.1] */}
                 </p>
             </main>
         );
