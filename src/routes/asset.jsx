@@ -175,8 +175,9 @@ class Asset extends React.Component {
             if (reset_issuance) {
                 issuances_summary_element = (
                     <ul>
-                        <li>locked supply: (v9.60 RESET ASSET)</li>
-                        <li>current supply: (v9.60 RESET ASSET)</li>
+                        <li>v9.60 RESET ASSET</li>
+                        {/* <li>locked supply: (v9.60 RESET ASSET)</li>
+                        <li>current supply: (v9.60 RESET ASSET)</li> */}
                     </ul>
                 );
             }

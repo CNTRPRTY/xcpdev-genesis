@@ -429,6 +429,11 @@ class ListElements {
             invalid_tx_notice = (<>{' '}<strong>{issuance_event_row.status}</strong></>);
             // invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
         }
+        else { // status valid, but is a v9.60 reset
+            if (issuance_event_row.reset === 1) {
+                invalid_tx_notice = (<>{' '}<strong>RESET to {issuance_event_row.divisible ? 'satoshi' : 'wholeNumber'}</strong></>);
+            }
+        }
 
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
