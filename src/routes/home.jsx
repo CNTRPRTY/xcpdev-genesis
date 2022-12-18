@@ -2,19 +2,32 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
+import { Link } from "react-router-dom";
+import { timeSince } from '../utils';
 
 class Home extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            ////
+            blocks: null,
+            ////
             mempool_empty: null,
             mempool_full: [],
             get_running_info: null,
         };
     }
 
-    async fetchData() {
+    async fetchDataBlocks() {
+        // TODO cache instead of repeating the call?
+        const block_response = await getCntrprty('/blocks');
+        this.setState({
+            blocks: block_response.blocks,
+        });
+    }
+
+    async fetchDataMempool() {
         // const mempool_response = await getCntrprty('/');
         const mempool_response = await getCntrprty('/mempool');
 
@@ -34,10 +47,57 @@ class Home extends React.Component {
 
     async componentDidMount() {
         // not awaiting it
-        this.fetchData();
+        this.fetchDataBlocks();
+        this.fetchDataMempool();
     }
 
     render() {
+
+
+        //////////
+        let block_element_contents = (<p>loading...</p>);
+
+        if (this.state.blocks && this.state.blocks.length) {
+            block_element_contents = (
+                <>
+                    <table>
+                        <tbody>
+                            <tr style={{ padding: "0.25rem" }}>
+                                {this.state.blocks.map((block_row, index) => {
+                                    return (
+                                        <td key={index} style={{ padding: "0 1rem 0 0" }}>
+                                            <strong><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></strong>
+                                            <br />
+                                            {/* {timeIsoFormat(block_row.block_time)}
+                                            {' '} */}
+                                            {timeSince(new Date(block_row.block_time * 1000))}
+                                            <br /><br />
+                                            {block_row.messages_count} messages
+                                            {/* {block_row.messages} messages */}
+                                            <br /><br />
+                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
+                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
+                                            ledger:{block_row.ledger_hash.slice(0, 5)}...{block_row.ledger_hash.slice(-5)}<br />
+                                            txlist:{block_row.txlist_hash.slice(0, 5)}...{block_row.txlist_hash.slice(-5)}<br />
+                                            messages:{block_row.messages_hash.slice(0, 5)}...{block_row.messages_hash.slice(-5)}<br />
+                                        </td>
+                                        // <td key={index} style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(block_row)}</td>
+                                    );
+                                })}
+                            </tr>
+                        </tbody>
+                    </table>
+                </>
+            );
+        }
+        const block_element = (
+            <>
+                <h2>Latest blocks:</h2>
+                {block_element_contents}
+            </>
+        );
+        //////////
+
 
         let mempool_element_contents = (<p>loading...</p>);
         if (this.state.mempool_empty) {
@@ -66,7 +126,15 @@ class Home extends React.Component {
             </>
         );
 
-        return OneElements.getFullPageForRouteElement(mempool_element);
+        const homenew_element = (
+            <>
+                {block_element}
+                {mempool_element}
+            </>
+        );
+
+        return OneElements.getFullPageForRouteElement(homenew_element);
+        // return OneElements.getFullPageForRouteElement(mempool_element);
         // return (
         //     <main style={{ padding: "1rem" }}>
         //         {mempool_element}
