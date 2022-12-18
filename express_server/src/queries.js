@@ -78,15 +78,24 @@ class StartQueries {
     }
 
     static async getMessagesByBlockLatest(db) {
+        const limit = 30;
         const sql = `
-            SELECT block_index, COUNT(*) AS messages
-            FROM messages
-            GROUP BY block_index
-            ORDER BY block_index DESC
-            LIMIT 100;
+            SELECT m.block_index, b.block_time, COUNT(*) AS messages
+            FROM messages m
+            JOIN blocks b ON m.block_index = b.block_index
+            GROUP BY m.block_index
+            ORDER BY m.block_index DESC
+            LIMIT $limit;
         `;
+        // const sql = `
+        //     SELECT block_index, COUNT(*) AS messages
+        //     FROM messages
+        //     GROUP BY block_index
+        //     ORDER BY block_index DESC
+        //     LIMIT 100;
+        // `;
         const params_obj = {
-            // $block_index: block_index,
+            $limit: limit,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -199,7 +208,7 @@ class TableQueries {
     }
 }
 
-module.exports =  {
+module.exports = {
     StartQueries,
     TableQueries,
 };
