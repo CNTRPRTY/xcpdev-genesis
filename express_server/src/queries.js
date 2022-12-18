@@ -119,7 +119,7 @@ class StartQueries {
 class TableQueries {
     static async getBalancesRowsByAddress(db, address) {
         // broken with CIP3 reset assets
-        const sql = `
+        const sql1 = `
             SELECT b.*, a.asset_longname, i.divisible
             FROM balances b
             JOIN assets a ON b.asset = a.asset_name
@@ -138,10 +138,38 @@ class TableQueries {
         //     FROM balances
         //     WHERE address = $address;
         // `;
-        const params_obj = {
+        const params_obj1 = {
             $address: address,
         };
-        return queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj);
+        const rows1 = await queryDBRows(db, sql1, params_obj1);
+
+        // above query does not include XCP
+        const sql2 = `
+            SELECT *
+            FROM balances
+            WHERE address = $address
+            AND asset = $asset;
+        `;
+        const params_obj2 = {
+            $address: address,
+            $asset: 'XCP',
+        };
+        // return queryDBRows(db, sql, params_obj);
+        const rows2 = await queryDBRows(db, sql2, params_obj2);
+
+        return [
+            ...rows1,
+            ...rows2.map(row => {
+                return {
+                    ...row,
+                    asset_longname: null,
+                    divisible: true,
+                }
+            }
+            ),
+        ];
+
     }
 
     static async getBroadcastsRowsByAddress(db, address) {
