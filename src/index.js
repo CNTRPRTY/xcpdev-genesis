@@ -10,7 +10,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Home from './routes/home';
 import Transaction from './routes/transaction';
-import BlockHome from './routes/block_home';
+// import BlockHome from './routes/block_home';
 import Block from './routes/block';
 import Address from './routes/address';
 import Asset from './routes/asset';
@@ -23,7 +23,7 @@ root.render(
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
           <Route path="tx/:txHash" element={<Transaction />} />
-          <Route path="blocks" element={<BlockHome />} />
+          {/* <Route path="blocks" element={<BlockHome />} /> */}
           <Route path="block/:block" element={<Block />} />
           <Route path="address/:address" element={<Address />} />
           <Route path="asset/:assetName" element={<Asset />} /> {/* for now only the asset_name, not the asset_longname */}
