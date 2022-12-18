@@ -117,7 +117,8 @@ class Transaction extends React.Component {
                         // {'}'}
                     </li> */}
 
-                    <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li>
+                    <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                    {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li> */}
 
                     <li>
                         {/* <ul> */}
