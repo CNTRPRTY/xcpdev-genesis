@@ -99,6 +99,21 @@ class StartQueries {
         };
         return queryDBRows(db, sql, params_obj);
     }
+
+    // TODO might be better to just ask for the last X...
+
+    static async getBlocksLatest(db, from_block_index) {
+        const sql = `
+            SELECT *
+            FROM blocks
+            WHERE block_index >= $block_index
+            ORDER BY block_index DESC;
+        `;
+        const params_obj = {
+            $block_index: from_block_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 }
 
 class TableQueries {

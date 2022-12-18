@@ -42,16 +42,57 @@ app.get('/blocks1', async (req, res) => {
     });
 });
 
+// app.get('/blocks', async (req, res) => {
+//     const blocks = await StartQueries.getMessagesByBlockLatest(db);
+//     res.status(200).json({
+//         node: {
+//             BITCOIN_VERSION,
+//             COUNTERPARTY_VERSION,
+//         },
+//         blocks,
+//     });
+// });
+
+///////
 app.get('/blocks', async (req, res) => {
+    // app.get('/blocks2', async (req, res) => {
+
+    // TODO redo when the latest block is in memory
+
     const blocks = await StartQueries.getMessagesByBlockLatest(db);
+
+    const from_block_index = blocks.reduce(function (prev, curr) {
+        // minimum
+        return prev.block_index < curr.block_index ? prev : curr;
+    });
+
+    let blocks_all = await StartQueries.getBlocksLatest(db, from_block_index.block_index);
+
+    const block_messages_dict = {};
+    for (const block of blocks) {
+        block_messages_dict[block.block_index] = block.messages;
+    }
+
+    blocks_all = blocks_all.map((row) => {
+        let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
+        return {
+            ...row,
+            messages_count,
+        };
+
+    });
+
     res.status(200).json({
         node: {
             BITCOIN_VERSION,
             COUNTERPARTY_VERSION,
         },
-        blocks,
+        blocks: blocks_all,
+        // blocks,
     });
+
 });
+///////
 
 app.get('/tx/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
