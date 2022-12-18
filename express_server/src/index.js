@@ -31,6 +31,17 @@ app.get('/mempool', async (req, res) => {
     });
 });
 
+app.get('/blocks1', async (req, res) => {
+    const blocks = await StartQueries.getMessagesByBlockLatest(db);
+    res.status(200).json({
+        node: {
+            BITCOIN_VERSION,
+            COUNTERPARTY_VERSION,
+        },
+        blocks,
+    });
+});
+
 app.get('/blocks', async (req, res) => {
     const blocks = await StartQueries.getMessagesByBlockLatest(db);
     res.status(200).json({
