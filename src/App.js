@@ -24,15 +24,9 @@ class App extends React.Component {
             }}
           >
 
-            <Link to="/">Mempool</Link> |{" "}
-            <Link to="/blocks">Blocks</Link>
-            {/* <Link to="/blocks">Blocks</Link> |{" "}
-            <Link to="/tables">Tables</Link> */}
-            {/* <Link to="/">Home</Link> */}
-            {/* <Link to="/">Home</Link> |{" "}
-            <Link to="/asset">Assets</Link> |{" "}
-            <Link to="/address">Addresses</Link> |{" "}
-            <Link to="/block">Blocks</Link> */}
+            <Link to="/">Home</Link>
+            {/* <Link to="/">Mempool</Link> |{" "}
+            <Link to="/blocks">Blocks</Link> */}
 
           </nav>
           <Outlet />
