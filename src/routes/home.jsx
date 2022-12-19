@@ -87,9 +87,12 @@ class Home extends React.Component {
                                             <br /><br />
                                             {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
                                             {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
-                                            ledger:{block_row.ledger_hash.slice(0, 5)}...{block_row.ledger_hash.slice(-5)}<br />
-                                            txlist:{block_row.txlist_hash.slice(0, 5)}...{block_row.txlist_hash.slice(-5)}<br />
-                                            messages:{block_row.messages_hash.slice(0, 5)}...{block_row.messages_hash.slice(-5)}<br />
+                                            L:{hashSlice(block_row.ledger_hash)}<br />
+                                            TX:{hashSlice(block_row.txlist_hash)}<br />
+                                            M:{hashSlice(block_row.messages_hash)}<br />
+                                            {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
+                                            txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
+                                            messages_hash:{hashSlice(block_row.messages_hash)}<br /> */}
                                         </td>
                                         // <td key={index} style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(block_row)}</td>
                                     );
