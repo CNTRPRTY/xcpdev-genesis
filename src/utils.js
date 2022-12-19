@@ -23,6 +23,10 @@ function timeSince(date) {
 }
 ///////////////////////////////////////
 
+function hashSlice(hash) {
+    return `${hash.slice(0, 5)}...${hash.slice(-5)}`
+}
+
 function quantityWithDivisibility(divisible, quantity_integer) {
     return divisible ? (quantity_integer / (10 ** 8)).toFixed(8) : quantity_integer;
 }
@@ -30,5 +34,6 @@ function quantityWithDivisibility(divisible, quantity_integer) {
 export {
     timeIsoFormat,
     timeSince,
+    hashSlice,
     quantityWithDivisibility,
 };
