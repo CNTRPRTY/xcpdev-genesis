@@ -114,6 +114,37 @@ class StartQueries {
         };
         return queryDBRows(db, sql, params_obj);
     }
+
+    static async getTransactionsLatest(db) {
+        const limit = 30; // 10
+        const sql = `
+            SELECT t.*, b.block_time
+            FROM transactions t
+            JOIN blocks b ON t.block_index = b.block_index
+            ORDER BY t.tx_index DESC
+            LIMIT $limit;
+        `;
+        const params_obj = {
+            $limit: limit,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
+    static async getTransactionsFromTxIndexToTxIndex(db, from_tx_index, to_tx_index) {
+        const sql = `
+            SELECT t.*, b.block_time
+            FROM transactions t
+            JOIN blocks b ON t.block_index = b.block_index
+            WHERE t.tx_index >= $from_tx_index
+            AND t.tx_index <= $to_tx_index
+            ORDER BY t.tx_index ASC;
+        `;
+        const params_obj = {
+            $from_tx_index: from_tx_index,
+            $to_tx_index: to_tx_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 }
 
 class TableQueries {
