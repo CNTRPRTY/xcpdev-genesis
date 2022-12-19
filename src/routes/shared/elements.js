@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
+// import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
+import { timeIsoFormat, hashSlice, quantityWithDivisibility } from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION } from '../../api';
 
 // function timeIsoFormat(block_time) {
@@ -491,6 +492,100 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{tag}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
+            </tr>
+        );
+    }
+
+    // btc transactions
+    static getTableRowTransactionHeader(is_home_page = false) {
+        // static getTableRowTransactionHeader() {
+
+        let firstTwo;
+        if (is_home_page) {
+            firstTwo = (
+                <>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
+                </>
+            );
+        }
+        else {
+            firstTwo = (
+                <>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                </>
+            );
+        }
+
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                {firstTwo}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sat)</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC burn</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>XCP mined</td> */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
+            </tr>
+        );
+    }
+    static getTableRowTransaction(transaction_row, index, is_home_page = false) {
+        // static getTableRowTransaction(transaction_row, index, divisible = true) {
+        const block_time_iso = timeIsoFormat(transaction_row.block_time);
+
+        // TODO? has 'supported' instead...
+        // // surfacing the invalid
+        // let invalid_tx_notice = null;
+        // if (burn_row.status !== 'valid') {
+        //     invalid_tx_notice = (<>{' '}<strong>{burn_row.status}</strong></>);
+        // }
+
+        // const burned_quantity_with_divisibility = quantityWithDivisibility(divisible, burn_row.burned);
+        // const earned_quantity_with_divisibility = quantityWithDivisibility(divisible, burn_row.earned);
+
+        let firstTwo;
+        if (is_home_page) {
+            firstTwo = (
+                <>
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
+                </>
+            );
+        }
+        else {
+            firstTwo = (
+                <>
+                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td>
+                </>
+            );
+        }
+
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+
+                {firstTwo}
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>tx</Link></td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{slice ? hashSlice(transaction_row.tx_hash) : transaction_row.tx_hash}</Link></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td> */}
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.fee}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
             </tr>
         );
     }

@@ -14,6 +14,7 @@ import Transaction from './routes/transaction';
 import Block from './routes/block';
 import Address from './routes/address';
 import Asset from './routes/asset';
+import Transactionspage from './routes/transactions_page';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,6 +28,7 @@ root.render(
           <Route path="block/:block" element={<Block />} />
           <Route path="address/:address" element={<Address />} />
           <Route path="asset/:assetName" element={<Asset />} /> {/* for now only the asset_name, not the asset_longname */}
+          <Route path="transactions" element={<Transactionspage />} />
           <Route
             path="*"
             element={
