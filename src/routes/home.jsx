@@ -3,7 +3,7 @@ import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
-import { timeSince } from '../utils';
+import { timeIsoFormat, timeSince, hashSlice } from '../utils';
 
 class Home extends React.Component {
 
@@ -16,6 +16,8 @@ class Home extends React.Component {
             mempool_empty: null,
             mempool_full: [],
             get_running_info: null,
+            //
+            btc_transactions_latest: null,
         };
     }
 
@@ -45,10 +47,18 @@ class Home extends React.Component {
         });
     }
 
+    async fetchDataLatest() {
+        const latest_response = await getCntrprty(`/transactions`);
+        this.setState({
+            btc_transactions_latest: latest_response.btc_transactions_latest,
+        });
+    }
+
     async componentDidMount() {
         // not awaiting it
         this.fetchDataBlocks();
         this.fetchDataMempool();
+        this.fetchDataLatest();
     }
 
     render() {
@@ -126,10 +136,42 @@ class Home extends React.Component {
             </>
         );
 
+        let transactions_element_contents = (<p>loading...</p>);
+        if (this.state.btc_transactions_latest && this.state.btc_transactions_latest.length) {
+            const is_home_page = true;
+
+            const link_tx_index = this.state.btc_transactions_latest[0].tx_index - 999;
+
+            transactions_element_contents = (
+                <>
+                    <h4>Latest (most recent top):</h4>
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowTransactionHeader(is_home_page)}
+                            {this.state.btc_transactions_latest.map((transaction_row, index) => {
+                                return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
+                            })}
+                        </tbody>
+                    </table>
+
+                    <h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4>
+                    {/* <h4><Link to={`/transactions`}>All transactions</Link></h4> */}
+                </>
+            );
+        }
+        const transactions_element = (
+            <>
+                <h2>Transactions:</h2>
+                {transactions_element_contents}
+            </>
+        );
+
         const homenew_element = (
             <>
                 {block_element}
                 {mempool_element}
+                {transactions_element}
+                {/* {tables_element} */}
             </>
         );
 
