@@ -164,20 +164,20 @@ class Asset extends React.Component {
             const reset_issuance = this.state.issuances.find((obj) => (obj.status === 'valid' && obj.reset === 1));
 
             let issuances_summary_element = (
-                <ul>
-                    <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
-                    <li>current supply: {quantity_with_divisibility}</li>
-                    {/* // <li>most recent description: {last_description.description}</li> */}
-                    {/* // <li>current supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li> */}
-                    {/* // <li>supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li> */}
-                </ul>
+                <>
+                    <ul>
+                        <li>events: {all_issuance_events.length}</li>
+                    </ul>
+                    <ul>
+                        <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
+                        <li>current supply: {quantity_with_divisibility}</li>
+                    </ul>
+                </>
             );
             if (reset_issuance) {
                 issuances_summary_element = (
                     <ul>
                         <li>v9.60 RESET ASSET</li>
-                        {/* <li>locked supply: (v9.60 RESET ASSET)</li>
-                        <li>current supply: (v9.60 RESET ASSET)</li> */}
                     </ul>
                 );
             }
