@@ -134,7 +134,8 @@ class Home extends React.Component {
         }
         const mempool_element = (
             <>
-                <h2>Mempool:</h2>
+                <h2>Mempool transactions:</h2>
+                {/* <h2>Mempool:</h2> */}
                 {mempool_element_contents}
             </>
         );
@@ -164,7 +165,8 @@ class Home extends React.Component {
         }
         const transactions_element = (
             <>
-                <h2>Transactions:</h2>
+                <h2>Block transactions:</h2>
+                {/* <h2>Transactions:</h2> */}
                 {transactions_element_contents}
             </>
         );
