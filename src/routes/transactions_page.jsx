@@ -89,6 +89,17 @@ class Transactionspage extends React.Component {
                         Jump to year:
                     </h3>
                     <p>
+                        <Link to={`/transactions#${years['y2014']}`}>2014</Link>{' | '}
+                        <Link to={`/transactions#${years['y2015']}`}>2015</Link>{' | '}
+                        <Link to={`/transactions#${years['y2016']}`}>2016</Link>{' | '}
+                        <Link to={`/transactions#${years['y2017']}`}>2017</Link>{' | '}
+                        <Link to={`/transactions#${years['y2018']}`}>2018</Link>{' | '}
+                        <Link to={`/transactions#${years['y2019']}`}>2019</Link>{' | '}
+                        <Link to={`/transactions#${years['y2020']}`}>2020</Link>{' | '}
+                        <Link to={`/transactions#${years['y2021']}`}>2021</Link>{' | '}
+                        <Link to={`/transactions#${years['y2022']}`}>2022</Link>
+                    </p>
+                    {/* <p>
                         2014: <Link to={`/transactions#${years['y2014']}`}>{years['y2014']}</Link>{' | '}
                         2015: <Link to={`/transactions#${years['y2015']}`}>{years['y2015']}</Link>{' | '}
                         2016: <Link to={`/transactions#${years['y2016']}`}>{years['y2016']}</Link>{' | '}
@@ -98,7 +109,7 @@ class Transactionspage extends React.Component {
                         2020: <Link to={`/transactions#${years['y2020']}`}>{years['y2020']}</Link>{' | '}
                         2021: <Link to={`/transactions#${years['y2021']}`}>{years['y2021']}</Link>{' | '}
                         2022: <Link to={`/transactions#${years['y2022']}`}>{years['y2022']}</Link>
-                    </p>
+                    </p> */}
                 </>
             );
 
