@@ -78,8 +78,8 @@ class Asset extends React.Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const updatedProp = this.props.router.params.asset_name;
-        if (updatedProp !== prevProps.router.params.asset_name) {
+        const updatedProp = this.props.router.params.assetName;
+        if (updatedProp !== prevProps.router.params.assetName) {
             // not awaiting it
             this.fetchData(updatedProp);
         }
