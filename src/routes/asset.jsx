@@ -182,10 +182,29 @@ class Asset extends React.Component {
                 );
             }
 
+
+            // detect superasset if is asset_longname
+            let superasset = null;
+            if (this.state.asset_row.asset_longname) {
+                const split = this.state.asset_row.asset_longname.split('.');
+                superasset = split[0];
+            }
+
+
             asset_metadata = (
                 <>
                     <h3>Genesis:</h3>
                     {/* <h3>Genesis issuance:</h3> */}
+
+                    {this.state.asset_row.asset_longname ?
+                        (
+                            <ul>
+                                <li>superasset: <Link to={`/asset/${superasset}`}>{superasset}</Link></li>
+                            </ul>
+                        )
+                        : (null)
+                    }
+
                     <ul>
                         {this.state.asset_row.asset_longname ?
                             (<li>asset_longname: {this.state.asset_row.asset_longname}</li>)
@@ -193,9 +212,13 @@ class Asset extends React.Component {
                         }
                         <li>asset_name: {this.state.asset_row.asset_name}</li>
                         <li>asset_id: {this.state.asset_row.asset_id}</li>
+                    </ul>
+                    <ul>
                         {/* <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li> */}
                         <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li>
                         <li>block_time_iso: {timeIsoFormat(genesis_issuance.block_time)}</li>
+                    </ul>
+                    <ul>
                         {/* <li>satoshi divisibility: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
                         <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li>
                     </ul>
