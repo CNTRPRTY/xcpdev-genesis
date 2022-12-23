@@ -101,9 +101,14 @@ class Asset extends React.Component {
         }
         else if (this.state.asset_btc_xcp) {
             // TODO when the backend is ready maybe elaborate...
+            let protocol_base = 'Base protocol';
+            if (this.state.asset_name === 'XCP') {
+                protocol_base = 'Protocol';
+            }
             asset_metadata = (
                 <>
-                    <h3>Protocol asset: {this.state.asset_name}</h3>
+                    <h3>{protocol_base} asset: {this.state.asset_name}</h3>
+                    {/* <h3>Protocol asset: {this.state.asset_name}</h3> */}
                     <ul>
                         <li>asset_id: {this.state.asset_row.asset_id}</li>
                         <li>divisible: true</li>
