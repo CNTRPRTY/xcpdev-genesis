@@ -625,7 +625,7 @@ class OneElements {
             <main style={{ padding: "1rem" }}>
                 {route_element}
                 <p>
-                    [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v0.6</a>]
+                    [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v0.7</a>]
                     <br />
                     [counterparty-lib v{COUNTERPARTY_VERSION}]
                     <br />
