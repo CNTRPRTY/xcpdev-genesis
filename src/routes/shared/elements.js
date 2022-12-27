@@ -500,8 +500,10 @@ class ListElements {
     static getTableRowSubassetsHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>longname</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>name</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset_longname</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset_name</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>longname</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>name</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
