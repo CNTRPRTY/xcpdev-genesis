@@ -241,6 +241,20 @@ class TableQueries {
         }
     }
 
+    static async getAssetsRowsForAssetLongname(db, asset_name) {
+        const sql = `
+            SELECT a.*, b.block_time
+            FROM assets a
+            JOIN blocks b ON a.block_index = b.block_index
+            WHERE a.asset_longname LIKE $asset_longname_start
+            ORDER BY a.block_index ASC;
+        `;
+        const params_obj = {
+            $asset_longname_start: `${asset_name}.%`,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getIssuancesRowsByAssetName(db, asset_name) {
         const sql = `
             SELECT i.*, b.block_time

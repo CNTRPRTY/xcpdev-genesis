@@ -280,6 +280,14 @@ app.get('/asset/:assetName', async (req, res) => {
     }
 });
 
+app.get('/asset/:assetName/subassets', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const assets = await TableQueries.getAssetsRowsForAssetLongname(db, asset_name);
+    res.status(200).json({
+        assets,
+    });
+});
+
 
 
 app.listen(port, () => {
