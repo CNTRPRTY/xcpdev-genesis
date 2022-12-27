@@ -496,7 +496,31 @@ class ListElements {
         );
     }
 
-    // btc transactions
+    // subassets
+    static getTableRowSubassetsHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>longname</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>name</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
+            </tr>
+        );
+    }
+    static getTableRowSubassets(assets_row, index) {
+        const block_time_iso = timeIsoFormat(assets_row.block_time);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}>{assets_row.asset_longname}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${assets_row.asset_name}`}>{assets_row.asset_name}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${assets_row.block_index}`}>{assets_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(assets_row)}</td> */}
+            </tr>
+        );
+    }
+
     static getTableRowTransactionHeader(is_home_page = false) {
         // static getTableRowTransactionHeader() {
 

@@ -13,6 +13,9 @@ class Asset extends React.Component {
             asset_btc_xcp: false,
             asset_not_found: null,
             asset_row: null,
+
+            subassets: [],
+
             issuances: [],
             destructions: [],
             // tables: null,
@@ -68,6 +71,14 @@ class Asset extends React.Component {
                 // destructions: asset_response.destructions,
                 // // tables: asset_response.tables,
             });
+
+            // check subassets
+            const subassets_response = await getCntrprty(`/asset/${asset_name}/subassets`);
+
+            this.setState({
+                subassets: subassets_response.assets,
+            });
+
         }
 
     }
@@ -196,6 +207,21 @@ class Asset extends React.Component {
             }
 
 
+            // show subassets if apples
+            let subassets_element = null;
+            if (this.state.subassets.length) {
+                subassets_element = (
+                    <>
+                        <h3>Subassets:</h3>
+                        {ListElements.getTableRowSubassetsHeader()}
+                        {this.state.subassets.map((assets_row, index) => {
+                            return ListElements.getTableRowSubassets(assets_row, index);
+                        })}
+                    </>
+                );
+            }
+
+
             asset_metadata = (
                 <>
                     <h3>Genesis:</h3>
@@ -227,6 +253,8 @@ class Asset extends React.Component {
                         {/* <li>satoshi divisibility: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
                         <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li>
                     </ul>
+
+                    {subassets_element}
 
                     <h3>{issuance_events_message}</h3>
                     {/* <h3>All issuance (and destroy) events:</h3> */}
