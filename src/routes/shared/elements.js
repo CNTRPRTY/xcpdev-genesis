@@ -90,7 +90,8 @@ function createLinkElementBindings(bindings_json_stringified) {
         }
 
         else {
-            bindings[key] = (<>{value}</>);
+            bindings[key] = (<>{`${value}`}</>);
+            // bindings[key] = (<>{value}</>);
         }
     }
 
@@ -105,7 +106,8 @@ function createNonLinkElement(json_stringified) {
     for (const obj of entries) {
         const key = obj[0];
         const value = obj[1];
-        bindings[key] = (<>{value}</>);
+        bindings[key] = (<>{`${value}`}</>);
+        // bindings[key] = (<>{value}</>);
     }
 
     return bindings;
