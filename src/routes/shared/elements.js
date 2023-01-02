@@ -323,10 +323,17 @@ class ListElements {
 
     ///////////////
     // address balance
-    static getTableRowBalanceAddressHeader() {
+    static getTableRowBalanceAddressHeader(asset_page = false) {
+        // static getTableRowBalanceAddressHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
+
+                {asset_page ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>)
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are satoshi divisible)</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are divisible)</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
@@ -334,13 +341,20 @@ class ListElements {
             </tr>
         );
     }
-    static getTableRowBalanceAddress(balance_row, index) {
+    static getTableRowBalanceAddress(balance_row, index, asset_page = false) {
+        // static getTableRowBalanceAddress(balance_row, index) {
         const mainname = balance_row.asset_longname ? balance_row.asset_longname : balance_row.asset;
         const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, balance_row.quantity);
         // const quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>
+
+                {asset_page ?
+                    (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td> */}
+
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{mainname}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}

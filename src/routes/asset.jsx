@@ -18,6 +18,9 @@ class Asset extends React.Component {
 
             issuances: [],
             destructions: [],
+
+            balances: [], // "holders"
+
             // tables: null,
         };
     }
@@ -36,30 +39,21 @@ class Asset extends React.Component {
         // console.log(JSON.stringify(asset_response));
         // console.log(`rrr2`);
 
-        if (['BTC', 'XCP'].includes(asset_name)) {
-            this.setState({
-                asset_name,
-                asset_btc_xcp: true,
-                asset_not_found: false,
-                asset_row: asset_response.asset_row,
-                issuances: [],
-                destructions: [],
-                // tables: null,
-            });
-        }
-        else if (!asset_response.asset_row) {
+        if (!asset_response.asset_row) {
             // if (!asset_response.asset_row) {
             this.setState({
-                asset_name,
-                asset_btc_xcp: false,
+                // asset_name,
+                // asset_btc_xcp: false,
                 asset_not_found: true,
-                asset_row: null,
-                issuances: [],
-                destructions: [],
+                // asset_row: null,
+                // issuances: [],
+                // destructions: [],
+                // dispenses: [],
                 // tables: null,
             });
         }
         else {
+
             this.setState({
                 asset_name,
                 asset_btc_xcp: false,
@@ -77,6 +71,13 @@ class Asset extends React.Component {
 
             this.setState({
                 subassets: subassets_response.assets,
+            });
+
+            // get holders (could be 0)
+            const balances_response = await getCntrprty(`/asset/${asset_name}/balances`);
+
+            this.setState({
+                balances: balances_response.balances,
             });
 
         }
@@ -207,7 +208,7 @@ class Asset extends React.Component {
             }
 
 
-            // show subassets if apples
+            // show subassets if applies
             let subassets_element = null;
             if (this.state.subassets.length) {
                 subassets_element = (
@@ -216,6 +217,36 @@ class Asset extends React.Component {
                         {ListElements.getTableRowSubassetsHeader()}
                         {this.state.subassets.map((assets_row, index) => {
                             return ListElements.getTableRowSubassets(assets_row, index);
+                        })}
+                    </>
+                );
+            }
+
+
+            // show balances (holders) if applies (could be 0!)
+            let balances_element = null;
+            if (this.state.balances.length) {
+                function balancesSortAddress(a, b) {
+                    if (b.quantity === a.quantity) {
+                        if (a.address < b.address) {
+                            return -1;
+                        }
+                        if (a.address > b.address) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                    else {
+                        return b.quantity - a.quantity;
+                    }
+                }
+                const asset_page = true;
+                balances_element = (
+                    <>
+                        <h3>Balances (Holders):</h3>
+                        {ListElements.getTableRowBalanceAddressHeader(asset_page)}
+                        {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
+                            return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
                         })}
                     </>
                 );
@@ -294,6 +325,9 @@ class Asset extends React.Component {
                             })}
                         </tbody>
                     </table>
+
+                    {balances_element}
+
                 </>
             );
 
