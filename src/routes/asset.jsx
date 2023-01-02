@@ -243,7 +243,7 @@ class Asset extends React.Component {
                 const asset_page = true;
                 balances_element = (
                     <>
-                        <h3>Balances (Holders):</h3>
+                        <h3>Balances (holders):</h3>
                         {ListElements.getTableRowBalanceAddressHeader(asset_page)}
                         {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
                             return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
