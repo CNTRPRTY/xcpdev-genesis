@@ -148,6 +148,53 @@ class StartQueries {
 }
 
 class TableQueries {
+
+    // TODO ignoring XCP for now
+    static async getBalancesRowsByAssetName(db, asset_name) {
+        // TODO?
+        // broken with CIP3 reset assets...
+        const sql1 = `
+            SELECT b.*, a.asset_longname, i.divisible
+            FROM balances b
+            JOIN assets a ON b.asset = a.asset_name
+            JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
+            WHERE b.asset = $asset_name;
+        `;
+        const params_obj1 = {
+            $asset_name: asset_name,
+        };
+        const rows1 = await queryDBRows(db, sql1, params_obj1);
+
+        // // above query does not include XCP
+        // const sql2 = `
+        //     SELECT *
+        //     FROM balances
+        //     WHERE address = $address
+        //     AND asset = $asset;
+        // `;
+        // const params_obj2 = {
+        //     $address: address,
+        //     $asset: 'XCP',
+        // };
+        // // return queryDBRows(db, sql, params_obj);
+        // const rows2 = await queryDBRows(db, sql2, params_obj2);
+
+        // return [
+        //     ...rows1,
+        //     ...rows2.map(row => {
+        //         return {
+        //             ...row,
+        //             asset_longname: null,
+        //             divisible: true,
+        //         }
+        //     }
+        //     ),
+        // ];
+
+        return rows1;
+
+    }
+
     static async getBalancesRowsByAddress(db, address) {
         // broken with CIP3 reset assets
         const sql1 = `

@@ -280,6 +280,15 @@ app.get('/asset/:assetName', async (req, res) => {
     }
 });
 
+// balances (present asset holders)
+app.get('/asset/:assetName/balances', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const balances = await TableQueries.getBalancesRowsByAssetName(db, asset_name);
+    res.status(200).json({
+        balances,
+    });
+});
+
 app.get('/asset/:assetName/subassets', async (req, res) => {
     const asset_name = req.params.assetName;
     const assets = await TableQueries.getAssetsRowsForAssetLongname(db, asset_name);
