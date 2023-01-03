@@ -52,6 +52,20 @@ class Asset extends React.Component {
                 // tables: null,
             });
         }
+        else if (['BTC', 'XCP'].includes(asset_name)) {
+
+            // for now...
+            this.setState({
+                // asset_name,
+                asset_btc_xcp: true,
+                // asset_not_found: null,
+                asset_row: asset_response.asset_row,
+                // issuances: asset_response.tables.issuances,
+                // destructions: asset_response.tables.destructions,
+                // dispenses: asset_response.tables.dispenses,
+            });
+
+        }
         else {
 
             this.setState({
