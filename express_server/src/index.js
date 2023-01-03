@@ -207,7 +207,7 @@ app.get('/tx/:txHash', async (req, res) => {
 
     }
     else { // try if is in mempool
-        mempool = await StartQueries.getMempoolRowsByTxhash(db, tx_hash);
+        mempool = await StartQueries.getMempoolRowsByTxHash(db, tx_hash);
     }
 
     if (!transaction && !mempool.length) {

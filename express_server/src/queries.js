@@ -17,7 +17,7 @@ class StartQueries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getMempoolRowsByTxhash(db, tx_hash) {
+    static async getMempoolRowsByTxHash(db, tx_hash) {
         const sql = `
             SELECT *
             FROM mempool
