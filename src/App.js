@@ -24,7 +24,9 @@ class App extends React.Component {
             }}
           >
 
-            <Link to="/">Home</Link>
+            <Link to="/">Data</Link> |{" "}
+            <Link to="/wallet">Wallet</Link>
+            {/* <Link to="/">Home</Link> */}
             {/* <Link to="/">Mempool</Link> |{" "}
             <Link to="/blocks">Blocks</Link> */}
 
