@@ -253,6 +253,15 @@ app.get('/address/:address', async (req, res) => {
     });
 });
 
+// balances (present asset holders)
+app.get('/address/:address/balances', async (req, res) => {
+    const address = req.params.address;
+    const balances = await TableQueries.getBalancesRowsByAddress(db, address);
+    res.status(200).json({
+        balances,
+    });
+});
+
 app.get('/asset/:assetName', async (req, res) => {
     const asset_name = req.params.assetName;
     const asset_row = await TableQueries.getAssetsRowByAssetName(db, asset_name);
