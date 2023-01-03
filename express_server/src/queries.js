@@ -66,11 +66,18 @@ class StartQueries {
     }
 
     static async getMessagesRowsByBlock(db, block_index) {
+        // this one is message_index instead of tx_index...
         const sql = `
             SELECT *
             FROM messages
-            WHERE block_index = $block_index;
+            WHERE block_index = $block_index
+            ORDER BY message_index ASC;
         `;
+        // const sql = `
+        //     SELECT *
+        //     FROM messages
+        //     WHERE block_index = $block_index;
+        // `;
         const params_obj = {
             $block_index: block_index,
         };
@@ -256,8 +263,15 @@ class TableQueries {
             FROM broadcasts br
             JOIN blocks bl ON br.block_index = bl.block_index
             WHERE br.source = $source
-            ORDER BY block_index ASC;
+            ORDER BY br.tx_index ASC;
         `;
+        // const sql = `
+        //     SELECT *, bl.block_time
+        //     FROM broadcasts br
+        //     JOIN blocks bl ON br.block_index = bl.block_index
+        //     WHERE br.source = $source
+        //     ORDER BY block_index ASC;
+        // `;
         // const sql = `
         //     SELECT *
         //     FROM broadcasts
@@ -289,6 +303,7 @@ class TableQueries {
     }
 
     static async getAssetsRowsForAssetLongname(db, asset_name) {
+        // assets are only by block_index
         const sql = `
             SELECT a.*, b.block_time
             FROM assets a
@@ -308,8 +323,15 @@ class TableQueries {
             FROM issuances i
             JOIN blocks b ON i.block_index = b.block_index
             WHERE i.asset = $asset_name
-            ORDER BY i.block_index ASC;
+            ORDER BY i.tx_index ASC;
         `;
+        // const sql = `
+        //     SELECT i.*, b.block_time
+        //     FROM issuances i
+        //     JOIN blocks b ON i.block_index = b.block_index
+        //     WHERE i.asset = $asset_name
+        //     ORDER BY i.block_index ASC;
+        // `;
         // const sql = `
         //     SELECT i.*
         //     FROM issuances i
@@ -328,8 +350,15 @@ class TableQueries {
             FROM destructions d
             JOIN blocks b ON d.block_index = b.block_index
             WHERE d.asset = $asset_name
-            ORDER BY d.block_index ASC;
+            ORDER BY d.tx_index ASC;
         `;
+        // const sql = `
+        //     SELECT d.*, b.block_time
+        //     FROM destructions d
+        //     JOIN blocks b ON d.block_index = b.block_index
+        //     WHERE d.asset = $asset_name
+        //     ORDER BY d.block_index ASC;
+        // `;
         // const sql = `
         //     SELECT d.*
         //     FROM destructions d
