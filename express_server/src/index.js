@@ -298,6 +298,18 @@ app.get('/asset/:assetName/balances', async (req, res) => {
     });
 });
 
+app.get('/asset/:assetName/escrows', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const orders = await TableQueries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
+    const dispensers = await TableQueries.getDispensersRowsByAssetName(db, asset_name);
+    res.status(200).json({
+        tables: {
+            orders,
+            dispensers,
+        },
+    });
+});
+
 app.get('/asset/:assetName/subassets', async (req, res) => {
     const asset_name = req.params.assetName;
     const assets = await TableQueries.getAssetsRowsForAssetLongname(db, asset_name);

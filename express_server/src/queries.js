@@ -370,6 +370,41 @@ class TableQueries {
         };
         return queryDBRows(db, sql, params_obj);
     }
+
+    // escrows
+    static async getOrdersRowsGiveAssetByAssetName(db, asset_name) {
+        const status = 'open';
+        const sql = `
+            SELECT o.*, b.block_time
+            FROM orders o
+            JOIN blocks b ON o.block_index = b.block_index
+            WHERE o.give_asset = $asset_name
+            AND o.status = $status
+            ORDER BY o.tx_index DESC;
+        `;
+        const params_obj = {
+            $asset_name: asset_name,
+            $status: status,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+    static async getDispensersRowsByAssetName(db, asset_name) {
+        const status = 0; // 0:open 10:closed
+        const sql = `
+            SELECT d.*, b.block_time
+            FROM dispensers d
+            JOIN blocks b ON d.block_index = b.block_index
+            WHERE d.asset = $asset_name
+            AND d.status = $status
+            ORDER BY d.tx_index DESC;
+        `;
+        const params_obj = {
+            $asset_name: asset_name,
+            $status: status,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
 }
 
 module.exports = {
