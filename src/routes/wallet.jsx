@@ -38,18 +38,29 @@ class Wallet extends React.Component {
 
         let balances_response = {};
         try {
+
+            // tried fixing in express but is not obvious/simple, so doing this check here instead
+            if (!address.trim().length) {
+                throw Error('no request done');
+            }
+
             balances_response = await getCntrprty(`/address/${address}/balances`);
         }
         catch (e) {
             balances_response.balances = [];
         }
 
-        if (balances_response.balances.length) {
-            this.setState({
-                address,
-                balances: balances_response.balances,
-            });
-        }
+        // if (balances_response.balances.length) {
+
+        // removing all zero balances here
+        const nonzero_balances = balances_response.balances.filter(balances_row => balances_row.quantity > 0);
+
+        this.setState({
+            address,
+            balances: nonzero_balances,
+            // balances: balances_response.balances,
+        });
+        // }
 
     }
 
@@ -70,7 +81,8 @@ class Wallet extends React.Component {
     render() {
 
         let show_button = null;
-        const button_value = "get balances";
+        const button_value = "get";
+        // const button_value = "get balances";
         if (this.state.address && this.state.address.length) {
             // if (this.state.address.length) {
             show_button = (<span> <input type="submit" value={button_value} /></span>);
@@ -91,7 +103,9 @@ class Wallet extends React.Component {
         // let wallet_element_contents = (<p>loading...</p>);
         let wallet_element_contents = (
             <>
-                <p>Address: {address_bar}</p>
+                <p>Show balances for address:</p>
+                {address_bar}
+                {/* <p>Address: {address_bar}</p> */}
             </>
         );
 
@@ -119,8 +133,8 @@ class Wallet extends React.Component {
                     <table>
                         <tbody>
                             {ListElements.getTableRowBalanceAddressHeader()}
-                            {this.state.balances.sort(balancesSort).map((balance_row, index) => {
-                                return ListElements.getTableRowBalanceAddress(balance_row, index);
+                            {this.state.balances.sort(balancesSort).map((balances_row, index) => {
+                                return ListElements.getTableRowBalanceAddress(balances_row, index);
                             })}
                         </tbody>
                     </table>
@@ -131,7 +145,8 @@ class Wallet extends React.Component {
                 <>
                     <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
 
-                    <h3>Balances (sorted by most units on top, then alphabetically):</h3>
+                    <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
+                    {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
                     {address_balances_element}
                 </>
             );
