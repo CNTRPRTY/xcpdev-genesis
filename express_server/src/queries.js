@@ -380,7 +380,7 @@ class TableQueries {
             JOIN blocks b ON o.block_index = b.block_index
             WHERE o.give_asset = $asset_name
             AND o.status = $status
-            ORDER BY o.tx_index DESC;
+            ORDER BY o.tx_index ASC;
         `;
         const params_obj = {
             $asset_name: asset_name,
@@ -396,7 +396,7 @@ class TableQueries {
             JOIN blocks b ON d.block_index = b.block_index
             WHERE d.asset = $asset_name
             AND d.status = $status
-            ORDER BY d.tx_index DESC;
+            ORDER BY d.tx_index ASC;
         `;
         const params_obj = {
             $asset_name: asset_name,
