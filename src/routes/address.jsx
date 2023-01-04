@@ -63,38 +63,6 @@ class Address extends React.Component {
         let address_metadata = (<p>loading...</p>);
         if (this.state.tables) {
 
-            // function balancesSort(a, b) {
-            //     if (b.quantity === a.quantity) {
-            //         const mainname_a = a.asset_longname ? a.asset_longname : a.asset;
-            //         const mainname_b = b.asset_longname ? b.asset_longname : b.asset;
-            //         if (mainname_a < mainname_b) {
-            //             return -1;
-            //         }
-            //         if (mainname_a > mainname_b) {
-            //             return 1;
-            //         }
-            //         return 0;
-            //     }
-            //     else {
-            //         return b.quantity - a.quantity;
-            //     }
-            // };
-
-            // const address_balances_element = (
-            //     <>
-            //         <table>
-            //             <tbody>
-            //                 {ListElements.getTableRowBalanceAddressHeader()}
-            //                 {this.state.tables.balances.sort(balancesSort).map((balance_row, index) => {
-            //                     // {this.state.tables.balances.sort((a, b) => b.quantity - a.quantity).map((balance_row, index) => {
-            //                     // {this.state.tables.balances.map((balance_row, index) => {
-            //                     return ListElements.getTableRowBalanceAddress(balance_row, index);
-            //                 })}
-            //             </tbody>
-            //         </table>
-            //     </>
-            // );
-
             const address_broadcasts_element = (
                 <>
                     <table>
@@ -102,6 +70,74 @@ class Address extends React.Component {
                             {ListElements.getTableRowBroadcastAddressHeader()}
                             {this.state.tables.broadcasts.map((broadcast_row, index) => {
                                 return ListElements.getTableRowBroadcastAddress(broadcast_row, index);
+                            })}
+                        </tbody>
+                    </table>
+                </>
+            );
+
+
+            // this.state.tables.issuances are all valid BUT can include other issuers
+
+            let assets_bag = this.state.tables.issuances.map((issuances_row) => issuances_row.asset);
+            const unique_assets_array = Array.from(new Set(assets_bag));
+
+            let genesis_issuances = {};
+            for (const asset of unique_assets_array) {
+
+                // assign the minimum tx_index issuance per name
+                genesis_issuances[asset] = this.state.tables.issuances
+                    .filter(row => row.asset === asset)
+                    .reduce(function (prev, curr) {
+                        // minimum
+                        return prev.tx_index < curr.tx_index ? prev : curr;
+                    });
+
+            }
+
+            const issuer_genesis_issuances = [];
+            const issuer_transfer_issuances_pre = []; // to later find their transfer issuance
+            for (const issuances_row of Object.values(genesis_issuances)) {
+                if (issuances_row.issuer === this.state.address) {
+                    issuer_genesis_issuances.push(issuances_row);
+                }
+                else {
+                    issuer_transfer_issuances_pre.push(issuances_row);
+                }
+            }
+
+            const issuer_transfer_issuances = [];
+            for (const issuances_row of issuer_transfer_issuances_pre) {
+
+                // assuming asc order
+                const transfer_issuance = this.state.tables.issuances
+                    .filter(row => row.asset === issuances_row.asset)
+                    .find(row => row.issuer === this.state.address);
+                issuer_transfer_issuances.push(transfer_issuance);
+
+            }
+
+
+            const issuer_page = true;
+            const issuer_genesis_element = (
+                <>
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)}
+                            {issuer_genesis_issuances.sort((a, b) => a.tx_index - b.tx_index).map((issuances_row, index) => {
+                                return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
+                            })}
+                        </tbody>
+                    </table>
+                </>
+            );
+            const issuer_transfer_element = (
+                <>
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)}
+                            {issuer_transfer_issuances.sort((a, b) => a.tx_index - b.tx_index).map((issuances_row, index) => {
+                                return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
                             })}
                         </tbody>
                     </table>
@@ -121,6 +157,12 @@ class Address extends React.Component {
 
                     <h3>Broadcasts:</h3>
                     {address_broadcasts_element}
+
+                    <h3>Asset issuances:</h3>
+                    <h4>Genesis:</h4>
+                    {issuer_genesis_element}
+                    <h4>Transfer:</h4>
+                    {issuer_transfer_element}
                 </>
             );
         }
