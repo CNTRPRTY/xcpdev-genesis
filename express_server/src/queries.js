@@ -284,6 +284,38 @@ class TableQueries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getIssuancesRowsByAssetsByIssuer(db, address) {
+        // gets all issuances an issuer is (validly) involved
+        // used to determine if is a genesis issuance or an issuance transfer
+
+        // VALID issuances make sense by issuer, as anyone could do an invalid issuance
+        const sql = `
+            SELECT i.*, b.block_time
+            FROM issuances i
+            JOIN blocks b ON i.block_index = b.block_index
+            WHERE i.asset IN (
+                SELECT asset
+                FROM issuances
+                WHERE issuer = $issuer
+                AND status = 'valid'
+            )
+            AND i.status = 'valid'
+            ORDER BY i.tx_index ASC;
+        `;
+        // const sql = `
+        //     SELECT i.*, b.block_time
+        //     FROM issuances i
+        //     JOIN blocks b ON i.block_index = b.block_index
+        //     WHERE i.issuer = $issuer
+        //     AND i.status = 'valid'
+        //     ORDER BY i.tx_index ASC;
+        // `;
+        const params_obj = {
+            $issuer: address,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getAssetsRowByAssetName(db, asset_name) {
         const sql = `
             SELECT *
@@ -318,6 +350,7 @@ class TableQueries {
     }
 
     static async getIssuancesRowsByAssetName(db, asset_name) {
+        // not VALID issuances ok per asset_name, as this page is about all the history associated to an asset
         const sql = `
             SELECT i.*, b.block_time
             FROM issuances i
