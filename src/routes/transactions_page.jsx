@@ -81,7 +81,7 @@ class Transactionspage extends React.Component {
                 y2020: 1482022,
                 y2021: 1540497,
                 y2022: 1835273,
-                y2023: 0,
+                y2023: 2209463,
             }
             const jump_year_element = (
                 <>
@@ -97,7 +97,8 @@ class Transactionspage extends React.Component {
                         <Link to={`/transactions#${years['y2019']}`}>2019</Link>{' | '}
                         <Link to={`/transactions#${years['y2020']}`}>2020</Link>{' | '}
                         <Link to={`/transactions#${years['y2021']}`}>2021</Link>{' | '}
-                        <Link to={`/transactions#${years['y2022']}`}>2022</Link>
+                        <Link to={`/transactions#${years['y2022']}`}>2022</Link>{' | '}
+                        <Link to={`/transactions#${years['y2023']}`}>2023</Link>
                     </p>
                     {/* <p>
                         2014: <Link to={`/transactions#${years['y2014']}`}>{years['y2014']}</Link>{' | '}
