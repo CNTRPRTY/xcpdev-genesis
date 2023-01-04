@@ -20,6 +20,9 @@ class Asset extends React.Component {
             destructions: [],
 
             balances: [], // "holders"
+            // vs. escrows
+            orders: [],
+            dispensers: [],
 
             // tables: null,
         };
@@ -89,9 +92,15 @@ class Asset extends React.Component {
 
             // get holders (could be 0)
             const balances_response = await getCntrprty(`/asset/${asset_name}/balances`);
-
             this.setState({
                 balances: balances_response.balances,
+            });
+
+            // vs escrows (orders and dispensers)
+            const escrows_response = await getCntrprty(`/asset/${asset_name}/escrows`);
+            this.setState({
+                orders: escrows_response.tables.orders,
+                dispensers: escrows_response.tables.dispensers,
             });
 
         }
@@ -237,9 +246,66 @@ class Asset extends React.Component {
             }
 
 
+            ///////////
+            // balances + escrows(orders, dispensers) = total_integer(issuances - destructions)
+            let verify_total_integer = 0;
+
+            let verify_total_integer_balances = 0;
+            for (const balances_row of this.state.balances) {
+                verify_total_integer_balances += balances_row.quantity;
+            }
+
+            let verify_total_integer_orders = 0;
+            for (const orders_row of this.state.orders) {
+                verify_total_integer_orders += orders_row.give_remaining;
+            }
+
+            let verify_total_integer_dispensers = 0;
+            for (const dispensers_row of this.state.dispensers) {
+                verify_total_integer_dispensers += dispensers_row.give_remaining;
+            }
+
+            verify_total_integer = verify_total_integer_balances + verify_total_integer_orders + verify_total_integer_dispensers;
+
+            const verify_quantity_with_divisibility = quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer);
+            ///////////
+
             // show balances (holders) if applies (could be 0!)
-            let balances_element = null;
-            if (this.state.balances.length) {
+            // let balances_element = null;
+            // if (this.state.balances.length) {
+            //     function balancesSortAddress(a, b) {
+            //         if (b.quantity === a.quantity) {
+            //             if (a.address < b.address) {
+            //                 return -1;
+            //             }
+            //             if (a.address > b.address) {
+            //                 return 1;
+            //             }
+            //             return 0;
+            //         }
+            //         else {
+            //             return b.quantity - a.quantity;
+            //         }
+            //     }
+            //     const asset_page = true;
+            //     balances_element = (
+            //         <>
+            //             <h3>Balances (asset holders):</h3>
+            //             <ul>
+            //                 <li>verify current supply: {verify_quantity_with_divisibility}</li>
+            //             </ul>
+            //             {ListElements.getTableRowBalanceAddressHeader(asset_page)}
+            //             {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
+            //                 return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
+            //             })}
+            //         </>
+            //     );
+            // }
+
+
+            let balances_escrows_element = null;
+            if (this.state.balances.length && !reset_issuance) { // not dealing with reset assets (at least for now...)
+                // if (this.state.balances.length) {
                 function balancesSortAddress(a, b) {
                     if (b.quantity === a.quantity) {
                         if (a.address < b.address) {
@@ -255,12 +321,46 @@ class Asset extends React.Component {
                     }
                 }
                 const asset_page = true;
-                balances_element = (
+                balances_escrows_element = (
                     <>
-                        <h3>Balances (holders):</h3>
+                        <h3>Balances and escrows (must match the current supply):</h3>
+                        {/* <h3>Escrows:</h3> */}
+
+                        <ul>
+                            <li>verify (balances + open orders + open dispensers): <strong>{verify_quantity_with_divisibility}</strong></li>
+                            {/* <li>verify (balances + open orders + open dispensers): {verify_quantity_with_divisibility}</li> */}
+                            {/* <li>verify (current_supply = balances + orders + dispensers): {verify_quantity_with_divisibility}</li> */}
+                            {/* <li>verify current supply: {verify_quantity_with_divisibility}</li> */}
+                        </ul>
+
+                        <h4>Balances (asset holders):</h4>
+                        {/* show balances (holders) if applies (could be 0! */}
                         {ListElements.getTableRowBalanceAddressHeader(asset_page)}
                         {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
                             return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
+                        })}
+
+                        <h4>Open orders (give asset):</h4>
+                        {/* <h4>Open orders:</h4> */}
+                        {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)}
+                        {this.state.orders.map((orders_row, index) => {
+                            // return (
+                            //     <tr key={index} style={{ padding: "0.25rem" }}>
+                            //         <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td>
+                            //     </tr>
+                            // );
+                            return ListElements.getTableRowOrders(orders_row, index, genesis_issuance.divisible, asset_page);
+                        })}
+
+                        <h4>Open dispensers:</h4>
+                        {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)}
+                        {this.state.dispensers.map((dispensers_row, index) => {
+                            // return (
+                            //     <tr key={index} style={{ padding: "0.25rem" }}>
+                            //         <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>
+                            //     </tr>
+                            // );
+                            return ListElements.getTableRowDispensers(dispensers_row, index, genesis_issuance.divisible, asset_page);
                         })}
                     </>
                 );
@@ -340,7 +440,10 @@ class Asset extends React.Component {
                         </tbody>
                     </table>
 
-                    {balances_element}
+                    {/* {balances_element} */}
+
+                    {balances_escrows_element}
+
 
                 </>
             );

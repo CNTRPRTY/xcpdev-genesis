@@ -539,6 +539,153 @@ class ListElements {
         );
     }
 
+
+    // dispensers
+    static getTableRowDispensersHeader(divisible, asset_page = false) {
+        // static getTableRowDispenseAssetHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td> */}
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td> */}
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+            </tr>
+        );
+    }
+    static getTableRowDispensers(dispensers_row, index, divisible, asset_page = false) {
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, dispensers_row.give_remaining);
+        const block_time_iso = timeIsoFormat(dispensers_row.block_time);
+
+        // surfacing the oracle
+        const oracle_notice = dispensers_row.oracle_address ? (<>{' '}<strong>oracle</strong></>) : '';
+        const status = dispensers_row.status ? 'closed' : 'open'; // 10 = closed, 0 = open
+
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td> */}
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
+            </tr>
+        );
+    }
+
+    // orders
+    static getTableRowOrdersHeader(divisible, asset_page = false) {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td> */}
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>give</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>give</td> */}
+
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>get</td> */}
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td>
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>get</td>
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+            </tr>
+        );
+    }
+    static getTableRowOrders(orders_row, index, divisible, asset_page = false) {
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, orders_row.give_remaining);
+        const block_time_iso = timeIsoFormat(orders_row.block_time);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td> */}
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td> */}
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
+
+                {asset_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
+            </tr>
+        );
+    }
+
     static getTableRowTransactionHeader(is_home_page = false) {
         // static getTableRowTransactionHeader() {
 
