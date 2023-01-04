@@ -210,7 +210,8 @@ class Asset extends React.Component {
                     </ul>
                     <ul>
                         <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
-                        <li>current supply: {quantity_with_divisibility}</li>
+                        <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
+                        {/* <li>current supply: {quantity_with_divisibility}</li> */}
                     </ul>
                 </>
             );
