@@ -411,23 +411,42 @@ class ListElements {
     }
 
     // asset issuances/destructions
-    static getTableRowIssuanceEventsAssetHeader() {
+    static getTableRowIssuanceEventsAssetHeader(issuer_page = false) {
+        // static getTableRowIssuanceEventsAssetHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td>
+
+                {issuer_page ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>)
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td>
+
+                {issuer_page ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>description</td>)
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td> */}
+
+                {issuer_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>data</td> */}
             </tr>
         );
     }
-    static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible) {
+    static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible, issuer_page = false) {
+        // static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible) {
         const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
         const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
         const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
@@ -455,14 +474,26 @@ class ListElements {
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>
+
+                {issuer_page ?
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{issuance_event_row.asset}</Link></td>
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>
+
+                {issuer_page ?
+                    null
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
             </tr>
         );
