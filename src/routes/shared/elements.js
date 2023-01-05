@@ -447,6 +447,7 @@ class ListElements {
     }
     static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible, issuer_page = false) {
         // static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible) {
+        const mainname = issuance_event_row.asset_longname ? issuance_event_row.asset_longname : issuance_event_row.asset;
         const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
         const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
         const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
@@ -476,7 +477,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
 
                 {issuer_page ?
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{issuance_event_row.asset}</Link></td>
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
                     : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td> */}
