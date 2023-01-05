@@ -1,3 +1,6 @@
+/* global BigInt */
+// https://github.com/eslint/eslint/issues/11524#issuecomment-473790677
+
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
@@ -180,14 +183,17 @@ class Asset extends React.Component {
             // console.log(genesis_issuance.divisible);
             // console.log(`wwww3`);
 
-            let total_integer = 0;
+            let total_integer = BigInt(0);
+            // let total_integer = 0;
             for (const issuance_event of all_issuance_events) {
                 if (issuance_event.status === 'valid') {
                     if (issuance_event.issuance_event_type === 'issuance') {
-                        total_integer += issuance_event.quantity;
+                        total_integer += BigInt(issuance_event.quantity);
+                        // total_integer += issuance_event.quantity;
                     }
                     else { // issuance_event.issuance_event_type === 'destroy'
-                        total_integer -= issuance_event.quantity;
+                        total_integer -= BigInt(issuance_event.quantity);
+                        // total_integer -= issuance_event.quantity;
                     }
                 }
             }
@@ -249,21 +255,28 @@ class Asset extends React.Component {
 
             ///////////
             // balances + escrows(orders, dispensers) = total_integer(issuances - destructions)
-            let verify_total_integer = 0;
+            let verify_total_integer = BigInt(0);
+            // let verify_total_integer = 0;
 
-            let verify_total_integer_balances = 0;
+            let verify_total_integer_balances = BigInt(0);
+            // let verify_total_integer_balances = 0;
             for (const balances_row of this.state.balances) {
-                verify_total_integer_balances += balances_row.quantity;
+                verify_total_integer_balances += BigInt(balances_row.quantity);
+                // verify_total_integer_balances += balances_row.quantity;
             }
 
-            let verify_total_integer_orders = 0;
+            let verify_total_integer_orders = BigInt(0);
+            // let verify_total_integer_orders = 0;
             for (const orders_row of this.state.orders) {
-                verify_total_integer_orders += orders_row.give_remaining;
+                verify_total_integer_orders += BigInt(orders_row.give_remaining);
+                // verify_total_integer_orders += orders_row.give_remaining;
             }
 
-            let verify_total_integer_dispensers = 0;
+            let verify_total_integer_dispensers = BigInt(0);
+            // let verify_total_integer_dispensers = 0;
             for (const dispensers_row of this.state.dispensers) {
-                verify_total_integer_dispensers += dispensers_row.give_remaining;
+                verify_total_integer_dispensers += BigInt(dispensers_row.give_remaining);
+                // verify_total_integer_dispensers += dispensers_row.give_remaining;
             }
 
             verify_total_integer = verify_total_integer_balances + verify_total_integer_orders + verify_total_integer_dispensers;
