@@ -28,7 +28,31 @@ function hashSlice(hash) {
 }
 
 function quantityWithDivisibility(divisible, quantity_integer) {
-    return divisible ? (quantity_integer / (10 ** 8)).toFixed(8) : quantity_integer;
+    // return divisible ? (quantity_integer / (10 ** 8)).toFixed(8) : quantity_integer;
+
+    // now done based on string
+    // TODO locale formatting
+    if (divisible) {
+        const quantity_integer_string_length = `${quantity_integer}`.length;
+        let to_return;
+        if (quantity_integer_string_length < 8) {
+            to_return = `${quantity_integer}`;
+            while (to_return.length < 8) {
+                to_return = '0' + to_return;
+            }
+            // is 8, add initial '0.'
+            to_return = '0.' + to_return;
+        }
+        else { // quantity_integer_string_length >= 8
+            const decimals = `${quantity_integer}`.slice(-8);
+            const first_chars_left = `${quantity_integer}`.slice(0, quantity_integer_string_length - 8);
+            to_return = `${first_chars_left ? first_chars_left : '0'}.${decimals}`;
+        }
+        return to_return;
+    }
+    else {
+        return `${quantity_integer}`;
+    }
 }
 
 export {
