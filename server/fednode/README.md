@@ -28,7 +28,7 @@ Connect through SSH to your newly created instance. Then write the following com
 
 Note that lines starting with `#` are comments.
 
-### First part:
+### I. First part:
 
 ```
 sudo apt-get update && sudo apt-get -y upgrade
@@ -50,7 +50,7 @@ exit
 sudo adduser ubuntu docker
 ```
 
-### Second part (choose project to git clone):
+### II. Second part (choose project to git clone):
 
 ```
 # The first option is a 'Core Version' which the rest of the steps follow
@@ -64,7 +64,7 @@ git clone https://github.com/CNTRPRTY/federatednode.git
 git clone https://github.com/CounterpartyXCP/federatednode.git
 ```
 
-### Third part, assumes the first option (CNTRPRTY) was chosen:
+### III. Third part, assumes the first option (CNTRPRTY) was chosen:
 
 ```
 cd federatednode
@@ -104,7 +104,7 @@ fednode tail addrindexrs
 
 Complete the 3 parts above, then:
 
-### Fourth part, focus on Bitcoin syncing before anything else (choose between mainnet or testnet):
+### IV. Fourth part, focus on Bitcoin syncing before anything else (choose between mainnet or testnet):
 
 ```
 # Stop all services
@@ -129,7 +129,7 @@ fednode start bitcoin-testnet
 # You could do both at the same time, but it is less optimal
 ```
 
-### Fifth part, optimization of the Bitcoin sync (assumes the mainnet only option was chosen) (you can skip this step entirely if you are uncertain):
+### V. Fifth part, optimization of the Bitcoin sync (assumes the mainnet only option was chosen) (you can skip this step entirely if you are uncertain):
 
 ```
 # The following commands are directly connected to the RAM of the machine
@@ -176,7 +176,7 @@ txindex=1
 fednode restart bitcoin
 ```
 
-### Sixth part, start the rest of the required services:
+### VI. Sixth part, start the rest of the required services:
 
 ```
 # Confirm the Bitcoin sync is completed: 'progress=1.000000'
