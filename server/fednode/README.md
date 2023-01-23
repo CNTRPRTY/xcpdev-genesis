@@ -4,7 +4,7 @@
 
 ## Machine
 
-Only tested on Ubuntu, the OS the following setup is based on. Setups for other operating systems can be found in the "[original](https://counterparty.io/docs/federated_node/)", but no longer [minimal](https://github.com/CNTRPRTY/federatednode/tree/master#readme), setup documentation.
+Only tested on Ubuntu, the OS the following setup is based on. Setups for other operating systems can be found in the "[official](https://counterparty.io/docs/federated_node/)", but no longer [minimal](https://github.com/CNTRPRTY/federatednode/tree/master#readme), setup documentation.
 
 The lowest specifications tested are 8GB of RAM and 1.5TB disk, but lower specs could still work.
 
@@ -153,7 +153,7 @@ dbcache=5000
 fednode restart bitcoin
 ```
 ```
-# Continue checking until sync is completed, which should take around 48-72 hrs to reach 'progress=1.000000'
+# Continue checking until sync is completed, which should take around 3 days to reach 'progress=1.000000'
 
 fednode tail bitcoin
 
