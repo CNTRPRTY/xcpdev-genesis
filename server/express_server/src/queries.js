@@ -259,7 +259,7 @@ class TableQueries {
 
     static async getBroadcastsRowsByAddress(db, address) {
         const sql = `
-            SELECT *, bl.block_time
+            SELECT br.*, bl.block_time
             FROM broadcasts br
             JOIN blocks bl ON br.block_index = bl.block_index
             WHERE br.source = $source
