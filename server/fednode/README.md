@@ -58,7 +58,7 @@ git clone https://github.com/CounterpartyXCP/federatednode.git
 
 All next steps assume the CNTRPRTY option was chosen.
 
-### III. Third part, assumes the first option (CNTRPRTY) was chosen:
+### III. Third part:
 
 ```
 cd federatednode
