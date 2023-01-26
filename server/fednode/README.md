@@ -34,21 +34,11 @@ Note that lines starting with `#` are comments.
 sudo apt-get update && sudo apt-get -y upgrade
 
 sudo apt-get -y install git curl coreutils
-```
-```
-sudo -i
 
-DOCKER_COMPOSE_VERSION=1.29.2 
+curl -fsSL https://get.docker.com -o get-docker.sh
 
-curl -fsSL https://get.docker.com/ | sh
+sudo sh get-docker.sh
 
-curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
-
-chmod +x /usr/local/bin/docker-compose
-
-exit
-```
-```
 sudo adduser ubuntu docker
 ```
 
@@ -65,6 +55,8 @@ git clone https://github.com/CNTRPRTY/federatednode.git
 
 git clone https://github.com/CounterpartyXCP/federatednode.git
 ```
+
+All next steps assume the CNTRPRTY option was chosen.
 
 ### III. Third part, assumes the first option (CNTRPRTY) was chosen:
 
