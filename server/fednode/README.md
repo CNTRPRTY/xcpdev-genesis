@@ -68,14 +68,14 @@ sudo ln -sf `pwd`/fednode.py /usr/local/bin/fednode
 fednode install
 ```
 ```
-# After the install is done, check all services are 'Up'
+# After the install is done, check all services are STATUS 'Up ...'
 
 fednode ps
 ```
 ```
 # Continue checking until sync is completed: '[INFO] Block: <block_is_tip> (Xs, hashes: L:X / TX:X / M:X)'
 
-# To close the following 'tail' commands press CTRL+C
+# To close the following 'tail' commands, press CTRL+C
 
 fednode tail counterparty
 
@@ -85,7 +85,7 @@ fednode tail counterparty
 # counterparty_1          | [2023-XX-XX XX:XX:XX]
 # [INFO] Error connecting to AddrIndexRs! Retrying in a few seconds
 #
-# UNTIL 'bitcoin' syncs (and 'addrindexrs', which is much faster than bitcoin)
+# UNTIL 'bitcoin' syncs (then 'addrindexrs', which is much faster than bitcoin)
 
 fednode tail bitcoin
 
@@ -156,6 +156,8 @@ fednode tail bitcoin
 ```
 # After Bitcoin is synced ('progress=1.000000') REVERT the addition of dbcache:
 
+cd federatednode
+
 pico config/bitcoin/bitcoin.conf
 
 
@@ -182,7 +184,7 @@ fednode tail bitcoin
 ```
 fednode start addrindexrs
 
-# Check both 'bitcoin' and 'addrindexrs' are 'Up'
+# Check both 'bitcoin' and 'addrindexrs' are STATUS 'Up ...'
 
 fednode ps
 
