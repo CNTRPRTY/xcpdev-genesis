@@ -80,9 +80,10 @@ class Transaction extends React.Component {
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction) {
             transaction_element_contents = (
+                <>
+                {/* // at least for now, not using tables for single element result
+                // just using a simple ul for now */}
 
-                // at least for now, not using tables for single element result
-                // just using a simple ul for now
                 <ul>
                     {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
                     <li>tx_hash: {this.state.transaction.tx_hash}</li>
@@ -205,15 +206,16 @@ class Transaction extends React.Component {
 
                 </ul>
 
-                // <table>
+                {/* // <table>
                 //     <tbody>
                 //         {this.state.mempool_full.map((mempool_row, index) => {
                 //             // {this.state.mempool_grouped.map((mempool_row, index) => {
                 //             return ListElements.getTableRowMempool(mempool_row, index);
                 //         })}
                 //     </tbody>
-                // </table>
+                // </table> */}
 
+                </>
             );
         }
         else if (this.state.mempool.length) {
