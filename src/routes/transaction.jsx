@@ -79,8 +79,29 @@ class Transaction extends React.Component {
 
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction) {
+
+            // is olga
+            let olga_element = null;
+            const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
+            if (this.state.transaction.tx_hash === olga_broadcast_tx) {
+                const only_message_in_block = this.state.messages[0];
+                const bindings = JSON.parse(only_message_in_block.bindings);
+                const broadcast_text_raw = bindings.text;
+                let data_url = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
+                data_url = data_url.slice(0, -1); // fix
+                olga_element = (
+                    <>
+                        <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
+                        <img src={data_url} />
+                        <p>Written in Bitcoin since 2015</p>
+                    </>
+                );
+            }
+
             transaction_element_contents = (
                 <>
+                {olga_element}
+
                 {/* // at least for now, not using tables for single element result
                 // just using a simple ul for now */}
 
