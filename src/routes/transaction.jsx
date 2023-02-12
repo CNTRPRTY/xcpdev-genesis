@@ -108,9 +108,14 @@ class Transaction extends React.Component {
                     <>
                         <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
                         <img src={data_url_chain_fixed} />
-                        <p>Image written* in Bitcoin since 2015</p>
+                        <p>Image *<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>* in Bitcoin since 2015</p>
                         
-                        <p>{this.state.next_number} bytes cut <button onClick={this.handleCutbyte}>cutbyte</button> (*<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">almost</a>) on-chain data must be cut to be viewable (press button to continue cutting the last byte, viewable in desktop)</p>
+                        <p>
+                            {/* (*<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">almost</a>) */}
+                            on-chain only image *can* be seen below (in desktop) by pressing button to continue cutting the last bytes
+                            <br />
+                            {this.state.next_number} bytes cut <button onClick={this.handleCutbyte}>cutbyte</button>
+                        </p>
                         <img src={`${data_url_cutbyte}=`} />
                     </>
                 );
