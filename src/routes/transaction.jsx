@@ -20,7 +20,16 @@ class Transaction extends React.Component {
             // main_message: null,
             // mempool_transaction_messages: null, // can be 1 or multiple
             // // mempool_transaction: null, // can be multiple
+
+            next_number: 0,
         };
+        this.handleCutbyte = this.handleCutbyte.bind(this);
+    }
+
+    handleCutbyte(event) {
+        this.setState((prevState, props) => ({
+            next_number: prevState.next_number + 1
+        })); 
     }
 
     async fetchData(tx_hash) {
@@ -87,13 +96,22 @@ class Transaction extends React.Component {
                 const only_message_in_block = this.state.messages[0];
                 const bindings = JSON.parse(only_message_in_block.bindings);
                 const broadcast_text_raw = bindings.text;
-                let data_url = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
-                data_url = data_url.slice(0, -1); // fix
+                const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
+                
+                const data_url_cutbyte = data_url_chain.slice(0, -this.state.next_number);
+
+                // https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98715058
+                const source_fix = "XzkBVJ+7LLFsvw/8VIX1OE5OPsAAAAASUVORK5CYII=";
+                const data_url_chain_fixed = `${data_url_chain}${source_fix}`;
+
                 olga_element = (
                     <>
                         <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
-                        <img src={data_url} />
-                        <p>Written in Bitcoin since 2015</p>
+                        <img src={data_url_chain_fixed} />
+                        <p>Image written* in Bitcoin since 2015</p>
+                        
+                        <p>{this.state.next_number} bytes cut <button onClick={this.handleCutbyte}>cutbyte</button> (*<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">almost</a>) on-chain data must be cut to be viewable (press button to continue cutting the last byte, viewable in desktop)</p>
+                        <img src={`${data_url_cutbyte}=`} />
                     </>
                 );
             }
