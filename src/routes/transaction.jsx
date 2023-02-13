@@ -21,14 +21,17 @@ class Transaction extends React.Component {
             // mempool_transaction_messages: null, // can be 1 or multiple
             // // mempool_transaction: null, // can be multiple
 
-            next_number: 0,
+            olga_length: 0,
+            olga_chars_cut: 0,
         };
-        this.handleCutbyte = this.handleCutbyte.bind(this);
+        this.handleRange = this.handleRange.bind(this);
     }
 
-    handleCutbyte(event) {
+    handleRange(event) {
+        // back to chars cut
+        // event.target.value ={data_url_chain.length - this.state.olga_chars_cut}
         this.setState((prevState, props) => ({
-            next_number: prevState.next_number + 1
+            olga_chars_cut: this.state.olga_length - event.target.value
         })); 
     }
 
@@ -49,6 +52,21 @@ class Transaction extends React.Component {
         // console.log(JSON.stringify(transaction_response));
         // console.log(`rrr2`);
 
+        ////////////////////
+        // repeated code, but keeps it simple
+        // is olga?
+        let olga_length = 0;
+        const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
+        if (tx_hash === olga_broadcast_tx) {
+            const only_message_in_block = transaction_response.messages[0];
+            const bindings = JSON.parse(only_message_in_block.bindings);
+            const broadcast_text_raw = bindings.text;
+            const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
+            
+            olga_length = data_url_chain.length;
+        }
+        ////////////////////
+
         if (
             !transaction_response.transaction &&
             !transaction_response.mempool.length
@@ -62,6 +80,8 @@ class Transaction extends React.Component {
                 // messages_maybe: transaction_response.messages_maybe,
                 messages: transaction_response.messages,
                 // main_messages: transaction_response.main_messages,
+
+                olga_length,
             });
         }
         else { // transaction_response.mempool.length
@@ -97,12 +117,22 @@ class Transaction extends React.Component {
                 const bindings = JSON.parse(only_message_in_block.bindings);
                 const broadcast_text_raw = bindings.text;
                 const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
-                
-                const data_url_cutbyte = data_url_chain.slice(0, -this.state.next_number);
+                                
+                let data_url_cut; // making copies of both
+
+                if (this.state.olga_chars_cut) {
+                    data_url_cut = data_url_chain.slice(0, -this.state.olga_chars_cut);
+                }
+                else {
+                    data_url_cut = data_url_chain.slice();
+                }
 
                 // https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98715058
                 const source_fix = "XzkBVJ+7LLFsvw/8VIX1OE5OPsAAAAASUVORK5CYII=";
                 const data_url_chain_fixed = `${data_url_chain}${source_fix}`;
+
+                const notreverse = [...data_url_cut]; // making both arrays for consistency
+                const reverse = [...data_url_cut].reverse(); // https://stackoverflow.com/a/57569141
 
                 olga_element = (
                     <>
@@ -110,13 +140,30 @@ class Transaction extends React.Component {
                         <img src={data_url_chain_fixed} />
                         <p>Image *<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>* in Bitcoin since 2015</p>
                         
-                        <p>
-                            {/* (*<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">almost</a>) */}
-                            on-chain only image *can* be seen below (in desktop) by pressing button to continue cutting the last bytes
-                            <br />
-                            {this.state.next_number} bytes cut <button onClick={this.handleCutbyte}>cutbyte</button>
-                        </p>
-                        <img src={`${data_url_cutbyte}=`} />
+                        <br />
+                        On-chain-only image *can* be seen below, use slider (works on desktop)
+                        <br />
+                        {data_url_cut.length} chars
+                        
+                        <br />
+                        <input
+                            type="range"
+                            min="0" max={data_url_chain.length}
+                            value={data_url_chain.length - this.state.olga_chars_cut}
+                            onChange={this.handleRange}
+                            step="1"
+                        />
+
+                        <br />
+                        {/* <img src={`${data_url_cut}=`} /> */}
+                        <img src={`${data_url_cut}=`} style={{ width: "200px" }} />
+                        <br />
+                        reverse:{' '}
+                        [{reverse.join('')}]
+                        <br />
+                        esrever:{' '}
+                        {/* not reverse: */}
+                        [{notreverse.join('')}]
                     </>
                 );
             }
