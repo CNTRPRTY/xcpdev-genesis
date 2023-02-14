@@ -143,7 +143,7 @@ class Transaction extends React.Component {
                         <br />
                         On-chain-only image *can* be seen below, use slider (works on desktop)
                         <br />
-                        {data_url_cut.length} chars
+                        {/* {data_url_cut.length} chars */}
                         
                         <br />
                         <input
