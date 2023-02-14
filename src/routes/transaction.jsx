@@ -138,12 +138,7 @@ class Transaction extends React.Component {
                     <>
                         <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
                         <img src={data_url_chain_fixed} />
-                        <p>Image *<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>* in Bitcoin since 2015</p>
-                        
-                        <br />
-                        On-chain-only image *can* be seen below, use slider (works on desktop)
-                        <br />
-                        {/* {data_url_cut.length} chars */}
+                        <p>Image *written* in Bitcoin since 2015</p>
                         
                         <br />
                         <input
@@ -154,6 +149,10 @@ class Transaction extends React.Component {
                             step="1"
                         />
 
+                        <br />
+                        *<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">on chain only</a>* image *can* be seen below, use slider (works on desktop)
+
+                        <br />
                         <br />
                         {/* <img src={`${data_url_cut}=`} /> */}
                         <img src={`${data_url_cut}=`} style={{ width: "200px" }} />
