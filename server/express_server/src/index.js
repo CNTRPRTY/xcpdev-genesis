@@ -291,6 +291,22 @@ app.get('/asset/:assetName/subassets', async (req, res) => {
     });
 });
 
+app.get('/subasset/:assetLongname', async (req, res) => {
+    // will just return the asset_row for a subsequent client /asset/:assetName request
+    const asset_longname = req.params.assetLongname;
+    const asset_row = await TableQueries.getAssetsRowByAssetLongname(db, asset_longname);
+    if (!asset_row) {
+        res.status(404).json({
+            error: '404 Not Found'
+        });
+    }
+    else {
+        res.status(200).json({
+            asset_row,
+        });
+    }
+});
+
 
 
 app.listen(port, () => {

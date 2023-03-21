@@ -334,6 +334,24 @@ class TableQueries {
         }
     }
 
+    static async getAssetsRowByAssetLongname(db, asset_longname) {
+        const sql = `
+            SELECT *
+            FROM assets
+            WHERE asset_longname = $asset_longname;
+        `;
+        const params_obj = {
+            $asset_longname: asset_longname,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        if (rows.length > 1) throw Error(`unexpected getAssetsRowByAssetLongname:${asset_longname}`);
+        else if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+
     static async getAssetsRowsForAssetLongname(db, asset_name) {
         // assets are only by block_index
         const sql = `

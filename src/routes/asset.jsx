@@ -34,77 +34,79 @@ class Asset extends React.Component {
     async fetchData(asset_name) {
 
         let asset_response = {};
-        try {
-            asset_response = await getCntrprty(`/asset/${asset_name}`);
-        }
-        catch (e) {
-            asset_response.asset_row = null;
-        }
 
-        // console.log(`rrr1`);
-        // console.log(JSON.stringify(asset_response));
-        // console.log(`rrr2`);
-
-        if (!asset_response.asset_row) {
-            // if (!asset_response.asset_row) {
-            this.setState({
-                // asset_name,
-                // asset_btc_xcp: false,
-                asset_not_found: true,
-                // asset_row: null,
-                // issuances: [],
-                // destructions: [],
-                // dispenses: [],
-                // tables: null,
-            });
-        }
-        else if (['BTC', 'XCP'].includes(asset_name)) {
-
-            // for now...
-            this.setState({
-                // asset_name,
-                asset_btc_xcp: true,
-                // asset_not_found: null,
-                asset_row: asset_response.asset_row,
-                // issuances: asset_response.tables.issuances,
-                // destructions: asset_response.tables.destructions,
-                // dispenses: asset_response.tables.dispenses,
-            });
-
+        // handle subasset redirect
+        if (asset_name.includes('.')) {
+            try {
+                const subasset_response = await getCntrprty(`/subasset/${asset_name}`);
+                this.props.router.navigate(`/asset/${subasset_response.asset_row.asset_name}`, { replace: true });
+            }
+            catch (e) {
+                this.setState({
+                    asset_not_found: true,
+                });
+            }
         }
         else {
 
-            this.setState({
-                asset_name,
-                asset_btc_xcp: false,
-                asset_not_found: null,
-                asset_row: asset_response.asset_row,
-                issuances: asset_response.tables.issuances,
-                destructions: asset_response.tables.destructions,
-                // issuances: asset_response.issuances,
-                // destructions: asset_response.destructions,
-                // // tables: asset_response.tables,
-            });
+            try {
+                asset_response = await getCntrprty(`/asset/${asset_name}`);
+            }
+            catch (e) {
+                asset_response.asset_row = null;
+            }
 
-            // check subassets
-            const subassets_response = await getCntrprty(`/asset/${asset_name}/subassets`);
+            if (!asset_response.asset_row) {
+                this.setState({
+                    asset_not_found: true,
+                });
+            }
+            else if (['BTC', 'XCP'].includes(asset_name)) {
 
-            this.setState({
-                subassets: subassets_response.assets,
-            });
+                // for now...
+                this.setState({
+                    // asset_name,
+                    asset_btc_xcp: true,
+                    // asset_not_found: null,
+                    asset_row: asset_response.asset_row,
+                    // issuances: asset_response.tables.issuances,
+                    // destructions: asset_response.tables.destructions,
+                    // dispenses: asset_response.tables.dispenses,
+                });
 
-            // get holders (could be 0)
-            const balances_response = await getCntrprty(`/asset/${asset_name}/balances`);
-            this.setState({
-                balances: balances_response.balances,
-            });
+            }
+            else {
 
-            // vs escrows (orders and dispensers)
-            const escrows_response = await getCntrprty(`/asset/${asset_name}/escrows`);
-            this.setState({
-                orders: escrows_response.tables.orders,
-                dispensers: escrows_response.tables.dispensers,
-            });
+                this.setState({
+                    asset_name,
+                    asset_btc_xcp: false,
+                    asset_not_found: null,
+                    asset_row: asset_response.asset_row,
+                    issuances: asset_response.tables.issuances,
+                    destructions: asset_response.tables.destructions,
+                });
+
+                // check subassets
+                const subassets_response = await getCntrprty(`/asset/${asset_name}/subassets`);
+
+                this.setState({
+                    subassets: subassets_response.assets,
+                });
+
+                // get holders (could be 0)
+                const balances_response = await getCntrprty(`/asset/${asset_name}/balances`);
+                this.setState({
+                    balances: balances_response.balances,
+                });
+
+                // vs escrows (orders and dispensers)
+                const escrows_response = await getCntrprty(`/asset/${asset_name}/escrows`);
+                this.setState({
+                    orders: escrows_response.tables.orders,
+                    dispensers: escrows_response.tables.dispensers,
+                });
+
+            }
 
         }
 
