@@ -31,32 +31,7 @@ app.get('/mempool', async (req, res) => {
     });
 });
 
-app.get('/blocks1', async (req, res) => {
-    const blocks = await StartQueries.getMessagesByBlockLatest(db);
-    res.status(200).json({
-        node: {
-            BITCOIN_VERSION,
-            COUNTERPARTY_VERSION,
-        },
-        blocks,
-    });
-});
-
-// app.get('/blocks', async (req, res) => {
-//     const blocks = await StartQueries.getMessagesByBlockLatest(db);
-//     res.status(200).json({
-//         node: {
-//             BITCOIN_VERSION,
-//             COUNTERPARTY_VERSION,
-//         },
-//         blocks,
-//     });
-// });
-
-///////
 app.get('/blocks', async (req, res) => {
-    // app.get('/blocks2', async (req, res) => {
-
     // TODO redo when the latest block is in memory
 
     const blocks = await StartQueries.getMessagesByBlockLatest(db);
@@ -132,7 +107,6 @@ app.get('/transactions/:txIndex', async (req, res) => {
         });
     }
 });
-///////
 
 app.get('/tx/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
@@ -254,7 +228,6 @@ app.get('/address/:address', async (req, res) => {
     });
 });
 
-// balances (present asset holders)
 app.get('/address/:address/balances', async (req, res) => {
     const address = req.params.address;
     const balances = await TableQueries.getBalancesRowsByAddress(db, address);
@@ -290,7 +263,6 @@ app.get('/asset/:assetName', async (req, res) => {
     }
 });
 
-// balances (present asset holders)
 app.get('/asset/:assetName/balances', async (req, res) => {
     const asset_name = req.params.assetName;
     const balances = await TableQueries.getBalancesRowsByAssetName(db, asset_name);
