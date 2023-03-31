@@ -40,7 +40,7 @@ class Transaction extends React.Component {
         let transaction_response = {};
 
         // handle txindex redirect
-        if (Number.isInteger(tx_hash)) {
+        if (Number.isInteger(Number(tx_hash))) {
             try {
                 const txindex_response = await getCntrprty(`/txindex/${tx_hash}`);
                 this.props.router.navigate(`/tx/${txindex_response.transaction_row.tx_hash}`, { replace: true });
@@ -87,7 +87,7 @@ class Transaction extends React.Component {
             }
             else if (transaction_response.transaction) {
                 this.setState({
-                    // tx_hash,
+                    tx_hash,
                     transaction: transaction_response.transaction,
                     messages: transaction_response.messages,
 
@@ -96,7 +96,7 @@ class Transaction extends React.Component {
             }
             else { // transaction_response.mempool.length
                 this.setState({
-                    // tx_hash,
+                    tx_hash,
                     mempool: transaction_response.mempool
                 });
             }
@@ -109,6 +109,14 @@ class Transaction extends React.Component {
         // not awaiting it
         this.fetchData(this.state.tx_hash);
         // await this.fetchData(this.state.tx_hash);
+    }
+
+    async componentDidUpdate(prevProps) {
+        const updatedProp = this.props.router.params.txHash;
+        if (updatedProp !== prevProps.router.params.txHash) {
+            // not awaiting it
+            this.fetchData(updatedProp);
+        }
     }
 
     render() {
