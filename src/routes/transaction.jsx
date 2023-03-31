@@ -36,65 +36,72 @@ class Transaction extends React.Component {
     }
 
     async fetchData(tx_hash) {
-        // const transaction_response = await getCntrprty(`/tx/${tx_hash}`);
+
         let transaction_response = {};
-        try {
-            transaction_response = await getCntrprty(`/tx/${tx_hash}`);
-        }
-        catch (e) {
-            transaction_response = {
-                transaction: null,
-                mempool: [],
-            };
-        }
 
-        // console.log(`rrr1`);
-        // console.log(JSON.stringify(transaction_response));
-        // console.log(`rrr2`);
-
-        ////////////////////
-        // repeated code, but keeps it simple
-        // is olga?
-        let olga_length = 0;
-        const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
-        if (tx_hash === olga_broadcast_tx) {
-            const only_message_in_block = transaction_response.messages[0];
-            const bindings = JSON.parse(only_message_in_block.bindings);
-            const broadcast_text_raw = bindings.text;
-            const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
-            
-            olga_length = data_url_chain.length;
+        // handle txindex redirect
+        if (Number.isInteger(tx_hash)) {
+            try {
+                const txindex_response = await getCntrprty(`/txindex/${tx_hash}`);
+                this.props.router.navigate(`/tx/${txindex_response.transaction_row.tx_hash}`, { replace: true });
+            }
+            catch (e) {
+                this.setState({
+                    transaction: null,
+                    mempool: [],
+                });
+            }
         }
-        ////////////////////
+        else {
 
-        if (
-            !transaction_response.transaction &&
-            !transaction_response.mempool.length
-        ) {
-            this.setState({ transaction_not_found: true });
-        }
-        else if (transaction_response.transaction) {
-            this.setState({
-                // tx_hash,
-                transaction: transaction_response.transaction,
-                // messages_maybe: transaction_response.messages_maybe,
-                messages: transaction_response.messages,
-                // main_messages: transaction_response.main_messages,
+            try {
+                transaction_response = await getCntrprty(`/tx/${tx_hash}`);
+            }
+            catch (e) {
+                transaction_response = {
+                    transaction: null,
+                    mempool: [],
+                };
+            }
 
-                olga_length,
-            });
-        }
-        else { // transaction_response.mempool.length
-            this.setState({
-                // tx_hash,
-                mempool: transaction_response.mempool
-            });
-        }
+            ////////////////////
+            // repeated code, but keeps it simple
+            // is olga?
+            let olga_length = 0;
+            const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
+            if (tx_hash === olga_broadcast_tx) {
+                const only_message_in_block = transaction_response.messages[0];
+                const bindings = JSON.parse(only_message_in_block.bindings);
+                const broadcast_text_raw = bindings.text;
+                const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
 
-        // this.setState({
-        //     tx_hash,
-        //     // transaction: transaction_response.transactions[0],
-        // });
+                olga_length = data_url_chain.length;
+            }
+            ////////////////////
+
+            if (
+                !transaction_response.transaction &&
+                !transaction_response.mempool.length
+            ) {
+                this.setState({ transaction_not_found: true });
+            }
+            else if (transaction_response.transaction) {
+                this.setState({
+                    // tx_hash,
+                    transaction: transaction_response.transaction,
+                    messages: transaction_response.messages,
+
+                    olga_length,
+                });
+            }
+            else { // transaction_response.mempool.length
+                this.setState({
+                    // tx_hash,
+                    mempool: transaction_response.mempool
+                });
+            }
+
+        }
 
     }
 

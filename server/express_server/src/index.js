@@ -200,6 +200,32 @@ app.get('/tx/:txHash', async (req, res) => {
     }
 });
 
+app.get('/txindex/:txIndex', async (req, res) => {
+    // will just return the transaction_row for a subsequent client /tx/:txHash request
+    let tx_index;
+    try {
+        tx_index = parseInt(req.params.txIndex);
+    }
+    catch (err) {
+        res.status(400).json({
+            error: '400 Bad Request',
+        });
+        return;
+    }
+    // else tx_index has an integer
+    const transaction_row = await Queries.getTransactionsRowByTxIndex(db, tx_index);
+    if (!transaction_row) {
+        res.status(404).json({
+            error: '404 Not Found'
+        });
+    }
+    else {
+        res.status(200).json({
+            transaction_row,
+        });
+    }
+});
+
 app.get('/block/:blockIndex', async (req, res) => {
     const block_index = req.params.blockIndex;
     const block_row = await Queries.getBlocksRow(db, block_index);

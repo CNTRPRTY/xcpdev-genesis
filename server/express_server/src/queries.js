@@ -9,7 +9,7 @@ function queryDBRows(db, sql, params_obj) {
 }
 
 class Queries {
-    
+
     static async getMempoolRows(db) {
         const sql = `
             SELECT * FROM mempool;
@@ -152,6 +152,24 @@ class Queries {
             $to_tx_index: to_tx_index,
         };
         return queryDBRows(db, sql, params_obj);
+    }
+
+    static async getTransactionsRowByTxIndex(db, tx_index) {
+        const sql = `
+            SELECT *
+            FROM transactions
+            WHERE tx_index = $tx_index;
+        `;
+        const params_obj = {
+            $tx_index: tx_index,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        if (rows.length > 1) throw Error(`unexpected getTransactionsRowByTxIndex:${tx_index}`);
+        else if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
     }
 
     // TODO ignoring XCP for now
