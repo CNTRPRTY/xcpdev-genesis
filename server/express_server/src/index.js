@@ -68,45 +68,6 @@ app.get('/blocks', async (req, res) => {
 
 });
 
-// only latest
-app.get('/transactions', async (req, res) => {
-    const btc_transactions_latest = await Queries.getTransactionsLatest(db);
-    if (!btc_transactions_latest.length) {
-        res.status(404).json({
-            error: '404 Not Found'
-        });
-    }
-    else {
-        res.status(200).json({
-            btc_transactions_latest,
-        });
-
-    }
-});
-
-app.get('/transactions/:txIndex', async (req, res) => {
-    // TODO improve, starting with most basic validation
-    try {
-        const tx_index = Number(req.params.txIndex);
-        // get the transactions including the tx and the next 1000 transactions
-        const to_tx_index = Number(tx_index) + 999;
-        const transactions = await Queries.getTransactionsFromTxIndexToTxIndex(db, tx_index, to_tx_index);
-        res.status(200).json({
-            node: {
-                BITCOIN_VERSION,
-                COUNTERPARTY_VERSION,
-            },
-            from_tx_index: tx_index,
-            to_tx_index,
-            transactions,
-        });
-    }
-    catch (err) {
-        res.status(500).json({
-            error: 'Maybe 500 error', // TODO!
-        });
-    }
-});
 
 app.get('/tx/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
@@ -263,6 +224,47 @@ app.get('/subasset/:assetLongname', async (req, res) => {
     else {
         res.status(200).json({
             asset_row,
+        });
+    }
+});
+
+
+// only latest
+app.get('/transactions', async (req, res) => {
+    const btc_transactions_latest = await Queries.getTransactionsLatest(db);
+    if (!btc_transactions_latest.length) {
+        res.status(404).json({
+            error: '404 Not Found'
+        });
+    }
+    else {
+        res.status(200).json({
+            btc_transactions_latest,
+        });
+
+    }
+});
+
+app.get('/transactions/:txIndex', async (req, res) => {
+    // TODO improve, starting with most basic validation
+    try {
+        const tx_index = Number(req.params.txIndex);
+        // get the transactions including the tx and the next 1000 transactions
+        const to_tx_index = Number(tx_index) + 999;
+        const transactions = await Queries.getTransactionsFromTxIndexToTxIndex(db, tx_index, to_tx_index);
+        res.status(200).json({
+            node: {
+                BITCOIN_VERSION,
+                COUNTERPARTY_VERSION,
+            },
+            from_tx_index: tx_index,
+            to_tx_index,
+            transactions,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            error: 'Maybe 500 error', // TODO!
         });
     }
 });
