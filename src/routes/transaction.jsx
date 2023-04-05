@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { getCntrprty } from '../api';
+import { getCntrprty, getBlockMessages, selectTransactionMessagesFromAll } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
@@ -71,6 +71,18 @@ class Transaction extends React.Component {
                 this.setState({ transaction_not_found: true });
             }
             else if (transaction_response.transaction) {
+
+                // get block messages data
+                let messages_all = [];
+                try {
+                    messages_all = (await getBlockMessages(transaction_response.transaction.block_index)).messages;
+                }
+                catch (e) {
+                    console.error(`messages_all error: ${e}`);
+                }
+
+                // TODO quick hack
+                transaction_response.messages = selectTransactionMessagesFromAll(tx_hash, messages_all);
 
                 ////////////////////
                 // repeated code, but keeps it simple

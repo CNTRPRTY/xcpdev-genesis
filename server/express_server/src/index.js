@@ -114,73 +114,8 @@ app.get('/tx/:txHash', async (req, res) => {
     // but first try get direct from table
 
     let mempool = [];
-    let messages = [];
-
-    let messages_all = []; // also returning all block messages to continue discovering
     let transaction = await Queries.getTransactionsRow(db, tx_hash);
-    if (transaction) {
-        // get the block...
-        const block_index = transaction.block_index;
-        // then get all messages from block...
-        messages_all = await Queries.getMessagesRowsByBlock(db, block_index);
-        for (const message of messages_all) {
-
-            const bindings = JSON.parse(message.bindings);
-            // TODO dispensers:update instead of 'dispenser_tx_hash' like dispenses:insert is just 'tx_hash' thus missing it here with this check
-            // TODO orders:update similar, it has 'offer_hash' in cancels:insert but 'tx_hash' here thus also being missed here
-            if (
-                (bindings.tx_hash && bindings.tx_hash === tx_hash) ||
-                (bindings.event && bindings.event === tx_hash)
-            ) {
-
-                if (
-                    (
-                        message.category === 'issuances' &&
-                        message.command === 'insert'
-                    ) ||
-                    (
-                        message.category === 'destructions' &&
-                        message.command === 'insert'
-                    ) ||
-                    (
-                        message.category === 'sends' &&
-                        message.command === 'insert'
-                    ) ||
-                    (
-                        message.category === 'dispensers' &&
-                        message.command === 'insert'
-                    ) ||
-                    (
-                        message.category === 'dispenses' &&
-                        message.command === 'insert'
-                    ) ||
-                    (
-                        message.category === 'orders' &&
-                        message.command === 'insert'
-                    ) ||
-                    ( // TODO why cancels is an insert, and closing a dispenser is just a credits+update (no "cancel" like insert?)
-                        message.category === 'cancels' &&
-                        message.command === 'insert'
-                    ) ||
-                    ( // TODO this one is done differently and i'm not sure is the best design (or the others are not?) (inconsistency...)
-                        message.category === 'credits' &&
-                        message.command === 'insert' &&
-                        bindings.action === 'close dispenser'
-                    )
-                ) {
-                    message.main_message = true;
-                    messages.push(message);
-                }
-                else {
-                    messages.push(message);
-                }
-
-            }
-
-        }
-
-    }
-    else { // try if is in mempool
+    if (!transaction) { // try if is in mempool
         mempool = await Queries.getMempoolRowsByTxHash(db, tx_hash);
     }
 
@@ -192,9 +127,8 @@ app.get('/tx/:txHash', async (req, res) => {
     else {
         res.status(200).json({
             transaction,
-
-            messages_all,
-            messages,
+            // messages_all,
+            // messages,
             mempool,
         });
     }
