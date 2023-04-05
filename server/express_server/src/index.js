@@ -20,49 +20,57 @@ const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);
 
 
 
+// cache homepage
+let cached_mempool = [];
+let cached_blocks = [];
+let cached_transactions = [];
+
+
 app.get('/mempool', async (req, res) => {
-    const mempool = await Queries.getMempoolRows(db);
+    // const mempool = await Queries.getMempoolRows(db);
     res.status(200).json({
         node: {
             BITCOIN_VERSION,
             COUNTERPARTY_VERSION,
         },
-        mempool,
+        mempool: cached_mempool,
+        // mempool,
     });
 });
 
 app.get('/blocks', async (req, res) => {
     // TODO redo when the latest block is in memory
 
-    const blocks = await Queries.getMessagesByBlockLatest(db);
+    // const blocks = await Queries.getMessagesByBlockLatest(db);
 
-    const from_block_index = blocks.reduce(function (prev, curr) {
-        // minimum
-        return prev.block_index < curr.block_index ? prev : curr;
-    });
+    // const from_block_index = blocks.reduce(function (prev, curr) {
+    //     // minimum
+    //     return prev.block_index < curr.block_index ? prev : curr;
+    // });
 
-    let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
+    // let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
 
-    const block_messages_dict = {};
-    for (const block of blocks) {
-        block_messages_dict[block.block_index] = block.messages;
-    }
+    // const block_messages_dict = {};
+    // for (const block of blocks) {
+    //     block_messages_dict[block.block_index] = block.messages;
+    // }
 
-    blocks_all = blocks_all.map((row) => {
-        let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
-        return {
-            ...row,
-            messages_count,
-        };
+    // blocks_all = blocks_all.map((row) => {
+    //     let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
+    //     return {
+    //         ...row,
+    //         messages_count,
+    //     };
 
-    });
+    // });
 
     res.status(200).json({
         node: {
             BITCOIN_VERSION,
             COUNTERPARTY_VERSION,
         },
-        blocks: blocks_all,
+        blocks: cached_blocks,
+        // blocks: blocks_all,
         // blocks,
     });
 
@@ -231,18 +239,22 @@ app.get('/subasset/:assetLongname', async (req, res) => {
 
 // only latest
 app.get('/transactions', async (req, res) => {
-    const btc_transactions_latest = await Queries.getTransactionsLatest(db);
-    if (!btc_transactions_latest.length) {
-        res.status(404).json({
-            error: '404 Not Found'
-        });
-    }
-    else {
-        res.status(200).json({
-            btc_transactions_latest,
-        });
+    // const btc_transactions_latest = await Queries.getTransactionsLatest(db);
+    // if (!btc_transactions_latest.length) {
+    //     res.status(404).json({
+    //         error: '404 Not Found'
+    //     });
+    // }
+    // else {
+    //     res.status(200).json({
+    //         btc_transactions_latest, // TODO? rename?
+    //     });
 
-    }
+    // }
+    res.status(200).json({
+        // TODO? rename?
+        btc_transactions_latest: cached_transactions,
+    });
 });
 
 app.get('/transactions/:txIndex', async (req, res) => {
@@ -271,6 +283,74 @@ app.get('/transactions/:txIndex', async (req, res) => {
 
 
 
+// https://stackoverflow.com/a/39914235
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const updateMempoolCacheSeconds = 30;
+async function updateMempoolCache() {
+    const mempool = await Queries.getMempoolRows(db);
+    cached_mempool = mempool;
+}
+
+const updateBlocksCacheSeconds = 60;
+async function updateBlocksCache() {
+    // avoids doing all cache refreshes at the same time
+    await sleep(1000);
+
+    const blocks = await Queries.getMessagesByBlockLatest(db);
+
+    const from_block_index = blocks.reduce(function (prev, curr) {
+        // minimum
+        return prev.block_index < curr.block_index ? prev : curr;
+    });
+
+    let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
+
+    const block_messages_dict = {};
+    for (const block of blocks) {
+        block_messages_dict[block.block_index] = block.messages;
+    }
+
+    blocks_all = blocks_all.map((row) => {
+        let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
+        return {
+            ...row,
+            messages_count,
+        };
+
+    });
+
+    cached_blocks = blocks_all;
+}
+
+const updateTransactionsCacheSeconds = updateBlocksCacheSeconds;
+async function updateTransactionsCache() {
+    // avoids doing all cache refreshes at the same time
+    await sleep(2000);
+
+    const btc_transactions_latest = await Queries.getTransactionsLatest(db);
+    cached_transactions = btc_transactions_latest;
+}
+
+
 app.listen(port, () => {
+
+    setInterval(
+        updateMempoolCache,
+        updateMempoolCacheSeconds * 1000
+    );
+
+    setInterval(
+        updateBlocksCache,
+        updateBlocksCacheSeconds * 1000
+    );
+
+    setInterval(
+        updateTransactionsCache,
+        updateTransactionsCacheSeconds * 1000
+    );
+
     console.log(`Example app listening on port ${port}`);
 });
