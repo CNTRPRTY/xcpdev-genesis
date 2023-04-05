@@ -64,21 +64,6 @@ class Transaction extends React.Component {
                 };
             }
 
-            ////////////////////
-            // repeated code, but keeps it simple
-            // is olga?
-            let olga_length = 0;
-            const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
-            if (tx_hash === olga_broadcast_tx) {
-                const only_message_in_block = transaction_response.messages[0];
-                const bindings = JSON.parse(only_message_in_block.bindings);
-                const broadcast_text_raw = bindings.text;
-                const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
-
-                olga_length = data_url_chain.length;
-            }
-            ////////////////////
-
             if (
                 !transaction_response.transaction &&
                 !transaction_response.mempool.length
@@ -86,6 +71,22 @@ class Transaction extends React.Component {
                 this.setState({ transaction_not_found: true });
             }
             else if (transaction_response.transaction) {
+
+                ////////////////////
+                // repeated code, but keeps it simple
+                // is olga?
+                let olga_length = 0;
+                const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
+                if (tx_hash === olga_broadcast_tx) {
+                    const only_message_in_block = transaction_response.messages[0];
+                    const bindings = JSON.parse(only_message_in_block.bindings);
+                    const broadcast_text_raw = bindings.text;
+                    const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
+
+                    olga_length = data_url_chain.length;
+                }
+                ////////////////////
+
                 this.setState({
                     tx_hash,
                     transaction: transaction_response.transaction,
