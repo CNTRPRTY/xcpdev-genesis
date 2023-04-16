@@ -9,8 +9,13 @@ const app = express();
 app.use(cors())
 const port = 3000;
 
-const BITCOIN_VERSION = '0.21.1'; // fednode exec bitcoin bitcoin-cli -version
-const COUNTERPARTY_VERSION = '9.59.6'; // fednode exec counterparty counterparty-client --version (we want continuous improvements, but avoid forks as much as possible)
+// fednode exec bitcoin bitcoin-cli -version
+const BITCOIN_VERSION = '24.0.1';
+// const BITCOIN_VERSION = '0.21.1';
+
+// fednode exec counterparty counterparty-client --version
+const COUNTERPARTY_VERSION = '9.60.1';
+// const COUNTERPARTY_VERSION = '9.59.7';
 
 // read only
 const DB_PATH = '/var/lib/docker/volumes/federatednode_counterparty-data/_data/counterparty.db'
