@@ -8,7 +8,8 @@ function queryDBRows(db, sql, params_obj) {
     });
 }
 
-class StartQueries {
+class Queries {
+    
     static async getMempoolRows(db) {
         const sql = `
             SELECT * FROM mempool;
@@ -152,9 +153,6 @@ class StartQueries {
         };
         return queryDBRows(db, sql, params_obj);
     }
-}
-
-class TableQueries {
 
     // TODO ignoring XCP for now
     static async getBalancesRowsByAssetName(db, asset_name) {
@@ -459,6 +457,5 @@ class TableQueries {
 }
 
 module.exports = {
-    StartQueries,
-    TableQueries,
+    Queries,
 };
