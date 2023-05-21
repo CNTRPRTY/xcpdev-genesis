@@ -135,7 +135,12 @@ class Transaction extends React.Component {
     render() {
 
         let transaction_element_contents = (<p>loading...</p>);
-        if (this.state.transaction) {
+        if (this.state.transaction_not_found) {
+            transaction_element_contents = (
+                <p>transaction not found</p>
+            );
+        }
+        else if (this.state.transaction) {
 
             // is olga
             let olga_element = null;
