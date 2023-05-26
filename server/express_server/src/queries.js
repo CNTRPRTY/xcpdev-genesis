@@ -177,7 +177,7 @@ class Queries {
         // TODO?
         // broken with CIP3 reset assets...
         const sql1 = `
-            SELECT b.*, a.asset_longname, i.divisible
+            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
             FROM balances b
             JOIN assets a ON b.asset = a.asset_name
             JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
@@ -221,7 +221,7 @@ class Queries {
     static async getBalancesRowsByAddress(db, address) {
         // broken with CIP3 reset assets
         const sql1 = `
-            SELECT b.*, a.asset_longname, i.divisible
+            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
             FROM balances b
             JOIN assets a ON b.asset = a.asset_name
             JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
@@ -306,7 +306,7 @@ class Queries {
 
         // VALID issuances make sense by issuer, as anyone could do an invalid issuance
         const sql = `
-            SELECT i.*, b.block_time
+            SELECT i.*, CAST(i.quantity AS TEXT) AS quantity_text, b.block_time
             FROM issuances i
             JOIN blocks b ON i.block_index = b.block_index
             WHERE i.asset IN (
@@ -386,7 +386,7 @@ class Queries {
     static async getIssuancesRowsByAssetName(db, asset_name) {
         // not VALID issuances ok per asset_name, as this page is about all the history associated to an asset
         const sql = `
-            SELECT i.*, b.block_time
+            SELECT i.*, CAST(i.quantity AS TEXT) AS quantity_text, b.block_time
             FROM issuances i
             JOIN blocks b ON i.block_index = b.block_index
             WHERE i.asset = $asset_name
@@ -413,7 +413,7 @@ class Queries {
 
     static async getDestructionsRowsByAssetName(db, asset_name) {
         const sql = `
-            SELECT d.*, b.block_time
+            SELECT d.*, CAST(d.quantity AS TEXT) AS quantity_text, b.block_time
             FROM destructions d
             JOIN blocks b ON d.block_index = b.block_index
             WHERE d.asset = $asset_name
@@ -442,7 +442,7 @@ class Queries {
     static async getOrdersRowsGiveAssetByAssetName(db, asset_name) {
         const status = 'open';
         const sql = `
-            SELECT o.*, b.block_time
+            SELECT o.*, CAST(o.give_remaining AS TEXT) AS give_remaining_text, b.block_time
             FROM orders o
             JOIN blocks b ON o.block_index = b.block_index
             WHERE o.give_asset = $asset_name
@@ -458,7 +458,7 @@ class Queries {
     static async getDispensersRowsByAssetName(db, asset_name) {
         const status = 0; // 0:open 10:closed
         const sql = `
-            SELECT d.*, b.block_time
+            SELECT d.*, CAST(d.give_remaining AS TEXT) AS give_remaining_text, b.block_time
             FROM dispensers d
             JOIN blocks b ON d.block_index = b.block_index
             WHERE d.asset = $asset_name
