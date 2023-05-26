@@ -190,11 +190,13 @@ class Asset extends React.Component {
             for (const issuance_event of all_issuance_events) {
                 if (issuance_event.status === 'valid') {
                     if (issuance_event.issuance_event_type === 'issuance') {
-                        total_integer += BigInt(issuance_event.quantity);
+                        total_integer += BigInt(issuance_event.quantity_text);
+                        // total_integer += BigInt(issuance_event.quantity);
                         // total_integer += issuance_event.quantity;
                     }
                     else { // issuance_event.issuance_event_type === 'destroy'
-                        total_integer -= BigInt(issuance_event.quantity);
+                        total_integer -= BigInt(issuance_event.quantity_text);
+                        // total_integer -= BigInt(issuance_event.quantity);
                         // total_integer -= issuance_event.quantity;
                     }
                 }
@@ -263,21 +265,24 @@ class Asset extends React.Component {
             let verify_total_integer_balances = BigInt(0);
             // let verify_total_integer_balances = 0;
             for (const balances_row of this.state.balances) {
-                verify_total_integer_balances += BigInt(balances_row.quantity);
+                verify_total_integer_balances += BigInt(balances_row.quantity_text);
+                // verify_total_integer_balances += BigInt(balances_row.quantity);
                 // verify_total_integer_balances += balances_row.quantity;
             }
 
             let verify_total_integer_orders = BigInt(0);
             // let verify_total_integer_orders = 0;
             for (const orders_row of this.state.orders) {
-                verify_total_integer_orders += BigInt(orders_row.give_remaining);
+                verify_total_integer_orders += BigInt(orders_row.give_remaining_text);
+                // verify_total_integer_orders += BigInt(orders_row.give_remaining);
                 // verify_total_integer_orders += orders_row.give_remaining;
             }
 
             let verify_total_integer_dispensers = BigInt(0);
             // let verify_total_integer_dispensers = 0;
             for (const dispensers_row of this.state.dispensers) {
-                verify_total_integer_dispensers += BigInt(dispensers_row.give_remaining);
+                verify_total_integer_dispensers += BigInt(dispensers_row.give_remaining_text);
+                // verify_total_integer_dispensers += BigInt(dispensers_row.give_remaining);
                 // verify_total_integer_dispensers += dispensers_row.give_remaining;
             }
 
@@ -323,7 +328,8 @@ class Asset extends React.Component {
             if (this.state.balances.length && !reset_issuance) { // not dealing with reset assets (at least for now...)
                 // if (this.state.balances.length) {
                 function balancesSortAddress(a, b) {
-                    if (b.quantity === a.quantity) {
+                    if (BigInt(b.quantity_text) === BigInt(a.quantity_text)) {
+                        // if (b.quantity === a.quantity) {
                         if (a.address < b.address) {
                             return -1;
                         }
@@ -333,6 +339,8 @@ class Asset extends React.Component {
                         return 0;
                     }
                     else {
+                        // keeping quantity here as it needs to return a Number and is not critical (is only about sorting)
+                        // return BigInt(b.quantity_text) - BigInt(a.quantity_text);
                         return b.quantity - a.quantity;
                     }
                 }

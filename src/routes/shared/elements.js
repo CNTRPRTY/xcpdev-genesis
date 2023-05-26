@@ -1,3 +1,5 @@
+/* global BigInt */
+
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
 import { timeIsoFormat, hashSlice, quantityWithDivisibility } from '../../utils';
@@ -345,7 +347,8 @@ class ListElements {
     static getTableRowBalanceAddress(balance_row, index, asset_page = false) {
         // static getTableRowBalanceAddress(balance_row, index) {
         const mainname = balance_row.asset_longname ? balance_row.asset_longname : balance_row.asset;
-        const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, balance_row.quantity);
+        const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, BigInt(balance_row.quantity_text));
+        // const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, balance_row.quantity);
         // const quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
@@ -360,7 +363,8 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
             </tr>
         );
     }
@@ -449,7 +453,8 @@ class ListElements {
     static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible, issuer_page = false) {
         // static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible) {
         const mainname = issuance_event_row.asset_longname ? issuance_event_row.asset_longname : issuance_event_row.asset;
-        const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(issuance_event_row.quantity_text));
+        // const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
         const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
         const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
         const issuer = issuer_transfer ?
@@ -501,7 +506,8 @@ class ListElements {
         );
     }
     static getTableRowIssuanceEventsDestroyAsset(issuance_event_row, index, divisible) {
-        const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(issuance_event_row.quantity_text));
+        // const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
         const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
 
         let tag;
@@ -606,7 +612,8 @@ class ListElements {
         );
     }
     static getTableRowDispensers(dispensers_row, index, divisible, asset_page = false) {
-        const quantity_with_divisibility = quantityWithDivisibility(divisible, dispensers_row.give_remaining);
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(dispensers_row.give_remaining_text));
+        // const quantity_with_divisibility = quantityWithDivisibility(divisible, dispensers_row.give_remaining);
         const block_time_iso = timeIsoFormat(dispensers_row.block_time);
 
         // surfacing the oracle
@@ -681,7 +688,8 @@ class ListElements {
         );
     }
     static getTableRowOrders(orders_row, index, divisible, asset_page = false) {
-        const quantity_with_divisibility = quantityWithDivisibility(divisible, orders_row.give_remaining);
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(orders_row.give_remaining_text));
+        // const quantity_with_divisibility = quantityWithDivisibility(divisible, orders_row.give_remaining);
         const block_time_iso = timeIsoFormat(orders_row.block_time);
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
