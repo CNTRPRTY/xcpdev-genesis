@@ -363,7 +363,8 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{`${BigInt(balance_row.quantity_text)}`}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
             </tr>
         );
