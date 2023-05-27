@@ -286,6 +286,30 @@ app.get('/transactions/:txIndex', async (req, res) => {
     }
 });
 
+app.get('/messages/:messageIndex', async (req, res) => {
+    // TODO improve, starting with most basic validation
+    try {
+        const message_index = Number(req.params.messageIndex);
+        // get the messages including the tx and the next 1000 transactions
+        const to_message_index = Number(message_index) + 999;
+        const messages = await Queries.getMessagesFromMessageIndexToMessageIndex(db, message_index, to_message_index);
+        res.status(200).json({
+            node: {
+                BITCOIN_VERSION,
+                COUNTERPARTY_VERSION,
+            },
+            from_message_index: message_index,
+            to_message_index,
+            messages,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            error: 'Maybe 500 error', // TODO!
+        });
+    }
+});
+
 
 
 // https://stackoverflow.com/a/39914235

@@ -172,6 +172,22 @@ class Queries {
         }
     }
 
+    static async getMessagesFromMessageIndexToMessageIndex(db, from_message_index, to_message_index) {
+        const sql = `
+            SELECT m.*, b.block_time
+            FROM messages m
+            JOIN blocks b ON m.block_index = b.block_index
+            WHERE m.message_index >= $from_message_index
+            AND m.message_index <= $to_message_index
+            ORDER BY m.message_index ASC;
+        `;
+        const params_obj = {
+            $from_message_index: from_message_index,
+            $to_message_index: to_message_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     // TODO ignoring XCP for now
     static async getBalancesRowsByAssetName(db, asset_name) {
         // TODO?
