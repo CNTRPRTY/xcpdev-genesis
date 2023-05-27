@@ -183,6 +183,8 @@ class Queries {
             JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
             WHERE b.asset = $asset_name;
         `;
+        // https://stackoverflow.com/a/26820991
+        // https://github.com/TryGhost/node-sqlite3/issues/922#issuecomment-1179480916
         const params_obj1 = {
             $asset_name: asset_name,
         };
@@ -247,7 +249,7 @@ class Queries {
 
         // above query does not include XCP
         const sql2 = `
-            SELECT *
+            SELECT *, CAST(quantity AS TEXT) AS quantity_text
             FROM balances
             WHERE address = $address
             AND asset = $asset;
