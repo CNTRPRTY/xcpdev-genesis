@@ -161,9 +161,12 @@ class Block extends React.Component {
                         <li>previous_block_hash: {this.state.block_row.previous_block_hash}</li>
                     </ul>
                     <ul>
-                        <li>ledger_hash: {this.state.block_row.ledger_hash}</li>
+                        <li>ledger_hash (L): {this.state.block_row.ledger_hash}</li>
+                        <li>txlist_hash (TX): {this.state.block_row.txlist_hash}</li>
+                        <li>messages_hash (M): {this.state.block_row.messages_hash}</li>
+                        {/* <li>ledger_hash: {this.state.block_row.ledger_hash}</li>
                         <li>txlist_hash: {this.state.block_row.txlist_hash}</li>
-                        <li>messages_hash: {this.state.block_row.messages_hash}</li>
+                        <li>messages_hash: {this.state.block_row.messages_hash}</li> */}
                     </ul>
                 </>
             );
