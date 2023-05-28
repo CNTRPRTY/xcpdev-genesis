@@ -350,6 +350,10 @@ class ListElements {
         const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, BigInt(balance_row.quantity_text));
         // const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, balance_row.quantity);
         // const quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
+        
+        // surface reset assets (only show units)
+        const is_reset = balance_row.resets && true;
+
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
 
@@ -362,7 +366,13 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{mainname}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.asset}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+
+                {is_reset ?
+                    (<td style={{ padding: "0 1rem 0 0" }}>RESET</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td> */}
+
                 <td style={{ padding: "0 1rem 0 0" }}>{`${BigInt(balance_row.quantity_text)}`}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
