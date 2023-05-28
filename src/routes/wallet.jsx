@@ -167,6 +167,13 @@ class Wallet extends React.Component {
                 </>
             );
         }
+        else if (this.state.balances && !this.state.balances.length) {
+            wallet_element_contents = (
+                <>
+                    <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                </>
+            );
+        }
         else if (this.state.balances && this.state.balances.length) {
         // if (this.state.balances && this.state.balances.length) {
             // if (this.state.balances.length) {
@@ -211,13 +218,6 @@ class Wallet extends React.Component {
                 </>
             );
 
-        }
-        else if (this.state.balances && !this.state.balances.length) {
-            wallet_element_contents = (
-                <>
-                    <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
-                </>
-            );
         }
 
         const wallet_element = (
