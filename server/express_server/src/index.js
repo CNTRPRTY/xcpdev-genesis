@@ -290,8 +290,9 @@ app.get('/messages/:messageIndex', async (req, res) => {
     // TODO improve, starting with most basic validation
     try {
         const message_index = Number(req.params.messageIndex);
-        // get the messages including the tx and the next 1000 transactions
-        const to_message_index = Number(message_index) + 999;
+        // get the messages including the tx and the next 100 transactions
+        const to_message_index = Number(message_index) + 99;
+        // const to_message_index = Number(message_index) + 999;
         const messages = await Queries.getMessagesFromMessageIndexToMessageIndex(db, message_index, to_message_index);
         res.status(200).json({
             node: {
