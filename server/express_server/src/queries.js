@@ -126,12 +126,30 @@ class Queries {
     static async getTransactionsLatest(db) {
         const limit = 30; // 10
         const sql = `
-            SELECT t.*, b.block_time
+            SELECT
+                t.tx_index,
+                t.tx_hash,
+                t.block_index,
+                t.block_hash,
+                t.block_time,
+                t.source,
+                t.destination,
+                t.btc_amount,
+                t.fee,
+                t.supported,
+                b.block_time
             FROM transactions t
             JOIN blocks b ON t.block_index = b.block_index
             ORDER BY t.tx_index DESC
             LIMIT $limit;
         `;
+        // const sql = `
+        //     SELECT t.*, b.block_time
+        //     FROM transactions t
+        //     JOIN blocks b ON t.block_index = b.block_index
+        //     ORDER BY t.tx_index DESC
+        //     LIMIT $limit;
+        // `;
         const params_obj = {
             $limit: limit,
         };
@@ -140,13 +158,32 @@ class Queries {
 
     static async getTransactionsFromTxIndexToTxIndex(db, from_tx_index, to_tx_index) {
         const sql = `
-            SELECT t.*, b.block_time
+            SELECT
+                t.tx_index,
+                t.tx_hash,
+                t.block_index,
+                t.block_hash,
+                t.block_time,
+                t.source,
+                t.destination,
+                t.btc_amount,
+                t.fee,
+                t.supported,
+                b.block_time
             FROM transactions t
             JOIN blocks b ON t.block_index = b.block_index
             WHERE t.tx_index >= $from_tx_index
             AND t.tx_index <= $to_tx_index
             ORDER BY t.tx_index ASC;
         `;
+        // const sql = `
+        //     SELECT t.*, b.block_time
+        //     FROM transactions t
+        //     JOIN blocks b ON t.block_index = b.block_index
+        //     WHERE t.tx_index >= $from_tx_index
+        //     AND t.tx_index <= $to_tx_index
+        //     ORDER BY t.tx_index ASC;
+        // `;
         const params_obj = {
             $from_tx_index: from_tx_index,
             $to_tx_index: to_tx_index,
