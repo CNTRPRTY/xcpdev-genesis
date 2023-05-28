@@ -15,8 +15,11 @@ class Wallet extends React.Component {
         }
 
         this.state = {
+            error_loading: false,
+            loading: false,
             address: address_if_specified,
-            balances: [],
+            balances: null,
+            // balances: [],
         };
 
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -30,13 +33,16 @@ class Wallet extends React.Component {
     handleSearchSubmit(event) {
         event.preventDefault();
         const to_navigate = this.state.address;
-        this.setState({ address: '' });
+        // this.setState({ address: '' });
         this.props.router.navigate(`/wallet#${to_navigate}`);
     }
 
     async fetchData(address) {
 
-        let balances_response = {};
+        this.setState({ loading: true });
+
+        let balances_response;
+        // let balances_response = {};
         try {
 
             // tried fixing in express but is not obvious/simple, so doing this check here instead
@@ -47,26 +53,54 @@ class Wallet extends React.Component {
             balances_response = await getCntrprty(`/address/${address}/balances`);
         }
         catch (e) {
-            balances_response.balances = [];
+            console.log(`error loading balances`);
+            // balances_response.balances = [];
         }
 
-        // if (balances_response.balances.length) {
+        if (!balances_response) {
+            this.setState({
+                error_loading: true,
+                loading: false,
+                address,
+            });
+        }
+        else {
+            // if (balances_response.balances.length) {
 
-        // removing all zero balances here
-        const nonzero_balances = balances_response.balances.filter(balances_row => balances_row.quantity > 0);
+            // removing all zero balances here
+            const nonzero_balances = balances_response.balances.filter(balances_row => balances_row.quantity > 0);
 
-        this.setState({
-            address,
-            balances: nonzero_balances,
-            // balances: balances_response.balances,
-        });
-        // }
+            this.setState({
+                loading: false,
+                address,
+                balances: nonzero_balances,
+                // balances: balances_response.balances,
+            });
+            // }
+        }
+
+        // // if (balances_response.balances.length) {
+
+        // // removing all zero balances here
+        // const nonzero_balances = balances_response.balances.filter(balances_row => balances_row.quantity > 0);
+
+        // this.setState({
+        //     loading: false,
+        //     address,
+        //     balances: nonzero_balances,
+        //     // balances: balances_response.balances,
+        // });
+        // // }
 
     }
 
     async componentDidMount() {
-        // not awaiting it
-        this.fetchData(this.state.address);
+        if (this.state.address) {
+            // not awaiting it
+            this.fetchData(this.state.address);
+        }
+        // // not awaiting it
+        // this.fetchData(this.state.address);
     }
 
     async componentDidUpdate(prevProps) {
@@ -74,7 +108,16 @@ class Wallet extends React.Component {
         const prevHash = prevProps.router.location.hash;
         if (updatedHash !== prevHash) {
             const address = updatedHash.replace('#', '');
-            await this.fetchData(address);
+            if (address.length) {
+                await this.fetchData(address);
+            }
+            else {
+                this.setState({
+                    address: '',
+                    balances: null,
+                });
+            }
+            // await this.fetchData(address);
         }
     }
 
@@ -85,19 +128,26 @@ class Wallet extends React.Component {
         // const button_value = "get balances";
         if (this.state.address && this.state.address.length) {
             // if (this.state.address.length) {
-            show_button = (<span> <input type="submit" value={button_value} /></span>);
+            show_button = (<span> <input type="submit" value={button_value} disabled={this.state.loading} /></span>);
+            // show_button = (<span> <input type="submit" value={button_value} /></span>);
         }
         const placeholder = "address";
         const address_bar = (
             <span>
                 <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
                     <form onSubmit={this.handleSearchSubmit}>
-                        <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} />
+                        <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} disabled={this.state.loading} />
+                        {/* <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} /> */}
                         {show_button}
                     </form>
                 </div>
             </span>
         );
+
+        let loading_element = null;
+        if (this.state.loading) {
+            loading_element = (<p>loading...</p>)
+        }
 
         // let wallet_element_contents = (<p>coming soon...</p>);
         // let wallet_element_contents = (<p>loading...</p>);
@@ -105,11 +155,21 @@ class Wallet extends React.Component {
             <>
                 <p>Show balances for address:</p>
                 {address_bar}
+                {loading_element}
                 {/* <p>Address: {address_bar}</p> */}
             </>
         );
 
-        if (this.state.balances.length) {
+        if (this.state.error_loading) {
+            wallet_element_contents = (
+                <>
+                    <p>these was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                </>
+            );
+        }
+        else if (this.state.balances && this.state.balances.length) {
+        // if (this.state.balances && this.state.balances.length) {
+            // if (this.state.balances.length) {
             // if (this.state.balances) {
             function balancesSort(a, b) {
                 if (b.quantity === a.quantity) {
@@ -151,6 +211,13 @@ class Wallet extends React.Component {
                 </>
             );
 
+        }
+        else if (this.state.balances && !this.state.balances.length) {
+            wallet_element_contents = (
+                <>
+                    <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                </>
+            );
         }
 
         const wallet_element = (
