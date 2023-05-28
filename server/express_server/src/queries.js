@@ -252,7 +252,6 @@ class Queries {
 
     static async getBalancesRowsByAddress(db, address) {
         // broken with CIP3 reset assets
-        // TODO this query seems like it can be optimized
         const sql1 = `
             SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
             FROM balances b
@@ -264,9 +263,28 @@ class Queries {
                     a.block_index = i.block_index AND
                     i.status = 'valid'
                 )
+                WHERE a.asset_name IN (
+                    SELECT bi.asset
+                    FROM balances bi
+                    WHERE bi.address = $address
+                )
             ) ad ON b.asset = ad.asset_name
             WHERE b.address = $address;
         `; // ad => asset with divisiblity
+        // const sql1 = `
+        //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
+        //     FROM balances b
+        //     JOIN (
+        //         SELECT DISTINCT a.*, i.divisible
+        //         FROM assets a
+        //         JOIN issuances i ON (
+        //             a.asset_name = i.asset AND
+        //             a.block_index = i.block_index AND
+        //             i.status = 'valid'
+        //         )
+        //     ) ad ON b.asset = ad.asset_name
+        //     WHERE b.address = $address;
+        // `; // ad => asset with divisiblity
         // const sql1 = `
         //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
         //     FROM balances b
