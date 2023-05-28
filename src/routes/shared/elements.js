@@ -457,15 +457,35 @@ class ListElements {
         const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(issuance_event_row.quantity_text));
         // const quantity_with_divisibility = quantityWithDivisibility(divisible, issuance_event_row.quantity);
         const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
-        const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
-        const issuer = issuer_transfer ?
-            (<>issuer transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>) :
-            // (<>transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>) :
-            (<><Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
 
-        const description_or_lock = issuance_event_row.locked ?
-            (<><strong>LOCK</strong></>) :
-            (issuance_event_row.description);
+        // const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
+        // const issuer = issuer_transfer ?
+        //     (<>issuer transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>) :
+        //     // (<>transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>) :
+        //     (<><Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
+
+        let description_orwith_lock_element;
+        if (issuance_event_row.locked) {
+            if (issuance_event_row.display_lock_with_description) {
+                description_orwith_lock_element = (
+                    <>
+                        <strong>[LOCK]</strong>
+                        {' '}
+                        {issuance_event_row.description}
+                    </>
+                );
+            }
+            else {
+                description_orwith_lock_element = (<><strong>LOCK</strong></>);
+            }
+        }
+        else {
+            description_orwith_lock_element = (<>{issuance_event_row.description}</>);
+        }
+
+        // const description_or_lock = issuance_event_row.locked ?
+        //     (<><strong>LOCK</strong></>) :
+        //     (issuance_event_row.description);
 
         // surfacing the invalid
         let invalid_tx_notice = null;
@@ -477,6 +497,22 @@ class ListElements {
             if (issuance_event_row.reset === 1) {
                 invalid_tx_notice = (<>{' '}<strong>RESET to {issuance_event_row.divisible ? 'satoshi' : 'wholeNumber'}</strong></>);
             }
+        }
+
+        // COMMENT: issuer + transfer is "convenient" (specially for service providers), but it breaks assumptions! SO, for now, will not show genesis transfer sources in the ISSUER page
+
+        const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
+        let issuer_element;
+        if (issuer_transfer) {
+            let from_element = null;
+            if (issuance_event_row.display_source) {
+                from_element = (<> from: <Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></>);
+            }
+            issuer_element = (<>issuer transfer{from_element} to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
+            // issuer_element = (<>issuer transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
+        }
+        else {
+            issuer_element = (<><Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
         }
 
         return (
@@ -493,12 +529,14 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
 
                 {issuer_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuer_element}</td>)
+                    // : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td> */}
 

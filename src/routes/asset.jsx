@@ -77,6 +77,24 @@ class Asset extends React.Component {
             }
             else {
 
+                // first add duplicate data handling flags
+                let last_description = asset_response.tables.issuances[0].description;
+                for (let i = 0; i < asset_response.tables.issuances.length; i++) {
+                    const issuance = asset_response.tables.issuances[i];
+
+                    issuance.display_source = false; // only display for the first (is a genesis transfer)                    
+                    if (i === 0) { // TODO should be FIRST VALID...
+                        if (issuance.source !== issuance.issuer) issuance.display_source = true;
+                    }
+
+                    issuance.display_lock_with_description = true; // (ONLY USE IF LOCKED) only display if is first or different
+                    if (i) {
+                        if (issuance.description === last_description) issuance.display_lock_with_description = false;
+                    }
+
+                    last_description = issuance.description;
+                }
+
                 this.setState({
                     asset_name,
                     asset_btc_xcp: false,
