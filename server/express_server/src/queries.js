@@ -193,12 +193,26 @@ class Queries {
         // TODO?
         // broken with CIP3 reset assets...
         const sql1 = `
-            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
+            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
             FROM balances b
-            JOIN assets a ON b.asset = a.asset_name
-            JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
-            WHERE b.asset = $asset_name;
-        `;
+            JOIN (
+                SELECT DISTINCT a.*, i.divisible
+                FROM assets a
+                JOIN issuances i ON (
+                    a.asset_name = i.asset AND
+                    a.block_index = i.block_index AND
+                    i.status = 'valid'
+                )
+                WHERE a.asset_name = $asset_name
+            ) ad ON b.asset = ad.asset_name;
+        `; // ad => asset with divisiblity
+        // const sql1 = `
+        //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
+        //     FROM balances b
+        //     JOIN assets a ON b.asset = a.asset_name
+        //     JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
+        //     WHERE b.asset = $asset_name;
+        // `; // WRONG query: returns multiple results for multiple genesis issuances in the same block (AND was not filtering out invalid)
         // https://stackoverflow.com/a/26820991
         // https://github.com/TryGhost/node-sqlite3/issues/922#issuecomment-1179480916
         const params_obj1 = {
@@ -238,13 +252,28 @@ class Queries {
 
     static async getBalancesRowsByAddress(db, address) {
         // broken with CIP3 reset assets
+        // TODO this query seems like it can be optimized
         const sql1 = `
-            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
+            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
             FROM balances b
-            JOIN assets a ON b.asset = a.asset_name
-            JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
+            JOIN (
+                SELECT DISTINCT a.*, i.divisible
+                FROM assets a
+                JOIN issuances i ON (
+                    a.asset_name = i.asset AND
+                    a.block_index = i.block_index AND
+                    i.status = 'valid'
+                )
+            ) ad ON b.asset = ad.asset_name
             WHERE b.address = $address;
-        `;
+        `; // ad => asset with divisiblity
+        // const sql1 = `
+        //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
+        //     FROM balances b
+        //     JOIN assets a ON b.asset = a.asset_name
+        //     JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
+        //     WHERE b.address = $address;
+        // `; // WRONG query: returns multiple results for multiple genesis issuances in the same block (AND was not filtering out invalid)
         // const sql = `
         //     SELECT b.*, a.asset_longname
         //     FROM balances b
