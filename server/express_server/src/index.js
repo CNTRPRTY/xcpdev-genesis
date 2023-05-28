@@ -164,7 +164,9 @@ app.get('/address/:address', async (req, res) => {
 
 app.get('/address/:address/balances', async (req, res) => {
     const address = req.params.address;
-    const balances = await Queries.getBalancesRowsByAddress(db, address);
+    // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+    const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
+    // const balances = await Queries.getBalancesRowsByAddress(db, address);
     res.status(200).json({
         balances,
     });

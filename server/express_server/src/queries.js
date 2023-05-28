@@ -287,7 +287,9 @@ class Queries {
 
     }
 
-    static async getBalancesRowsByAddress(db, address) {
+    // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+    static async getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION) {
+        // static async getBalancesRowsByAddress(db, address) {
         // broken with CIP3 reset assets
         const sql1 = `
             SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
@@ -345,7 +347,8 @@ class Queries {
             $address: address,
         };
         // return queryDBRows(db, sql, params_obj);
-        const rows1 = await queryDBRows(db, sql1, params_obj1);
+        let rows1 = await queryDBRows(db, sql1, params_obj1);
+        // const rows1 = await queryDBRows(db, sql1, params_obj1);
 
         // above query does not include XCP
         const sql2 = `
@@ -360,6 +363,50 @@ class Queries {
         };
         // return queryDBRows(db, sql, params_obj);
         const rows2 = await queryDBRows(db, sql2, params_obj2);
+
+        //////////////////////////////////////
+        //////////////////////////////////////
+        // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
+        if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
+            const sql3 = `
+                SELECT DISTINCT i.asset, i.block_index, i.divisible
+                FROM issuances i
+                WHERE i.asset IN (
+                    SELECT b.asset
+                    FROM balances b
+                    WHERE b.address = $address
+                )
+                AND i.status = 'valid'
+                AND i.reset = true;
+            `;
+            const params_obj3 = {
+                $address: address,
+            };
+            // return queryDBRows(db, sql, params_obj);
+            const rows3 = await queryDBRows(db, sql3, params_obj3);
+
+            // making the above query already affects EVERYONE (in the latest COUNTERPARTY_VERSION), but the next only affects people that ACTUALLY have/had reset assets
+            if (rows3.length) {
+                // NOTICE NO OTHER QUERY needs to do something like this!
+                const reset_dict = {};
+                for (const reset_row of rows3) {
+                    if (reset_dict[reset_row.asset]) {
+                        reset_dict[reset_row.asset].push(reset_row);
+                    }
+                    else {
+                        reset_dict[reset_row.asset] = [reset_row];
+                    }
+                }
+                rows1 = rows1.map(row => {
+                    if (reset_dict[row.asset]) {
+                        row.resets = reset_dict[row.asset];
+                    }
+                    return row;
+                });
+            }
+        }
+        //////////////////////////////////////
+        //////////////////////////////////////
 
         return [
             ...rows1,
