@@ -1,3 +1,6 @@
+/* global BigInt */
+// https://github.com/eslint/eslint/issues/11524#issuecomment-473790677
+
 // copy of <script> from decode_tx.html of https://github.com/Jpja/Electrum-Counterparty/
 // version permalink: https://github.com/Jpja/Electrum-Counterparty/blob/cfdb65cf7fc6426a89595c5f7a70f6a81d205c80/decode_tx.html
 
