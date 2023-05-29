@@ -776,6 +776,7 @@ class ListElements {
         );
     }
 
+    // transactions
     static getTableRowTransactionHeader(is_home_page = false) {
         // static getTableRowTransactionHeader() {
 
@@ -865,6 +866,37 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
+            </tr>
+        );
+    }
+
+    // messages
+    static getTableRowMessagesHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+            </tr>
+        );
+    }
+    static getTableRowMessages(message_row, index) {
+        const block_time_iso = timeIsoFormat(message_row.block_time);
+        const timestamp_iso = timeIsoFormat(message_row.timestamp);
+        const bindingsElements = createLinkElementBindings(message_row.bindings);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}>{message_row.message_index}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{message_row.category}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{message_row.command}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
             </tr>
         );
     }

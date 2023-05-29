@@ -15,6 +15,7 @@ import Block from './routes/block';
 import Address from './routes/address';
 import Asset from './routes/asset';
 import Transactionspage from './routes/transactions_page';
+import Messagespage from './routes/messages_page';
 import Wallet from './routes/wallet';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -30,6 +31,7 @@ root.render(
           <Route path="address/:address" element={<Address />} />
           <Route path="asset/:assetName" element={<Asset />} /> {/* for now only the asset_name, not the asset_longname */}
           <Route path="transactions" element={<Transactionspage />} />
+          <Route path="messages" element={<Messagespage />} />
           <Route path="wallet" element={<Wallet />} />
           <Route
             path="*"
