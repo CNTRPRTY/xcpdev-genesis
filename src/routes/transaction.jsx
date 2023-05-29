@@ -193,12 +193,13 @@ class Transaction extends React.Component {
                 const reverse = [...data_url_cut].reverse(); // https://stackoverflow.com/a/57569141
 
                 olga_element = (
-                    <>
+                    // <>
+                    <li>
                         <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
                         <img src={data_url_chain_fixed} />
                         <p>Image *written* in Bitcoin since 2015</p>
                         
-                        <br />
+                        {/* <br /> */}
                         <input
                             type="range"
                             min="0" max={data_url_chain.length}
@@ -221,18 +222,23 @@ class Transaction extends React.Component {
                         esrever:{' '}
                         {/* not reverse: */}
                         [{notreverse.join('')}]
-                    </>
+                    </li>
+                    // </>
                 );
             }
 
             transaction_element_contents = (
                 <>
-                {olga_element}
+                {/* {olga_element} */}
 
                 {/* // at least for now, not using tables for single element result
                 // just using a simple ul for now */}
 
                 <ul>
+
+                    {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
+                    {olga_element}
+
                     <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
                     {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                     {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
