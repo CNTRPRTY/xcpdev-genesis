@@ -239,6 +239,14 @@ class Transaction extends React.Component {
                     {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
                     {olga_element}
 
+                    <li>
+
+                        <h3>CNTRPRTY transaction:</h3>
+
+                        <ul>
+
+                    <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+
                     <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
                     {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                     {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
@@ -256,6 +264,10 @@ class Transaction extends React.Component {
                         // <li>destination: {this.state.transaction.destination}</li>
                     ) : null}
 
+
+                        </ul>
+                    
+                    </li>
                     {/* <li>
                         <h3>CNTRPRTY data:</h3>
                         // CNTRPRTY:
@@ -274,7 +286,7 @@ class Transaction extends React.Component {
                         // {'}'}
                     </li> */}
 
-                    <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                    {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li> */}
                     {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li> */}
 
                     <li>
