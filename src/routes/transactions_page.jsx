@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { getCntrprty } from "../api";
+import { getCntrprty, COUNTERPARTY_VERSION } from "../api";
+// import { getCntrprty } from "../api";
 import { Link } from "react-router-dom";
 import { OneElements, ListElements } from './shared/elements';
 
@@ -71,18 +72,48 @@ class Transactionspage extends React.Component {
         else if (this.state.rows.length) {
 
             // TODO? easier to do manual at least for now...
-            const years = {
-                y2014: 0,
-                y2015: 134093,
-                y2016: 399428,
-                y2017: 751271,
-                y2018: 1152661,
-                y2019: 1405841,
-                y2020: 1482022,
-                y2021: 1540497,
-                y2022: 1835273,
-                y2023: 2209463,
+            let years;
+            if (COUNTERPARTY_VERSION.startsWith('9.59')) {
+                years = {
+                    y2014: 0,
+                    y2015: 134093,
+                    y2016: 399428,
+                    y2017: 751271,
+                    y2018: 1152661,
+                    y2019: 1405841,
+                    y2020: 1482018,
+                    y2021: 1540493,
+                    y2022: 1833799,
+                    y2023: 2199002,
+                };
             }
+            else { // 9.60
+                years = {
+                    y2014: 0,
+                    y2015: 134093,
+                    y2016: 399428,
+                    y2017: 751271,
+                    y2018: 1152661,
+                    y2019: 1405841,
+                    y2020: 1482018,
+                    y2021: 1540493,
+                    y2022: 1835266,
+                    y2023: 2209456,
+                };
+            }
+            // keeping this around as I'm not sure why is not matching with either (it should have with 9.60 I think...)
+            // const years = {
+            //     y2014: 0,
+            //     y2015: 134093,
+            //     y2016: 399428,
+            //     y2017: 751271,
+            //     y2018: 1152661,
+            //     y2019: 1405841,
+            //     y2020: 1482022,
+            //     y2021: 1540497,
+            //     y2022: 1835273,
+            //     y2023: 2209463,
+            // }
             const jump_year_element = (
                 <>
                     <h3>
