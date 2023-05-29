@@ -34,8 +34,11 @@ msg_type[4] = 'Sweep';
 msg_type[10] = 'DEX Order';
 msg_type[11] = 'Btcpay';
 msg_type[12] = 'Dispenser';
+
+// issuance message unpacking changed in v9.60 (activated in block 753500) [https://github.com/CounterpartyXCP/cips/issues/66]
 msg_type[20] = 'Issuance';
 msg_type[21] = 'Issuance (Subasset)';
+
 msg_type[30] = 'Broadcast';
 msg_type[50] = 'Dividend';
 
@@ -349,6 +352,9 @@ function decode_data(data_hex, block_height) {
     }
 
     if (id == 20 && block_height >= 753500) { //Issuance, post change 2022
+        // editing msg_type
+        json_out.msg_type = `${json_out.msg_type}[753500:]`;
+
         let asset_hex = cp_msg.substring(0, 16);
         let asset = parseInt(asset_hex, 16);
         cp_msg = cp_msg.substring(16);
@@ -407,6 +413,9 @@ function decode_data(data_hex, block_height) {
     }
 
     if (id == 21 && block_height >= 753500) { //Issuance (Subasset), post change 2022
+        // editing msg_type
+        json_out.msg_type = `${json_out.msg_type}[753500:]`;
+
         let asset_hex = cp_msg.substring(0, 16);
         let asset = BigInt('0x' + asset_hex).toString(10);
         cp_msg = cp_msg.substring(16);
