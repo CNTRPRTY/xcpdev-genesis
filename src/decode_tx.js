@@ -155,24 +155,40 @@ function decode(json) {
 
 
     //WRITE TX DATA
-    let out = '';
-    out += wl('BITCOIN DATA', '');
-    out += wl('Tx ID', hash);
-    out += wl('Address', from_addr);
-    out += wl('Timestamp', confirmed);
-    out += wl('Size', size);
-    out += wl('Vsize', vsize);
-    out += wl('Fee (sat)', fees);
-    out += wl('Fee (btc)', (fees / 100000000).toFixed(8));
-    out += wl(' ', '');
-    out += wl('COUNTERPARTY DATA', '');
+    // let out = '';
+    // out += wl('BITCOIN DATA', '');
+    // out += wl('Tx ID', hash);
+    // out += wl('Address', from_addr);
+    // out += wl('Timestamp', confirmed);
+    // out += wl('Size', size);
+    // out += wl('Vsize', vsize);
+    // out += wl('Fee (sat)', fees);
+    // out += wl('Fee (btc)', (fees / 100000000).toFixed(8));
+    // out += wl(' ', '');
+    // out += wl('COUNTERPARTY DATA', '');
+    const out = {
+        hash,
+        from_addr,
+        confirmed,
+        size,
+        vsize,
+        fees,
+        fees_btc: (fees / 100000000).toFixed(8),
+
+        recipient,
+        first_send_sat,
+        first_send_btc: (first_send_sat / 100000000).toFixed(8),
+    };
 
     if (cp_msg.substring(0, 16) != '434e545250525459') {
-        out += wl('No Counterparty data found!', '');
+        // out += wl('No Counterparty data found!', '');
         // document.getElementById("output").innerHTML = out;
         // output2(hash);
         // return;
-        return { out };
+        return {
+            tx: out,
+            cntrprty: null
+        };
     }
 
 
@@ -180,16 +196,16 @@ function decode(json) {
     let raw_ascii = hex2aq(cp_msg);
     console.log(cp_msg);
     console.log(raw_ascii);
-    out += wl('Encoding', encoding);
-    out += wl('Raw (hex)', cp_msg);
-    out += wl('Raw (ascii)', raw_ascii);
+    // out += wl('Encoding', encoding);
+    // out += wl('Raw (hex)', cp_msg);
+    // out += wl('Raw (ascii)', raw_ascii);
 
 
     //GENERAL PREFIX
     let prefix_hex = cp_msg.substring(0, 16);
     let prefix = hex2a(prefix_hex);
-    out += wl('Prefix (hex)', prefix_hex);
-    out += wl('Prefix', prefix);
+    // out += wl('Prefix (hex)', prefix_hex);
+    // out += wl('Prefix', prefix);
 
 
     //DISSECT DATA
@@ -202,9 +218,25 @@ function decode(json) {
         cp_msg = cp_msg.substring(2);
     }
     let id = parseInt(id_hex, 16);
-    out += wl('Type (hex)', id_hex);
-    out += wl('Type (int)', id);
-    out += wl('Type', msg_type[id]);
+    // out += wl('Type (hex)', id_hex);
+    // out += wl('Type (int)', id);
+    // out += wl('Type', msg_type[id]);
+
+    const json_out = {
+        tx: out,
+        cntrprty: {
+            encoding,
+            cp_msg,
+            raw_ascii,
+            prefix_hex,
+            prefix,
+            id_hex,
+            id,
+            msg_type: msg_type[id],
+        }
+    };
+
+    let msg_decoded;
 
     if (id == 0) { //Classic Send
         let asset_hex = cp_msg.substring(0, 16);
@@ -212,14 +244,24 @@ function decode(json) {
         cp_msg = cp_msg.substring(16);
         let q_hex = cp_msg.substring(0, 16);
         let q = parseInt(q_hex, 16);
-        out += wl('Recipient', recipient);
-        out += wl('Dust (sat)', first_send_sat);
-        out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Amount (hex)', q_hex);
-        out += wl('Amount (sat)', q);
+        // out += wl('Recipient', recipient);
+        // out += wl('Dust (sat)', first_send_sat);
+        // out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Amount (hex)', q_hex);
+        // out += wl('Amount (sat)', q);
+        msg_decoded = {
+            recipient,
+            first_send_sat,
+            first_send_btc: (first_send_sat / 100000000).toFixed(8),
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+        };
     }
 
     if (id == 2) { //Enhanced Send
@@ -234,15 +276,26 @@ function decode(json) {
         cp_msg = cp_msg.substring(42);
         let memo_hex = cp_msg;
         let memo = hex2a(memo_hex);
-        out += wl('Recipient (hex)', recipient_hex);
-        out += wl('Recipient', recipient);
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Amount (hex)', q_hex);
-        out += wl('Amount (sat)', q);
-        out += wl('Memo (hex)', memo_hex);
-        out += wl('Memo (text)', memo);
+        // out += wl('Recipient (hex)', recipient_hex);
+        // out += wl('Recipient', recipient);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Amount (hex)', q_hex);
+        // out += wl('Amount (sat)', q);
+        // out += wl('Memo (hex)', memo_hex);
+        // out += wl('Memo (text)', memo);
+        msg_decoded = {
+            recipient_hex,
+            recipient,
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            memo_hex,
+            memo,
+        };
     }
 
     if (id == 4) { //Sweep
@@ -254,12 +307,20 @@ function decode(json) {
         cp_msg = cp_msg.substring(2);
         let memo_hex = cp_msg;
         let memo = hex2a(memo_hex);
-        out += wl('Recipient (hex)', recipient_hex);
-        out += wl('Recipient', recipient);
-        out += wl('Flag (hex)', flag_hex);
-        out += wl('Flag (int)', flag);
-        out += wl('Memo (hex)', memo_hex);
-        out += wl('Memo (text)', memo);
+        // out += wl('Recipient (hex)', recipient_hex);
+        // out += wl('Recipient', recipient);
+        // out += wl('Flag (hex)', flag_hex);
+        // out += wl('Flag (int)', flag);
+        // out += wl('Memo (hex)', memo_hex);
+        // out += wl('Memo (text)', memo);
+        msg_decoded = {
+            recipient_hex,
+            recipient,
+            flag_hex,
+            flag,
+            memo_hex,
+            memo,
+        };
     }
 
     if (id == 10) { //DEX Order
@@ -277,29 +338,50 @@ function decode(json) {
         cp_msg = cp_msg.substring(16);
         let exp_hex = cp_msg.substring(0, 4);
         let exp = parseInt(exp_hex, 16);
-        out += wl('Give Asset (hex)', give_asset_hex);
-        out += wl('Give Asset (int)', give_asset);
-        out += wl('Give Asset', asset_name(give_asset));
-        out += wl('Give Amount (hex)', give_q_hex);
-        out += wl('Give Amount (sat)', give_q);
-        out += wl('Get Asset (hex)', get_asset_hex);
-        out += wl('Get Asset (int)', get_asset);
-        out += wl('Get Asset', asset_name(get_asset));
-        out += wl('Get Amount (hex)', get_q_hex);
-        out += wl('Get Amount (sat)', get_q);
-        out += wl('Expiration (hex)', exp_hex);
-        out += wl('Expiration (int)', exp);
+        // out += wl('Give Asset (hex)', give_asset_hex);
+        // out += wl('Give Asset (int)', give_asset);
+        // out += wl('Give Asset', asset_name(give_asset));
+        // out += wl('Give Amount (hex)', give_q_hex);
+        // out += wl('Give Amount (sat)', give_q);
+        // out += wl('Get Asset (hex)', get_asset_hex);
+        // out += wl('Get Asset (int)', get_asset);
+        // out += wl('Get Asset', asset_name(get_asset));
+        // out += wl('Get Amount (hex)', get_q_hex);
+        // out += wl('Get Amount (sat)', get_q);
+        // out += wl('Expiration (hex)', exp_hex);
+        // out += wl('Expiration (int)', exp);
+        msg_decoded = {
+            give_asset_hex,
+            give_asset,
+            give_asset_name: asset_name(give_asset),
+            give_q_hex,
+            give_q,
+            get_asset_hex,
+            get_asset,
+            get_asset_name: asset_name(get_asset),
+            get_q_hex,
+            get_q,
+            exp_hex,
+            exp,
+        };
     }
 
     if (id == 11) { //Btcpay
         let order_0 = cp_msg.substring(0, 64);
         cp_msg = cp_msg.substring(64);
         let order_1 = cp_msg.substring(0, 64);
-        out += wl('Order 0', order_0);
-        out += wl('Order 1', order_1);
-        out += wl('Pay To', recipient);
-        out += wl('Pay (sat)', first_send_sat);
-        out += wl('Pay (btc)', (first_send_sat / 100000000).toFixed(8));
+        // out += wl('Order 0', order_0);
+        // out += wl('Order 1', order_1);
+        // out += wl('Pay To', recipient);
+        // out += wl('Pay (sat)', first_send_sat);
+        // out += wl('Pay (btc)', (first_send_sat / 100000000).toFixed(8));
+        msg_decoded = {
+            order_0,
+            order_1,
+            recipient,
+            first_send_sat,
+            first_send_btc: (first_send_sat / 100000000).toFixed(8),
+        };
     }
 
     if (id == 12) { //Dispenser
@@ -319,19 +401,34 @@ function decode(json) {
         let status = parseInt(status_hex, 16);
         cp_msg = cp_msg.substring(2);
         let disp_addr_hex = cp_msg;
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Give Amount (hex)', give_q_hex);
-        out += wl('Give Amount (sat)', give_q);
-        out += wl('Escr. Amount (hex)', esc_q_hex);
-        out += wl('Escr. Amount (sat)', esc_q);
-        out += wl('BTC Amount (hex)', btc_q_hex);
-        out += wl('BTC Amount (sat)', btc_q);
-        out += wl('BTC Amount', (btc_q / 100000000).toFixed(8));
-        out += wl('Status (hex)', status_hex);
-        out += wl('Status (int)', status);
-        out += wl('Dis. Address (hex)', disp_addr_hex);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Give Amount (hex)', give_q_hex);
+        // out += wl('Give Amount (sat)', give_q);
+        // out += wl('Escr. Amount (hex)', esc_q_hex);
+        // out += wl('Escr. Amount (sat)', esc_q);
+        // out += wl('BTC Amount (hex)', btc_q_hex);
+        // out += wl('BTC Amount (sat)', btc_q);
+        // out += wl('BTC Amount', (btc_q / 100000000).toFixed(8));
+        // out += wl('Status (hex)', status_hex);
+        // out += wl('Status (int)', status);
+        // out += wl('Dis. Address (hex)', disp_addr_hex);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            give_q_hex,
+            give_q,
+            esc_q_hex,
+            esc_q,
+            btc_q_hex,
+            btc_q_sat: btc_q,
+            btc_q_btc: (btc_q / 100000000).toFixed(8),
+            status_hex,
+            status,
+            disp_addr_hex,
+        };
     }
 
     if (id == 20 && block_height < 753500) { //Issuance, pre change 2022
@@ -361,27 +458,42 @@ function decode(json) {
         //descr = unescape(encodeURIComponent(descr));
         descr = decodeURIComponent(escape(descr));
         if (recipient != '0') {
-            out += wl('Transfer To', recipient);
-            out += wl('Dust (sat)', first_send_sat);
-            out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+            // out += wl('Transfer To', recipient);
+            // out += wl('Dust (sat)', first_send_sat);
+            // out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
         }
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Issue Amount (hex)', q_hex);
-        out += wl('Issue Amount (sat)', q);
-        out += wl('Divisible (hex)', div_hex);
-        //out += wl('Divisible', div);
-        out += wl('Callable (hex)', call_hex);
-        //out += wl('Callable', call);
-        out += wl('Call Date (hex)', call_date_hex);
-        //out += wl('Call Date (int)', call_date);
-        out += wl('Call Price (hex)', call_price_hex);
-        //out += wl('Call Price (sat)', call_price);
-        out += wl('Descr Length (hex)', len_hex);
-        out += wl('Descr Length (int)', len);
-        out += wl('Description (hex)', descr_hex);
-        out += wl('Description', descr);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Issue Amount (hex)', q_hex);
+        // out += wl('Issue Amount (sat)', q);
+        // out += wl('Divisible (hex)', div_hex);
+        // //out += wl('Divisible', div);
+        // out += wl('Callable (hex)', call_hex);
+        // //out += wl('Callable', call);
+        // out += wl('Call Date (hex)', call_date_hex);
+        // //out += wl('Call Date (int)', call_date);
+        // out += wl('Call Price (hex)', call_price_hex);
+        // //out += wl('Call Price (sat)', call_price);
+        // out += wl('Descr Length (hex)', len_hex);
+        // out += wl('Descr Length (int)', len);
+        // out += wl('Description (hex)', descr_hex);
+        // out += wl('Description', descr);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            div_hex,
+            call_hex,
+            call_date_hex,
+            call_price_hex,
+            len_hex,
+            len,
+            descr_hex,
+            descr,
+        };
     }
 
     if (id == 20 && block_height >= 753500) { //Issuance, post change 2022
@@ -409,22 +521,34 @@ function decode(json) {
         //descr = unescape(encodeURIComponent(descr));
         descr = decodeURIComponent(escape(descr));
         if (recipient != '0') {
-            out += wl('Transfer To', recipient);
-            out += wl('Dust (sat)', first_send_sat);
-            out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+            // out += wl('Transfer To', recipient);
+            // out += wl('Dust (sat)', first_send_sat);
+            // out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
         }
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Issue Amount (hex)', q_hex);
-        out += wl('Issue Amount (sat)', q);
-        out += wl('Divisible (hex)', div_hex);
-        out += wl('Lock (hex)', lock_hex);
-        out += wl('Reset (hex)', reset_hex);
-        //out += wl('Descr Length (hex)', len_hex);
-        //out += wl('Descr Length (int)', len);
-        out += wl('Description (hex)', descr_hex);
-        out += wl('Description', descr);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Issue Amount (hex)', q_hex);
+        // out += wl('Issue Amount (sat)', q);
+        // out += wl('Divisible (hex)', div_hex);
+        // out += wl('Lock (hex)', lock_hex);
+        // out += wl('Reset (hex)', reset_hex);
+        // //out += wl('Descr Length (hex)', len_hex);
+        // //out += wl('Descr Length (int)', len);
+        // out += wl('Description (hex)', descr_hex);
+        // out += wl('Description', descr);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            div_hex,
+            lock_hex,
+            reset_hex,
+            descr_hex,
+            descr,
+        };
     }
 
     if (id == 21 && block_height >= 753500) { //Issuance (Subasset), post change 2022
@@ -455,24 +579,39 @@ function decode(json) {
         //descr = unescape(encodeURIComponent(descr));
         descr = decodeURIComponent(escape(descr));
         if (recipient != '0') {
-            out += wl('Transfer To', recipient);
-            out += wl('Dust (sat)', first_send_sat);
-            out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+            // out += wl('Transfer To', recipient);
+            // out += wl('Dust (sat)', first_send_sat);
+            // out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
         }
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Issue Amount (hex)', q_hex);
-        out += wl('Issue Amount (sat)', q);
-        out += wl('Divisible (hex)', div_hex);
-        out += wl('Lock (hex)', lock_hex);
-        out += wl('Reset (hex)', reset_hex);
-        out += wl('Subasset len (hex)', len_subasset_hex);
-        //out += wl('Subasset len', len_subasset);
-        out += wl('Subasset (hex)', subasset_hex);
-        out += wl('Subasset', subasset);
-        out += wl('Description (hex)', descr_hex);
-        out += wl('Description', descr);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Issue Amount (hex)', q_hex);
+        // out += wl('Issue Amount (sat)', q);
+        // out += wl('Divisible (hex)', div_hex);
+        // out += wl('Lock (hex)', lock_hex);
+        // out += wl('Reset (hex)', reset_hex);
+        // out += wl('Subasset len (hex)', len_subasset_hex);
+        // //out += wl('Subasset len', len_subasset);
+        // out += wl('Subasset (hex)', subasset_hex);
+        // out += wl('Subasset', subasset);
+        // out += wl('Description (hex)', descr_hex);
+        // out += wl('Description', descr);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            div_hex,
+            lock_hex,
+            reset_hex,
+            len_subasset_hex,
+            subasset_hex,
+            subasset,
+            descr_hex,
+            descr,
+        };
     }
 
     if (id == 30) { //Broadcast
@@ -500,18 +639,30 @@ function decode(json) {
         let text_hex = cp_msg;
         let text = hex2a(text_hex);
         text = decodeURIComponent(escape(text.substring(0)));
-        out += wl('Timestamp (hex)', ts_hex);
-        out += wl('Timestamp (int)', ts);
-        out += wl('Timestamp', print_ts(ts));
-        out += wl('Value (hex)', value_hex);
-        out += wl('Fee (hex)', fee_hex);
-        out += wl('Fee (int)', fee);
+        // out += wl('Timestamp (hex)', ts_hex);
+        // out += wl('Timestamp (int)', ts);
+        // out += wl('Timestamp', print_ts(ts));
+        // out += wl('Value (hex)', value_hex);
+        // out += wl('Fee (hex)', fee_hex);
+        // out += wl('Fee (int)', fee);
         if (len_byte) {
-            out += wl('Text Length (hex)', len_hex);
-            out += wl('Text Length (int)', len);
+            // out += wl('Text Length (hex)', len_hex);
+            // out += wl('Text Length (int)', len);
         }
-        out += wl('Text (hex)', text_hex);
-        out += wl('Text', text);
+        // out += wl('Text (hex)', text_hex);
+        // out += wl('Text', text);
+        msg_decoded = {
+            ts_hex,
+            ts,
+            ts_print: print_ts(ts),
+            value_hex,
+            fee_hex,
+            fee,
+            len_hex,
+            len,
+            text_hex,
+            text,
+        };
     }
 
     if (id == 50) { //Dividend
@@ -524,19 +675,38 @@ function decode(json) {
         let asset2_hex = cp_msg.substring(0, 16);
         let asset2 = parseInt(asset2_hex, 16);
         cp_msg = cp_msg.substring(16);
-        out += wl('Div. Amount (hex)', div_q_hex);
-        out += wl('Div. Amount (sat)', div_q);
-        out += wl('Asset (hex)', asset_hex);
-        out += wl('Asset (int)', asset);
-        out += wl('Asset', asset_name(asset));
-        out += wl('Div. Asset (hex)', asset2_hex);
-        out += wl('Div. Asset (int)', asset2);
-        out += wl('Div. Asset', asset_name(asset2));
+        // out += wl('Div. Amount (hex)', div_q_hex);
+        // out += wl('Div. Amount (sat)', div_q);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Div. Asset (hex)', asset2_hex);
+        // out += wl('Div. Asset (int)', asset2);
+        // out += wl('Div. Asset', asset_name(asset2));
+        msg_decoded = {
+            div_q_hex,
+            div_q,
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            asset2_hex,
+            asset2,
+            asset2_name: asset_name(asset2),
+        };
     }
 
     // document.getElementById("output").innerHTML = out;
     // output2(hash);
-    return { out };
+    // return { out };
+
+    if (msg_decoded) {
+        json_out.cntrprty = {
+            ...json_out.cntrprty,
+            msg_decoded,
+        }
+    }
+
+    return json_out;
 }
 
 // function output2(tx) {
@@ -550,20 +720,20 @@ function decode(json) {
 //     document.getElementById("output2").innerHTML = out;
 // }
 
-function wl(title, info) {
-    return title.padEnd(18, ' ') + ' ' + chunk(info, '<br>' + ''.padEnd(19, ' '), 64) + '<br>';
-}
+// function wl(title, info) {
+//     return title.padEnd(18, ' ') + ' ' + chunk(info, '<br>' + ''.padEnd(19, ' '), 64) + '<br>';
+// }
 
-function chunk(str, sep, n) {
-    str = String(str);
-    var ret = [];
-    var i;
-    var len;
-    for (i = 0, len = str.length; i < len; i += n) {
-        ret.push(str.substr(i, n))
-    }
-    return ret.join(sep);
-};
+// function chunk(str, sep, n) {
+//     str = String(str);
+//     var ret = [];
+//     var i;
+//     var len;
+//     for (i = 0, len = str.length; i < len; i += n) {
+//         ret.push(str.substr(i, n))
+//     }
+//     return ret.join(sep);
+// };
 
 function hex2a(hexx) {
     var hex = hexx.toString();//force conversion
