@@ -32,7 +32,7 @@ class Transaction extends React.Component {
         // event.target.value ={data_url_chain.length - this.state.olga_chars_cut}
         this.setState((prevState, props) => ({
             olga_chars_cut: this.state.olga_length - event.target.value
-        })); 
+        }));
     }
 
     async fetchData(tx_hash) {
@@ -164,7 +164,7 @@ class Transaction extends React.Component {
                 </>
             );
         }
-        
+
         else if (this.state.transaction) {
 
             // is olga
@@ -175,7 +175,7 @@ class Transaction extends React.Component {
                 const bindings = JSON.parse(only_message_in_block.bindings);
                 const broadcast_text_raw = bindings.text;
                 const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
-                                
+
                 let data_url_cut; // making copies of both
 
                 if (this.state.olga_chars_cut) {
@@ -198,7 +198,7 @@ class Transaction extends React.Component {
                         <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
                         <img src={data_url_chain_fixed} />
                         <p>Image *written* in Bitcoin since 2015</p>
-                        
+
                         {/* <br /> */}
                         <input
                             type="range"
@@ -229,46 +229,46 @@ class Transaction extends React.Component {
 
             transaction_element_contents = (
                 <>
-                {/* {olga_element} */}
+                    {/* {olga_element} */}
 
-                {/* // at least for now, not using tables for single element result
+                    {/* // at least for now, not using tables for single element result
                 // just using a simple ul for now */}
 
-                <ul>
+                    <ul>
 
-                    {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
-                    {olga_element}
+                        {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
+                        {olga_element}
 
-                    <li>
+                        <li>
 
-                        <h3>CNTRPRTY transaction:</h3>
+                            <h3>CNTRPRTY transaction:</h3>
 
-                        <ul>
+                            <ul>
 
-                    <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                                <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
 
-                    <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
-                    {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
-                    {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
-                    {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
-                    {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                    <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
-                    {/* <li>block_index: {this.state.transaction.block_index}</li> */}
-                    {/* <li>block_time: {this.state.transaction.block_time}</li> */}
-                    <li>block_time_iso: {(new Date(this.state.transaction.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
-                    {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                    <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
-                    {/* <li>source: {this.state.transaction.source}</li> */}
-                    {this.state.transaction.destination ? (
-                        <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
-                        // <li>destination: {this.state.transaction.destination}</li>
-                    ) : null}
+                                <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
+                                {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
+                                {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
+                                {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
+                                {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
+                                <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
+                                {/* <li>block_index: {this.state.transaction.block_index}</li> */}
+                                {/* <li>block_time: {this.state.transaction.block_time}</li> */}
+                                <li>block_time_iso: {(new Date(this.state.transaction.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
+                                {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
+                                <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
+                                {/* <li>source: {this.state.transaction.source}</li> */}
+                                {this.state.transaction.destination ? (
+                                    <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
+                                    // <li>destination: {this.state.transaction.destination}</li>
+                                ) : null}
 
 
-                        </ul>
-                    
-                    </li>
-                    {/* <li>
+                            </ul>
+
+                        </li>
+                        {/* <li>
                         <h3>CNTRPRTY data:</h3>
                         // CNTRPRTY:
                         // {'{'}
@@ -286,21 +286,21 @@ class Transaction extends React.Component {
                         // {'}'}
                     </li> */}
 
-                    {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li> */}
-                    {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li> */}
+                        {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li> */}
+                        {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li> */}
 
-                    <li>
-                        {/* <ul> */}
-                        {/* <li>source: {this.state.transaction.source}</li> */}
-                        {/* {this.state.transaction.destination ? (
+                        <li>
+                            {/* <ul> */}
+                            {/* <li>source: {this.state.transaction.source}</li> */}
+                            {/* {this.state.transaction.destination ? (
                                 <li>destination: {this.state.transaction.destination}</li>
                             ) : null} */}
-                        {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
+                            {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
 
-                        {/* </ul> */}
+                            {/* </ul> */}
 
 
-                        {/* {this.state.main_messages.length ? (
+                            {/* {this.state.main_messages.length ? (
                             <>
                                 <h3>Main messages:</h3>
                                 // <h3>Main message:</h3>
@@ -320,32 +320,32 @@ class Transaction extends React.Component {
                         ) : null} */}
 
 
-                        {/* TODO ALL?! */}
-                        {/* <h3>"All" (WIP) messages:</h3> */}
-                        {/* <h3>All messages:</h3> */}
-                        <h3>Messages:</h3>
+                            {/* TODO ALL?! */}
+                            {/* <h3>"All" (WIP) messages:</h3> */}
+                            {/* <h3>All messages:</h3> */}
+                            <h3>Messages:</h3>
 
-                        {/* <ul>
+                            {/* <ul>
                             <li> */}
-                        <table>
-                            <tbody>
-                                {ListElements.getTableRowMessageTxHeader()}
-                                {this.state.messages.map((message_row, index) => {
-                                    return ListElements.getTableRowMessageTx(message_row, index);
-                                    // const page = 'tx';
-                                    // return ListElements.getTableRowMessage(message_row, index, page);
-                                })}
-                            </tbody>
-                        </table>
-                        {/* </li> */}
-                        {/* <li>supported: {this.state.transaction.supported}</li>
+                            <table>
+                                <tbody>
+                                    {ListElements.getTableRowMessageTxHeader()}
+                                    {this.state.messages.map((message_row, index) => {
+                                        return ListElements.getTableRowMessageTx(message_row, index);
+                                        // const page = 'tx';
+                                        // return ListElements.getTableRowMessage(message_row, index, page);
+                                    })}
+                                </tbody>
+                            </table>
+                            {/* </li> */}
+                            {/* <li>supported: {this.state.transaction.supported}</li>
                             <li>data_type: {this.state.transaction.data.type}</li>
                             <li>data: {JSON.stringify(this.state.transaction.data.data)}</li> */}
-                        {/* </ul> */}
-                    </li>
+                            {/* </ul> */}
+                        </li>
 
 
-                    {/* <li>
+                        {/* <li>
                         <h3>Other (possibly related) block messages:</h3>
                         <table>
                             <tbody>
@@ -372,9 +372,9 @@ class Transaction extends React.Component {
                         </table>
                     </li> */}
 
-                </ul>
+                    </ul>
 
-                {/* // <table>
+                    {/* // <table>
                 //     <tbody>
                 //         {this.state.mempool_full.map((mempool_row, index) => {
                 //             // {this.state.mempool_grouped.map((mempool_row, index) => {
@@ -386,7 +386,7 @@ class Transaction extends React.Component {
                 </>
             );
         }
-        
+
         const transaction_element = (
             <>
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
