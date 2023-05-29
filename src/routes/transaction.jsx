@@ -140,6 +140,29 @@ class Transaction extends React.Component {
                 <p>transaction not found</p>
             );
         }
+        else if (this.state.mempool.length) {
+            transaction_element_contents = (
+                <>
+                    <h3>In mempool...</h3>
+
+                    {/* // when it is in the mempool, it can be multiple rows just like the homepage */}
+
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowMempoolTxHeader()}
+                            {this.state.mempool.map((mempool_row, index) => {
+                                return ListElements.getTableRowMempoolTx(mempool_row, index);
+                                // const page = 'tx';
+                                // return ListElements.getTableRowMempool(mempool_row, index, page);
+                                // return ListElements.getTableRowMempool(mempool_row, index);
+                            })}
+                        </tbody>
+                    </table>
+
+                </>
+            );
+        }
+        
         else if (this.state.transaction) {
 
             // is olga
@@ -343,28 +366,7 @@ class Transaction extends React.Component {
                 </>
             );
         }
-        else if (this.state.mempool.length) {
-            transaction_element_contents = (
-                <>
-                    <h3>In mempool...</h3>
-
-                    {/* // when it is in the mempool, it can be multiple rows just like the homepage */}
-
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowMempoolTxHeader()}
-                            {this.state.mempool.map((mempool_row, index) => {
-                                return ListElements.getTableRowMempoolTx(mempool_row, index);
-                                // const page = 'tx';
-                                // return ListElements.getTableRowMempool(mempool_row, index, page);
-                                // return ListElements.getTableRowMempool(mempool_row, index);
-                            })}
-                        </tbody>
-                    </table>
-
-                </>
-            );
-        }
+        
         const transaction_element = (
             <>
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
