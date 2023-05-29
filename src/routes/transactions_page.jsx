@@ -69,7 +69,6 @@ class Transactionspage extends React.Component {
                 </main>
             );
         }
-        else if (this.state.rows.length) {
 
             // TODO? easier to do manual at least for now...
             let years;
@@ -175,7 +174,6 @@ class Transactionspage extends React.Component {
 
                 </div>
             );
-        }
 
         const page_element = (
             <>
