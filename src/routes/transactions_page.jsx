@@ -9,22 +9,22 @@ class Transactionspage extends React.Component {
     constructor(props) {
         super(props);
 
-        let tx_index_if_specified = undefined;
+        let index_if_specified = undefined;
         if (props.router.location.hash.length) {
-            const page_number_string = props.router.location.hash.replace('#', '');
-            if (Number.isInteger(Number(page_number_string))) {
-                tx_index_if_specified = Number(page_number_string);
+            const index_string = props.router.location.hash.replace('#', '');
+            if (Number.isInteger(Number(index_string))) {
+                index_if_specified = Number(index_string);
             }
         }
 
-        if (!tx_index_if_specified) {
-            tx_index_if_specified = 0;
+        if (!index_if_specified) {
+            index_if_specified = 0;
         }
 
         this.state = {
             page_not_found: null,
 
-            from_index: tx_index_if_specified,
+            from_index: index_if_specified,
             to_index: null,
             rows: [],
         };
