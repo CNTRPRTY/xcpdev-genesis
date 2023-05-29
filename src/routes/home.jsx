@@ -144,7 +144,8 @@ class Home extends React.Component {
         if (this.state.btc_transactions_latest && this.state.btc_transactions_latest.length) {
             const is_home_page = true;
 
-            const link_tx_index = this.state.btc_transactions_latest[0].tx_index - 999;
+            const link_tx_index = this.state.btc_transactions_latest[0].tx_index - 99;
+            // const link_tx_index = this.state.btc_transactions_latest[0].tx_index - 999;
 
             transactions_element_contents = (
                 <>
