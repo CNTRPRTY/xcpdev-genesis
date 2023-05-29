@@ -60,6 +60,7 @@ async function get_json(tx) {
     return decode(json);
 }
 
+// block_height should not be needed, v9.60 changed a message format instead of making a new message type
 function decode_data(data_hex, block_height) {
     let cp_msg = data_hex;
 
