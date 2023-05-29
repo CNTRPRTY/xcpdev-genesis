@@ -208,8 +208,10 @@ class Transaction extends React.Component {
                 // just using a simple ul for now */}
 
                 <ul>
+                    <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
+                    {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                     {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
-                    <li>tx_hash: {this.state.transaction.tx_hash}</li>
+                    {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
                     {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
                     <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
                     {/* <li>block_index: {this.state.transaction.block_index}</li> */}
