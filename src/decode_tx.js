@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Counterparty Decoder</title>
-    <script type="text/javascript" src="js/lib/sha256.js"></script>
-    <script>
 
       let example_txs = [
         'da3ed1efda82824cb24ea081ef2a8f532a7dd9cd1ebc5efa873498c3958c864e', //0  Classic send - 501 JPGOLD
@@ -797,62 +790,3 @@
         }
         return ret
       }
-
-    </script>
-
-    <style>
-      #content {
-        font-family: Helvetica, sans-serif;
-        margin: auto;
-        max-width: 900px;
-        border: 2px solid #8B8B81;
-        border-radius: 12px;
-        background-color: #F5F5F5;
-        padding: 20px;
-        text-align: left;
-      }
-      #output {
-        font-family: courier, consolas, monospace;
-        white-space: pre;
-      }
-      h1 {
-        margin-top: -4px; 
-      }
-      input[type=text] {
-        width: 75%; 
-      }
-      input[type=submit] {
-        width: 12em; 
-        margin-top: 7px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="content">
-
-      <h1>Counterparty Decoder</h1>
-      <p>Enter a Bitcoin transaction ID.</p>
-      <p>
-        <input type="text" id="txid" name="txid" placeholder=""><br>
-        <input type="submit" value="Submit" onclick="get_json(document.getElementById('txid').value);">
-      </p>
-      <p>This script collects tx details from the Blockcypher API<br>and extracts Counterparty data.</p>
-      <div id="output"> </div>
-      <div id="output2"> </div>
-      <div id="footer"><br><br>
-        Beta software!<br><br>
-        Not all encodings and transaction types are supported.<br><br>
-        This script cannot determine if a tx is <i>valid</i>, i.e. in accordance with consensus rules or not.<br><br>
-        For more info, read <a href="https://jpjanssen.com/how-to-reverse-engineer-counterparty-txs/">blog post</a>.<br>
-        <br><br>Made by JP Janssen<br>
-        MIT license<br><br>
-        <a href="https://jpjanssen.com/donation-dispensers-for-my-xcp-projects/">Donate</a><br>
-        BTC: bc1qg8vldv8kk4mqafs87z2yv0xpq4wr4csucr3cj7<br>
-        DOGE: DChdsuLuEvAPZb9ZXpiEpimgidSJ5VqShq<br>
-        ETH: 0x4144CbaF54044510AB2F2f3c51061Dd5558cD604<br>
-        <i>BTC and DOGE addresses have dispensers installed.<br>
-          You automatically get vintage tokens in return.</i>
-      </div>
-    </div>
-  </body>
-</html>
