@@ -351,6 +351,40 @@ function decode_data(data_hex, block_height) {
         };
     }
 
+    if (id == 21 && block_height < 753500) { //Issuance (Subasset), pre change 2022
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = BigInt('0x' + asset_hex).toString(10);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let div_hex = cp_msg.substring(0, 2);
+        let div = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let len_subasset_hex = cp_msg.substring(0, 2);
+        let len_subasset = parseInt(len_subasset_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let subasset_hex = cp_msg.substring(0, len_subasset * 2);
+        let subasset = hex_to_subasset(subasset_hex);
+        cp_msg = cp_msg.substring(len_subasset * 2);
+        let descr_hex = cp_msg;
+        let descr = hex2a(descr_hex);
+        descr = decodeURIComponent(escape(descr));
+        msg_decoded = {
+            asset_hex,
+            asset,
+            q_hex,
+            q,
+            div_hex,
+            div,
+            len_subasset_hex,
+            subasset_hex,
+            subasset,
+            descr_hex,
+            descr,
+        };
+    }
+
     if (id == 20 && block_height >= 753500) { //Issuance, post change 2022
         // editing msg_type
         json_out.msg_type = `${json_out.msg_type}[753500:]`;
