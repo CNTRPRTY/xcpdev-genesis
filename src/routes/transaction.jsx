@@ -4,6 +4,8 @@ import { getCntrprty, getBlockMessages, selectTransactionMessagesFromAll } from 
 import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
+import { decode_data } from '../decode_tx';
+import { Buffer } from 'buffer';
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -72,6 +74,16 @@ class Transaction extends React.Component {
             }
             else if (transaction_response.transaction) {
 
+                // cntrprty transaction
+                let cntrprty_decoded = null;
+                const cntrprty_hex = Buffer.from(transaction_response.transaction.data, 'hex').toString('hex');
+                try {
+                    cntrprty_decoded = decode_data(cntrprty_hex, transaction_response.transaction.block_index, true);
+                }
+                catch (e) {
+                    console.error(`cntrprty_decoded error: ${e}`);
+                }
+
                 // get block messages data
                 let messages_all = [];
                 try {
@@ -102,6 +114,10 @@ class Transaction extends React.Component {
                 this.setState({
                     tx_hash,
                     transaction: transaction_response.transaction,
+
+                    cntrprty_hex,
+                    cntrprty_decoded,
+
                     messages: transaction_response.messages,
 
                     olga_length,
@@ -263,11 +279,24 @@ class Transaction extends React.Component {
                                     <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
                                     // <li>destination: {this.state.transaction.destination}</li>
                                 ) : null}
-
-
                             </ul>
 
                         </li>
+
+                        <li>
+                            {/* TODO? remove the whole section for Bitcoin only transactions (like dispense)...??? */}
+                            <p>Data:</p>
+                            {this.state.cntrprty_decoded.msg_decoded ?
+                                (
+                                    <ul>
+                                        <li>hex: {this.state.cntrprty_hex}</li>
+                                        <li>decoded: {JSON.stringify(this.state.cntrprty_decoded.msg_decoded)}</li>
+                                    </ul>
+                                ) :
+                                (<p>(unable to decode this transaction)</p>)
+                            }
+                        </li>
+
                         {/* <li>
                         <h3>CNTRPRTY data:</h3>
                         // CNTRPRTY:
@@ -323,7 +352,8 @@ class Transaction extends React.Component {
                             {/* TODO ALL?! */}
                             {/* <h3>"All" (WIP) messages:</h3> */}
                             {/* <h3>All messages:</h3> */}
-                            <h3>Messages:</h3>
+                            <p>Messages:</p>
+                            {/* <h3>Messages:</h3> */}
 
                             {/* <ul>
                             <li> */}
