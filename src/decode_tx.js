@@ -80,7 +80,7 @@ function decode_data(data_hex, block_height) {
     // out += wl('Type', msg_type[id]);
 
     let json_out = {
-        data_hex,
+        // data_hex,
         id_hex,
         id,
         msg_type: msg_type[id],
