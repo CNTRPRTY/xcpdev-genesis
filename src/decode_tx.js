@@ -53,7 +53,7 @@ async function get(tx) {
 // if (typeof tx !== 'undefined' && tx.length == 64) get_json(tx);
 
 async function get_json(tx) {
-    json = await get(tx);
+    const json = await get(tx);
     return decode(json);
 }
 
@@ -560,8 +560,8 @@ function decode_data(data_hex, block_height) {
     return json_out;
 }
 
-function decode(json) {
-    json = JSON.parse(JSON.stringify(json));
+function decode(_json) {
+    const json = JSON.parse(JSON.stringify(_json));
     let hash = json['hash'];
     let block_height = json['block_height'];
     let fees = json['fees'];
