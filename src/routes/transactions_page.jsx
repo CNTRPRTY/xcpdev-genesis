@@ -24,21 +24,21 @@ class Transactionspage extends React.Component {
         this.state = {
             page_not_found: null,
 
-            from_tx_index: tx_index_if_specified,
-            to_tx_index: null,
+            from_index: tx_index_if_specified,
+            to_index: null,
             rows: [],
         };
     }
 
-    async fetchData(from_tx_index) {
-        const transactions_response = await getCntrprty(`/transactions/${from_tx_index}`);
+    async fetchData(from_index) {
+        const transactions_response = await getCntrprty(`/transactions/${from_index}`);
         if (!transactions_response) {
             this.setState({ page_not_found: true });
         }
         else {
             this.setState({
-                from_tx_index: transactions_response.from_tx_index,
-                to_tx_index: transactions_response.to_tx_index,
+                from_index: transactions_response.from_index,
+                to_index: transactions_response.to_index,
                 rows: transactions_response.transactions,
             });
         }
@@ -46,15 +46,15 @@ class Transactionspage extends React.Component {
     }
 
     async componentDidMount() {
-        await this.fetchData(this.state.from_tx_index);
+        await this.fetchData(this.state.from_index);
     }
 
     async componentDidUpdate(prevProps) {
         const updatedHash = this.props.router.location.hash;
         const prevHash = prevProps.router.location.hash;
         if (updatedHash !== prevHash) {
-            const from_tx_index = updatedHash.replace('#', '');
-            await this.fetchData(Number(from_tx_index));
+            const from_index = updatedHash.replace('#', '');
+            await this.fetchData(Number(from_index));
         }
 
     }
@@ -146,7 +146,7 @@ class Transactionspage extends React.Component {
             );
 
             const change_pages_element = (
-                <p><Link to={`/transactions#${this.state.to_tx_index + 1}`}>next 100 {'>'}</Link></p>
+                <p><Link to={`/transactions#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
             );
 
             content_element = (
@@ -157,7 +157,7 @@ class Transactionspage extends React.Component {
                     {jump_year_element}
 
                     <h3>
-                        Transactions from tx_index {this.state.from_tx_index} to {this.state.to_tx_index}:
+                        Transactions from tx_index {this.state.from_index} to {this.state.to_index}:
                     </h3>
 
                     {change_pages_element}
