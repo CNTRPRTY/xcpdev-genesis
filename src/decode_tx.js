@@ -52,11 +52,9 @@ async function get(tx) {
 
 // if (typeof tx !== 'undefined' && tx.length == 64) get_json(tx);
 
-function get_json(tx) {
-    (async () => {
-        json = await get(tx)
-        decode(json);
-    })()
+async function get_json(tx) {
+    json = await get(tx);
+    return decode(json);
 }
 
 function decode(json) {
@@ -171,9 +169,10 @@ function decode(json) {
 
     if (cp_msg.substring(0, 16) != '434e545250525459') {
         out += wl('No Counterparty data found!', '');
-        document.getElementById("output").innerHTML = out;
-        output2(hash);
-        return;
+        // document.getElementById("output").innerHTML = out;
+        // output2(hash);
+        // return;
+        return { out };
     }
 
 
@@ -535,20 +534,21 @@ function decode(json) {
         out += wl('Div. Asset', asset_name(asset2));
     }
 
-    document.getElementById("output").innerHTML = out;
-    output2(hash);
+    // document.getElementById("output").innerHTML = out;
+    // output2(hash);
+    return { out };
 }
 
-function output2(tx) {
-    let out = '<br><br>';
-    out += 'View on: ';
-    out += '<a href="https://xchain.io/tx/' + tx + '">Xchain</a> – ';
-    out += '<a href="https://xcp.dev/tx/' + tx + '">xcp.dev</a> – ';
-    out += '<a href="https://live.blockcypher.com/btc/tx/' + tx + '/">BlockCypher</a> – ';
-    out += '<a href="https://www.blockchain.com/btc/tx/' + tx + '">Blockchain.com</a> – ';
-    out += '<a href="https://blockstream.info/tx/' + tx + '">Blockstream</a>';
-    document.getElementById("output2").innerHTML = out;
-}
+// function output2(tx) {
+//     let out = '<br><br>';
+//     out += 'View on: ';
+//     out += '<a href="https://xchain.io/tx/' + tx + '">Xchain</a> – ';
+//     out += '<a href="https://xcp.dev/tx/' + tx + '">xcp.dev</a> – ';
+//     out += '<a href="https://live.blockcypher.com/btc/tx/' + tx + '/">BlockCypher</a> – ';
+//     out += '<a href="https://www.blockchain.com/btc/tx/' + tx + '">Blockchain.com</a> – ';
+//     out += '<a href="https://blockstream.info/tx/' + tx + '">Blockstream</a>';
+//     document.getElementById("output2").innerHTML = out;
+// }
 
 function wl(title, info) {
     return title.padEnd(18, ' ') + ' ' + chunk(info, '<br>' + ''.padEnd(19, ' '), 64) + '<br>';
@@ -895,4 +895,9 @@ function sha256(ascii) {
         }
     }
     return result;
+};
+
+
+module.exports = {
+    get_json,
 };
