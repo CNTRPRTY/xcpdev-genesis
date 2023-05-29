@@ -146,8 +146,7 @@ class Transactionspage extends React.Component {
             );
 
             const change_pages_element = (
-                <p><Link to={`/transactions#${this.state.to_tx_index + 1}`}>next 1000 {'>'}</Link></p>
-                // <p><Link to={`/transactions#${this.state.to_tx_index + 1}`}>next{'>'}</Link></p>
+                <p><Link to={`/transactions#${this.state.to_tx_index + 1}`}>next 100 {'>'}</Link></p>
             );
 
             content_element = (

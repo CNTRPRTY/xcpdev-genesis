@@ -268,8 +268,9 @@ app.get('/transactions/:txIndex', async (req, res) => {
     // TODO improve, starting with most basic validation
     try {
         const tx_index = Number(req.params.txIndex);
-        // get the transactions including the tx and the next 1000 transactions
-        const to_tx_index = Number(tx_index) + 999;
+        // get the transactions including the tx and the next 100 transactions
+        const to_tx_index = Number(tx_index) + 99;
+        // const to_tx_index = Number(tx_index) + 999;
         const transactions = await Queries.getTransactionsFromTxIndexToTxIndex(db, tx_index, to_tx_index);
         res.status(200).json({
             node: {
