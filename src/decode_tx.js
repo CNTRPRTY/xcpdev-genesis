@@ -98,8 +98,8 @@ function decode_data(data_hex, block_height) {
         // out += wl('Amount (sat)', q);
         msg_decoded = {
             // recipient,
-            first_send_sat,
-            first_send_btc: (first_send_sat / 100000000).toFixed(8),
+            // first_send_sat,
+            // first_send_btc: (first_send_sat / 100000000).toFixed(8),
             asset_hex,
             asset,
             asset_name: asset_name(asset),
@@ -223,8 +223,8 @@ function decode_data(data_hex, block_height) {
             order_0,
             order_1,
             // recipient,
-            first_send_sat,
-            first_send_btc: (first_send_sat / 100000000).toFixed(8),
+            // first_send_sat,
+            // first_send_btc: (first_send_sat / 100000000).toFixed(8),
         };
     }
 
