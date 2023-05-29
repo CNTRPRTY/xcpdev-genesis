@@ -57,6 +57,509 @@ async function get_json(tx) {
     return decode(json);
 }
 
+function decode_data(data_hex, block_height) {
+    let cp_msg = data_hex;
+
+    let id_hex = cp_msg.substring(0, 2);
+    if (id_hex == '00') {
+        id_hex = cp_msg.substring(0, 8);
+        cp_msg = cp_msg.substring(8);
+    } else {
+        cp_msg = cp_msg.substring(2);
+    }
+    let id = parseInt(id_hex, 16);
+    // out += wl('Type (hex)', id_hex);
+    // out += wl('Type (int)', id);
+    // out += wl('Type', msg_type[id]);
+
+    let json_out = {
+        data_hex,
+        id_hex,
+        id,
+        msg_type: msg_type[id],
+        msg_hex: cp_msg,
+    };
+
+    let msg_decoded;
+
+    if (id == 0) { //Classic Send
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        // out += wl('Recipient', recipient);
+        // out += wl('Dust (sat)', first_send_sat);
+        // out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Amount (hex)', q_hex);
+        // out += wl('Amount (sat)', q);
+        msg_decoded = {
+            // recipient,
+            first_send_sat,
+            first_send_btc: (first_send_sat / 100000000).toFixed(8),
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+        };
+    }
+
+    if (id == 2) { //Enhanced Send
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let recipient_hex = cp_msg.substring(0, 42);
+        let recipient = hex_to_address(recipient_hex);
+        cp_msg = cp_msg.substring(42);
+        let memo_hex = cp_msg;
+        let memo = hex2a(memo_hex);
+        // out += wl('Recipient (hex)', recipient_hex);
+        // out += wl('Recipient', recipient);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Amount (hex)', q_hex);
+        // out += wl('Amount (sat)', q);
+        // out += wl('Memo (hex)', memo_hex);
+        // out += wl('Memo (text)', memo);
+        msg_decoded = {
+            recipient_hex,
+            recipient,
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            memo_hex,
+            memo,
+        };
+    }
+
+    if (id == 4) { //Sweep
+        let recipient_hex = cp_msg.substring(0, 42);
+        let recipient = hex_to_address(recipient_hex);
+        cp_msg = cp_msg.substring(42);
+        let flag_hex = cp_msg.substring(0, 2);
+        let flag = parseInt(flag_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let memo_hex = cp_msg;
+        let memo = hex2a(memo_hex);
+        // out += wl('Recipient (hex)', recipient_hex);
+        // out += wl('Recipient', recipient);
+        // out += wl('Flag (hex)', flag_hex);
+        // out += wl('Flag (int)', flag);
+        // out += wl('Memo (hex)', memo_hex);
+        // out += wl('Memo (text)', memo);
+        msg_decoded = {
+            recipient_hex,
+            recipient,
+            flag_hex,
+            flag,
+            memo_hex,
+            memo,
+        };
+    }
+
+    if (id == 10) { //DEX Order
+        let give_asset_hex = cp_msg.substring(0, 16);
+        let give_asset = parseInt(give_asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let give_q_hex = cp_msg.substring(0, 16);
+        let give_q = parseInt(give_q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let get_asset_hex = cp_msg.substring(0, 16);
+        let get_asset = parseInt(get_asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let get_q_hex = cp_msg.substring(0, 16);
+        let get_q = parseInt(get_q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let exp_hex = cp_msg.substring(0, 4);
+        let exp = parseInt(exp_hex, 16);
+        // out += wl('Give Asset (hex)', give_asset_hex);
+        // out += wl('Give Asset (int)', give_asset);
+        // out += wl('Give Asset', asset_name(give_asset));
+        // out += wl('Give Amount (hex)', give_q_hex);
+        // out += wl('Give Amount (sat)', give_q);
+        // out += wl('Get Asset (hex)', get_asset_hex);
+        // out += wl('Get Asset (int)', get_asset);
+        // out += wl('Get Asset', asset_name(get_asset));
+        // out += wl('Get Amount (hex)', get_q_hex);
+        // out += wl('Get Amount (sat)', get_q);
+        // out += wl('Expiration (hex)', exp_hex);
+        // out += wl('Expiration (int)', exp);
+        msg_decoded = {
+            give_asset_hex,
+            give_asset,
+            give_asset_name: asset_name(give_asset),
+            give_q_hex,
+            give_q,
+            get_asset_hex,
+            get_asset,
+            get_asset_name: asset_name(get_asset),
+            get_q_hex,
+            get_q,
+            exp_hex,
+            exp,
+        };
+    }
+
+    if (id == 11) { //Btcpay
+        let order_0 = cp_msg.substring(0, 64);
+        cp_msg = cp_msg.substring(64);
+        let order_1 = cp_msg.substring(0, 64);
+        // out += wl('Order 0', order_0);
+        // out += wl('Order 1', order_1);
+        // out += wl('Pay To', recipient);
+        // out += wl('Pay (sat)', first_send_sat);
+        // out += wl('Pay (btc)', (first_send_sat / 100000000).toFixed(8));
+        msg_decoded = {
+            order_0,
+            order_1,
+            // recipient,
+            first_send_sat,
+            first_send_btc: (first_send_sat / 100000000).toFixed(8),
+        };
+    }
+
+    if (id == 12) { //Dispenser
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let give_q_hex = cp_msg.substring(0, 16);
+        let give_q = parseInt(give_q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let esc_q_hex = cp_msg.substring(0, 16);
+        let esc_q = parseInt(esc_q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let btc_q_hex = cp_msg.substring(0, 16);
+        let btc_q = parseInt(btc_q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let status_hex = cp_msg.substring(0, 2);
+        let status = parseInt(status_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let disp_addr_hex = cp_msg;
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Give Amount (hex)', give_q_hex);
+        // out += wl('Give Amount (sat)', give_q);
+        // out += wl('Escr. Amount (hex)', esc_q_hex);
+        // out += wl('Escr. Amount (sat)', esc_q);
+        // out += wl('BTC Amount (hex)', btc_q_hex);
+        // out += wl('BTC Amount (sat)', btc_q);
+        // out += wl('BTC Amount', (btc_q / 100000000).toFixed(8));
+        // out += wl('Status (hex)', status_hex);
+        // out += wl('Status (int)', status);
+        // out += wl('Dis. Address (hex)', disp_addr_hex);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            give_q_hex,
+            give_q,
+            esc_q_hex,
+            esc_q,
+            btc_q_hex,
+            btc_q_sat: btc_q,
+            btc_q_btc: (btc_q / 100000000).toFixed(8),
+            status_hex,
+            status,
+            disp_addr_hex,
+        };
+    }
+
+    if (id == 20 && block_height < 753500) { //Issuance, pre change 2022
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let div_hex = cp_msg.substring(0, 2);
+        let div = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let call_hex = cp_msg.substring(0, 2);
+        let call = parseInt(call_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let call_date_hex = cp_msg.substring(0, 8);
+        let call_date = parseInt(call_date_hex, 16);
+        cp_msg = cp_msg.substring(8);
+        let call_price_hex = cp_msg.substring(0, 8);
+        let call_price = parseInt(call_price_hex, 16);
+        cp_msg = cp_msg.substring(8);
+        let len_hex = cp_msg.substring(0, 2);;
+        let len = parseInt(len_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let descr_hex = cp_msg;
+        let descr = hex2a(descr_hex);
+        //descr = unescape(encodeURIComponent(descr));
+        descr = decodeURIComponent(escape(descr));
+        // if (recipient != '0') {
+        //     out += wl('Transfer To', recipient);
+        //     out += wl('Dust (sat)', first_send_sat);
+        //     out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+        // }
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Issue Amount (hex)', q_hex);
+        // out += wl('Issue Amount (sat)', q);
+        // out += wl('Divisible (hex)', div_hex);
+        // //out += wl('Divisible', div);
+        // out += wl('Callable (hex)', call_hex);
+        // //out += wl('Callable', call);
+        // out += wl('Call Date (hex)', call_date_hex);
+        // //out += wl('Call Date (int)', call_date);
+        // out += wl('Call Price (hex)', call_price_hex);
+        // //out += wl('Call Price (sat)', call_price);
+        // out += wl('Descr Length (hex)', len_hex);
+        // out += wl('Descr Length (int)', len);
+        // out += wl('Description (hex)', descr_hex);
+        // out += wl('Description', descr);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            div_hex,
+            div,
+            call_hex,
+            call,
+            call_date_hex,
+            call_date,
+            call_price_hex,
+            call_price,
+            len_hex,
+            len,
+            descr_hex,
+            descr,
+        };
+    }
+
+    if (id == 20 && block_height >= 753500) { //Issuance, post change 2022
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let div_hex = cp_msg.substring(0, 2);
+        let div = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        //remove call data, add lock and reset
+        let lock_hex = cp_msg.substring(0, 2);
+        let lock = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let reset_hex = cp_msg.substring(0, 2);
+        let reset = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        //let len_hex = cp_msg.substring(0,2);;
+        //let len = parseInt(len_hex, 16);
+        //cp_msg = cp_msg.substring(2);
+        let descr_hex = cp_msg;
+        let descr = hex2a(descr_hex);
+        //descr = unescape(encodeURIComponent(descr));
+        descr = decodeURIComponent(escape(descr));
+        // if (recipient != '0') {
+        //     out += wl('Transfer To', recipient);
+        //     out += wl('Dust (sat)', first_send_sat);
+        //     out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+        // }
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Issue Amount (hex)', q_hex);
+        // out += wl('Issue Amount (sat)', q);
+        // out += wl('Divisible (hex)', div_hex);
+        // out += wl('Lock (hex)', lock_hex);
+        // out += wl('Reset (hex)', reset_hex);
+        // //out += wl('Descr Length (hex)', len_hex);
+        // //out += wl('Descr Length (int)', len);
+        // out += wl('Description (hex)', descr_hex);
+        // out += wl('Description', descr);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            div_hex,
+            div,
+            lock_hex,
+            lock,
+            reset_hex,
+            reset,
+            descr_hex,
+            descr,
+        };
+    }
+
+    if (id == 21 && block_height >= 753500) { //Issuance (Subasset), post change 2022
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = BigInt('0x' + asset_hex).toString(10);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let div_hex = cp_msg.substring(0, 2);
+        let div = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        //remove call data, add lock and reset
+        let lock_hex = cp_msg.substring(0, 2);
+        let lock = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let reset_hex = cp_msg.substring(0, 2);
+        let reset = parseInt(div_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let len_subasset_hex = cp_msg.substring(0, 2);
+        let len_subasset = parseInt(len_subasset_hex, 16);
+        cp_msg = cp_msg.substring(2);
+        let subasset_hex = cp_msg.substring(0, len_subasset * 2);
+        let subasset = hex_to_subasset(subasset_hex);
+        cp_msg = cp_msg.substring(len_subasset * 2);
+        let descr_hex = cp_msg;
+        let descr = hex2a(descr_hex);
+        //descr = unescape(encodeURIComponent(descr));
+        descr = decodeURIComponent(escape(descr));
+        // if (recipient != '0') {
+        //     out += wl('Transfer To', recipient);
+        //     out += wl('Dust (sat)', first_send_sat);
+        //     out += wl('Dust (btc)', (first_send_sat / 100000000).toFixed(8));
+        // }
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Issue Amount (hex)', q_hex);
+        // out += wl('Issue Amount (sat)', q);
+        // out += wl('Divisible (hex)', div_hex);
+        // out += wl('Lock (hex)', lock_hex);
+        // out += wl('Reset (hex)', reset_hex);
+        // out += wl('Subasset len (hex)', len_subasset_hex);
+        // //out += wl('Subasset len', len_subasset);
+        // out += wl('Subasset (hex)', subasset_hex);
+        // out += wl('Subasset', subasset);
+        // out += wl('Description (hex)', descr_hex);
+        // out += wl('Description', descr);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            div_hex,
+            div,
+            lock_hex,
+            lock,
+            reset_hex,
+            reset,
+            len_subasset_hex,
+            subasset_hex,
+            subasset,
+            descr_hex,
+            descr,
+        };
+    }
+
+    if (id == 30) { //Broadcast
+        let ts_hex = cp_msg.substring(0, 8);
+        let ts = parseInt(ts_hex, 16);
+        cp_msg = cp_msg.substring(8);
+        let value_hex = cp_msg.substring(0, 16);
+        let value = parseInt(value_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let fee_hex = cp_msg.substring(0, 8);
+        let fee = parseInt(fee_hex, 16);
+        cp_msg = cp_msg.substring(8);
+        //most broadcast texts begin with a length byte
+        // but not all do. I don't know why.
+        //assume first byte is length byte if it matches length. 
+        // else it's the first text character 
+        let chars_left = cp_msg.length;
+        let len_hex = cp_msg.substring(0, 2);
+        let len = parseInt(len_hex, 16);
+        let len_byte = false;
+        if (len * 2 + 2 == chars_left) {
+            len_byte = true;
+            cp_msg = cp_msg.substring(2);
+        }
+        let text_hex = cp_msg;
+        let text = hex2a(text_hex);
+        text = decodeURIComponent(escape(text.substring(0)));
+        // out += wl('Timestamp (hex)', ts_hex);
+        // out += wl('Timestamp (int)', ts);
+        // out += wl('Timestamp', print_ts(ts));
+        // out += wl('Value (hex)', value_hex);
+        // out += wl('Fee (hex)', fee_hex);
+        // out += wl('Fee (int)', fee);
+        if (len_byte) {
+            // out += wl('Text Length (hex)', len_hex);
+            // out += wl('Text Length (int)', len);
+        }
+        // out += wl('Text (hex)', text_hex);
+        // out += wl('Text', text);
+        msg_decoded = {
+            ts_hex,
+            ts,
+            ts_print: print_ts(ts),
+            value_hex,
+            value,
+            fee_hex,
+            fee,
+            len_hex,
+            len,
+            text_hex,
+            text,
+        };
+    }
+
+    if (id == 50) { //Dividend
+        let div_q_hex = cp_msg.substring(0, 16);
+        let div_q = parseInt(div_q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let asset2_hex = cp_msg.substring(0, 16);
+        let asset2 = parseInt(asset2_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        // out += wl('Div. Amount (hex)', div_q_hex);
+        // out += wl('Div. Amount (sat)', div_q);
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Div. Asset (hex)', asset2_hex);
+        // out += wl('Div. Asset (int)', asset2);
+        // out += wl('Div. Asset', asset_name(asset2));
+        msg_decoded = {
+            div_q_hex,
+            div_q,
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            asset2_hex,
+            asset2,
+            asset2_name: asset_name(asset2),
+        };
+    }
+
+    if (msg_decoded) {
+        json_out = {
+            ...json_out,
+            msg_decoded,
+        }
+    }
+
+    return json_out;
+}
+
 function decode(json) {
     json = JSON.parse(JSON.stringify(json));
     let hash = json['hash'];
@@ -1070,4 +1573,5 @@ function sha256(ascii) {
 
 module.exports = {
     get_json,
+    decode_data,
 };
