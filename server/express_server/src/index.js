@@ -269,16 +269,16 @@ app.get('/transactions/:txIndex', async (req, res) => {
     try {
         const tx_index = Number(req.params.txIndex);
         // get the transactions including the tx and the next 100 transactions
-        const to_tx_index = Number(tx_index) + 99;
-        // const to_tx_index = Number(tx_index) + 999;
-        const transactions = await Queries.getTransactionsFromTxIndexToTxIndex(db, tx_index, to_tx_index);
+        const to_index = Number(tx_index) + 99;
+        // const to_index = Number(tx_index) + 999;
+        const transactions = await Queries.getTransactionsFromTxIndexToTxIndex(db, tx_index, to_index);
         res.status(200).json({
             node: {
                 BITCOIN_VERSION,
                 COUNTERPARTY_VERSION,
             },
-            from_tx_index: tx_index,
-            to_tx_index,
+            from_index: tx_index,
+            to_index,
             transactions,
         });
     }
@@ -294,16 +294,16 @@ app.get('/messages/:messageIndex', async (req, res) => {
     try {
         const message_index = Number(req.params.messageIndex);
         // get the messages including the tx and the next 100 transactions
-        const to_message_index = Number(message_index) + 99;
-        // const to_message_index = Number(message_index) + 999;
-        const messages = await Queries.getMessagesFromMessageIndexToMessageIndex(db, message_index, to_message_index);
+        const to_index = Number(message_index) + 99;
+        // const to_index = Number(message_index) + 999;
+        const messages = await Queries.getMessagesFromMessageIndexToMessageIndex(db, message_index, to_index);
         res.status(200).json({
             node: {
                 BITCOIN_VERSION,
                 COUNTERPARTY_VERSION,
             },
-            from_message_index: message_index,
-            to_message_index,
+            from_index: message_index,
+            to_index,
             messages,
         });
     }
