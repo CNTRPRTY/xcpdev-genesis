@@ -70,67 +70,67 @@ class Transactionspage extends React.Component {
             );
         }
 
-            // TODO? easier to do manual at least for now...
-            let years;
-            if (COUNTERPARTY_VERSION.startsWith('9.59')) {
-                years = {
-                    y2014: 0,
-                    y2015: 134093,
-                    y2016: 399428,
-                    y2017: 751271,
-                    y2018: 1152661,
-                    y2019: 1405841,
-                    y2020: 1482018,
-                    y2021: 1540493,
-                    y2022: 1833799,
-                    y2023: 2199002,
-                };
-            }
-            else { // 9.60
-                years = {
-                    y2014: 0,
-                    y2015: 134093,
-                    y2016: 399428,
-                    y2017: 751271,
-                    y2018: 1152661,
-                    y2019: 1405841,
-                    y2020: 1482018,
-                    y2021: 1540493,
-                    y2022: 1835266,
-                    y2023: 2209456,
-                };
-            }
-            // keeping this around as I'm not sure why is not matching with either (it should have with 9.60 I think...)
-            // const years = {
-            //     y2014: 0,
-            //     y2015: 134093,
-            //     y2016: 399428,
-            //     y2017: 751271,
-            //     y2018: 1152661,
-            //     y2019: 1405841,
-            //     y2020: 1482022,
-            //     y2021: 1540497,
-            //     y2022: 1835273,
-            //     y2023: 2209463,
-            // }
-            const jump_year_element = (
-                <>
-                    <h3>
-                        Jump to year:
-                    </h3>
-                    <p>
-                        <Link to={`/transactions#${years['y2014']}`}>2014</Link>{' | '}
-                        <Link to={`/transactions#${years['y2015']}`}>2015</Link>{' | '}
-                        <Link to={`/transactions#${years['y2016']}`}>2016</Link>{' | '}
-                        <Link to={`/transactions#${years['y2017']}`}>2017</Link>{' | '}
-                        <Link to={`/transactions#${years['y2018']}`}>2018</Link>{' | '}
-                        <Link to={`/transactions#${years['y2019']}`}>2019</Link>{' | '}
-                        <Link to={`/transactions#${years['y2020']}`}>2020</Link>{' | '}
-                        <Link to={`/transactions#${years['y2021']}`}>2021</Link>{' | '}
-                        <Link to={`/transactions#${years['y2022']}`}>2022</Link>{' | '}
-                        <Link to={`/transactions#${years['y2023']}`}>2023</Link>
-                    </p>
-                    {/* <p>
+        // TODO? easier to do manual at least for now...
+        let years;
+        if (COUNTERPARTY_VERSION.startsWith('9.59')) {
+            years = {
+                y2014: 0,
+                y2015: 134093,
+                y2016: 399428,
+                y2017: 751271,
+                y2018: 1152661,
+                y2019: 1405841,
+                y2020: 1482018,
+                y2021: 1540493,
+                y2022: 1833799,
+                y2023: 2199002,
+            };
+        }
+        else { // 9.60
+            years = {
+                y2014: 0,
+                y2015: 134093,
+                y2016: 399428,
+                y2017: 751271,
+                y2018: 1152661,
+                y2019: 1405841,
+                y2020: 1482018,
+                y2021: 1540493,
+                y2022: 1835266,
+                y2023: 2209456,
+            };
+        }
+        // keeping this around as I'm not sure why is not matching with either (it should have with 9.60 I think...)
+        // const years = {
+        //     y2014: 0,
+        //     y2015: 134093,
+        //     y2016: 399428,
+        //     y2017: 751271,
+        //     y2018: 1152661,
+        //     y2019: 1405841,
+        //     y2020: 1482022,
+        //     y2021: 1540497,
+        //     y2022: 1835273,
+        //     y2023: 2209463,
+        // }
+        const jump_year_element = (
+            <>
+                <h3>
+                    Jump to year:
+                </h3>
+                <p>
+                    <Link to={`/transactions#${years['y2014']}`}>2014</Link>{' | '}
+                    <Link to={`/transactions#${years['y2015']}`}>2015</Link>{' | '}
+                    <Link to={`/transactions#${years['y2016']}`}>2016</Link>{' | '}
+                    <Link to={`/transactions#${years['y2017']}`}>2017</Link>{' | '}
+                    <Link to={`/transactions#${years['y2018']}`}>2018</Link>{' | '}
+                    <Link to={`/transactions#${years['y2019']}`}>2019</Link>{' | '}
+                    <Link to={`/transactions#${years['y2020']}`}>2020</Link>{' | '}
+                    <Link to={`/transactions#${years['y2021']}`}>2021</Link>{' | '}
+                    <Link to={`/transactions#${years['y2022']}`}>2022</Link>{' | '}
+                    <Link to={`/transactions#${years['y2023']}`}>2023</Link>
+                </p>
+                {/* <p>
                         2014: <Link to={`/transactions#${years['y2014']}`}>{years['y2014']}</Link>{' | '}
                         2015: <Link to={`/transactions#${years['y2015']}`}>{years['y2015']}</Link>{' | '}
                         2016: <Link to={`/transactions#${years['y2016']}`}>{years['y2016']}</Link>{' | '}
@@ -141,39 +141,39 @@ class Transactionspage extends React.Component {
                         2021: <Link to={`/transactions#${years['y2021']}`}>{years['y2021']}</Link>{' | '}
                         2022: <Link to={`/transactions#${years['y2022']}`}>{years['y2022']}</Link>
                     </p> */}
-                </>
-            );
+            </>
+        );
 
-            const change_pages_element = (
-                <p><Link to={`/transactions#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
-            );
+        const change_pages_element = (
+            <p><Link to={`/transactions#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
+        );
 
-            content_element = (
-                <div>
+        content_element = (
+            <div>
 
-                    <p>All CNTRPRTY Bitcoin transactions in ascending order.</p>
+                <p>All CNTRPRTY Bitcoin transactions in ascending order.</p>
 
-                    {jump_year_element}
+                {jump_year_element}
 
-                    <h3>
-                        Transactions from tx_index {this.state.from_index} to {this.state.to_index}:
-                    </h3>
+                <h3>
+                    Transactions from tx_index {this.state.from_index} to {this.state.to_index}:
+                </h3>
 
-                    {change_pages_element}
+                {change_pages_element}
 
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowTransactionHeader()}
-                            {this.state.rows.map((transaction_row, index) => {
-                                return ListElements.getTableRowTransaction(transaction_row, index);
-                            })}
-                        </tbody>
-                    </table>
+                <table>
+                    <tbody>
+                        {ListElements.getTableRowTransactionHeader()}
+                        {this.state.rows.map((transaction_row, index) => {
+                            return ListElements.getTableRowTransaction(transaction_row, index);
+                        })}
+                    </tbody>
+                </table>
 
-                    {change_pages_element}
+                {change_pages_element}
 
-                </div>
-            );
+            </div>
+        );
 
         const page_element = (
             <>
