@@ -31,15 +31,15 @@ class Transactionspage extends React.Component {
     }
 
     async fetchData(from_index) {
-        const transactions_response = await getCntrprty(`/transactions/${from_index}`);
-        if (!transactions_response) {
+        const response = await getCntrprty(`/transactions/${from_index}`);
+        if (!response) {
             this.setState({ page_not_found: true });
         }
         else {
             this.setState({
-                from_index: transactions_response.from_index,
-                to_index: transactions_response.to_index,
-                rows: transactions_response.transactions,
+                from_index: response.from_index,
+                to_index: response.to_index,
+                rows: response.transactions,
             });
         }
 
