@@ -360,10 +360,10 @@ function decode_data(data_hex, block_height) {
         cp_msg = cp_msg.substring(2);
         //remove call data, add lock and reset
         let lock_hex = cp_msg.substring(0, 2);
-        let lock = parseInt(div_hex, 16);
+        let lock = parseInt(lock_hex, 16);
         cp_msg = cp_msg.substring(2);
         let reset_hex = cp_msg.substring(0, 2);
-        let reset = parseInt(div_hex, 16);
+        let reset = parseInt(reset_hex, 16);
         cp_msg = cp_msg.substring(2);
         //let len_hex = cp_msg.substring(0,2);;
         //let len = parseInt(len_hex, 16);
@@ -418,10 +418,10 @@ function decode_data(data_hex, block_height) {
         cp_msg = cp_msg.substring(2);
         //remove call data, add lock and reset
         let lock_hex = cp_msg.substring(0, 2);
-        let lock = parseInt(div_hex, 16);
+        let lock = parseInt(lock_hex, 16);        
         cp_msg = cp_msg.substring(2);
         let reset_hex = cp_msg.substring(0, 2);
-        let reset = parseInt(div_hex, 16);
+        let reset = parseInt(reset_hex, 16);
         cp_msg = cp_msg.substring(2);
         let len_subasset_hex = cp_msg.substring(0, 2);
         let len_subasset = parseInt(len_subasset_hex, 16);
