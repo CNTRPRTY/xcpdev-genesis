@@ -1648,8 +1648,6 @@ function sha256(ascii) {
     return result;
 };
 
-
-module.exports = {
-    // get_json,
+export {
     decode_data,
 };
