@@ -37,8 +37,7 @@ root.render(
             path="*"
             element={
               <main style={{ padding: "1rem" }}>
-                <p>How you got here!?</p>
-                {/* <p>There's nothing here!</p> */}
+                <p>There is a problem with the entered url...</p>
               </main>
             }
           />
