@@ -214,6 +214,12 @@ class Wallet extends React.Component {
 
                     <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
                     {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
+
+                    <p>
+                        For [m]edia visit bitSTART:{' '}
+                        <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
+                    </p>
+
                     {address_balances_element}
                 </>
             );

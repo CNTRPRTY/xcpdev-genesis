@@ -234,6 +234,12 @@ class Asset extends React.Component {
             let issuances_summary_element = (
                 <>
                     <ul>
+                        <li>
+                            For [m]edia visit bitSTART:{' '}
+                            <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
+                        </li>
+                    </ul>
+                    <ul>
                         <li>events: {all_issuance_events.length}</li>
                     </ul>
                     <ul>
