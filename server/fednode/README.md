@@ -6,7 +6,7 @@
 
 Only tested on Ubuntu, the OS the following setup is based on. Setups for other operating systems can be found in the "[official](https://counterparty.io/docs/federated_node/)", but no longer [minimal](https://github.com/CNTRPRTY/federatednode/tree/master#readme), setup documentation.
 
-The lowest specifications tested are 8GB of RAM and 1.5TB disk, but lower specs could still work.
+The lowest specifications tested are 8GB of RAM and 1TB disk, but lower specs could still work.
 
 ### Example machine: AWS EC2 instance
 
@@ -16,7 +16,7 @@ Then, you can use instance settings like the following:
 
 - OS image: Ubuntu, 20.04 LTS, amd64
 - Instance type: t2.large (2vCPU 8GB)
-- Storage: 1500GB
+- Storage: 1000GB
 
 ---
 
