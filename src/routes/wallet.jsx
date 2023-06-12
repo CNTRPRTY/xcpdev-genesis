@@ -217,7 +217,8 @@ class Wallet extends React.Component {
 
                     <p>
                         For [m]edia visit bitSTART:{' '}
-                        <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
+                        <a href={`https://bitst.art/_collector/${this.state.address}`} target="_blank">/_collector/{this.state.address}</a>
+                        {/* <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a> */}
                     </p>
 
                     {address_balances_element}
