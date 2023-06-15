@@ -286,7 +286,8 @@ class Transaction extends React.Component {
                         <li>
                             {/* TODO? remove the whole section for Bitcoin only transactions (like dispense)...??? */}
                             <p>Data:</p>
-                            {this.state.cntrprty_decoded.msg_decoded ?
+                            {(this.state.cntrprty_decoded && this.state.cntrprty_decoded.msg_decoded) ?
+                            // {this.state.cntrprty_decoded.msg_decoded ?
                                 (
                                     <ul>
                                         <li>hex: {this.state.cntrprty_hex}</li>
