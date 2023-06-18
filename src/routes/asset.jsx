@@ -168,7 +168,7 @@ class Asset extends React.Component {
                     <h3>{protocol_base} asset: {this.state.asset_name}</h3>
                     {/* <h3>Protocol asset: {this.state.asset_name}</h3> */}
                     <ul>
-                        <li>asset_id: {this.state.asset_row.asset_id}</li>
+                        <li>asset id: {this.state.asset_row.asset_id}</li>
                         <li>divisible: true</li>
                     </ul>
                 </>
@@ -231,31 +231,6 @@ class Asset extends React.Component {
             // CIP3 dumb!
             const reset_issuance = this.state.issuances.find((obj) => (obj.status === 'valid' && obj.reset === 1));
 
-            let issuances_summary_element = (
-                <>
-                    <ul>
-                        <li>
-                            For [m]edia visit bitSTART:{' '}
-                            <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>events: {all_issuance_events.length}</li>
-                    </ul>
-                    <ul>
-                        <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
-                        <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
-                        {/* <li>current supply: {quantity_with_divisibility}</li> */}
-                    </ul>
-                </>
-            );
-            if (reset_issuance) {
-                issuances_summary_element = (
-                    <ul>
-                        <li>v9.60 RESET ASSET</li>
-                    </ul>
-                );
-            }
 
 
             // detect superasset if is asset_longname
@@ -315,6 +290,58 @@ class Asset extends React.Component {
             const verify_quantity_with_divisibility = quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer);
             ///////////
 
+
+            let issuances_summary_element = (
+                <>
+                    {/* <ul>
+                        <li>
+                            For [m]edia visit bitSTART:{' '}
+                            <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
+                        </li>
+                    </ul> */}
+                    <ul>
+                        <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
+                    </ul>                    <ul>
+                        <li>events ({this.state.issuances.length} issuances + {this.state.destructions.length} destructions): {all_issuance_events.length}</li>
+                        {/* <li>events: {all_issuance_events.length}</li> */}
+                    </ul>
+                    <ul>
+                        {/* <li>locked supply: {lock_issuance ? 'true' : 'false'}</li> */}
+                        <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
+                        <li>
+                            verify (
+                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} balances +
+                            {' '}
+                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} open orders +
+                            {' '}
+                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} open dispensers):
+                            {' '}
+                            {verify_quantity_with_divisibility}
+                        </li>
+                        {/* <li>
+                            balances ({quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)}) +
+                            open orders ({quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)}) +
+                            open dispensers ({quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)}):
+                            {' '}
+                            {verify_quantity_with_divisibility}
+                        </li> */}
+                        {/* <li>current supply: {quantity_with_divisibility}</li> */}
+                    </ul>
+                    {/* <ul>
+                        <li>balances + open orders + open dispensers (must match the current supply): <strong>{verify_quantity_with_divisibility}</strong></li>
+                        // <li>verify (balances + open orders + open dispensers): <strong>{verify_quantity_with_divisibility}</strong></li>
+                    </ul> */}
+                </>
+            );
+            if (reset_issuance) {
+                issuances_summary_element = (
+                    <ul>
+                        <li>v9.60 RESET ASSET</li>
+                    </ul>
+                );
+            }
+
+
             // show balances (holders) if applies (could be 0!)
             // let balances_element = null;
             // if (this.state.balances.length) {
@@ -348,7 +375,10 @@ class Asset extends React.Component {
             // }
 
 
-            let balances_escrows_element = null;
+            let balances_element = null;
+            let escrows_element = null;
+            // let balances_escrows_element = null;
+
             if (this.state.balances.length && !reset_issuance) { // not dealing with reset assets (at least for now...)
                 // if (this.state.balances.length) {
                 function balancesSortAddress(a, b) {
@@ -369,25 +399,32 @@ class Asset extends React.Component {
                     }
                 }
                 const asset_page = true;
-                balances_escrows_element = (
+
+                balances_element = (
                     <>
-                        <h3>Balances and escrows (must match the current supply):</h3>
+                        {/* <h3>Balances and escrows (must match the current supply):</h3> */}
                         {/* <h3>Escrows:</h3> */}
 
-                        <ul>
+                        {/* <ul>
                             <li>verify (balances + open orders + open dispensers): <strong>{verify_quantity_with_divisibility}</strong></li>
-                            {/* <li>verify (balances + open orders + open dispensers): {verify_quantity_with_divisibility}</li> */}
-                            {/* <li>verify (current_supply = balances + orders + dispensers): {verify_quantity_with_divisibility}</li> */}
-                            {/* <li>verify current supply: {verify_quantity_with_divisibility}</li> */}
-                        </ul>
+                            // <li>verify (balances + open orders + open dispensers): {verify_quantity_with_divisibility}</li>
+                            // <li>verify (current_supply = balances + orders + dispensers): {verify_quantity_with_divisibility}</li>
+                            // <li>verify current supply: {verify_quantity_with_divisibility}</li>
+                        </ul> */}
 
-                        <h4>Balances (asset holders):</h4>
+                        <h3>Balances (asset holders):</h3>
+                        {/* <h4>Balances (asset holders):</h4> */}
                         {/* show balances (holders) if applies (could be 0! */}
                         {ListElements.getTableRowBalanceAddressHeader(asset_page)}
                         {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
                             return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
                         })}
+                    </>
+                );
 
+                escrows_element = (
+                    <>
+                        <h3>Market:</h3>
                         <h4>Open orders (give asset):</h4>
                         {/* <h4>Open orders:</h4> */}
                         {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)}
@@ -417,7 +454,14 @@ class Asset extends React.Component {
 
             asset_metadata = (
                 <>
-                    <h3>Genesis:</h3>
+
+                    <ul>
+                        <li><strong>Genesis:</strong>
+                        <br />
+                        <br />
+
+                            {/*  */}
+                    {/* <h3>Genesis:</h3> */}
                     {/* <h3>Genesis issuance:</h3> */}
 
                     {this.state.asset_row.asset_longname ?
@@ -431,29 +475,54 @@ class Asset extends React.Component {
 
                     <ul>
                         {this.state.asset_row.asset_longname ?
-                            (<li>asset_longname: {this.state.asset_row.asset_longname}</li>)
+                            (<li>asset longname: {this.state.asset_row.asset_longname}</li>)
                             : (null)
                         }
-                        <li>asset_name: {this.state.asset_row.asset_name}</li>
-                        <li>asset_id: {this.state.asset_row.asset_id}</li>
+                        <li>asset name: {this.state.asset_row.asset_name}</li>
+                        <li>asset id: {this.state.asset_row.asset_id}</li>
                     </ul>
                     <ul>
                         {/* <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li> */}
-                        <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li>
-                        <li>block_time_iso: {timeIsoFormat(genesis_issuance.block_time)}</li>
+                        <li>block: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li>
+                        <li>block time: {timeIsoFormat(genesis_issuance.block_time)}</li>
                     </ul>
                     <ul>
                         {/* <li>satoshi divisibility: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
                         <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li>
                     </ul>
+                            {/*  */}
+
+                        </li>
+                    </ul>
+                    
+                    <ul>
+                        <li><strong>Issuances status:</strong>
+                            <br />
+                            <br />
+                            {issuances_summary_element}
+                        </li>
+                    </ul>
+
+                    <ul>
+                        <li>
+                            For <strong>[m]</strong>edia visit <strong>bitSTART</strong>:{' '}
+                            <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
+                        </li>
+                    </ul>
+
+                    {/* <h3>Issuance status:</h3>
+                    {issuances_summary_element} */}
+
+
 
                     {subassets_element}
 
-                    <h3>{issuance_events_message}</h3>
+                    {/* <h3>{issuance_events_message}</h3> */}
                     {/* <h3>All issuance (and destroy) events:</h3> */}
                     {/* <h3>All issuance / destroy events:</h3> */}
 
-                    {issuances_summary_element}
+                    {/* {issuances_summary_element} */}
+
                     {/* <ul>
                         <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
                         <li>current supply: {quantity_with_divisibility}</li>
@@ -462,6 +531,11 @@ class Asset extends React.Component {
                         // <li>supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li>
                     </ul> */}
 
+
+                    {escrows_element}
+
+
+                    <h3>{issuance_events_message}</h3>
                     {/* <h3>Issuance events</h3> */}
 
                     <table>
@@ -488,9 +562,9 @@ class Asset extends React.Component {
                         </tbody>
                     </table>
 
-                    {/* {balances_element} */}
+                    {balances_element}
 
-                    {balances_escrows_element}
+                    {/* {balances_escrows_element} */}
 
 
                 </>
