@@ -66,6 +66,23 @@ class Queries {
         }
     }
 
+    static async getBlocksRowTip(db) {
+        const sql = `
+            SELECT *
+            FROM blocks
+            WHERE block_index IN (
+                SELECT MAX(block_index)
+                FROM blocks
+            );
+        `;
+        const params_obj = {};
+        const rows = await queryDBRows(db, sql, params_obj);
+        if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+
     static async getMessagesRowsByBlock(db, block_index) {
         // this one is message_index instead of tx_index...
         const sql = `
@@ -532,6 +549,68 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getIssuanceMetadataByAssetName(db, asset_name, COUNTERPARTY_VERSION) {
+
+        // genesis (could be multiple with same block)
+        const sql1 = `
+            SELECT i.asset, i.asset_longname, i.divisible
+            FROM assets a
+            JOIN issuances i ON (
+                a.asset_name = i.asset AND
+                a.block_index = i.block_index AND
+                i.status = 'valid'
+            )
+            WHERE a.asset_name = $asset_name
+        `;
+        const params_obj1 = {
+            $asset_name: asset_name,
+        };
+        // return queryDBRows(db, sql, params_obj);
+        let rows1 = await queryDBRows(db, sql1, params_obj1);
+
+        if (asset_name === 'XCP') {
+            rows1 = [{
+                asset: 'XCP',
+                asset_longname: null,
+                divisible: true,
+            }];
+        }
+
+        //////////////////////////////////////
+        //////////////////////////////////////
+        // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
+        if (
+            asset_name !== 'XCP' &&
+            !COUNTERPARTY_VERSION.startsWith('9.59')
+        ) {
+
+            const sql2 = `
+                SELECT DISTINCT block_index, divisible
+                FROM issuances
+                WHERE asset = $asset_name
+                AND status = 'valid'
+                AND reset = true;
+            `;
+            const params_obj2 = {
+                $asset_name: asset_name,
+            };
+            const rows2 = await queryDBRows(db, sql2, params_obj2);
+
+            if (rows2.length) {
+                // NOTICE NO OTHER QUERY needs to do something like this!
+                rows1 = rows1.map(row => {
+                    row.resets = rows2;
+                    return row;
+                });
+            }
+        }
+        //////////////////////////////////////
+        //////////////////////////////////////
+
+        return rows1;
+
+    }
+
     static async getIssuancesRowsByAssetName(db, asset_name) {
         // not VALID issuances ok per asset_name, as this page is about all the history associated to an asset
         const sql = `
@@ -619,6 +698,28 @@ class Queries {
             $status: status,
         };
         return queryDBRows(db, sql, params_obj);
+    }
+
+
+    // gets updated
+    static async getDispensersRow(db, tx_hash) {
+        // TODO maybe block_index doesn't make sense here if it is only about the dispenser genesis...
+        const sql = `
+            SELECT d.*, b.block_time
+            FROM dispensers d
+            JOIN blocks b ON d.block_index = b.block_index
+            WHERE d.tx_hash = $tx_hash;
+        `;
+        const params_obj = {
+            $tx_hash: tx_hash,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        if (rows.length > 1) throw Error(`unexpected getDispensersRow:${tx_hash}`);
+        else if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
     }
 
 }
