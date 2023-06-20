@@ -118,6 +118,7 @@ class Transaction extends React.Component {
                 // updateable tx types
                 const updateable = [
                     12, // dispenser
+                    10, // order
                 ];
 
                 let updateable_current_state_obj = null;
@@ -132,6 +133,12 @@ class Transaction extends React.Component {
 
                         // for now, just store response directly
                         updateable_current_state_obj = updated_dispenser_tx_response;
+                    }
+
+                    // store current order info
+                    if (cntrprty_decoded.id === 10) {
+                        // for now, just store response directly
+                        updateable_current_state_obj = await getCntrprty(`/transactions/orders/${tx_hash}`);
                     }
 
                 }
@@ -179,6 +186,7 @@ class Transaction extends React.Component {
     render() {
 
         let dispenser_element = null;
+        let order_element = null;
 
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction_not_found) {
@@ -273,10 +281,12 @@ class Transaction extends React.Component {
             }
 
 
-            // is updateable
-            if (this.state.updateable_current_state_obj) {
+            // is updateable: dispenser
+            if (
+                this.state.cntrprty_decoded.id === 12 &&
+                this.state.updateable_current_state_obj
+            ) {
 
-                // for now just assuming is a dispenser
                 const tip_block = this.state.updateable_current_state_obj.tip_blocks_row;
                 let tell_multiple = false;
                 if (this.state.updateable_current_state_obj.issuances_row.length > 1) {
@@ -332,6 +342,93 @@ class Transaction extends React.Component {
                                 </ul>
                             )
                         }
+
+                    </>
+                );
+
+            }
+
+
+            // is updateable: order
+            if (
+                this.state.cntrprty_decoded.id === 10 &&
+                this.state.updateable_current_state_obj
+            ) {
+
+                const tip_block = this.state.updateable_current_state_obj.tip_blocks_row;
+                
+                // // only doing this kind of check for dispensers
+                // let tell_multiple = false;
+                
+                const give_issuance = this.state.updateable_current_state_obj.give_issuances_row[0];
+                let give_tell_reset = false;
+                if (give_issuance.resets) {
+                    give_tell_reset = true;
+                }
+
+                const get_issuance = this.state.updateable_current_state_obj.get_issuances_row[0];
+                let get_tell_reset = false;
+                if (get_issuance.resets) {
+                    get_tell_reset = true;
+                }
+
+                const orders_row = this.state.updateable_current_state_obj.orders_row;
+
+                order_element = (
+                    <>
+                        <h3>Order:</h3>
+
+                        <p>State as of block {tip_block.block_index} ({(new Date(tip_block.block_time * 1000).toISOString()).replace('.000Z', 'Z')})</p>
+                        <ul>
+                            <li>status: {orders_row.status}</li>
+                        </ul>
+
+                        <ul>
+                            <li>give (asset in escrow):
+                                <ul>
+                                    <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
+                                    {!give_tell_reset ?
+                                        (
+                                            <li>{quantityWithDivisibility(give_issuance.divisible, orders_row.give_remaining)} of {quantityWithDivisibility(give_issuance.divisible, orders_row.give_quantity)} remaining</li>
+                                        )
+                                        :
+                                        (
+                                            <ul>
+                                                <li>v9.60 RESET ASSET</li>
+                                            </ul>
+                                        )
+                                    }
+                                </ul>
+                            </li>
+
+                            <li>get (asset requested in exchange):
+                                <ul>
+                                    <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
+                                    {!get_tell_reset ?
+                                        (
+                                            <li>{quantityWithDivisibility(get_issuance.divisible, orders_row.get_remaining)} (of {quantityWithDivisibility(get_issuance.divisible, orders_row.get_quantity)} total requested)</li>
+                                            // <li>{quantityWithDivisibility(get_issuance.divisible, orders_row.get_remaining)} of {quantityWithDivisibility(get_issuance.divisible, orders_row.get_quantity)} remaining</li>
+                                        )
+                                        :
+                                        (
+                                            <ul>
+                                                <li>v9.60 RESET ASSET</li>
+                                            </ul>
+                                        )
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul>
+                            <li>expire block: {orders_row.expire_index}</li>
+                            {orders_row.fee_required ?
+                                (
+                                    <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
+                                )
+                                : null
+                            }
+                        </ul>
 
                     </>
                 );
@@ -517,6 +614,7 @@ class Transaction extends React.Component {
         const transaction_element = (
             <>
                 {dispenser_element}
+                {order_element}
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
                 {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                 {transaction_element_contents}
