@@ -63,6 +63,33 @@ class Address extends React.Component {
         let address_metadata = (<p>loading...</p>);
         if (this.state.tables) {
 
+            const address_open_dispensers_element = (
+                <>
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowDispensersHeader_addressPage()}
+                            {this.state.tables.dispensers.open.map((dispensers_row, index) => {
+                                return ListElements.getTableRowDispensers_addressPage(dispensers_row, index);
+                            })}
+                        </tbody>
+                    </table>
+                </>
+            );
+
+            const address_closed_dispensers_element = (
+                <>
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowDispensersHeader_addressPage()}
+                            {this.state.tables.dispensers.closed.map((dispensers_row, index) => {
+                                return ListElements.getTableRowDispensers_addressPage(dispensers_row, index);
+                            })}
+                        </tbody>
+                    </table>
+                </>
+            );
+
+
             const address_broadcasts_element = (
                 <>
                     <table>
@@ -146,14 +173,14 @@ class Address extends React.Component {
 
             address_metadata = (
                 <>
-                    {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3>
-                    // <h3>Balances (sorted by most units on top):</h3>
-                    // <h3>Balances:</h3>
-                    {address_balances_element} */}
+                    <h3>Dispensers:</h3>
+                    <h4>Open:</h4>
+                    {address_open_dispensers_element}
+                    <h4>Closed:</h4>
+                    {address_closed_dispensers_element}
 
                     <h3>Balances:</h3>
                     <p><Link to={`/wallet#${this.state.address}`}>Wallet: {this.state.address}</Link></p>
-
 
                     <h3>Broadcasts:</h3>
                     {address_broadcasts_element}

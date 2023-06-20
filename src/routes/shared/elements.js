@@ -647,10 +647,13 @@ class ListElements {
                 }
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
 
                 {asset_page ?
                     null
@@ -685,15 +688,43 @@ class ListElements {
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
 
                 {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>)
                 }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
+            </tr>
+        );
+    }
+
+    static getTableRowDispensersHeader_addressPage() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+            </tr>
+        );
+    }
+    static getTableRowDispensers_addressPage(dispensers_row, index) {
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(dispensers_row.block_time)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
             </tr>
         );
