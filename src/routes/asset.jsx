@@ -425,6 +425,13 @@ class Asset extends React.Component {
                 escrows_element = (
                     <>
                         <h3>Market:</h3>
+
+                        <h4>Open dispensers:</h4>
+                        {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)}
+                        {this.state.dispensers.map((dispensers_row, index) => {
+                            return ListElements.getTableRowDispensers(dispensers_row, index, genesis_issuance.divisible, asset_page);
+                        })}
+
                         <h4>Open orders (give asset):</h4>
                         {/* <h4>Open orders:</h4> */}
                         {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)}
@@ -435,17 +442,6 @@ class Asset extends React.Component {
                             //     </tr>
                             // );
                             return ListElements.getTableRowOrders(orders_row, index, genesis_issuance.divisible, asset_page);
-                        })}
-
-                        <h4>Open dispensers:</h4>
-                        {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)}
-                        {this.state.dispensers.map((dispensers_row, index) => {
-                            // return (
-                            //     <tr key={index} style={{ padding: "0.25rem" }}>
-                            //         <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>
-                            //     </tr>
-                            // );
-                            return ListElements.getTableRowDispensers(dispensers_row, index, genesis_issuance.divisible, asset_page);
                         })}
                     </>
                 );
