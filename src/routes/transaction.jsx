@@ -185,8 +185,7 @@ class Transaction extends React.Component {
 
             // is olga
             let olga_element = null;
-            const olga_broadcast_tx = "627ae48d6b4cffb2ea734be1016dedef4cee3f8ffefaea5602dd58c696de6b74";
-            if (this.state.transaction.tx_hash === olga_broadcast_tx) {
+            if (this.state.olga_length) {
                 const only_message_in_block = this.state.messages[0];
                 const bindings = JSON.parse(only_message_in_block.bindings);
                 const broadcast_text_raw = bindings.text;
