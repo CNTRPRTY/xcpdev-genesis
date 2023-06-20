@@ -575,12 +575,20 @@ class Queries {
                 divisible: true,
             }];
         }
+        else if (asset_name === 'BTC') {
+            rows1 = [{
+                asset: 'BTC',
+                asset_longname: null,
+                divisible: true,
+            }];
+        }
 
         //////////////////////////////////////
         //////////////////////////////////////
         // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
         if (
             asset_name !== 'XCP' &&
+            asset_name !== 'BTC' &&
             !COUNTERPARTY_VERSION.startsWith('9.59')
         ) {
 
@@ -737,7 +745,6 @@ class Queries {
 
     // gets updated
     static async getDispensersRow(db, tx_hash) {
-        // TODO maybe block_index doesn't make sense here if it is only about the dispenser genesis...
         const sql = `
             SELECT d.*, b.block_time
             FROM dispensers d
@@ -750,6 +757,24 @@ class Queries {
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
         if (rows.length > 1) throw Error(`unexpected getDispensersRow:${tx_hash}`);
+        else if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+    static async getOrdersRow(db, tx_hash) {
+        const sql = `
+            SELECT o.*, b.block_time
+            FROM orders o
+            JOIN blocks b ON o.block_index = b.block_index
+            WHERE o.tx_hash = $tx_hash;
+        `;
+        const params_obj = {
+            $tx_hash: tx_hash,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        if (rows.length > 1) throw Error(`unexpected getOrdersRow:${tx_hash}`);
         else if (rows.length === 0) return null;
         else { // rows.length === 1
             return rows[0];

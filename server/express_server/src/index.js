@@ -318,6 +318,30 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     }
 });
 
+app.get('/transactions/orders/:txHash', async (req, res) => {
+    const tx_hash = req.params.txHash;
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    const orders_row = await Queries.getOrdersRow(db, tx_hash);
+    
+    // third oneS depending on COUNTERPARTY_VERSION
+    const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
+    const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
+    
+    if (!orders_row) {
+        res.status(404).json({
+            error: '404 Not Found'
+        });
+    }
+    else {
+        res.status(200).json({
+            tip_blocks_row,
+            orders_row,
+            get_issuances_row,
+            give_issuances_row,
+        });
+    }
+});
+
 
 app.get('/messages/:messageIndex', async (req, res) => {
     // TODO improve, starting with most basic validation
