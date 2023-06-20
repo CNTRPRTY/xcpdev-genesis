@@ -6,6 +6,7 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
+import { quantityWithDivisibility } from '../utils';
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -22,6 +23,8 @@ class Transaction extends React.Component {
             // main_message: null,
             // mempool_transaction_messages: null, // can be 1 or multiple
             // // mempool_transaction: null, // can be multiple
+
+            updateable_current_state_obj: null,
 
             olga_length: 0,
             olga_chars_cut: 0,
@@ -111,6 +114,29 @@ class Transaction extends React.Component {
                 }
                 ////////////////////
 
+
+                // updateable tx types
+                const updateable = [
+                    12, // dispenser
+                ];
+
+                let updateable_current_state_obj = null;
+                if (
+                    cntrprty_decoded &&
+                    updateable.includes(cntrprty_decoded.id)
+                    ) {
+
+                    // store current dispenser info
+                    if (cntrprty_decoded.id === 12) {
+                        const updated_dispenser_tx_response = await getCntrprty(`/transactions/dispensers/${tx_hash}`);
+
+                        // for now, just store response directly
+                        updateable_current_state_obj = updated_dispenser_tx_response;
+                    }
+
+                }
+
+
                 this.setState({
                     tx_hash,
                     transaction: transaction_response.transaction,
@@ -119,6 +145,8 @@ class Transaction extends React.Component {
                     cntrprty_decoded,
 
                     messages: transaction_response.messages,
+
+                    updateable_current_state_obj,
 
                     olga_length,
                 });
@@ -149,6 +177,8 @@ class Transaction extends React.Component {
     }
 
     render() {
+
+        let dispenser_element = null;
 
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction_not_found) {
@@ -241,6 +271,73 @@ class Transaction extends React.Component {
                     // </>
                 );
             }
+
+
+            // is updateable
+            if (this.state.updateable_current_state_obj) {
+
+                // for now just assuming is a dispenser
+                const tip_block = this.state.updateable_current_state_obj.tip_blocks_row;
+                let tell_multiple = false;
+                if (this.state.updateable_current_state_obj.issuances_row.length > 1) {
+                    tell_multiple = true;
+                }
+                const asset_issuance = this.state.updateable_current_state_obj.issuances_row[0];
+                let tell_reset = false;
+                if (asset_issuance.resets) {
+                    tell_reset = true;
+                }
+                const dispensers_row = this.state.updateable_current_state_obj.dispensers_row;
+
+                // status (integer): The state of the dispenser. 0 for open, 1 for open using open_address, 10 for closed.
+                let dispenser_status;
+                if (dispensers_row.status === 0) {
+                    dispenser_status = 'open';
+                }
+                else if (dispensers_row.status === 1) {
+                    dispenser_status = 'open_address';
+                }
+                else if (dispensers_row.status === 10) {
+                    dispenser_status = 'closed';
+                }
+
+                dispenser_element = (
+                    <>
+                        <h3>Dispenser:</h3>
+                        <p>State as of block {tip_block.block_index} ({(new Date(tip_block.block_time * 1000).toISOString()).replace('.000Z', 'Z')})</p>
+                        <ul>
+                            <li>status: {dispenser_status}</li>
+                        </ul>
+                        <ul>
+                            <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
+                            <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
+                        </ul>
+
+                        {!tell_reset ?
+                            (
+                                <>
+                                    <ul>
+                                        <li>{dispensers_row.satoshirate} sats for {quantityWithDivisibility(asset_issuance.divisible, dispensers_row.give_quantity)}</li>
+                                        <li>{quantityWithDivisibility(asset_issuance.divisible, dispensers_row.give_remaining)} of {quantityWithDivisibility(asset_issuance.divisible, dispensers_row.escrow_quantity)} remaining</li>
+                                    </ul>
+                                    <ul>
+                                        <li>{dispensers_row.satoshirate/dispensers_row.give_quantity} sats / unit</li>
+                                    </ul>
+                                </>
+                            )
+                            :
+                            (
+                                <ul>
+                                    <li>v9.60 RESET ASSET</li>
+                                </ul>
+                            )
+                        }
+
+                    </>
+                );
+
+            }
+
 
             transaction_element_contents = (
                 <>
@@ -419,6 +516,7 @@ class Transaction extends React.Component {
 
         const transaction_element = (
             <>
+                {dispenser_element}
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
                 {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                 {transaction_element_contents}

@@ -496,7 +496,8 @@ class Asset extends React.Component {
                     </ul>
                     
                     <ul>
-                        <li><strong>Issuances status:</strong>
+                        <li><strong>Issuances state:</strong>
+                        {/* <li><strong>Issuances status:</strong> */}
                             <br />
                             <br />
                             {issuances_summary_element}
