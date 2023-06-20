@@ -699,6 +699,40 @@ class Queries {
         };
         return queryDBRows(db, sql, params_obj);
     }
+    static async getOpenDispensersRowsByAddress(db, address) {
+        // TODO test query with status 1
+        const status = 0; // 0:open 10:closed
+        const sql = `
+            SELECT d.*, CAST(d.give_remaining AS TEXT) AS give_remaining_text, b.block_time
+            FROM dispensers d
+            JOIN blocks b ON d.block_index = b.block_index
+            WHERE d.source = $address
+            AND d.status = $status
+            ORDER BY d.tx_index ASC;
+        `;
+        const params_obj = {
+            $address: address,
+            $status: status,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+    static async getClosedDispensersRowsByAddress(db, address) {
+        // TODO test query with status 1
+        const status = 10; // 0:open 10:closed
+        const sql = `
+            SELECT d.*, CAST(d.give_remaining AS TEXT) AS give_remaining_text, b.block_time
+            FROM dispensers d
+            JOIN blocks b ON d.block_index = b.block_index
+            WHERE d.source = $address
+            AND d.status = $status
+            ORDER BY d.tx_index ASC;
+        `;
+        const params_obj = {
+            $address: address,
+            $status: status,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 
 
     // gets updated
