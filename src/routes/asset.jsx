@@ -17,10 +17,12 @@ class Asset extends React.Component {
             asset_not_found: null,
             asset_row: null,
 
-            subassets: [],
+            tip_blocks_row: null,
 
             issuances: [],
             destructions: [],
+
+            subassets: [],
 
             balances: [], // "holders"
             // vs. escrows
@@ -100,6 +102,7 @@ class Asset extends React.Component {
                     asset_btc_xcp: false,
                     asset_not_found: null,
                     asset_row: asset_response.asset_row,
+                    tip_blocks_row: asset_response.tip_blocks_row,
                     issuances: asset_response.tables.issuances,
                     destructions: asset_response.tables.destructions,
                 });
@@ -299,6 +302,9 @@ class Asset extends React.Component {
                             <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
                         </li>
                     </ul> */}
+
+                    <p>As of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})</p>
+
                     <ul>
                         <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
                     </ul>                    <ul>
