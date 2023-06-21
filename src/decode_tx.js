@@ -64,7 +64,7 @@ msg_type[50] = 'Dividend';
 // }
 
 // block_height should not be needed, v9.60 changed a message format instead of making a new message type
-function decode_data(data_hex, block_height, show_minimum = false) {
+function decode_data(data_hex, block_height) {
     let cp_msg = data_hex;
 
     let id_hex = cp_msg.substring(0, 2);
@@ -358,18 +358,6 @@ function decode_data(data_hex, block_height, show_minimum = false) {
             descr_hex,
             descr,
         };
-
-        if (show_minimum) {
-            delete msg_decoded.asset_hex;
-            delete msg_decoded.q_hex;
-            delete msg_decoded.div_hex;
-            delete msg_decoded.call_hex;
-            delete msg_decoded.call_date_hex;
-            delete msg_decoded.call_price_hex;
-            delete msg_decoded.len_hex;
-            delete msg_decoded.len;
-            delete msg_decoded.descr_hex;
-        }
     }
 
     if (id == 21 && block_height < 753500) { //Issuance (Subasset), pre change 2022
