@@ -226,6 +226,16 @@ app.get('/asset/:assetName/escrows', async (req, res) => {
     });
 });
 
+app.get('/asset/:assetName/exchanges', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const orders_get = await Queries.getOrdersRowsGetAssetByAssetName(db, asset_name);
+    res.status(200).json({
+        tables: {
+            orders_get,
+        },
+    });
+});
+
 app.get('/asset/:assetName/subassets', async (req, res) => {
     const asset_name = req.params.assetName;
     const assets = await Queries.getAssetsRowsForAssetLongname(db, asset_name);

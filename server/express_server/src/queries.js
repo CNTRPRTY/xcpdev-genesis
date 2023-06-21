@@ -678,7 +678,11 @@ class Queries {
     static async getOrdersRowsGiveAssetByAssetName(db, asset_name) {
         const status = 'open';
         const sql = `
-            SELECT o.*, CAST(o.give_remaining AS TEXT) AS give_remaining_text, b.block_time
+            SELECT
+                o.*,
+                CAST(o.give_remaining AS TEXT) AS give_remaining_text,
+                CAST(o.get_remaining AS TEXT) AS get_remaining_text,
+                b.block_time
             FROM orders o
             JOIN blocks b ON o.block_index = b.block_index
             WHERE o.give_asset = $asset_name
@@ -737,6 +741,29 @@ class Queries {
         `;
         const params_obj = {
             $address: address,
+            $status: status,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
+    // order exchanges (other side of escrow)
+    static async getOrdersRowsGetAssetByAssetName(db, asset_name) {
+        const status = 'open';
+        const sql = `
+            SELECT
+                o.*,
+                CAST(o.give_remaining AS TEXT) AS give_remaining_text,
+                CAST(o.get_remaining AS TEXT) AS get_remaining_text,
+                b.block_time
+            FROM orders o
+            JOIN blocks b
+                ON o.block_index = b.block_index
+            WHERE o.get_asset = $asset_name
+            AND o.status = $status
+            ORDER BY o.tx_index ASC;
+        `;
+        const params_obj = {
+            $asset_name: asset_name,
             $status: status,
         };
         return queryDBRows(db, sql, params_obj);
