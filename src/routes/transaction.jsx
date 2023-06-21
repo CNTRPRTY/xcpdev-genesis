@@ -6,7 +6,7 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
-import { quantityWithDivisibility } from '../utils';
+import { timeIsoFormat, quantityWithDivisibility } from '../utils';
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -287,7 +287,7 @@ class Transaction extends React.Component {
                 this.state.updateable_current_state_obj
             ) {
 
-                const tip_block = this.state.updateable_current_state_obj.tip_blocks_row;
+                const tip_blocks_row = this.state.updateable_current_state_obj.tip_blocks_row;
                 let tell_multiple = false;
                 if (this.state.updateable_current_state_obj.issuances_row.length > 1) {
                     tell_multiple = true;
@@ -314,7 +314,7 @@ class Transaction extends React.Component {
                 dispenser_element = (
                     <>
                         <h3>Dispenser:</h3>
-                        <p>State as of block {tip_block.block_index} ({(new Date(tip_block.block_time * 1000).toISOString()).replace('.000Z', 'Z')})</p>
+                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
                         <ul>
                             <li>status: {dispenser_status}</li>
                         </ul>
@@ -355,7 +355,7 @@ class Transaction extends React.Component {
                 this.state.updateable_current_state_obj
             ) {
 
-                const tip_block = this.state.updateable_current_state_obj.tip_blocks_row;
+                const tip_blocks_row = this.state.updateable_current_state_obj.tip_blocks_row;
                 
                 // // only doing this kind of check for dispensers
                 // let tell_multiple = false;
@@ -377,8 +377,7 @@ class Transaction extends React.Component {
                 order_element = (
                     <>
                         <h3>Order:</h3>
-
-                        <p>State as of block {tip_block.block_index} ({(new Date(tip_block.block_time * 1000).toISOString()).replace('.000Z', 'Z')})</p>
+                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
                         <ul>
                             <li>status: {orders_row.status}</li>
                         </ul>
@@ -464,7 +463,7 @@ class Transaction extends React.Component {
                                 <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
                                 {/* <li>block_index: {this.state.transaction.block_index}</li> */}
                                 {/* <li>block_time: {this.state.transaction.block_time}</li> */}
-                                <li>block_time_iso: {(new Date(this.state.transaction.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
+                                <li>block_time_iso: {timeIsoFormat(this.state.transaction.block_time)}</li>
                                 {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
                                 <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
                                 {/* <li>source: {this.state.transaction.source}</li> */}
