@@ -374,6 +374,11 @@ class Transaction extends React.Component {
 
                 const orders_row = this.state.updateable_current_state_obj.orders_row;
 
+                const expire_block_message = (orders_row.expire_index > tip_blocks_row.block_index) ?
+                    `expire block: ${orders_row.expire_index} (in ${orders_row.expire_index - tip_blocks_row.block_index} blocks)`
+                    :
+                    `expired in block: ${orders_row.expire_index}`;
+
                 order_element = (
                     <>
                         <h3>Order:</h3>
@@ -420,7 +425,7 @@ class Transaction extends React.Component {
                         </ul>
 
                         <ul>
-                            <li>expire block: {orders_row.expire_index}</li>
+                            <li>{expire_block_message}</li>
                             {orders_row.fee_required ?
                                 (
                                     <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
