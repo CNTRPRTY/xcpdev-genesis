@@ -488,7 +488,20 @@ class Transaction extends React.Component {
                                 (
                                     <ul>
                                         <li>hex: {this.state.cntrprty_hex}</li>
-                                        <li>decoded: {JSON.stringify(this.state.cntrprty_decoded.msg_decoded)}</li>
+                                        <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
+                                        
+                                        <li>decoded:
+                                            <ul>
+                                                {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
+                                                    const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
+                                                    return (
+                                                        <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </li>
+                                        {/* <li>decoded: {JSON.stringify(this.state.cntrprty_decoded.msg_decoded)}</li> */}
+
                                     </ul>
                                 ) :
                                 (<p>(unable to decode this transaction)</p>)
