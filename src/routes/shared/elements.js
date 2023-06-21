@@ -807,6 +807,39 @@ class ListElements {
         );
     }
 
+    // orders exchanges / get asset (asset_page only for now)
+    static getTableRowOrdersHeader_get(get_asset_metadata) {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>give remaining units (escrowed)</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>{get_asset_metadata.asset} requested</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+            </tr>
+        );
+    }
+    static getTableRowOrders_get(orders_row, index, get_divisible) {
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>
+                    <>
+                        <Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link>
+                        {` ${BigInt(orders_row.give_remaining_text)}`}
+                    </>
+                </td>
+                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(get_divisible, BigInt(orders_row.get_remaining_text))}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(orders_row.block_time)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
+            </tr>
+        );
+    }
+
     // transactions
     static getTableRowTransactionHeader(is_home_page = false) {
         // static getTableRowTransactionHeader() {

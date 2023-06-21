@@ -29,6 +29,8 @@ class Asset extends React.Component {
             orders: [],
             dispensers: [],
 
+            orders_get: [], // orders this asset can be exchanged for
+
             // tables: null,
         };
     }
@@ -125,6 +127,12 @@ class Asset extends React.Component {
                 this.setState({
                     orders: escrows_response.tables.orders,
                     dispensers: escrows_response.tables.dispensers,
+                });
+
+                // order exchanges (other side of escrow)
+                const exchanges_response = await getCntrprty(`/asset/${asset_name}/exchanges`);
+                this.setState({
+                    orders_get: exchanges_response.tables.orders_get,
                 });
 
             }
@@ -448,6 +456,12 @@ class Asset extends React.Component {
                             //     </tr>
                             // );
                             return ListElements.getTableRowOrders(orders_row, index, genesis_issuance.divisible, asset_page);
+                        })}
+
+                        <p>Asset requested:</p>
+                        {ListElements.getTableRowOrdersHeader_get(genesis_issuance)}
+                        {this.state.orders_get.map((orders_row, index) => {
+                            return ListElements.getTableRowOrders_get(orders_row, index, genesis_issuance.divisible);
                         })}
                     </>
                 );
