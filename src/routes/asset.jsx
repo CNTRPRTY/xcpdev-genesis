@@ -324,11 +324,11 @@ class Asset extends React.Component {
                         <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
                         <li>
                             verify (
-                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} balances +
+                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
                             {' '}
-                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} open orders +
+                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} in open orders +
                             {' '}
-                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} open dispensers):
+                            {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers):
                             {' '}
                             {verify_quantity_with_divisibility}
                         </li>
@@ -441,14 +441,18 @@ class Asset extends React.Component {
                         <h3>Market:</h3>
 
                         <h4>Open dispensers:</h4>
-                        {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)}
+                        {ListElements.getTableRowDispensersHeader(genesis_issuance)}
+                        {/* {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)} */}
                         {this.state.dispensers.map((dispensers_row, index) => {
                             return ListElements.getTableRowDispensers(dispensers_row, index, genesis_issuance.divisible, asset_page);
                         })}
 
-                        <h4>Open orders (give asset):</h4>
+                        <h4>Open exchange orders:</h4>
+
+                        <p>Asset in escrow:</p>
                         {/* <h4>Open orders:</h4> */}
-                        {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)}
+                        {ListElements.getTableRowOrdersHeader(genesis_issuance)}
+                        {/* {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)} */}
                         {this.state.orders.map((orders_row, index) => {
                             // return (
                             //     <tr key={index} style={{ padding: "0.25rem" }}>
@@ -515,7 +519,7 @@ class Asset extends React.Component {
                         <li><strong>Issuances state:</strong>
                         {/* <li><strong>Issuances status:</strong> */}
                             <br />
-                            <br />
+                            {/* <br /> */}
                             {issuances_summary_element}
                         </li>
                     </ul>

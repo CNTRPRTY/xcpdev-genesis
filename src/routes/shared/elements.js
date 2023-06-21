@@ -629,36 +629,40 @@ class ListElements {
 
 
     // dispensers
-    static getTableRowDispensersHeader(divisible, asset_page = false) {
+    static getTableRowDispensersHeader(asset_metadata) {
+        // static getTableRowDispensersHeader(divisible, asset_page = false) {
         // static getTableRowDispenseAssetHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
 
-                {asset_page ?
+                {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>)
-                }
+                } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td> */}
 
-                {asset_page ?
+                {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>)
-                }
+                } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td> */}
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td>
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>{asset_metadata.asset} in escrow</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td> */}
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
 
-                {asset_page ?
+                {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
-                }
+                } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
             </tr>
         );
@@ -731,38 +735,42 @@ class ListElements {
     }
 
     // orders
-    static getTableRowOrdersHeader(divisible, asset_page = false) {
+    static getTableRowOrdersHeader(give_asset_metadata) {
+        // static getTableRowOrdersHeader(divisible, asset_page = false) {
         return (
             <tr style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
 
-                {asset_page ?
+                {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>)
-                }
+                } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td> */}
 
-                {asset_page ?
+                {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>give</td>)
-                }
+                } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>give</td> */}
 
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>get</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} in escrow</td>
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>get</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>get remaining units (requested)</td>
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
 
-                {asset_page ?
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+
+                {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
-                }
+                } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
             </tr>
         );
@@ -789,14 +797,23 @@ class ListElements {
 
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
 
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>
+                    <>
+                    <Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link>
+                    {` ${BigInt(orders_row.get_remaining_text)}`}
+                    </>
+                </td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
 
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
 
                 {asset_page ?
                     null
