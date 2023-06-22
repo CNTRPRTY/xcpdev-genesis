@@ -404,7 +404,8 @@ class Transaction extends React.Component {
                                     }
                                 </ul>
                             </li>
-
+                        </ul>
+                        <ul>
                             <li>get (asset requested in exchange):
                                 <ul>
                                     <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>

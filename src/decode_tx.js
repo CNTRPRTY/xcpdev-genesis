@@ -27,20 +27,23 @@
 //     'ca3ffd78d333969d333686563080a76830ce4df7c771e47e482317091ef069f4'  //19 Enhanced send to multisig addr 
 // ];
 
-let msg_type = [];
-msg_type[0] = 'Classic Send';
-msg_type[2] = 'Enhanced Send';
-msg_type[4] = 'Sweep';
-msg_type[10] = 'DEX Order';
-msg_type[11] = 'Btcpay';
-msg_type[12] = 'Dispenser';
+// using naming conventions from counterparty-lib/counterpartylib/lib/messages (messages/__init__.py)
+const MSG_TYPE = {
+    0: 'send.version1',
+    2: 'send.enhanced_send', // wrong id in __init__.py
+    4: 'sweep', // not in __init__.py
+    10: 'order',
+    11: 'btcpay',
+    12: 'dispenser',
 
-// issuance message unpacking changed in v9.60 (activated in block 753500) [https://github.com/CounterpartyXCP/cips/issues/66]
-msg_type[20] = 'Issuance';
-msg_type[21] = 'Issuance (Subasset)';
+    // issuance message unpacking changed in v9.60 (activated in block 753500) [https://github.com/CounterpartyXCP/cips/issues/66]
+    20: 'issuance',
+    21: 'issuance.subasset',
 
-msg_type[30] = 'Broadcast';
-msg_type[50] = 'Dividend';
+    30: 'broadcast',
+    50: 'dividend',
+    110: 'destroy', // TODO
+}
 
 // const queryString = window.location.search;
 // const urlParams = new URLSearchParams(queryString);
@@ -83,7 +86,8 @@ function decode_data(data_hex, block_height) {
         // data_hex,
         id_hex,
         id,
-        msg_type: msg_type[id],
+        msg_type: MSG_TYPE[id],
+        // msg_type: msg_type[id],
         msg_hex: cp_msg,
     };
 
