@@ -789,6 +789,24 @@ class Queries {
             return rows[0];
         }
     }
+
+    static async getDispensesRows(db, tx_hash) {
+        const sql = `
+            SELECT
+                ds.*,
+                CAST(ds.dispense_quantity AS TEXT) AS dispense_quantity_text,
+                b.block_time
+            FROM dispenses ds
+            JOIN blocks b
+                ON ds.block_index = b.block_index
+            WHERE ds.dispenser_tx_hash = $tx_hash;
+        `;
+        const params_obj = {
+            $tx_hash: tx_hash,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getOrdersRow(db, tx_hash) {
         const sql = `
             SELECT o.*, b.block_time
@@ -806,6 +824,25 @@ class Queries {
         else { // rows.length === 1
             return rows[0];
         }
+    }
+
+    static async getOrderMatchesRows(db, tx_hash) {
+        const sql = `
+            SELECT
+                om.*,
+                CAST(om.forward_quantity AS TEXT) AS forward_quantity_text,
+                CAST(om.backward_quantity AS TEXT) AS backward_quantity_text,
+                b.block_time
+            FROM order_matches om
+            JOIN blocks b
+                ON om.block_index = b.block_index
+            WHERE om.tx0_hash = $tx_hash
+            OR om.tx1_hash = $tx_hash;
+        `;
+        const params_obj = {
+            $tx_hash: tx_hash,
+        };
+        return queryDBRows(db, sql, params_obj);
     }
 
 }
