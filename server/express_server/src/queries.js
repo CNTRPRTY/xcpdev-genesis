@@ -684,7 +684,8 @@ class Queries {
                 CAST(o.get_remaining AS TEXT) AS get_remaining_text,
                 b.block_time
             FROM orders o
-            JOIN blocks b ON o.block_index = b.block_index
+            JOIN blocks b
+                ON o.block_index = b.block_index
             WHERE o.give_asset = $asset_name
             AND o.status = $status
             ORDER BY o.tx_index ASC;
@@ -698,9 +699,15 @@ class Queries {
     static async getDispensersRowsByAssetName(db, asset_name) {
         const status = 0; // 0:open 10:closed
         const sql = `
-            SELECT d.*, CAST(d.give_remaining AS TEXT) AS give_remaining_text, b.block_time
+            SELECT
+                d.*,
+                CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+                CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+                CAST(d.give_remaining AS TEXT) AS give_remaining_text,
+                b.block_time
             FROM dispensers d
-            JOIN blocks b ON d.block_index = b.block_index
+            JOIN blocks b
+                ON d.block_index = b.block_index
             WHERE d.asset = $asset_name
             AND d.status = $status
             ORDER BY d.tx_index ASC;
@@ -715,9 +722,14 @@ class Queries {
         // TODO test query with status 1
         const status = 0; // 0:open 10:closed
         const sql = `
-            SELECT d.*, CAST(d.give_remaining AS TEXT) AS give_remaining_text, b.block_time
+            SELECT
+                d.*,
+                CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+                CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+                b.block_time
             FROM dispensers d
-            JOIN blocks b ON d.block_index = b.block_index
+            JOIN blocks b
+                ON d.block_index = b.block_index
             WHERE d.source = $address
             AND d.status = $status
             ORDER BY d.tx_index ASC;
@@ -732,9 +744,14 @@ class Queries {
         // TODO test query with status 1
         const status = 10; // 0:open 10:closed
         const sql = `
-            SELECT d.*, CAST(d.give_remaining AS TEXT) AS give_remaining_text, b.block_time
+            SELECT
+                d.*,
+                CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+                CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+                b.block_time
             FROM dispensers d
-            JOIN blocks b ON d.block_index = b.block_index
+            JOIN blocks b
+                ON d.block_index = b.block_index
             WHERE d.source = $address
             AND d.status = $status
             ORDER BY d.tx_index ASC;
@@ -771,11 +788,19 @@ class Queries {
 
 
     // gets updated
+
     static async getDispensersRow(db, tx_hash) {
         const sql = `
-            SELECT d.*, b.block_time
+            SELECT
+                d.*,
+                CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+                CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+                CAST(d.give_remaining AS TEXT) AS give_remaining_text,
+                CAST(d.escrow_quantity AS TEXT) AS escrow_quantity_text,
+                b.block_time
             FROM dispensers d
-            JOIN blocks b ON d.block_index = b.block_index
+            JOIN blocks b
+                ON d.block_index = b.block_index
             WHERE d.tx_hash = $tx_hash;
         `;
         const params_obj = {
@@ -809,9 +834,16 @@ class Queries {
 
     static async getOrdersRow(db, tx_hash) {
         const sql = `
-            SELECT o.*, b.block_time
+            SELECT
+                o.*,
+                CAST(o.give_remaining AS TEXT) AS give_remaining_text,
+                CAST(o.give_quantity AS TEXT) AS give_quantity_text,
+                CAST(o.get_remaining AS TEXT) AS get_remaining_text,
+                CAST(o.get_quantity AS TEXT) AS get_quantity_text,
+                b.block_time
             FROM orders o
-            JOIN blocks b ON o.block_index = b.block_index
+            JOIN blocks b
+                ON o.block_index = b.block_index
             WHERE o.tx_hash = $tx_hash;
         `;
         const params_obj = {
