@@ -342,6 +342,13 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
     const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
     
     const order_matches_rows = await Queries.getOrderMatchesRows(db, tx_hash);
+    let btcpays_rows = [];
+    if (
+        orders_row.get_asset === 'BTC' ||
+        orders_row.give_asset === 'BTC'
+    ) {
+        btcpays_rows = await Queries.getOrderMatchesBtcpaysRows(db, tx_hash);
+    }
     if (!orders_row) {
         res.status(404).json({
             error: '404 Not Found'
@@ -354,6 +361,7 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
             get_issuances_row,
             give_issuances_row,
             order_matches_rows,
+            btcpays_rows,
         });
     }
 });

@@ -877,6 +877,27 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getOrderMatchesBtcpaysRows(db, tx_hash) {
+        const sql = `
+            SELECT
+                bp.*,
+                b.block_time
+            FROM btcpays bp
+            JOIN blocks b
+                ON bp.block_index = b.block_index
+            WHERE bp.order_match_id IN (
+                SELECT id
+                FROM order_matches
+                WHERE tx0_hash = $tx_hash
+                OR tx1_hash = $tx_hash
+            );
+        `;
+        const params_obj = {
+            $tx_hash: tx_hash,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
 }
 
 module.exports = {
