@@ -33,6 +33,8 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
         // TODO orders:update similar, it has 'offer_hash' in cancels:insert but 'tx_hash' here thus also being missed here
         if (
             (bindings.tx_hash && bindings.tx_hash === tx_hash) ||
+            (bindings.tx0_hash && bindings.tx0_hash === tx_hash) || // unlikely?
+            (bindings.tx1_hash && bindings.tx1_hash === tx_hash) ||
             (bindings.event && bindings.event === tx_hash)
         ) {
 
@@ -59,6 +61,10 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
                 ) ||
                 (
                     message.category === 'orders' &&
+                    message.command === 'insert'
+                ) ||
+                (
+                    message.category === 'btcpays' &&
                     message.command === 'insert'
                 ) ||
                 ( // TODO why cancels is an insert, and closing a dispenser is just a credits+update (no "cancel" like insert?)
