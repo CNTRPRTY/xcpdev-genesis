@@ -1,3 +1,5 @@
+/* global BigInt */
+
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty, getBlockMessages, selectTransactionMessagesFromAll } from '../api';
@@ -321,19 +323,23 @@ class Transaction extends React.Component {
                             <li>status: {dispenser_status}</li>
                         </ul>
                         <ul>
-                            <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
                             <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
+                            <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
                         </ul>
 
                         {!tell_reset ?
                             (
                                 <>
                                     <ul>
-                                        <li>{dispensers_row.satoshirate} sats for {quantityWithDivisibility(asset_issuance.divisible, dispensers_row.give_quantity)}</li>
-                                        <li>{quantityWithDivisibility(asset_issuance.divisible, dispensers_row.give_remaining)} of {quantityWithDivisibility(asset_issuance.divisible, dispensers_row.escrow_quantity)} remaining</li>
+                                        <li>{`${BigInt(dispensers_row.satoshirate_text)}`} sats for {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}</li>
+                                        <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li>
                                     </ul>
                                     <ul>
-                                        <li>{dispensers_row.satoshirate/dispensers_row.give_quantity} sats / unit</li>
+                                    <li>
+                                        {`${dispensers_row.satoshirate/dispensers_row.give_quantity}`} sats / unit</li>
+                                        {/* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#operators
+                                        The / operator also works as expected with whole numbers — but operations with a fractional result will be truncated when used with a BigInt value — they won't return any fractional digits.
+                                        // <li>{`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit</li> */}
                                     </ul>
                                 </>
                             )
@@ -409,12 +415,12 @@ class Transaction extends React.Component {
                         </ul>
 
                         <ul>
-                            <li>give (asset in escrow):
+                            <li>give (asset escrowed):
                                 <ul>
                                     <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
                                     {!give_tell_reset ?
                                         (
-                                            <li>{quantityWithDivisibility(give_issuance.divisible, orders_row.give_remaining)} of {quantityWithDivisibility(give_issuance.divisible, orders_row.give_quantity)} remaining</li>
+                                            <li>{quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_remaining_text))} of {quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_quantity_text))} remaining</li>
                                         )
                                         :
                                         (
@@ -432,7 +438,7 @@ class Transaction extends React.Component {
                                     <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
                                     {!get_tell_reset ?
                                         (
-                                            <li>{quantityWithDivisibility(get_issuance.divisible, orders_row.get_remaining)} (of {quantityWithDivisibility(get_issuance.divisible, orders_row.get_quantity)} total requested)</li>
+                                            <li>{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</li>
                                             // <li>{quantityWithDivisibility(get_issuance.divisible, orders_row.get_remaining)} of {quantityWithDivisibility(get_issuance.divisible, orders_row.get_quantity)} remaining</li>
                                         )
                                         :
