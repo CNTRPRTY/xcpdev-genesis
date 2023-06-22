@@ -190,6 +190,8 @@ class Transaction extends React.Component {
         let dispenser_element = null;
         let order_element = null;
 
+        let btcpay_element = null;
+
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction_not_found) {
             transaction_element_contents = (
@@ -508,6 +510,22 @@ class Transaction extends React.Component {
             }
 
 
+            // is btcpay (trying handling based only on cntrprty_decoded)
+            if (this.state.cntrprty_decoded.id === 11) {
+                const order_0 = this.state.cntrprty_decoded.msg_decoded.order_0;
+                const order_1 = this.state.cntrprty_decoded.msg_decoded.order_1;
+                btcpay_element = (
+                    <>
+                        <h3>BTC pay:</h3>
+                        <ul>
+                            <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
+                            <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
+                        </ul>
+                    </>
+                );
+            }
+
+
             transaction_element_contents = (
                 <>
                     {/* {olga_element} */}
@@ -700,6 +718,7 @@ class Transaction extends React.Component {
             <>
                 {dispenser_element}
                 {order_element}
+                {btcpay_element}
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
                 {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                 {transaction_element_contents}
