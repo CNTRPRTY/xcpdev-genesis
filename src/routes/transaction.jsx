@@ -311,6 +311,8 @@ class Transaction extends React.Component {
                     dispenser_status = 'closed';
                 }
 
+                const dispenses_rows = this.state.updateable_current_state_obj.dispenses_rows;
+
                 dispenser_element = (
                     <>
                         <h3>Dispenser:</h3>
@@ -341,6 +343,23 @@ class Transaction extends React.Component {
                                     <li>v9.60 RESET ASSET</li>
                                 </ul>
                             )
+                        }
+
+                        {dispenses_rows.length ?
+                            (
+                                <>
+                                    <p>Dispenses:</p>
+                                    <table>
+                                        <tbody>
+                                            {ListElements.getTableRowDispensesHeader()}
+                                            {dispenses_rows.map((dispenses_row, index) => {
+                                                return ListElements.getTableRowDispenses(dispenses_row, index, asset_issuance);
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </>
+                            )
+                            : null
                         }
 
                     </>
@@ -379,6 +398,8 @@ class Transaction extends React.Component {
                     :
                     `expired in block: ${orders_row.expire_index}`;
 
+                const order_matches_rows = this.state.updateable_current_state_obj.order_matches_rows;
+                    
                 order_element = (
                     <>
                         <h3>Order:</h3>
@@ -434,6 +455,28 @@ class Transaction extends React.Component {
                                 : null
                             }
                         </ul>
+
+                        {order_matches_rows.length ?
+                            (
+                                <>
+                                    <p>Order matches:</p>
+                                    <table>
+                                        <tbody>
+                                            {ListElements.getTableRowOrderMatchesHeader()}
+                                            {order_matches_rows.map((order_matches_row, index) => {
+                                                const order_metadata = {
+                                                    tx_hash: orders_row.tx_hash,
+                                                    give_issuance: give_issuance,
+                                                    get_issuance: get_issuance,
+                                                }
+                                                return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </>
+                            )
+                            : null
+                        }
 
                     </>
                 );
