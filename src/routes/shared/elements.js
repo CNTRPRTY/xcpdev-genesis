@@ -942,6 +942,32 @@ class ListElements {
         );
     }
 
+    // order matches btcpays
+    static getTableRowOrderMatchesBtcpaysHeader() {
+        return (
+            <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(btcpays_row)</td> */}
+            </tr>
+        );
+    }
+    static getTableRowOrderMatchesBtcpays(btcpays_row, index) {
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{btcpays_row.status}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${btcpays_row.block_index}`}>{btcpays_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(btcpays_row.block_time)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(btcpays_row)}</td> */}
+            </tr>
+        );
+    }
+
     // transactions
     static getTableRowTransactionHeader(is_home_page = false) {
         // static getTableRowTransactionHeader() {

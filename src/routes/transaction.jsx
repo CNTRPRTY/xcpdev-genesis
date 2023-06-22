@@ -405,6 +405,7 @@ class Transaction extends React.Component {
                     `expired in block: ${orders_row.expire_index}`;
 
                 const order_matches_rows = this.state.updateable_current_state_obj.order_matches_rows;
+                const order_matches_btcpays_rows = this.state.updateable_current_state_obj.btcpays_rows;
                     
                 order_element = (
                     <>
@@ -479,6 +480,23 @@ class Transaction extends React.Component {
                                             })}
                                         </tbody>
                                     </table>
+                                    {/* !nested terniary! */}
+                                    {order_matches_btcpays_rows.length ?
+                                        (
+                                            <>
+                                                <p>BTC pays:</p>
+                                                <table>
+                                                    <tbody>
+                                                        {ListElements.getTableRowOrderMatchesBtcpaysHeader()}
+                                                        {order_matches_btcpays_rows.map((btcpays_row, index) => {
+                                                            return ListElements.getTableRowOrderMatchesBtcpays(btcpays_row, index);
+                                                        })}
+                                                    </tbody>
+                                                </table>
+                                            </>
+                                        )
+                                        : null
+                                    }
                                 </>
                             )
                             : null
