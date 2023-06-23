@@ -302,6 +302,8 @@ app.get('/transactions/:txIndex', async (req, res) => {
         });
     }
     catch (err) {
+        console.log(`transactions/:txIndex error:`);
+        console.log(err);
         res.status(500).json({
             error: 'Maybe 500 error', // TODO!
         });
@@ -386,6 +388,8 @@ app.get('/messages/:messageIndex', async (req, res) => {
         });
     }
     catch (err) {
+        console.log(`messages/:messageIndex error:`);
+        console.log(err);
         res.status(500).json({
             error: 'Maybe 500 error', // TODO!
         });
