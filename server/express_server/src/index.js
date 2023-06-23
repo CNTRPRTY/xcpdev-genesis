@@ -1,12 +1,14 @@
 
 const express = require('express');
+const bodyParser = require('body-parser'); // required for posts
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 
 const { Queries } = require('./queries');
 
 const app = express();
-app.use(cors())
+app.use(cors());
+app.use(bodyParser.json());
 const port = 3000;
 
 // fednode exec bitcoin bitcoin-cli -version
