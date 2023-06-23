@@ -192,6 +192,8 @@ class Transaction extends React.Component {
 
         let btcpay_element = null;
 
+        let broadcast_element = null;
+
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction_not_found) {
             transaction_element_contents = (
@@ -526,6 +528,27 @@ class Transaction extends React.Component {
             }
 
 
+            // is broadcast
+            if (this.state.cntrprty_decoded.id === 30) {
+                const text = this.state.cntrprty_decoded.msg_decoded.text;
+                broadcast_element = (
+                    <>
+                        <h3>Broadcast:</h3>
+                        <textarea rows="2" cols="55" style={{
+                            // https://stackoverflow.com/a/658197
+                            'whiteSpace': "nowrap",
+                            'overflow': "scroll",
+                            'overflowY': "hidden",
+                            'overflowX': "scroll",
+                            'overflow': "-moz-scrollbars-horizontal",
+                            // https://stackoverflow.com/a/5271803
+                            'resize': 'horizontal',
+                        }}>{text}</textarea>
+                    </>
+                );
+            }
+
+
             transaction_element_contents = (
                 <>
                     {/* {olga_element} */}
@@ -719,6 +742,7 @@ class Transaction extends React.Component {
                 {dispenser_element}
                 {order_element}
                 {btcpay_element}
+                {broadcast_element}
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
                 {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                 {transaction_element_contents}
