@@ -400,6 +400,62 @@ app.get('/messages/:messageIndex', async (req, res) => {
 
 
 
+// counterparty-lib api proxy
+async function libApiRequest(method, params = null) {
+    const url = `http://0.0.0.0:4000/api/`; // trailing slash required!
+    const username = 'rpc';
+    const password = 'rpc';
+    const options = {
+        "method": "POST",
+        "headers": {
+            "Authorization": "Basic " + Buffer.from(`${username}:${password}`).toString("base64")
+        }
+    };
+    const body = {
+        "jsonrpc": "2.0",
+        "id": 0,
+        "method": method
+    };
+    if (params) {
+        body.params = params;
+    }
+    options.body = JSON.stringify(body);
+
+    const response = await fetch(url, options);
+    if (!response.ok) {
+        const errorTextPre = await response.text(); // can come empty
+        const errorText = errorTextPre.trim().length === 0 ? '' : ` ${errorTextPre}`; // add space if not empty
+        throw Error(`[${response.status}:${response.statusText}]${errorText}`);
+    }
+    const data = await response.json();
+
+    return data;
+}
+app.post('/lib_api_proxy', async (req, res) => {
+    try {
+        // TODO? some validation?
+        const method = req.body.method;
+        const params = req.body.params;
+        const lib_response = await libApiRequest(method, params);
+        res.status(200).json({
+            node: {
+                BITCOIN_VERSION,
+                COUNTERPARTY_VERSION,
+            },
+            lib_response,
+        });
+    }
+    catch (err) {
+        console.log(`lib_api_proxy error:`);
+        console.log(err);
+        res.status(500).json({
+            error: 'Maybe 500 error', // TODO!
+        });
+    }
+});
+
+
+
 // https://stackoverflow.com/a/39914235
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
