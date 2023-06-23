@@ -75,6 +75,10 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
                     message.category === 'credits' &&
                     message.command === 'insert' &&
                     bindings.action === 'close dispenser'
+                ) ||
+                (
+                    message.category === 'sweeps' &&
+                    message.command === 'insert'
                 )
             ) {
                 message.main_message = true;
