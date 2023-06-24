@@ -1,8 +1,12 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
-import { OneElements, ListElements } from './shared/elements';
+import { OneElements } from './shared/elements';
+// import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
+// import { Outlet, Link } from "react-router-dom";
+
+import WalletBalances from './wallet_balances';
 
 class Wallet extends React.Component {
     constructor(props) {
@@ -124,7 +128,8 @@ class Wallet extends React.Component {
     render() {
 
         let show_button = null;
-        const button_value = "get";
+        const button_value = "go";
+        // const button_value = "get";
         // const button_value = "get balances";
         if (this.state.address && this.state.address.length) {
             // if (this.state.address.length) {
@@ -153,7 +158,8 @@ class Wallet extends React.Component {
         // let wallet_element_contents = (<p>loading...</p>);
         let wallet_element_contents = (
             <>
-                <p>Show balances for address:</p>
+                <p>Enter your address (<a href={`https://bitst.art/`} target="_blank">no address?</a>):</p>
+                {/* <p>Show balances for address:</p> */}
                 {address_bar}
                 {loading_element}
                 {/* <p>Address: {address_bar}</p> */}
@@ -178,52 +184,71 @@ class Wallet extends React.Component {
         // if (this.state.balances && this.state.balances.length) {
             // if (this.state.balances.length) {
             // if (this.state.balances) {
-            function balancesSort(a, b) {
-                if (b.quantity === a.quantity) {
-                    const mainname_a = a.asset_longname ? a.asset_longname : a.asset;
-                    const mainname_b = b.asset_longname ? b.asset_longname : b.asset;
-                    if (mainname_a < mainname_b) {
-                        return -1;
-                    }
-                    if (mainname_a > mainname_b) {
-                        return 1;
-                    }
-                    return 0;
-                }
-                else {
-                    return b.quantity - a.quantity;
-                }
-            };
 
-            const address_balances_element = (
-                <>
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowBalanceAddressHeader()}
-                            {this.state.balances.sort(balancesSort).map((balances_row, index) => {
-                                return ListElements.getTableRowBalanceAddress(balances_row, index);
-                            })}
-                        </tbody>
-                    </table>
-                </>
-            );
+            // function balancesSort(a, b) {
+            //     if (b.quantity === a.quantity) {
+            //         const mainname_a = a.asset_longname ? a.asset_longname : a.asset;
+            //         const mainname_b = b.asset_longname ? b.asset_longname : b.asset;
+            //         if (mainname_a < mainname_b) {
+            //             return -1;
+            //         }
+            //         if (mainname_a > mainname_b) {
+            //             return 1;
+            //         }
+            //         return 0;
+            //     }
+            //     else {
+            //         return b.quantity - a.quantity;
+            //     }
+            // };
+
+            // const address_balances_element = (
+            //     <>
+            //         <table>
+            //             <tbody>
+            //                 {ListElements.getTableRowBalanceAddressHeader()}
+            //                 {this.state.balances.sort(balancesSort).map((balances_row, index) => {
+            //                     return ListElements.getTableRowBalanceAddress(balances_row, index);
+            //                 })}
+            //             </tbody>
+            //         </table>
+            //     </>
+            // );
 
             wallet_element_contents = (
                 <>
                     <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
 
-                    <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
-                    {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
+                    <nav
+                        style={{
+                            // borderBottom: "solid 1px",
+                            paddingBottom: "1rem",
+                        }}
+                    >
+                        <Link to="/wallet">Balances</Link> |{" "}
+                        <Link to="/wallet/generate">New</Link>
+                    </nav>
+                    {/* <Outlet /> */}
 
-                    {/* <p>
-                        For [m]edia visit bitSTART:{' '}
-                        <a href={`https://bitst.art/_collector/${this.state.address}`} target="_blank">/_collector/{this.state.address}</a>
-                        // <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
-                    </p> */}
-
-                    {address_balances_element}
+                    <WalletBalances address={this.state.address} balances={this.state.balances} />;
                 </>
             );
+            // wallet_element_contents = (
+            //     <>
+            //         <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+
+            //         <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
+            //         {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
+
+            //         {/* <p>
+            //             For [m]edia visit bitSTART:{' '}
+            //             <a href={`https://bitst.art/_collector/${this.state.address}`} target="_blank">/_collector/{this.state.address}</a>
+            //             // <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
+            //         </p> */}
+
+            //         {address_balances_element}
+            //     </>
+            // );
 
         }
 
