@@ -12,11 +12,17 @@ class Wallet extends React.Component {
     constructor(props) {
         super(props);
 
-        let address_if_specified = undefined;
-        if (props.router.location.hash.length) {
-            const page_number_string = props.router.location.hash.replace('#', '');
-            address_if_specified = page_number_string;
+        let address_if_specified = '';
+        // let address_if_specified = null; // Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.
+        if (props.router.params.address) {
+            address_if_specified = props.router.params.address;
         }
+
+        // let address_if_specified = undefined;
+        // if (props.router.location.hash.length) {
+        //     const page_number_string = props.router.location.hash.replace('#', '');
+        //     address_if_specified = page_number_string;
+        // }
 
         this.state = {
             error_loading: false,
@@ -38,7 +44,8 @@ class Wallet extends React.Component {
         event.preventDefault();
         const to_navigate = this.state.address;
         // this.setState({ address: '' });
-        this.props.router.navigate(`/wallet#${to_navigate}`);
+        this.props.router.navigate(`/wallet/${to_navigate}`);
+        // this.props.router.navigate(`/wallet#${to_navigate}`);
     }
 
     async fetchData(address) {
@@ -99,7 +106,8 @@ class Wallet extends React.Component {
     }
 
     async componentDidMount() {
-        if (this.state.address) {
+        if (this.state.address.trim().length) {
+            // if (this.state.address) {
             // not awaiting it
             this.fetchData(this.state.address);
         }
@@ -108,21 +116,42 @@ class Wallet extends React.Component {
     }
 
     async componentDidUpdate(prevProps) {
-        const updatedHash = this.props.router.location.hash;
-        const prevHash = prevProps.router.location.hash;
-        if (updatedHash !== prevHash) {
-            const address = updatedHash.replace('#', '');
-            if (address.length) {
+
+        const updatedPathname = this.props.router.location.pathname;
+        const prevPathname = prevProps.router.location.pathname;
+        if (updatedPathname !== prevPathname) {
+            const addressPRE = updatedPathname.replace('/wallet', '');
+            if (addressPRE.trim().length > 1) {
+                const address = addressPRE.replaceAll('/', '');
                 await this.fetchData(address);
             }
             else {
+                // TODO? use init state function
                 this.setState({
+                    error_loading: false,
+                    loading: false,
                     address: '',
                     balances: null,
                 });
             }
-            // await this.fetchData(address);
         }
+
+        // const updatedHash = this.props.router.location.hash;
+        // const prevHash = prevProps.router.location.hash;
+        // if (updatedHash !== prevHash) {
+        //     const address = updatedHash.replace('#', '');
+        //     if (address.length) {
+        //         await this.fetchData(address);
+        //     }
+        //     else {
+        //         this.setState({
+        //             address: '',
+        //             balances: null,
+        //         });
+        //     }
+        //     // await this.fetchData(address);
+        // }
+
     }
 
     render() {
@@ -215,22 +244,29 @@ class Wallet extends React.Component {
             //     </>
             // );
 
-            wallet_element_contents = (
+            const wallet_balances_element = (
                 <>
-                    <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
-
                     <nav
                         style={{
                             // borderBottom: "solid 1px",
                             paddingBottom: "1rem",
                         }}
                     >
-                        <Link to="/wallet">Balances</Link> |{" "}
+                        <strong>Balances</strong> |{" "}
+                        {/* <Link to={`/wallet/${this.state.address}`}>Balances</Link> |{" "} */}
                         <Link to="/wallet/generate">New</Link>
                     </nav>
                     {/* <Outlet /> */}
 
-                    <WalletBalances address={this.state.address} balances={this.state.balances} />;
+                    <WalletBalances address={this.state.address} balances={this.state.balances} />
+                </>
+            );
+
+            wallet_element_contents = (
+                <>
+                    <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+
+                    {wallet_balances_element}
                 </>
             );
             // wallet_element_contents = (

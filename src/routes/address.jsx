@@ -180,7 +180,8 @@ class Address extends React.Component {
                     {address_closed_dispensers_element}
 
                     <h3>Balances:</h3>
-                    <p><Link to={`/wallet#${this.state.address}`}>Wallet: {this.state.address}</Link></p>
+                    <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
+                    {/* <p><Link to={`/wallet#${this.state.address}`}>Wallet: {this.state.address}</Link></p> */}
 
                     <h3>Broadcasts:</h3>
                     {address_broadcasts_element}
