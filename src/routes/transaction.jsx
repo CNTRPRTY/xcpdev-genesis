@@ -543,7 +543,7 @@ class Transaction extends React.Component {
                             'overflow': "-moz-scrollbars-horizontal",
                             // https://stackoverflow.com/a/5271803
                             'resize': 'horizontal',
-                        }}>{text}</textarea>
+                        }} readOnly>{text}</textarea>
                     </>
                 );
             }
