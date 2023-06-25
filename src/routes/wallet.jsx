@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 // import { Outlet, Link } from "react-router-dom";
 
 import WalletBalances from './wallet_balances';
+import WalletCreate from './wallet_create';
 
 class Wallet extends React.Component {
     constructor(props) {
@@ -24,12 +25,25 @@ class Wallet extends React.Component {
         //     address_if_specified = page_number_string;
         // }
 
+        let is_create = false;
+        if (
+            address_if_specified.length &&
+            props.router.location.search
+        ) {
+            const params = new URLSearchParams(props.router.location.search);
+            // for now...
+            if (params.get("method")) {
+                is_create = true;
+            }
+        }
+
         this.state = {
             error_loading: false,
             loading: false,
             address: address_if_specified,
             balances: null,
             // balances: [],
+            is_create,
         };
 
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -117,6 +131,7 @@ class Wallet extends React.Component {
 
     async componentDidUpdate(prevProps) {
 
+        // first checking if is a path change
         const updatedPathname = this.props.router.location.pathname;
         const prevPathname = prevProps.router.location.pathname;
         if (updatedPathname !== prevPathname) {
@@ -132,7 +147,20 @@ class Wallet extends React.Component {
                     loading: false,
                     address: '',
                     balances: null,
+                    is_create: false,
                 });
+            }
+        }
+        else { // then checking if is a search params change
+            const updatedSearch = this.props.router.location.search;
+            const prevSearch = prevProps.router.location.search;
+            if (updatedSearch !== prevSearch) {
+
+                // for now...
+                this.setState({
+                    is_create: (updatedSearch.length > 0),
+                });
+
             }
         }
 
@@ -253,8 +281,7 @@ class Wallet extends React.Component {
                         }}
                     >
                         <strong>Balances</strong> |{" "}
-                        {/* <Link to={`/wallet/${this.state.address}`}>Balances</Link> |{" "} */}
-                        <Link to="/wallet/generate">New</Link>
+                        <Link to={`/wallet/${this.state.address}?method=create`}>Create</Link>
                     </nav>
                     {/* <Outlet /> */}
 
@@ -262,11 +289,30 @@ class Wallet extends React.Component {
                 </>
             );
 
+            const wallet_create_element = (
+                <>
+                    <nav
+                        style={{
+                            paddingBottom: "1rem",
+                        }}
+                    >
+                        <Link to={`/wallet/${this.state.address}`}>Balances</Link> |{" "}
+                        <strong>Create</strong>
+                    </nav>
+
+                    <WalletCreate address={this.state.address} />
+                </>
+            );
+
             wallet_element_contents = (
                 <>
                     <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
 
-                    {wallet_balances_element}
+                    {this.state.is_create ?
+                        (<>{wallet_create_element}</>)
+                        :
+                        (<>{wallet_balances_element}</>)
+                    }
                 </>
             );
             // wallet_element_contents = (
