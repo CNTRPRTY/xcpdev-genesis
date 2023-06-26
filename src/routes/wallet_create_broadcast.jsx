@@ -11,11 +11,14 @@ class WalletCreateBroadcast extends React.Component {
             source: props.address,
 
             text: '',
+
             fee: 0,
+            in_post: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.handleTextChange = this.handleTextChange.bind(this);
+
         this.handleFeeChange = this.handleFeeChange.bind(this);
     }
 
@@ -26,32 +29,49 @@ class WalletCreateBroadcast extends React.Component {
             alert(`54 chars max for opreturn`);
             return;
         }
+
         const method = this.state.selected_method;
         const params = {
             "source": this.state.source,
+
             "fee_fraction": 0.0,
             "text": this.state.text,
             "timestamp": Math.floor((new Date()).getTime() / 1000),
             "value": 0.0,
+
             "fee": Number(this.state.fee),
             "encoding": "opreturn",
             "allow_unconfirmed_inputs": true,
             // "extended_tx_info": true
         };
 
-        const response = await postLibApiProxy(method, params);
-        alert(JSON.stringify({
-            request: {
-                method,
-                params,
-            },
-            response,
-        }, null, 4));
+        const request = {
+            method,
+            params,
+        }
+
+        this.setState({ in_post: true });
+        try {
+            const response = await postLibApiProxy(method, params);
+            alert(JSON.stringify({
+                request,
+                response,
+            }, null, 4));
+        }
+        catch (error) {
+            alert(JSON.stringify({
+                request,
+                error,
+            }, null, 4));
+        }
+        this.setState({ in_post: false });
     }
+
 
     handleTextChange(event) {
         this.setState({ text: event.target.value });
     }
+
 
     handleFeeChange(event) {
         this.setState({ fee: event.target.value });
@@ -71,12 +91,13 @@ class WalletCreateBroadcast extends React.Component {
                                 <input value={this.state.source} size={this.state.source.length} disabled />
                             </td>
                         </tr>
+
                         <tr>
                             <td>
                                 text:
                             </td>
                             <td>
-                                {/* TODO start correct styling with css */}
+                                {/* TODO styling with css file */}
                                 <textarea rows="2" cols="55" style={{
                                     // https://stackoverflow.com/a/658197
                                     'whiteSpace': "nowrap",
@@ -89,6 +110,7 @@ class WalletCreateBroadcast extends React.Component {
                                 }} onChange={this.handleTextChange}></textarea>
                             </td>
                         </tr>
+
                         <tr>
                             <td>
                                 fee:
@@ -100,7 +122,7 @@ class WalletCreateBroadcast extends React.Component {
                     </tbody>
                 </table>
                 <br />
-                <input type="submit" value="submit" />
+                <input type="submit" value="submit" disabled={this.state.in_post} />
             </form>
         );
     }

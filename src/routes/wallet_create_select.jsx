@@ -63,7 +63,7 @@ class WalletCreateSelect extends React.Component {
         let wallet_element_contents = null;
         wallet_element_contents = (
             <>
-                <h3>Create unsigned transactions (<a href={`https://bitst.art/`} target="_blank">to later sign and broadcast</a>):</h3>
+                <h3>Create unsigned transactions (<a href={`https://bitst.art/`} target="_blank">to then sign and broadcast</a>):</h3>
                 <p>Method:</p>
                 <select value={this.state.selected_method} onChange={this.handleSelectMethod}>
                     {/* <select value="create_broadcast"> */}

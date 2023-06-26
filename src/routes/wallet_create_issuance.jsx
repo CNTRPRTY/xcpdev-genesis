@@ -17,6 +17,7 @@ class WalletCreateIssuance extends React.Component {
             transfer_destination: '', // protocol default is null (but empty string seems to be equivalent)
 
             fee: 0,
+            in_post: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -32,10 +33,6 @@ class WalletCreateIssuance extends React.Component {
     async handleSubmit(event) {
         event.preventDefault();
 
-        // if (this.state.text.length > 54) {
-        //     alert(`54 chars max for opreturn`);
-        //     return;
-        // }
         const method = this.state.selected_method;
         const params = {
             "source": this.state.source,
@@ -49,17 +46,28 @@ class WalletCreateIssuance extends React.Component {
             "fee": Number(this.state.fee),
             "encoding": "opreturn",
             "allow_unconfirmed_inputs": true,
-            // "extended_tx_info": true
         };
 
-        const response = await postLibApiProxy(method, params);
-        alert(JSON.stringify({
-            request: {
-                method,
-                params,
-            },
-            response,
-        }, null, 4));
+        const request = {
+            method,
+            params,
+        }
+
+        this.setState({ in_post: true });
+        try {
+            const response = await postLibApiProxy(method, params);
+            alert(JSON.stringify({
+                request,
+                response,
+            }, null, 4));
+        }
+        catch (error) {
+            alert(JSON.stringify({
+                request,
+                error,
+            }, null, 4));
+        }
+        this.setState({ in_post: false });
     }
 
 
@@ -135,7 +143,7 @@ class WalletCreateIssuance extends React.Component {
                                 description:
                             </td>
                             <td>
-                                {/* TODO start correct styling with css */}
+                                {/* TODO styling with css file */}
                                 <textarea rows="2" cols="55" style={{
                                     // https://stackoverflow.com/a/658197
                                     'whiteSpace': "nowrap",
@@ -168,7 +176,7 @@ class WalletCreateIssuance extends React.Component {
                     </tbody>
                 </table>
                 <br />
-                <input type="submit" value="submit" />
+                <input type="submit" value="submit" disabled={this.state.in_post} />
             </form>
         );
     }
