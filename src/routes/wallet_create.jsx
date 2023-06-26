@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
+import { postLibApiProxy } from '../api';
 
 class WalletCreate extends React.Component {
 

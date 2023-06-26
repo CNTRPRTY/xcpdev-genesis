@@ -18,6 +18,23 @@ async function getCntrprty(path) {
     return data.data;
 }
 
+async function postLibApiProxy(method, params) {
+    const path = "/lib_api_proxy";
+    const options = {
+        method: "POST",
+        body: JSON.stringify({
+            method,
+            params,
+        }),
+    };
+    const res = await fetch(`${api_host}${path}`, options);
+    if (!res.ok) {
+        throw Error(`[${res.status}:${res.statusText}]`);
+    }
+    const data = await res.json();
+    return data.data;
+}
+
 async function getBlockMessages(block_height) {
     // TODO cache by block_hash to avoid reorg logic
     return getCntrprty(`/block/${block_height}`);
@@ -98,6 +115,7 @@ export {
     BITCOIN_VERSION,
     COUNTERPARTY_VERSION,
     getCntrprty,
+    postLibApiProxy,
     getBlockMessages,
     selectTransactionMessagesFromAll,
 };
