@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser'); // required for posts
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const { Queries } = require('./queries');
 
