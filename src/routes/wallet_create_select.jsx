@@ -8,14 +8,33 @@ class WalletCreateSelect extends React.Component {
 
     constructor(props) {
         super(props);
+
+        // JUST doing this search params handling for now to keep it simple
+
+        // should always have search params, right?
+        const params = new URLSearchParams(props.router.location.search);
+        const paramsGetMethod = params.get("method");
+
+        let selected_method = 'create_broadcast'; // default (at least for now)
+        if (paramsGetMethod) {
+            if (
+                paramsGetMethod === 'create_broadcast' ||
+                paramsGetMethod === 'create_issuance'
+            ) {
+                selected_method = paramsGetMethod;
+            }
+        }
+        // else { } // TODO? else clean it up?
+
         this.state = {
-            selected_method: 'create_broadcast',
+            selected_method,
             address: props.address,
         };
         this.handleSelectMethod = this.handleSelectMethod.bind(this);
     }
 
     handleSelectMethod(event) {
+        // TODO also change the search param url (could be done in different ways?)... but not yet to keep it simple!
         this.setState({ selected_method: event.target.value });
     }
 
@@ -46,7 +65,7 @@ class WalletCreateSelect extends React.Component {
             <>
                 <h3>Create unsigned transactions (<a href={`https://bitst.art/`} target="_blank">to later sign and broadcast</a>):</h3>
                 <p>Method:</p>
-                <select value={this.state.selected_action} onChange={this.handleSelectMethod}>
+                <select value={this.state.selected_method} onChange={this.handleSelectMethod}>
                     {/* <select value="create_broadcast"> */}
                     {this.renderMethodOptions()}
                 </select>
