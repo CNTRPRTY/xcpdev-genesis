@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 
 import WalletCreateBroadcast from './wallet_create_broadcast';
+import WalletCreateIssuance from './wallet_create_issuance';
 
 class WalletCreateSelect extends React.Component {
 
@@ -22,6 +23,7 @@ class WalletCreateSelect extends React.Component {
         return (
             <>
                 <option value="create_broadcast">create_broadcast</option>
+                <option value="create_issuance">create_issuance</option>
             </>
         );
     }
@@ -29,6 +31,9 @@ class WalletCreateSelect extends React.Component {
     renderMethodForm() {
         if (this.state.selected_method === 'create_broadcast') {
             return (<WalletCreateBroadcast address={this.state.address} />);
+        }
+        else if (this.state.selected_method === 'create_issuance') {
+            return (<WalletCreateIssuance address={this.state.address} />);
         }
         else {
             return null;
