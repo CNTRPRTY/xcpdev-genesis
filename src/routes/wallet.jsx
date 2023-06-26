@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 // import { Outlet, Link } from "react-router-dom";
 
 import WalletBalances from './wallet_balances';
-import WalletCreate from './wallet_create';
+import WalletCreateSelect from './wallet_create_select';
+// import WalletCreate from './wallet_create';
 
 class Wallet extends React.Component {
     constructor(props) {
@@ -300,7 +301,8 @@ class Wallet extends React.Component {
                         <strong>Create</strong>
                     </nav>
 
-                    <WalletCreate address={this.state.address} />
+                    <WalletCreateSelect address={this.state.address} />
+                    {/* <WalletCreate address={this.state.address} /> */}
                 </>
             );
 
