@@ -53,15 +53,24 @@ class WalletCreateBroadcast extends React.Component {
         this.setState({ in_post: true });
         try {
             const response = await postLibApiProxy(method, params);
-            alert(JSON.stringify({
-                request,
-                response,
-            }, null, 4));
+            if (response && response.lib_response && response.lib_response.result) {
+                alert(JSON.stringify({
+                    success: response.lib_response.result,
+                    response,
+                    request,
+                }, null, 4));
+            }
+            else {
+                alert(JSON.stringify({
+                    response,
+                    request,
+                }, null, 4));
+            }
         }
         catch (error) {
             alert(JSON.stringify({
+                error: error.message,
                 request,
-                error,
             }, null, 4));
         }
         this.setState({ in_post: false });
