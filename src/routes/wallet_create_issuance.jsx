@@ -57,11 +57,16 @@ class WalletCreateIssuance extends React.Component {
         try {
             const response = await postLibApiProxy(method, params);
             if (response && response.lib_response && response.lib_response.result) {
-                alert(JSON.stringify({
-                    success: response.lib_response.result,
+                const alert_message = `
+success! hex:
+\n
+${response.lib_response.result}
+\n
+${JSON.stringify({
                     response,
                     request,
-                }, null, 4));
+                }, null, 4)}`; // https://stackoverflow.com/a/17471151
+                alert(alert_message);
             }
             else {
                 alert(JSON.stringify({
