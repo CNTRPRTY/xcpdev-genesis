@@ -77,6 +77,19 @@ class Asset extends React.Component {
                     // destructions: asset_response.tables.destructions,
                     // dispenses: asset_response.tables.dispenses,
                 });
+                    
+                // vs escrows (orders and dispensers)
+                const escrows_response = await getCntrprty(`/asset/${asset_name}/escrows`);
+                this.setState({
+                    orders: escrows_response.tables.orders,
+                    dispensers: escrows_response.tables.dispensers,
+                });
+
+                // order exchanges (other side of escrow)
+                const exchanges_response = await getCntrprty(`/asset/${asset_name}/exchanges`);
+                this.setState({
+                    orders_get: exchanges_response.tables.orders_get,
+                });
 
             }
             else {
@@ -169,11 +182,86 @@ class Asset extends React.Component {
             );
         }
         else if (this.state.asset_btc_xcp) {
-            // TODO when the backend is ready maybe elaborate...
-            let protocol_base = 'Base protocol';
-            if (this.state.asset_name === 'XCP') {
-                protocol_base = 'Protocol';
+
+            let markets_element = null;
+
+            let protocol_base = '';
+
+            if (this.state.asset_name === 'BTC') {
+                protocol_base = 'Base protocol';
+
+                const asset_page = true;
+
+                const asset_metadata = {
+                    asset: 'BTC',
+                    divisible: true,
+                };
+
+                markets_element = (
+                    <>
+                        <h3>Market:</h3>
+    
+                        {/* <h4>Open dispensers:</h4>
+                        {ListElements.getTableRowDispensersHeader(asset_metadata)}
+                        {this.state.dispensers.map((dispensers_row, index) => {
+                            return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
+                        })} */}
+    
+                        <h4>Open exchange orders:</h4>
+    
+                        <p>Asset in escrow:</p>
+                        {ListElements.getTableRowOrdersHeader(asset_metadata)}
+                        {this.state.orders.map((orders_row, index) => {
+                            return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
+                        })}
+    
+                        <p>Asset requested:</p>
+                        {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
+                        {this.state.orders_get.map((orders_row, index) => {
+                            return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
+                        })}
+                    </>
+                );
+
             }
+            else if (this.state.asset_name === 'XCP') {
+                protocol_base = 'Protocol';
+
+                const asset_page = true;
+
+                const asset_metadata = {
+                    asset: 'XCP',
+                    divisible: true,
+                };
+
+                markets_element = (
+                    <>
+                        <h3>Market:</h3>
+    
+                        <h4>Open dispensers:</h4>
+                        {ListElements.getTableRowDispensersHeader(asset_metadata)}
+                        {this.state.dispensers.map((dispensers_row, index) => {
+                            return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
+                        })}
+    
+                        <h4>Open exchange orders:</h4>
+    
+                        <p>Asset in escrow:</p>
+                        {ListElements.getTableRowOrdersHeader(asset_metadata)}
+                        {this.state.orders.map((orders_row, index) => {
+                            return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
+                        })}
+    
+                        <p>Asset requested:</p>
+                        {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
+                        {this.state.orders_get.map((orders_row, index) => {
+                            return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
+                        })}
+                    </>
+                );
+
+            }
+
             asset_metadata = (
                 <>
                     <h3>{protocol_base} asset: {this.state.asset_name}</h3>
@@ -182,6 +270,7 @@ class Asset extends React.Component {
                         <li>asset id: {this.state.asset_row.asset_id}</li>
                         <li>divisible: true</li>
                     </ul>
+                    {markets_element}
                 </>
             );
         }
@@ -390,7 +479,7 @@ class Asset extends React.Component {
 
 
             let balances_element = null;
-            let escrows_element = null;
+            let markets_element = null;
             // let balances_escrows_element = null;
 
             if (this.state.balances.length && !reset_issuance) { // not dealing with reset assets (at least for now...)
@@ -436,7 +525,7 @@ class Asset extends React.Component {
                     </>
                 );
 
-                escrows_element = (
+                markets_element = (
                     <>
                         <h3>Market:</h3>
 
@@ -553,7 +642,7 @@ class Asset extends React.Component {
                     </ul> */}
 
 
-                    {escrows_element}
+                    {markets_element}
 
 
                     <h3>{issuance_events_message}</h3>
