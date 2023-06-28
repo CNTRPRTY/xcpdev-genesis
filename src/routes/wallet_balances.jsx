@@ -182,11 +182,21 @@ class WalletBalances extends React.Component {
         //     );
         // }
 
+        if (this.state.balances && !this.state.balances.length) {
+            wallet_element_contents = (
+                <>
+                    <p>no balances for address</p>
+                    {/* <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p> */}
+                </>
+            );
+        }
+
         // BUT not having results can be moved here!...
         // which should always be the case now
-        if (this.state.balances && this.state.balances.length) {
-        // else if (this.state.balances && this.state.balances.length) {
-        // if (this.state.balances && this.state.balances.length) {
+        else if (this.state.balances && this.state.balances.length) {
+            // if (this.state.balances && this.state.balances.length) {
+            // else if (this.state.balances && this.state.balances.length) {
+            // if (this.state.balances && this.state.balances.length) {
             // if (this.state.balances.length) {
             // if (this.state.balances) {
             function balancesSort(a, b) {

@@ -212,15 +212,11 @@ class Wallet extends React.Component {
             loading_element = (<p>loading...</p>)
         }
 
-        // let wallet_element_contents = (<p>coming soon...</p>);
-        // let wallet_element_contents = (<p>loading...</p>);
         let wallet_element_contents = (
             <>
-                <p>Enter your address (<a href={`https://bitst.art/`} target="_blank">no address?</a>):</p>
-                {/* <p>Show balances for address:</p> */}
+                <p>Enter your address (or start with a <a href={`https://bitst.art/`} target="_blank">wallet</a>):</p>
                 {address_bar}
                 {loading_element}
-                {/* <p>Address: {address_bar}</p> */}
             </>
         );
 
@@ -231,15 +227,16 @@ class Wallet extends React.Component {
                 </>
             );
         }
-        else if (this.state.balances && !this.state.balances.length) {
-            wallet_element_contents = (
-                <>
-                    <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
-                </>
-            );
-        }
-        else if (this.state.balances && this.state.balances.length) {
-        // if (this.state.balances && this.state.balances.length) {
+        // else if (this.state.balances && !this.state.balances.length) {
+        //     wallet_element_contents = (
+        //         <>
+        //             <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+        //         </>
+        //     );
+        // }
+        else if (this.state.balances) {
+            // else if (this.state.balances && this.state.balances.length) {
+            // if (this.state.balances && this.state.balances.length) {
             // if (this.state.balances.length) {
             // if (this.state.balances) {
 
