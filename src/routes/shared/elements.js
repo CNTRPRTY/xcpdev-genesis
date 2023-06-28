@@ -788,7 +788,12 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} in escrow</td>
+                {give_asset_metadata.asset === 'BTC' ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} promise</td>)
+                    :
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} in escrow</td>)
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} in escrow</td> */}
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>get remaining units (requested)</td>
 
