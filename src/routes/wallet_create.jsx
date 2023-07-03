@@ -36,6 +36,99 @@ class WalletCreate extends React.Component {
         this.handleFeeChange = this.handleFeeChange.bind(this);
     }
 
+    ////////
+    async handleSubmitSetState(method, params) {
+        // event.preventDefault();
+
+        // const method = this.state.selected_method;
+        // const params = {
+        //     "source": this.state.source,
+
+        //     "asset": this.state.asset,
+        //     "quantity": Number(this.state.quantity),
+        //     "divisible": this.state.divisible,
+        //     "description": this.state.description,
+        //     "transfer_destination": this.state.transfer_destination,
+
+        //     "fee": Number(this.state.fee),
+        //     "encoding": "opreturn",
+        //     "allow_unconfirmed_inputs": true,
+        // };
+
+        const request = {
+            method,
+            params,
+        }
+
+        this.setState({
+            open_dialog_obj: {
+                dialog_state: 'loading',
+                request,
+            }
+        });
+        // this.setState({ open_dialog_message: 'loading...' });
+        // this.setState({ in_post: true });
+        try {
+            const response = await postLibApiProxy(method, params);
+            if (response && response.lib_response && response.lib_response.result) {
+                //                 const alert_message = `
+                // succesSSSs! hex:
+                // \n
+                // ${response.lib_response.result}
+                // \n
+                // ${JSON.stringify({
+                //                     response,
+                //                     request,
+                //                 }, null, 4)}`; // https://stackoverflow.com/a/17471151
+                this.setState({
+                    open_dialog_obj: {
+                        dialog_state: 'success',
+                        response,
+                        request,
+                    }
+                });
+                // this.setState({ open_dialog_message: alert_message });
+                // alert(alert_message);
+            }
+            else {
+                this.setState({
+                    open_dialog_obj: {
+                        dialog_state: 'response',
+                        response,
+                        request,
+                    }
+                });
+                // this.setState({ open_dialog_message: JSON.stringify({
+                //     response,
+                //     request,
+                // }, null, 4) });
+                // alert(JSON.stringify({
+                //     response,
+                //     request,
+                // }, null, 4));
+            }
+        }
+        catch (error) {
+            this.setState({
+                open_dialog_obj: {
+                    dialog_state: 'error',
+                    error: error.message,
+                    request,
+                }
+            });
+            // this.setState({ open_dialog_message: JSON.stringify({
+            //     error: error.message,
+            //     request,
+            // }, null, 4) });
+            // alert(JSON.stringify({
+            //     error: error.message,
+            //     request,
+            // }, null, 4));
+        }
+        // this.setState({ in_post: false });
+    }
+    ////////
+
 //     async handleSubmit(event) {
 //         event.preventDefault();
 

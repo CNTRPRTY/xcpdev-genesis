@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { postLibApiProxy } from '../api';
+// import { postLibApiProxy } from '../api';
 
 import WalletCreate from './wallet_create';
 
@@ -56,69 +56,72 @@ class WalletCreateIssuance extends WalletCreate {
             "allow_unconfirmed_inputs": true,
         };
 
-        const request = {
-            method,
-            params,
-        }
+        await this.handleSubmitSetState(method, params);
+        
+//         const request = {
+//             method,
+//             params,
+//         }
 
-        this.setState({ open_dialog_obj: {
-            dialog_state: 'loading',
-            request,
-        } });
-        // this.setState({ open_dialog_message: 'loading...' });
-        // this.setState({ in_post: true });
-        try {
-            const response = await postLibApiProxy(method, params);
-            if (response && response.lib_response && response.lib_response.result) {
-//                 const alert_message = `
-// succesSSSs! hex:
-// \n
-// ${response.lib_response.result}
-// \n
-// ${JSON.stringify({
+//         this.setState({ open_dialog_obj: {
+//             dialog_state: 'loading',
+//             request,
+//         } });
+//         // this.setState({ open_dialog_message: 'loading...' });
+//         // this.setState({ in_post: true });
+//         try {
+//             const response = await postLibApiProxy(method, params);
+//             if (response && response.lib_response && response.lib_response.result) {
+// //                 const alert_message = `
+// // succesSSSs! hex:
+// // \n
+// // ${response.lib_response.result}
+// // \n
+// // ${JSON.stringify({
+// //                     response,
+// //                     request,
+// //                 }, null, 4)}`; // https://stackoverflow.com/a/17471151
+//                 this.setState({ open_dialog_obj: {
+//                     dialog_state: 'success',
 //                     response,
 //                     request,
-//                 }, null, 4)}`; // https://stackoverflow.com/a/17471151
-                this.setState({ open_dialog_obj: {
-                    dialog_state: 'success',
-                    response,
-                    request,
-                } });
-                // this.setState({ open_dialog_message: alert_message });
-                // alert(alert_message);
-            }
-            else {
-                this.setState({ open_dialog_obj: {
-                    dialog_state: 'response',
-                    response,
-                    request,
-                } });
-                // this.setState({ open_dialog_message: JSON.stringify({
-                //     response,
-                //     request,
-                // }, null, 4) });
-                // alert(JSON.stringify({
-                //     response,
-                //     request,
-                // }, null, 4));
-            }
-        }
-        catch (error) {
-            this.setState({ open_dialog_obj: {
-                dialog_state: 'error',
-                error: error.message,
-                request,
-            } });
-            // this.setState({ open_dialog_message: JSON.stringify({
-            //     error: error.message,
-            //     request,
-            // }, null, 4) });
-            // alert(JSON.stringify({
-            //     error: error.message,
-            //     request,
-            // }, null, 4));
-        }
-        // this.setState({ in_post: false });
+//                 } });
+//                 // this.setState({ open_dialog_message: alert_message });
+//                 // alert(alert_message);
+//             }
+//             else {
+//                 this.setState({ open_dialog_obj: {
+//                     dialog_state: 'response',
+//                     response,
+//                     request,
+//                 } });
+//                 // this.setState({ open_dialog_message: JSON.stringify({
+//                 //     response,
+//                 //     request,
+//                 // }, null, 4) });
+//                 // alert(JSON.stringify({
+//                 //     response,
+//                 //     request,
+//                 // }, null, 4));
+//             }
+//         }
+//         catch (error) {
+//             this.setState({ open_dialog_obj: {
+//                 dialog_state: 'error',
+//                 error: error.message,
+//                 request,
+//             } });
+//             // this.setState({ open_dialog_message: JSON.stringify({
+//             //     error: error.message,
+//             //     request,
+//             // }, null, 4) });
+//             // alert(JSON.stringify({
+//             //     error: error.message,
+//             //     request,
+//             // }, null, 4));
+//         }
+//         // this.setState({ in_post: false });
+
     }
 
     // async handleDialogCloseSubmit(event) {
