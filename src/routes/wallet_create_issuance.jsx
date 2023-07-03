@@ -2,7 +2,10 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { postLibApiProxy } from '../api';
 
-class WalletCreateIssuance extends React.Component {
+import WalletCreate from './wallet_create';
+
+class WalletCreateIssuance extends WalletCreate {
+    // class WalletCreateIssuance extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,9 +25,9 @@ class WalletCreateIssuance extends React.Component {
             // open_dialog_message: null, // closed when null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        ///
-        this.handleDialogCloseSubmit = this.handleDialogCloseSubmit.bind(this);
-        ///
+        // ///
+        // this.handleDialogCloseSubmit = this.handleDialogCloseSubmit.bind(this);
+        // ///
 
         this.handleAssetChange = this.handleAssetChange.bind(this);
         this.handleQuantityChange = this.handleQuantityChange.bind(this);
@@ -32,7 +35,7 @@ class WalletCreateIssuance extends React.Component {
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleTransferDestinationChange = this.handleTransferDestinationChange.bind(this);
 
-        this.handleFeeChange = this.handleFeeChange.bind(this);
+        // this.handleFeeChange = this.handleFeeChange.bind(this);
     }
 
     async handleSubmit(event) {
@@ -118,11 +121,11 @@ class WalletCreateIssuance extends React.Component {
         // this.setState({ in_post: false });
     }
 
-    async handleDialogCloseSubmit(event) {
-        event.preventDefault();
-        this.setState({ open_dialog_obj: null });
-        // this.setState({ open_dialog_message: null });
-    }
+    // async handleDialogCloseSubmit(event) {
+    //     event.preventDefault();
+    //     this.setState({ open_dialog_obj: null });
+    //     // this.setState({ open_dialog_message: null });
+    // }
 
 
     handleAssetChange(event) {
@@ -146,90 +149,90 @@ class WalletCreateIssuance extends React.Component {
     }
 
 
-    handleFeeChange(event) {
-        this.setState({ fee: event.target.value });
-    }
+    // handleFeeChange(event) {
+    //     this.setState({ fee: event.target.value });
+    // }
 
-    renderDialogObj() {
-        let success = null;
-        if (this.state.open_dialog_obj.dialog_state === 'success') {
-            success = (
-                <>
-                    <h3>hex:</h3>
-                    {/* TODO reuse css */}
-                    <textarea rows="2" cols="55"
-                        style={{
-                            // https://stackoverflow.com/a/658197
-                            'whiteSpace': "nowrap",
-                            'overflow': "scroll",
-                            'overflowY': "hidden",
-                            'overflowX': "scroll",
-                            'overflow': "-moz-scrollbars-horizontal",
-                            // https://stackoverflow.com/a/5271803
-                            'resize': 'horizontal',
-                        }}
-                        value={this.state.open_dialog_obj.response.lib_response.result}
-                        readOnly
-                    />
-                    {/* }} readOnly>{self.state.open_dialog_obj.response.lib_response.result}</textarea> */}
-                </>
-            )
-        }
+    // renderDialogObj() {
+    //     let success = null;
+    //     if (this.state.open_dialog_obj.dialog_state === 'success') {
+    //         success = (
+    //             <>
+    //                 <h3>hex:</h3>
+    //                 {/* TODO reuse css */}
+    //                 <textarea rows="2" cols="55"
+    //                     style={{
+    //                         // https://stackoverflow.com/a/658197
+    //                         'whiteSpace': "nowrap",
+    //                         'overflow': "scroll",
+    //                         'overflowY': "hidden",
+    //                         'overflowX': "scroll",
+    //                         'overflow': "-moz-scrollbars-horizontal",
+    //                         // https://stackoverflow.com/a/5271803
+    //                         'resize': 'horizontal',
+    //                     }}
+    //                     value={this.state.open_dialog_obj.response.lib_response.result}
+    //                     readOnly
+    //                 />
+    //                 {/* }} readOnly>{self.state.open_dialog_obj.response.lib_response.result}</textarea> */}
+    //             </>
+    //         )
+    //     }
     
-        let response = null;
-        if (this.state.open_dialog_obj.dialog_state !== 'error') {
-            response = (
-                <>
-                    <p>response: {JSON.stringify(this.state.open_dialog_obj.response)}</p>
-                </>
-            )
-        }
-        else { // === error (or loading)
-            response = (
-                <>
-                    <p>error: {JSON.stringify(this.state.open_dialog_obj.error)}</p>
-                </>
-            )
-        }
+    //     let response = null;
+    //     if (this.state.open_dialog_obj.dialog_state !== 'error') {
+    //         response = (
+    //             <>
+    //                 <p>response: {JSON.stringify(this.state.open_dialog_obj.response)}</p>
+    //             </>
+    //         )
+    //     }
+    //     else { // === error (or loading)
+    //         response = (
+    //             <>
+    //                 <p>error: {JSON.stringify(this.state.open_dialog_obj.error)}</p>
+    //             </>
+    //         )
+    //     }
     
     
-        const request = (
-            <>
-                <p>request: {JSON.stringify(this.state.open_dialog_obj.request)}</p>
-            </>
-        );
-        // const request_message = JSON.stringify(self.state.open_dialog_obj.request);
-        // const message = JSON.stringify(self.state.open_dialog_obj);
-        return (
-            <>
-                <dialog open>
-                    {/* <p>Greetings, one and all!</p> */}
-                    <h2>{this.state.open_dialog_obj.dialog_state}</h2>
-                    {success}
-                    {/* nested terniary! (TODO magic string) */}
-                    {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                        (
-                            <>
-                                {response}
-                                {request}
-                            </>
-                        ) :
-                        null}
-                    {/* <p>request: {request_message}</p> */}
-                    {/* <p>{message}</p> */}
-                    {/* <p>{this.state.open_dialog_message}</p> */}
-                    <form method="dialog" onSubmit={this.handleDialogCloseSubmit}>
-                        {/* nested terniary! (TODO magic string) */}
-                        {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                            // {this.state.open_dialog_message !== 'loading...' ?
-                            (<button>ok</button>) :
-                            null}
-                        {/* <button>ok</button> */}
-                    </form>
-                </dialog>
-            </>
-        );
-    }
+    //     const request = (
+    //         <>
+    //             <p>request: {JSON.stringify(this.state.open_dialog_obj.request)}</p>
+    //         </>
+    //     );
+    //     // const request_message = JSON.stringify(self.state.open_dialog_obj.request);
+    //     // const message = JSON.stringify(self.state.open_dialog_obj);
+    //     return (
+    //         <>
+    //             <dialog open>
+    //                 {/* <p>Greetings, one and all!</p> */}
+    //                 <h2>{this.state.open_dialog_obj.dialog_state}</h2>
+    //                 {success}
+    //                 {/* nested terniary! (TODO magic string) */}
+    //                 {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+    //                     (
+    //                         <>
+    //                             {response}
+    //                             {request}
+    //                         </>
+    //                     ) :
+    //                     null}
+    //                 {/* <p>request: {request_message}</p> */}
+    //                 {/* <p>{message}</p> */}
+    //                 {/* <p>{this.state.open_dialog_message}</p> */}
+    //                 <form method="dialog" onSubmit={this.handleDialogCloseSubmit}>
+    //                     {/* nested terniary! (TODO magic string) */}
+    //                     {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+    //                         // {this.state.open_dialog_message !== 'loading...' ?
+    //                         (<button>ok</button>) :
+    //                         null}
+    //                     {/* <button>ok</button> */}
+    //                 </form>
+    //             </dialog>
+    //         </>
+    //     );
+    // }
 
     render() {
         return (
