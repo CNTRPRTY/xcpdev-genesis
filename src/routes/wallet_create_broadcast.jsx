@@ -1,8 +1,9 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { postLibApiProxy } from '../api';
 
-class WalletCreateBroadcast extends React.Component {
+import WalletCreate from './wallet_create';
+
+class WalletCreateBroadcast extends WalletCreate {
 
     constructor(props) {
         super(props);
@@ -13,13 +14,11 @@ class WalletCreateBroadcast extends React.Component {
             text: '',
 
             fee: 0,
-            in_post: false,
+            open_dialog_obj: null, // closed when null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.handleTextChange = this.handleTextChange.bind(this);
-
-        this.handleFeeChange = this.handleFeeChange.bind(this);
     }
 
     async handleSubmit(event) {
@@ -45,40 +44,7 @@ class WalletCreateBroadcast extends React.Component {
             // "extended_tx_info": true
         };
 
-        const request = {
-            method,
-            params,
-        }
-
-        this.setState({ in_post: true });
-        try {
-            const response = await postLibApiProxy(method, params);
-            if (response && response.lib_response && response.lib_response.result) {
-                const alert_message = `
-success! hex:
-\n
-${response.lib_response.result}
-\n
-${JSON.stringify({
-                    response,
-                    request,
-                }, null, 4)}`; // https://stackoverflow.com/a/17471151
-                alert(alert_message);
-            }
-            else {
-                alert(JSON.stringify({
-                    response,
-                    request,
-                }, null, 4));
-            }
-        }
-        catch (error) {
-            alert(JSON.stringify({
-                error: error.message,
-                request,
-            }, null, 4));
-        }
-        this.setState({ in_post: false });
+        await this.handleSubmitSetState(method, params);
     }
 
 
@@ -87,57 +53,61 @@ ${JSON.stringify({
     }
 
 
-    handleFeeChange(event) {
-        this.setState({ fee: event.target.value });
-    }
-
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <p>Params:</p>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                source:
-                            </td>
-                            <td>
-                                <input value={this.state.source} size={this.state.source.length} disabled />
-                            </td>
-                        </tr>
+            <>
+                {this.state.open_dialog_obj ?
+                    // {this.state.open_dialog_message ?
+                    (this.renderDialogObj())
+                    :
+                    null}
+                <form onSubmit={this.handleSubmit}>
+                    <p>Params:</p>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    source:
+                                </td>
+                                <td>
+                                    <input value={this.state.source} size={this.state.source.length} disabled />
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                text:
-                            </td>
-                            <td>
-                                {/* TODO styling with css file */}
-                                <textarea rows="2" cols="55" style={{
-                                    // https://stackoverflow.com/a/658197
-                                    'whiteSpace': "nowrap",
-                                    'overflow': "scroll",
-                                    'overflowY': "hidden",
-                                    'overflowX': "scroll",
-                                    'overflow': "-moz-scrollbars-horizontal",
-                                    // https://stackoverflow.com/a/5271803
-                                    'resize': 'horizontal',
-                                }} onChange={this.handleTextChange}></textarea>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    text:
+                                </td>
+                                <td>
+                                    {/* TODO styling with css file */}
+                                    <textarea rows="2" cols="55" style={{
+                                        // https://stackoverflow.com/a/658197
+                                        'whiteSpace': "nowrap",
+                                        'overflow': "scroll",
+                                        'overflowY': "hidden",
+                                        'overflowX': "scroll",
+                                        'overflow': "-moz-scrollbars-horizontal",
+                                        // https://stackoverflow.com/a/5271803
+                                        'resize': 'horizontal',
+                                    }} onChange={this.handleTextChange}></textarea>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                fee:
-                            </td>
-                            <td>
-                                <input type="text" size="8" value={this.state.fee} onChange={this.handleFeeChange} />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <input type="submit" value="submit" disabled={this.state.in_post} />
-            </form>
+                            <tr>
+                                <td>
+                                    fee:
+                                </td>
+                                <td>
+                                    <input type="text" size="8" value={this.state.fee} onChange={this.handleFeeChange} />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <input type="submit" value="submit" disabled={this.state.in_post} />
+                </form>
+            </>
+
         );
     }
 
