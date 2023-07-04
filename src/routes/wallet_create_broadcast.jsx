@@ -24,10 +24,10 @@ class WalletCreateBroadcast extends WalletCreate {
     async handleSubmit(event) {
         event.preventDefault();
 
-        if (this.state.text.length > 54) {
-            alert(`54 chars max for opreturn`);
-            return;
-        }
+        // if (this.state.text.length > 54) {
+        //     alert(`54 chars max for opreturn`);
+        //     return;
+        // }
 
         const method = this.state.selected_method;
         const params = {
@@ -104,7 +104,8 @@ class WalletCreateBroadcast extends WalletCreate {
                         </tbody>
                     </table>
                     <br />
-                    <input type="submit" value="submit" disabled={this.state.in_post} />
+                    <input type="submit" value="submit" disabled={this.state.open_dialog_obj !== null} />
+                    {/* <input type="submit" value="submit" disabled={this.state.in_post} /> */}
                 </form>
             </>
 
