@@ -3,6 +3,7 @@ import { withRouter } from './shared/classhooks';
 
 import WalletCreateBroadcast from './wallet_create_broadcast';
 import WalletCreateIssuance from './wallet_create_issuance';
+import WalletCreateSend from './wallet_create_send';
 
 class WalletCreateSelect extends React.Component {
 
@@ -19,7 +20,8 @@ class WalletCreateSelect extends React.Component {
         if (paramsGetMethod) {
             if (
                 paramsGetMethod === 'create_broadcast' ||
-                paramsGetMethod === 'create_issuance'
+                paramsGetMethod === 'create_issuance' ||
+                paramsGetMethod === 'create_send'
             ) {
                 selected_method = paramsGetMethod;
             }
@@ -43,8 +45,7 @@ class WalletCreateSelect extends React.Component {
             <>
                 <option value="create_broadcast">create_broadcast (opreturn)</option>
                 <option value="create_issuance">create_issuance (opreturn)</option>
-                {/* <option value="create_broadcast">create_broadcast</option>
-                <option value="create_issuance">create_issuance</option> */}
+                <option value="create_send">create_send (opreturn)</option>
             </>
         );
     }
@@ -55,6 +56,9 @@ class WalletCreateSelect extends React.Component {
         }
         else if (this.state.selected_method === 'create_issuance') {
             return (<WalletCreateIssuance address={this.state.address} />);
+        }
+        else if (this.state.selected_method === 'create_send') {
+            return (<WalletCreateSend address={this.state.address} />);
         }
         else {
             return null;
