@@ -29,10 +29,18 @@ async function postLibApiProxy(method, params) {
     };
     const res = await fetch(`${api_host}${path}`, options);
     if (!res.ok) {
-        throw Error(`[${res.status}:${res.statusText}]`);
+        if (res.status === 429) {
+            const expected_too_many = await res.json();
+            throw Error(`[${res.status}:${res.statusText}] ${expected_too_many.ip} 30s`);
+        }
+        else {
+            throw Error(`[${res.status}:${res.statusText}]`);
+        }
+        // throw Error(`[${res.status}:${res.statusText}]`);
     }
     const data = await res.json();
-    return data.data;
+    return data;
+    // return data.data;
 }
 
 async function getBlockMessages(block_height) {

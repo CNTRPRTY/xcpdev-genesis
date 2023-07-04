@@ -70,7 +70,8 @@ class WalletCreate extends React.Component {
         // this.setState({ in_post: true });
         try {
             const response = await postLibApiProxy(method, params);
-            if (response && response.lib_response && response.lib_response.result) {
+            if (response && response.data && response.data.lib_response && response.data.lib_response.result) {
+                // if (response && response.lib_response && response.lib_response.result) {
                 //                 const alert_message = `
                 // succesSSSs! hex:
                 // \n
@@ -263,7 +264,8 @@ class WalletCreate extends React.Component {
                             // https://stackoverflow.com/a/5271803
                             'resize': 'horizontal',
                         }}
-                        value={this.state.open_dialog_obj.response.lib_response.result}
+                        value={this.state.open_dialog_obj.response.data.lib_response.result}
+                        // value={this.state.open_dialog_obj.response.lib_response.result}
                         readOnly
                     />
                     {/* }} readOnly>{self.state.open_dialog_obj.response.lib_response.result}</textarea> */}
@@ -307,6 +309,7 @@ class WalletCreate extends React.Component {
         // const message = JSON.stringify(self.state.open_dialog_obj);
         return (
             <>
+                {/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method */}
                 <dialog open>
                     {/* <p>Greetings, one and all!</p> */}
                     <h2>{this.state.open_dialog_obj.dialog_state}</h2>
