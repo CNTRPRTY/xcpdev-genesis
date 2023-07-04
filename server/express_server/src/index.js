@@ -457,22 +457,14 @@ app.post('/lib_api_proxy', async (req, res) => {
 
 
 
-// https://stackoverflow.com/a/39914235
-async function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const updateMempoolCacheSeconds = 30;
 async function updateMempoolCache() {
     const mempool = await Queries.getMempoolRows(db);
     cached_mempool = mempool;
 }
 
-const updateBlocksCacheSeconds = 60;
+const updateBlocksCacheSeconds = 59;
 async function updateBlocksCache() {
-    // avoids doing all cache refreshes at the same time
-    await sleep(1000);
-
     const blocks = await Queries.getMessagesByBlockLatest(db);
 
     const from_block_index = blocks.reduce(function (prev, curr) {
@@ -499,11 +491,8 @@ async function updateBlocksCache() {
     cached_blocks = blocks_all;
 }
 
-const updateTransactionsCacheSeconds = updateBlocksCacheSeconds;
+const updateTransactionsCacheSeconds = 61;
 async function updateTransactionsCache() {
-    // avoids doing all cache refreshes at the same time
-    await sleep(2000);
-
     const btc_transactions_latest = await Queries.getTransactionsLatest(db);
     cached_transactions = btc_transactions_latest;
 }
