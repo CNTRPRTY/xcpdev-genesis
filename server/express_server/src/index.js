@@ -459,8 +459,18 @@ app.post('/lib_api_proxy', async (req, res) => {
 
 const updateMempoolCacheSeconds = 30;
 async function updateMempoolCache() {
-    const mempool = await Queries.getMempoolRows(db);
-    cached_mempool = mempool;
+
+    const lib_response = await libApiRequest('sql', {
+        query: `
+            SELECT * FROM mempool;
+        `
+    });
+    if (lib_response.result) {
+        cached_mempool = lib_response.result;
+    }
+
+    // const mempool = await Queries.getMempoolRows(db);
+    // cached_mempool = mempool;
 }
 
 const updateBlocksCacheSeconds = 59;
@@ -493,8 +503,35 @@ async function updateBlocksCache() {
 
 const updateTransactionsCacheSeconds = 61;
 async function updateTransactionsCache() {
-    const btc_transactions_latest = await Queries.getTransactionsLatest(db);
-    cached_transactions = btc_transactions_latest;
+
+    // TODO non-ideal!
+    const limit = 30;
+    const lib_response = await libApiRequest('sql', {
+        query: `
+            SELECT
+                t.tx_index,
+                t.tx_hash,
+                t.block_index,
+                t.block_hash,
+                t.block_time,
+                t.source,
+                t.destination,
+                t.btc_amount,
+                t.fee,
+                t.supported,
+                b.block_time
+            FROM transactions t
+            JOIN blocks b ON t.block_index = b.block_index
+            ORDER BY t.tx_index DESC
+            LIMIT ${limit};
+        `
+    });
+    if (lib_response.result) {
+        cached_transactions = lib_response.result;
+    }
+    
+    // const btc_transactions_latest = await Queries.getTransactionsLatest(db);
+    // cached_transactions = btc_transactions_latest;
 }
 
 

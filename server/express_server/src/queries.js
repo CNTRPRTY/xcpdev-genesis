@@ -10,13 +10,13 @@ function queryDBRows(db, sql, params_obj) {
 
 class Queries {
 
-    static async getMempoolRows(db) {
-        const sql = `
-            SELECT * FROM mempool;
-        `;
-        const params_obj = {};
-        return queryDBRows(db, sql, params_obj);
-    }
+    // static async getMempoolRows(db) {
+    //     const sql = `
+    //         SELECT * FROM mempool;
+    //     `;
+    //     const params_obj = {};
+    //     return queryDBRows(db, sql, params_obj);
+    // }
 
     static async getMempoolRowsByTxHash(db, tx_hash) {
         const sql = `
@@ -140,38 +140,38 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getTransactionsLatest(db) {
-        const limit = 30; // 10
-        const sql = `
-            SELECT
-                t.tx_index,
-                t.tx_hash,
-                t.block_index,
-                t.block_hash,
-                t.block_time,
-                t.source,
-                t.destination,
-                t.btc_amount,
-                t.fee,
-                t.supported,
-                b.block_time
-            FROM transactions t
-            JOIN blocks b ON t.block_index = b.block_index
-            ORDER BY t.tx_index DESC
-            LIMIT $limit;
-        `;
-        // const sql = `
-        //     SELECT t.*, b.block_time
-        //     FROM transactions t
-        //     JOIN blocks b ON t.block_index = b.block_index
-        //     ORDER BY t.tx_index DESC
-        //     LIMIT $limit;
-        // `;
-        const params_obj = {
-            $limit: limit,
-        };
-        return queryDBRows(db, sql, params_obj);
-    }
+    // static async getTransactionsLatest(db) {
+    //     const limit = 30; // 10
+    //     const sql = `
+    //         SELECT
+    //             t.tx_index,
+    //             t.tx_hash,
+    //             t.block_index,
+    //             t.block_hash,
+    //             t.block_time,
+    //             t.source,
+    //             t.destination,
+    //             t.btc_amount,
+    //             t.fee,
+    //             t.supported,
+    //             b.block_time
+    //         FROM transactions t
+    //         JOIN blocks b ON t.block_index = b.block_index
+    //         ORDER BY t.tx_index DESC
+    //         LIMIT $limit;
+    //     `;
+    //     // const sql = `
+    //     //     SELECT t.*, b.block_time
+    //     //     FROM transactions t
+    //     //     JOIN blocks b ON t.block_index = b.block_index
+    //     //     ORDER BY t.tx_index DESC
+    //     //     LIMIT $limit;
+    //     // `;
+    //     const params_obj = {
+    //         $limit: limit,
+    //     };
+    //     return queryDBRows(db, sql, params_obj);
+    // }
 
     static async getTransactionsFromTxIndexToTxIndex(db, from_tx_index, to_tx_index) {
         const sql = `
