@@ -112,7 +112,8 @@ class WalletCreate extends React.Component {
             this.setState({
                 open_dialog_obj: {
                     dialog_state: 'error',
-                    error: error.message,
+                    error_message: error.message,
+                    // error: error.message,
                     request,
                 }
             });
@@ -274,14 +275,20 @@ class WalletCreate extends React.Component {
         if (this.state.open_dialog_obj.dialog_state !== 'error') {
             response = (
                 <>
-                    <p>response: {JSON.stringify(this.state.open_dialog_obj.response)}</p>
+                    <p>
+                        response:
+                        <br />
+                        {JSON.stringify(this.state.open_dialog_obj.response)}
+                    </p>
                 </>
             )
         }
         else { // === error (or loading)
             response = (
                 <>
-                    <p>error: {JSON.stringify(this.state.open_dialog_obj.error)}</p>
+                    <p>
+                        {this.state.open_dialog_obj.error_message}
+                    </p>
                 </>
             )
         }
@@ -289,7 +296,11 @@ class WalletCreate extends React.Component {
     
         const request = (
             <>
-                <p>request: {JSON.stringify(this.state.open_dialog_obj.request)}</p>
+                <p>
+                    request:
+                    <br />
+                    {JSON.stringify(this.state.open_dialog_obj.request)}
+                </p>
             </>
         );
         // const request_message = JSON.stringify(self.state.open_dialog_obj.request);
