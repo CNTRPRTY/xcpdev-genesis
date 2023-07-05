@@ -614,7 +614,8 @@ class Asset extends React.Component {
                     </ul>
                     <ul>
                         {/* <li>satoshi divisibility: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
-                        <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li>
+                        <li>divisible: {genesis_issuance.divisible ? 'true (satoshi)' : 'false'}</li>
+                        {/* <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
                     </ul>
                             {/*  */}
 
