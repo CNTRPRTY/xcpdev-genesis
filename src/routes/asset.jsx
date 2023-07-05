@@ -390,7 +390,6 @@ class Asset extends React.Component {
             const verify_quantity_with_divisibility = quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer);
             ///////////
 
-
             let issuances_summary_element = (
                 <>
                     {/* <ul>
@@ -404,13 +403,31 @@ class Asset extends React.Component {
 
                     <ul>
                         <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
-                    </ul>                    <ul>
                         <li>events ({this.state.issuances.length} issuances + {this.state.destructions.length} destructions): {all_issuance_events.length}</li>
                         {/* <li>events: {all_issuance_events.length}</li> */}
-                    </ul>
-                    <ul>
                         {/* <li>locked supply: {lock_issuance ? 'true' : 'false'}</li> */}
-                        <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
+                        
+                        {reset_issuance ?
+                            (<>{<li>v9.60 RESET ASSET</li>}</>)
+                            :
+                            (
+                                <>
+                                    <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
+                                    <li>
+                                        verify (
+                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
+                                        {' '}
+                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} in open orders +
+                                        {' '}
+                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers):
+                                        {' '}
+                                        {verify_quantity_with_divisibility}
+                                    </li>
+                                </>
+                            )
+                        }
+
+                        {/* <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
                         <li>
                             verify (
                             {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
@@ -420,7 +437,7 @@ class Asset extends React.Component {
                             {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers):
                             {' '}
                             {verify_quantity_with_divisibility}
-                        </li>
+                        </li> */}
                         {/* <li>
                             balances ({quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)}) +
                             open orders ({quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)}) +
@@ -436,13 +453,13 @@ class Asset extends React.Component {
                     </ul> */}
                 </>
             );
-            if (reset_issuance) {
-                issuances_summary_element = (
-                    <ul>
-                        <li>v9.60 RESET ASSET</li>
-                    </ul>
-                );
-            }
+            // if (reset_issuance) {
+            //     issuances_summary_element = (
+            //         <ul>
+            //             <li>v9.60 RESET ASSET</li>
+            //         </ul>
+            //     );
+            // }
 
 
             // show balances (holders) if applies (could be 0!)
