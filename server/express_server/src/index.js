@@ -475,14 +475,44 @@ async function updateMempoolCache() {
 
 const updateBlocksCacheSeconds = 59;
 async function updateBlocksCache() {
-    const blocks = await Queries.getMessagesByBlockLatest(db);
 
+    // TODO non-ideal!
+    const limit = 30;
+    let blocks = [];
+    const lib_response_1 = await libApiRequest('sql', {
+        query: `
+            SELECT m.block_index, b.block_time, COUNT(*) AS messages
+            FROM messages m
+            JOIN blocks b ON m.block_index = b.block_index
+            GROUP BY m.block_index
+            ORDER BY m.block_index DESC
+            LIMIT ${limit};
+        `
+    });
+    if (lib_response_1.result) {
+        blocks = lib_response_1.result;
+    }
+    // const blocks = await Queries.getMessagesByBlockLatest(db);
+
+    // TODO non-ideal!
     const from_block_index = blocks.reduce(function (prev, curr) {
         // minimum
         return prev.block_index < curr.block_index ? prev : curr;
     });
 
-    let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
+    let blocks_all = [];
+    const lib_response_2 = await libApiRequest('sql', {
+        query: `
+            SELECT *
+            FROM blocks
+            WHERE block_index >= ${from_block_index.block_index}
+            ORDER BY block_index DESC;
+        `
+    });
+    if (lib_response_2.result) {
+        blocks_all = lib_response_2.result;
+    }
+    // let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
 
     const block_messages_dict = {};
     for (const block of blocks) {
