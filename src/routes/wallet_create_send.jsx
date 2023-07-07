@@ -86,7 +86,7 @@ class WalletCreateSend extends WalletCreate {
                                     destination:
                                 </td>
                                 <td>
-                                    <input type="text" size="16" value={this.state.destination} onChange={this.handleDestinationChange} />
+                                    <input type="text" size="32" value={this.state.destination} onChange={this.handleDestinationChange} />
                                 </td>
                             </tr>
                             <tr>

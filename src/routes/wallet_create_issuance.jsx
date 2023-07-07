@@ -310,7 +310,7 @@ class WalletCreateIssuance extends WalletCreate {
                                     transfer_destination:
                                 </td>
                                 <td>
-                                    <input type="text" size="16" value={this.state.transfer_destination} onChange={this.handleTransferDestinationChange} />
+                                    <input type="text" size="32" value={this.state.transfer_destination} onChange={this.handleTransferDestinationChange} />
                                 </td>
                             </tr>
 
