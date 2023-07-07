@@ -102,76 +102,76 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    // static async getMessagesByBlockLatest(db) {
-    //     const limit = 30;
-    //     const sql = `
-    //         SELECT m.block_index, b.block_time, COUNT(*) AS messages
-    //         FROM messages m
-    //         JOIN blocks b ON m.block_index = b.block_index
-    //         GROUP BY m.block_index
-    //         ORDER BY m.block_index DESC
-    //         LIMIT $limit;
-    //     `;
-    //     // const sql = `
-    //     //     SELECT block_index, COUNT(*) AS messages
-    //     //     FROM messages
-    //     //     GROUP BY block_index
-    //     //     ORDER BY block_index DESC
-    //     //     LIMIT 100;
-    //     // `;
-    //     const params_obj = {
-    //         $limit: limit,
-    //     };
-    //     return queryDBRows(db, sql, params_obj);
-    // }
+    static async getMessagesByBlockLatest(db) {
+        const limit = 30;
+        const sql = `
+            SELECT m.block_index, b.block_time, COUNT(*) AS messages
+            FROM messages m
+            JOIN blocks b ON m.block_index = b.block_index
+            GROUP BY m.block_index
+            ORDER BY m.block_index DESC
+            LIMIT $limit;
+        `;
+        // const sql = `
+        //     SELECT block_index, COUNT(*) AS messages
+        //     FROM messages
+        //     GROUP BY block_index
+        //     ORDER BY block_index DESC
+        //     LIMIT 100;
+        // `;
+        const params_obj = {
+            $limit: limit,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 
     // TODO might be better to just ask for the last X...
 
-    // static async getBlocksLatest(db, from_block_index) {
-    //     const sql = `
-    //         SELECT *
-    //         FROM blocks
-    //         WHERE block_index >= $block_index
-    //         ORDER BY block_index DESC;
-    //     `;
-    //     const params_obj = {
-    //         $block_index: from_block_index,
-    //     };
-    //     return queryDBRows(db, sql, params_obj);
-    // }
+    static async getBlocksLatest(db, from_block_index) {
+        const sql = `
+            SELECT *
+            FROM blocks
+            WHERE block_index >= $block_index
+            ORDER BY block_index DESC;
+        `;
+        const params_obj = {
+            $block_index: from_block_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 
-    // static async getTransactionsLatest(db) {
-    //     const limit = 30; // 10
-    //     const sql = `
-    //         SELECT
-    //             t.tx_index,
-    //             t.tx_hash,
-    //             t.block_index,
-    //             t.block_hash,
-    //             t.block_time,
-    //             t.source,
-    //             t.destination,
-    //             t.btc_amount,
-    //             t.fee,
-    //             t.supported,
-    //             b.block_time
-    //         FROM transactions t
-    //         JOIN blocks b ON t.block_index = b.block_index
-    //         ORDER BY t.tx_index DESC
-    //         LIMIT $limit;
-    //     `;
-    //     // const sql = `
-    //     //     SELECT t.*, b.block_time
-    //     //     FROM transactions t
-    //     //     JOIN blocks b ON t.block_index = b.block_index
-    //     //     ORDER BY t.tx_index DESC
-    //     //     LIMIT $limit;
-    //     // `;
-    //     const params_obj = {
-    //         $limit: limit,
-    //     };
-    //     return queryDBRows(db, sql, params_obj);
-    // }
+    static async getTransactionsLatest(db) {
+        const limit = 30; // 10
+        const sql = `
+            SELECT
+                t.tx_index,
+                t.tx_hash,
+                t.block_index,
+                t.block_hash,
+                t.block_time,
+                t.source,
+                t.destination,
+                t.btc_amount,
+                t.fee,
+                t.supported,
+                b.block_time
+            FROM transactions t
+            JOIN blocks b ON t.block_index = b.block_index
+            ORDER BY t.tx_index DESC
+            LIMIT $limit;
+        `;
+        // const sql = `
+        //     SELECT t.*, b.block_time
+        //     FROM transactions t
+        //     JOIN blocks b ON t.block_index = b.block_index
+        //     ORDER BY t.tx_index DESC
+        //     LIMIT $limit;
+        // `;
+        const params_obj = {
+            $limit: limit,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
 
     static async getTransactionsFromTxIndexToTxIndex(db, from_tx_index, to_tx_index) {
         const sql = `
