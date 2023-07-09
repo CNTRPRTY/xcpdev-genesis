@@ -131,16 +131,28 @@ class Transaction extends React.Component {
 
                     // store current dispenser info
                     if (cntrprty_decoded.id === 12) {
-                        const updated_dispenser_tx_response = await getCntrprty(`/transactions/dispensers/${tx_hash}`);
-
-                        // for now, just store response directly
-                        updateable_current_state_obj = updated_dispenser_tx_response;
+                        try {
+                            // for now, just store response directly
+                            updateable_current_state_obj = await getCntrprty(`/transactions/dispensers/${tx_hash}`);
+                        }
+                        catch (e) {
+                            console.error(`transactions/dispensers error: ${e}`);
+                        }
+                        // // for now, just store response directly
+                        // updateable_current_state_obj = updated_dispenser_tx_response;
                     }
 
                     // store current order info
                     if (cntrprty_decoded.id === 10) {
-                        // for now, just store response directly
-                        updateable_current_state_obj = await getCntrprty(`/transactions/orders/${tx_hash}`);
+                        try {
+                            // for now, just store response directly
+                            updateable_current_state_obj = await getCntrprty(`/transactions/orders/${tx_hash}`);
+                        }
+                        catch (e) {
+                            console.error(`transactions/orders error: ${e}`);
+                        }
+                        // // for now, just store response directly
+                        // updateable_current_state_obj = await getCntrprty(`/transactions/orders/${tx_hash}`);
                     }
 
                 }
