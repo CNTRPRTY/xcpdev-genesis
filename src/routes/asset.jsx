@@ -268,7 +268,7 @@ class Asset extends React.Component {
                     {/* <h3>Protocol asset: {this.state.asset_name}</h3> */}
                     <ul>
                         <li>asset id: {this.state.asset_row.asset_id}</li>
-                        <li>divisible: true</li>
+                        <li>divisible: true (satoshi)</li>
                     </ul>
                     {markets_element}
                 </>

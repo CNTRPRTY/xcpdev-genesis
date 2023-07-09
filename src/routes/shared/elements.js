@@ -372,11 +372,14 @@ class ListElements {
 
                 {is_reset ?
                     (<td style={{ padding: "0 1rem 0 0" }}>RESET</td>)
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>)
+                    :
+                    (<td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>)
+                    // (<td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}>{`${BigInt(balance_row.quantity_text)}`}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{`${BigInt(balance_row.quantity_text)}`}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{`${BigInt(balance_row.quantity_text)}`}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
             </tr>
