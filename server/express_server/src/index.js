@@ -318,16 +318,21 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const dispensers_row = await Queries.getDispensersRow(db, tx_hash);
     
-    // second one depending on COUNTERPARTY_VERSION
-    const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+    // // second one depending on COUNTERPARTY_VERSION
+    // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
     
-    const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
+    // const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
     if (!dispensers_row) {
         res.status(404).json({
             error: '404 Not Found'
         });
     }
     else {
+
+        // second one depending on COUNTERPARTY_VERSION
+        const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+        const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
+
         res.status(200).json({
             tip_blocks_row,
             dispensers_row,
