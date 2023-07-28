@@ -34,6 +34,17 @@ let cached_blocks = [];
 let cached_transactions = [];
 
 
+app.get('/tip', async (req, res) => {
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    res.status(200).json({
+        node: {
+            BITCOIN_VERSION,
+            COUNTERPARTY_VERSION,
+        },
+        tip_blocks_row,
+    });
+});
+
 app.get('/mempool', async (req, res) => {
     // const mempool = await Queries.getMempoolRows(db);
     res.status(200).json({
