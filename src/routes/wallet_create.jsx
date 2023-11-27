@@ -1,6 +1,7 @@
 import React from 'react';
 // import { withRouter } from './shared/classhooks';
-import { postLibApiProxy } from '../api';
+import { postLibApiProxyFetch } from '../api';
+// import { postLibApiProxy } from '../api';
 
 class WalletCreate extends React.Component {
     // class WalletCreateIssuance extends React.Component {
@@ -68,9 +69,47 @@ class WalletCreate extends React.Component {
         });
         // this.setState({ open_dialog_message: 'loading...' });
         // this.setState({ in_post: true });
+        let dialog_state;
+        // let error_message;
         try {
-            const response = await postLibApiProxy(method, params);
-            if (response && response.data && response.data.lib_response && response.data.lib_response.result) {
+
+
+            let response_data;
+            const fetch_res = await postLibApiProxyFetch(method, params);
+
+            // too many requests error is special
+            if (!fetch_res.ok) {
+                if (fetch_res.status === 429) {
+                    dialog_state = 'ip rate limited';
+                }
+                else {
+                    dialog_state = 'error';
+                }
+            }
+            response_data = await fetch_res.json();
+
+
+            if (dialog_state === 'error') {
+                this.setState({
+                    open_dialog_obj: {
+                        dialog_state,
+                        error_message: JSON.stringify(response_data), // TODO?
+                        request,
+                    }
+                });
+            }
+            else if (dialog_state === 'ip rate limited') {
+                this.setState({
+                    open_dialog_obj: {
+                        dialog_state,
+                        response: response_data,
+                        request,
+                    }
+                });
+            }
+            // const response = await postLibApiProxy(method, params);
+            else if (response_data && response_data.data && response_data.data.lib_response && response_data.data.lib_response.result) {
+            // if (response && response.data && response.data.lib_response && response.data.lib_response.result) {
                 // if (response && response.lib_response && response.lib_response.result) {
                 //                 const alert_message = `
                 // succesSSSs! hex:
@@ -84,7 +123,8 @@ class WalletCreate extends React.Component {
                 this.setState({
                     open_dialog_obj: {
                         dialog_state: 'success',
-                        response,
+                        response: response_data,
+                        // response,
                         request,
                     }
                 });
@@ -95,7 +135,8 @@ class WalletCreate extends React.Component {
                 this.setState({
                     open_dialog_obj: {
                         dialog_state: 'response',
-                        response,
+                        response: response_data,
+                        // response,
                         request,
                     }
                 });
@@ -108,8 +149,9 @@ class WalletCreate extends React.Component {
                 //     request,
                 // }, null, 4));
             }
+
         }
-        catch (error) {
+        catch (error) { // final catch all in case
             this.setState({
                 open_dialog_obj: {
                     dialog_state: 'error',
@@ -251,6 +293,7 @@ class WalletCreate extends React.Component {
         if (this.state.open_dialog_obj.dialog_state === 'success') {
             success = (
                 <>
+                    <p>Copy the following hex, sign it, and then broadcast it.</p>
                     <h3>hex:</h3>
                     {/* TODO reuse css */}
                     <textarea rows="2" cols="55"
@@ -280,7 +323,10 @@ class WalletCreate extends React.Component {
                     <p>
                         response:
                         <br />
-                        {JSON.stringify(this.state.open_dialog_obj.response)}
+                        <textarea rows="10" cols="55"
+                            value={JSON.stringify(this.state.open_dialog_obj.response, null, " ")}
+                            readOnly
+                        />
                     </p>
                 </>
             )
@@ -301,7 +347,12 @@ class WalletCreate extends React.Component {
                 <p>
                     request:
                     <br />
-                    {JSON.stringify(this.state.open_dialog_obj.request)}
+                    <textarea rows="10" cols="55"
+                        value={JSON.stringify(this.state.open_dialog_obj.request, null, " ")}
+                        readOnly
+                    />
+                    {/* {JSON.stringify(this.state.open_dialog_obj.request, null, 2)} */}
+                    {/* {JSON.stringify(this.state.open_dialog_obj.request)} */}
                 </p>
             </>
         );
