@@ -214,7 +214,8 @@ class Wallet extends React.Component {
 
         let wallet_element_contents = (
             <>
-                <p>Enter your address (or start with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>):</p>
+                <p>Enter your address (or start <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">here</a> if you don't have one):</p>
+                {/* <p>Enter your address (or start with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>):</p> */}
                 {/* <p>Enter your address (or start with a <a href={`https://bitst.art/`} target="_blank">wallet</a>):</p> */}
                 {address_bar}
                 {loading_element}
