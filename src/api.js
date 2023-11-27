@@ -18,7 +18,8 @@ async function getCntrprty(path) {
     return data.data;
 }
 
-async function postLibApiProxy(method, params) {
+async function postLibApiProxyFetch(method, params) {
+    // async function postLibApiProxy(method, params) {
     const path = "/lib_api_proxy";
     const options = {
         method: "POST",
@@ -27,20 +28,22 @@ async function postLibApiProxy(method, params) {
             params,
         }),
     };
-    const res = await fetch(`${api_host}${path}`, options);
-    if (!res.ok) {
-        if (res.status === 429) {
-            const expected_too_many = await res.json();
-            throw Error(`[${res.status}:${res.statusText}] ${expected_too_many.ip} 30s`);
-        }
-        else {
-            throw Error(`[${res.status}:${res.statusText}]`);
-        }
-        // throw Error(`[${res.status}:${res.statusText}]`);
-    }
-    const data = await res.json();
-    return data;
-    // return data.data;
+    return fetch(`${api_host}${path}`, options);
+    // const res = await fetch(`${api_host}${path}`, options);
+    // if (!res.ok) {
+    //     if (res.status === 429) {
+    //         const expected_too_many = await res.json();
+    //         throw Error(`[${res.status}:${expected_too_many.message}] Please wait at least 30s before doing another create request from ip:${expected_too_many.ip}.`);
+    //         // throw Error(`[${res.status}:${res.statusText}] ${expected_too_many.ip} 30s`);
+    //     }
+    //     else {
+    //         throw Error(`[${res.status}:${res.statusText}]`);
+    //     }
+    //     // throw Error(`[${res.status}:${res.statusText}]`);
+    // }
+    // const data = await res.json();
+    // return data;
+    // // return data.data;
 }
 
 async function getBlockMessages(block_height) {
@@ -123,7 +126,8 @@ export {
     BITCOIN_VERSION,
     COUNTERPARTY_VERSION,
     getCntrprty,
-    postLibApiProxy,
+    postLibApiProxyFetch,
+    // postLibApiProxy,
     getBlockMessages,
     selectTransactionMessagesFromAll,
 };
