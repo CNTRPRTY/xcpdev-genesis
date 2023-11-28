@@ -374,20 +374,14 @@ class WalletCreate extends React.Component {
 
                             {/* <p>Greetings, one and all!</p> */}
 
-                            {this.state.open_dialog_obj.dialog_state === 'loading' ?
-                                (
-                                    <>
-                                        <h2>{this.state.open_dialog_obj.dialog_state}</h2>
+                            <>
+                                <h2>{this.state.open_dialog_obj.dialog_state}</h2>
+                                {this.state.open_dialog_obj.dialog_state === 'loading' ?
+                                    (
                                         <p>please wait, it can take up to 10 seconds</p>
-                                    </>
-                                )
-                                :
-                                (
-                                    <>
-                                        <h2>{this.state.open_dialog_obj.dialog_state}</h2>
-                                    </>
-                                )
-                            }
+                                    ) : null
+                                }
+                            </>
                             {/* <h2>{this.state.open_dialog_obj.dialog_state}</h2> */}
 
                             {success}
