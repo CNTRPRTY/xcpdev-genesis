@@ -134,7 +134,9 @@ class WalletCreate extends React.Component {
             else {
                 this.setState({
                     open_dialog_obj: {
-                        dialog_state: 'response',
+                        dialog_state: 'check lib_response',
+                        // dialog_state: 'check response',
+                        // dialog_state: 'response',
                         response: response_data,
                         // response,
                         request,
@@ -361,31 +363,70 @@ class WalletCreate extends React.Component {
         return (
             <>
                 {/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method */}
-                <dialog open>
-                    {/* <p>Greetings, one and all!</p> */}
-                    <h2>{this.state.open_dialog_obj.dialog_state}</h2>
-                    {success}
-                    {/* nested terniary! (TODO magic string) */}
-                    {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                        (
-                            <>
-                                {response}
-                                {request}
-                            </>
-                        ) :
-                        null}
-                    {/* <p>request: {request_message}</p> */}
-                    {/* <p>{message}</p> */}
-                    {/* <p>{this.state.open_dialog_message}</p> */}
-                    <form method="dialog" onSubmit={this.handleDialogCloseSubmit}>
-                        {/* nested terniary! (TODO magic string) */}
-                        {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                            // {this.state.open_dialog_message !== 'loading...' ?
-                            (<button>ok</button>) :
-                            null}
-                        {/* <button>ok</button> */}
-                    </form>
-                </dialog>
+                {/* <dialog open> */}
+
+                <table style={{
+                    border: "1px solid black",
+                    padding: "1rem 1rem",
+                }}>
+                    <tr>
+                        <td>
+
+                            {/* <p>Greetings, one and all!</p> */}
+
+                            {this.state.open_dialog_obj.dialog_state === 'loading' ?
+                                (
+                                    <>
+                                        <h2>{this.state.open_dialog_obj.dialog_state}</h2>
+                                        <p>please wait, it can take up to 10 seconds</p>
+                                    </>
+                                )
+                                :
+                                (
+                                    <>
+                                        <h2>{this.state.open_dialog_obj.dialog_state}</h2>
+                                    </>
+                                )
+                            }
+                            {/* <h2>{this.state.open_dialog_obj.dialog_state}</h2> */}
+
+                            {success}
+                            {/* nested terniary! (TODO magic string) */}
+                            {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+                                (
+                                    <>
+                                        {response}
+                                        {request}
+                                    </>
+                                ) :
+                                null}
+                            {/* <p>request: {request_message}</p> */}
+                            {/* <p>{message}</p> */}
+                            {/* <p>{this.state.open_dialog_message}</p> */}
+
+
+                            {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+                                (<button onClick={this.handleDialogCloseSubmit}>ok</button>)
+                                :
+                                null
+                            }
+
+                            {/* <form method="dialog" onSubmit={this.handleDialogCloseSubmit}> */}
+                                {/* nested terniary! (TODO magic string) */}
+                                {/* {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+                                    // {this.state.open_dialog_message !== 'loading...' ?
+                                    (<button>ok</button>) :
+                                    null} */}
+                                {/* <button>ok</button> */}
+                            {/* </form> */}
+
+
+                        </td>
+                    </tr>
+                </table>
+                <br />
+
+                {/* </dialog> */}
             </>
         );
     }
