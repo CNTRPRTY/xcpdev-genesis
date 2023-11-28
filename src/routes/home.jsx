@@ -115,7 +115,8 @@ class Home extends React.Component {
         let mempool_element_contents = (<p>loading...</p>);
         if (this.state.mempool_empty) {
             mempool_element_contents = (
-                <p>Try refreshing the page in a couple of minutes... (<a href={`https://github.com/CounterpartyXCP/counterparty-lib/issues/1227`} target="_blank">why?</a>)</p>
+                <p>Try refreshing the page in a couple of minutes...</p>
+                // <p>Try refreshing the page in a couple of minutes... (<a href={`https://github.com/CounterpartyXCP/counterparty-lib/issues/1227`} target="_blank">why?</a>)</p>
             );
         }
         else if (this.state.mempool_full.length) {
