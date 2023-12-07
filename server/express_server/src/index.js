@@ -476,14 +476,19 @@ app.post('/lib_api_proxy', async (req, res) => {
 const updateMempoolCacheSeconds = 30;
 async function updateMempoolCache() {
 
-    const lib_response = await libApiRequest('sql', {
-        query: `
-            SELECT * FROM mempool;
-        `
-    });
+    const lib_response = await libApiRequest('get_memmempool', {});
     if (lib_response.result) {
-        cached_mempool = lib_response.result;
+        cached_mempool = lib_response.result.cached_response;
     }
+
+    // const lib_response = await libApiRequest('sql', {
+    //     query: `
+    //         SELECT * FROM mempool;
+    //     `
+    // });
+    // if (lib_response.result) {
+    //     cached_mempool = lib_response.result;
+    // }
 
     // const mempool = await Queries.getMempoolRows(db);
     // cached_mempool = mempool;
