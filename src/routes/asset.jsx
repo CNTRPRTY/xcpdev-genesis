@@ -324,8 +324,10 @@ class Asset extends React.Component {
             // const quantity_with_divisibility = genesis_issuance.divisible ? (total_integer / (10 ** 8)).toFixed(8) : total_integer;
 
             const issuance_events_message = this.state.destructions.length ?
-                `All issuance (and destroy) events:` :
-                `All issuance events:`;
+                `All issuance (and destroy) transactions:` :
+                `All issuance transactions:`;
+                // `All issuance (and destroy) events:` :
+                // `All issuance events:`;
 
 
             // CIP3 dumb!
@@ -399,11 +401,16 @@ class Asset extends React.Component {
                         </li>
                     </ul> */}
 
-                    <p>As of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})</p>
+                    {/* <p>As of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})</p> */}
+
+                    <ul>
+                        <li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li>
+                    </ul>
+                    <br />
 
                     <ul>
                         <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
-                        <li>events ({this.state.issuances.length} issuances + {this.state.destructions.length} destructions): {all_issuance_events.length}</li>
+                        {/* <li>events ({this.state.issuances.length} issuances + {this.state.destructions.length} destructions): {all_issuance_events.length}</li> */}
                         {/* <li>events: {all_issuance_events.length}</li> */}
                         {/* <li>locked supply: {lock_issuance ? 'true' : 'false'}</li> */}
                         
@@ -623,8 +630,10 @@ class Asset extends React.Component {
                     </ul>
                     
                     <ul>
-                        <li><strong>Issuances state:</strong>
+                        <li><strong>Issuances state:</strong> as of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})
+                        {/* <li><strong>Issuances state:</strong> */}
                         {/* <li><strong>Issuances status:</strong> */}
+                            <br />
                             <br />
                             {/* <br /> */}
                             {issuances_summary_element}

@@ -210,7 +210,8 @@ class Transaction extends React.Component {
         if (this.state.transaction_not_found) {
             transaction_element_contents = (
                 // ideally, this should return basic transaction info for non counterparty transactions
-                <p>no CNTRPRTY transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
+                <p>no CNTRPRTY block transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
+                // <p>no CNTRPRTY transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
                 // <p>transaction not found</p>
             );
         }
