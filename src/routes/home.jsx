@@ -5,6 +5,9 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { timeIsoFormat, timeSince, hashSlice } from '../utils';
 
+import { decode_data } from '../decode_tx';
+import { Buffer } from 'buffer';
+
 class Home extends React.Component {
 
     constructor(props) {
@@ -14,7 +17,8 @@ class Home extends React.Component {
             blocks: null,
             ////
             mempool_empty: null,
-            mempool_full: [],
+            // mempool_full: [],
+            mempool_full_new: [],
             get_running_info: null,
             //
             btc_transactions_latest: null,
@@ -30,20 +34,22 @@ class Home extends React.Component {
     }
 
     async fetchDataMempool() {
-        // const mempool_response = await getCntrprty('/');
         const mempool_response = await getCntrprty('/mempool');
 
-        const mempool_full = mempool_response.mempool;
+        const mempool_full_new = mempool_response.mempool;
+        // const mempool_full = mempool_response.mempool;
 
         let mempool_empty = false;
-        if (mempool_full.length === 0) {
+        if (mempool_full_new.length === 0) {
+            // if (mempool_full.length === 0) {
             mempool_empty = true;
         }
 
         this.setState({
             mempool_empty,
-            mempool_full,
-            get_running_info: mempool_response.get_running_info,
+            // mempool_full,
+            mempool_full_new, // still wip
+            // get_running_info: mempool_response.get_running_info, // not used
         });
     }
 
@@ -119,23 +125,50 @@ class Home extends React.Component {
                 // <p>Try refreshing the page in a couple of minutes... (<a href={`https://github.com/CounterpartyXCP/counterparty-lib/issues/1227`} target="_blank">why?</a>)</p>
             );
         }
-        else if (this.state.mempool_full.length) {
+        else if (this.state.mempool_full_new.length) {
             mempool_element_contents = (
                 <table>
                     <tbody>
                         {ListElements.getTableRowMempoolHomeHeader()}
-                        {this.state.mempool_full.map((mempool_row, index) => {
-                            // {this.state.mempool_grouped.map((mempool_row, index) => {
+                        {this.state.mempool_full_new.map((mempool_row, index) => {
+
+                            // cntrprty transaction
+                            let cntrprty_decoded = {};
+                            const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                            try {
+                                const current_version_past_block = 819000;
+                                cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                            }
+                            catch (e) {
+                                console.error(`cntrprty_decoded error: ${e}`);
+                            }
+
+                            mempool_row.cntrprty_decoded = cntrprty_decoded;
                             return ListElements.getTableRowMempoolHome(mempool_row, index);
-                            // return ListElements.getTableRowMempool(mempool_row, index);
                         })}
                     </tbody>
                 </table>
             );
         }
+        // else if (this.state.mempool_full.length) {
+        //     mempool_element_contents = (
+        //         <table>
+        //             <tbody>
+        //                 {ListElements.getTableRowMempoolHomeHeader()}
+        //                 {this.state.mempool_full.map((mempool_row, index) => {
+        //                     // {this.state.mempool_grouped.map((mempool_row, index) => {
+        //                     return ListElements.getTableRowMempoolHome(mempool_row, index);
+        //                     // return ListElements.getTableRowMempool(mempool_row, index);
+        //                 })}
+        //             </tbody>
+        //         </table>
+        //     );
+        // }
         const mempool_element = (
             <>
-                <h2>Mempool transactions:</h2>
+                {/* <h2>Unconfirmed (mempool) transactions:</h2> */}
+                <h2>Unconfirmed transactions:</h2>
+                {/* <h2>Mempool transactions:</h2> */}
                 {/* <h2>Mempool:</h2> */}
                 {mempool_element_contents}
             </>

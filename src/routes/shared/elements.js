@@ -143,37 +143,54 @@ class ListElements {
     static getTableRowMempoolHomeHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>{/* wip, more can come from the backend */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
             </tr>
         );
     }
-    static getTableRowMempoolHome(mempool_row, index) {
-        const category = mempool_row.category;
-        const command = mempool_row.command;
-        const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
-        const bindings = JSON.parse(mempool_row.bindings);
-        const bindingsElements = createLinkElementBindings(mempool_row.bindings);
-        // surfacing the invalid here by having asset === null
-        const status_by_asset = bindings.asset;
-        let invalid_tx_notice = null;
-        if (status_by_asset === null) {
-            invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
-        }
+    static getTableRowMempoolHome(mempool_row_plus, index) { // wip, more can come from the backend
+        // static getTableRowMempoolHome(mempool_row, index) {
+
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
             </tr>
         );
+
+
+
+        // const category = mempool_row.category;
+        // const command = mempool_row.command;
+        // const timestamp_iso = timeIsoFormat(mempool_row.timestamp);
+        // const bindings = JSON.parse(mempool_row.bindings);
+        // const bindingsElements = createLinkElementBindings(mempool_row.bindings);
+        // // surfacing the invalid here by having asset === null
+        // const status_by_asset = bindings.asset;
+        // let invalid_tx_notice = null;
+        // if (status_by_asset === null) {
+        //     invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
+        // }
+        // return (
+        //     <tr key={index} style={{ padding: "0.25rem" }}>
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${mempool_row.tx_hash}`}>tx</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
+        //     </tr>
+        // );
+
     }
 
     static getTableRowMempoolTxHeader() {
