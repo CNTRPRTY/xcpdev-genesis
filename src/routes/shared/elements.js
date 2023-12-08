@@ -678,7 +678,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>{asset_metadata.asset} in escrow</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
 
