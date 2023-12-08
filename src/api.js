@@ -3,16 +3,40 @@ const BITCOIN_VERSION = "";
 const COUNTERPARTY_VERSION = "";
 const api_host = "";
 
+// https://stackoverflow.com/a/39914235
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function getCntrprty(path) {
     // export async function getCntrprty(path) {
     // export async function getCP(path) {
     const options = {
         method: "GET",
     };
-    const res = await fetch(`${api_host}${path}`, options);
+    let res = {}; // TODO?
+    const res1 = await fetch(`${api_host}${path}`, options);
+    // const res = await fetch(`${api_host}${path}`, options);
     // const res = await fetch(`${api_host}/mainnet/cp/${path}`, options);
-    if (!res.ok) {
-        throw Error(`[${res.status}:${res.statusText}]`);
+    if (!res1.ok) {
+
+        if (res1.status === 504) { // 504 Gateway Timeout
+
+            // try one more time
+            ////////////////////
+            // sleep a bit
+            await sleep(1000);
+            const res2 = await fetch(`${api_host}${path}`, options);
+            if (!res2.ok) throw Error(`2ndtry[${res2.status}:${res2.statusText}]`);
+            else res = res2;
+            ////////////////////
+
+        }
+
+        throw Error(`[${res1.status}:${res1.statusText}]`);
+    }
+    else {
+        res = res1;
     }
     const data = await res.json();
     return data.data;
