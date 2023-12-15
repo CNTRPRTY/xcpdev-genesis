@@ -292,7 +292,7 @@ class Home extends React.Component {
                     <form onSubmit={this.handleSearchSubmit}>
                         <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder={placeholder} size={placeholder.length - 12} />
                         {' '}
-                        <input type="submit" value={"search"} />
+                        <input type="submit" value={"go"} />
                     </form>
                 </div>
             </span>
