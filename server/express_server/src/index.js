@@ -473,7 +473,7 @@ app.post('/lib_api_proxy', async (req, res) => {
 
 
 
-const updateMempoolCacheSeconds = 30;
+const updateMempoolCacheSeconds = 60;
 async function updateMempoolCache() {
 
     const lib_response = await libApiRequest('get_memmempool', {});
