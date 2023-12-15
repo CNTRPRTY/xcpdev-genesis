@@ -1,4 +1,7 @@
 
+const COUNTERPARTY_VERSION_ALT = "";
+const COUNTERPARTY_VERSION_ALT_URL = "";
+
 const BITCOIN_VERSION = "";
 const COUNTERPARTY_VERSION = "";
 const api_host = "";
@@ -147,6 +150,9 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
 }
 
 export {
+    COUNTERPARTY_VERSION_ALT,
+    COUNTERPARTY_VERSION_ALT_URL,
+
     BITCOIN_VERSION,
     COUNTERPARTY_VERSION,
     getCntrprty,

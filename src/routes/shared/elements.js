@@ -3,7 +3,7 @@
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
 import { timeIsoFormat, hashSlice, quantityWithDivisibility } from '../../utils';
-import { BITCOIN_VERSION, COUNTERPARTY_VERSION } from '../../api';
+import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -1133,8 +1133,12 @@ class OneElements {
                 <p>
                     [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
                     <br />
-                    [counterparty-lib v{COUNTERPARTY_VERSION}]
+
+                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
                     <br />
+                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}]
+                    <br /> */}
+
                     [Bitcoin Core v{BITCOIN_VERSION}]
                     {/* [counterparty-lib v{COUNTERPARTY_VERSION}] in [Bitcoin Core v{BITCOIN_VERSION}] */}
                     {/* [counterparty-lib v9.59] in [Bitcoin Core v0.21.1] */}
