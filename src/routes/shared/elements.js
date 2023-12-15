@@ -1066,7 +1066,8 @@ class ListElements {
             firstTwo = (
                 <>
                     <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td>
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+                    {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
                 </>
             );
         }
