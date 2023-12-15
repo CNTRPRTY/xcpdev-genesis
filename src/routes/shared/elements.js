@@ -143,9 +143,13 @@ class ListElements {
     static getTableRowMempoolHomeHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>{/* wip, more can come from the backend */}
+
+                {/* wip, more can come from the backend */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
@@ -159,9 +163,9 @@ class ListElements {
 
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
             </tr>
         );
