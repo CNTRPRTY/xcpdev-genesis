@@ -7,11 +7,14 @@ import bodyParser from 'body-parser'; // required for posts
 import cors from 'cors';
 //const sqlite3 = require('sqlite3').verbose();
 import sqlite3 from 'sqlite3';
+//const { Queries } = require('./queries');
+import { Queries } from './queries.js';
+
+//const { v1Router } = require('./routes/v1.router');
+import { v1Router } from './routes/v1.router.js';
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-const { Queries } = require('./queries');
-const { v1Router } = require('./routes/v1.router');
 
 const app = express();
 app.use(cors());
