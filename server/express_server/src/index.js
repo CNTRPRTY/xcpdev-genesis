@@ -1,40 +1,17 @@
 
-//const express = require('express');
 import express from 'express';
-//const bodyParser = require('body-parser'); // required for posts
-import bodyParser from 'body-parser'; // required for posts
-//const cors = require('cors');
+import bodyParser from 'body-parser';
 import cors from 'cors';
-//const sqlite3 = require('sqlite3').verbose();
-import sqlite3 from 'sqlite3';
-//const { Queries } = require('./queries');
+
+import { PORT } from './config.js';
 import { Queries } from './queries.js';
-
-//const { v1Router } = require('./routes/v1.router');
 import { v1Router } from './routes/v1.router.js';
-
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+import { db } from './db.js';
 
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-const port = 3000;
-
-// fednode exec bitcoin bitcoin-cli -version
-const BITCOIN_VERSION = '24.0.1';
-// const BITCOIN_VERSION = '0.21.1';
-
-// fednode exec counterparty counterparty-client --version
-const COUNTERPARTY_VERSION = '9.60.1';
-// const COUNTERPARTY_VERSION = '9.59.7';
-
-// read only
-const DB_PATH = '/var/lib/docker/volumes/federatednode_counterparty-data/_data/counterparty.db'
-
-const verboseSqlite3 = sqlite3.verbose();
-// https://github.com/TryGhost/node-sqlite3/wiki/API
-const db = new verboseSqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);
 
 app.use('/', v1Router);
 
@@ -150,13 +127,13 @@ async function updateTransactionsCache() {
     // if (lib_response.result) {
     //     cached_transactions = lib_response.result;
     // }
-    
+
     const btc_transactions_latest = await Queries.getTransactionsLatest(db);
     cached_transactions = btc_transactions_latest;
 }
 
 
-app.listen(port, () => {
+app.listen(PORT, () => {
 
     /*
     TODO: uncomment when node is synced
@@ -176,5 +153,5 @@ app.listen(port, () => {
         updateTransactionsCacheSeconds * 1000
     );
 
-    console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${PORT}`);
 });
