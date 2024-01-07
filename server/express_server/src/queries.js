@@ -899,7 +899,3 @@ export class Queries {
     }
 
 }
-
-//module.exports = {
-//    Queries,
-//};

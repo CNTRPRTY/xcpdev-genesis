@@ -9,7 +9,7 @@ node_modules
 
 # testing
 /coverage
-counterparty.db
+*counterparty.db
 
 # production
 /build

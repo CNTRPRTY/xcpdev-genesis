@@ -1,12 +1,12 @@
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { PORT } from './config.js';
 import { Queries } from './queries.js';
-import { v1Router } from './routes/v1.router.js';
 import { db } from './db.js';
+import { v1Router } from './routes/v1.router.js';
+import { v2Router } from './routes/v2.router.js';
 
 
 const app = express();
@@ -14,6 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/', v1Router);
+app.use('/api/', v2Router);
 
 // cache homepage
 export let cached_mempool = [];
