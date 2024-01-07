@@ -55,9 +55,27 @@ function quantityWithDivisibility(divisible, quantity_integer) {
     }
 }
 
+function txTypeBadgeColor(type) {
+    switch (type) {
+        case 'order':
+            return 'green';
+        case 'broadcast':
+            return 'green';
+        case 'dispenser':
+            return 'slate';
+        case 'destroy':
+            return 'red';
+        case 'send':
+            return 'green';
+        default:
+            return 'slate';
+    }
+}
+
 export {
     timeIsoFormat,
     timeSince,
     hashSlice,
     quantityWithDivisibility,
+    txTypeBadgeColor
 };
