@@ -900,6 +900,7 @@ class Queries {
 
 }
 
-module.exports = {
-    Queries,
-};
+export Queries;
+//module.exports = {
+//    Queries,
+//};
