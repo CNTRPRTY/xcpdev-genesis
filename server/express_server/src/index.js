@@ -1,8 +1,13 @@
 
-const express = require('express');
-const bodyParser = require('body-parser'); // required for posts
-const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
+//const express = require('express');
+import express from 'express';
+//const bodyParser = require('body-parser'); // required for posts
+import bodyParser from 'body-parser'; // required for posts
+//const cors = require('cors');
+import cors from 'cors';
+//const sqlite3 = require('sqlite3').verbose();
+import sqlite3 from 'sqlite3';
+
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const { Queries } = require('./queries');
