@@ -55,7 +55,7 @@ app.use('/', v1Router);
     });
 }); */
 
-app.get('/mempool', async (req, res) => {
+/* app.get('/mempool', async (req, res) => {
     // const mempool = await Queries.getMempoolRows(db);
     res.status(200).json({
         node: {
@@ -65,9 +65,9 @@ app.get('/mempool', async (req, res) => {
         mempool: cached_mempool,
         // mempool,
     });
-});
+}); */
 
-app.get('/blocks', async (req, res) => {
+/* app.get('/blocks', async (req, res) => {
     // TODO redo when the latest block is in memory
 
     // const blocks = await Queries.getMessagesByBlockLatest(db);
@@ -103,7 +103,7 @@ app.get('/blocks', async (req, res) => {
         // blocks,
     });
 
-});
+}); */
 
 
 app.get('/tx/:txHash', async (req, res) => {
