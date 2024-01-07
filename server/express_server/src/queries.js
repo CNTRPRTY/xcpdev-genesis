@@ -8,7 +8,7 @@ function queryDBRows(db, sql, params_obj) {
     });
 }
 
-class Queries {
+export class Queries {
 
     // static async getMempoolRows(db) {
     //     const sql = `
@@ -900,7 +900,6 @@ class Queries {
 
 }
 
-export Queries;
 //module.exports = {
 //    Queries,
 //};
