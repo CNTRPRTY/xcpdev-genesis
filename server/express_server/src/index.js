@@ -6,6 +6,7 @@ const sqlite3 = require('sqlite3').verbose();
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const { Queries } = require('./queries');
+const { v1Router } = require('./routes/v1.router');
 
 const app = express();
 app.use(cors());
@@ -33,8 +34,9 @@ let cached_mempool = [];
 let cached_blocks = [];
 let cached_transactions = [];
 
+app.use(v1Router, '/');
 
-app.get('/tip', async (req, res) => {
+/* app.get('/tip', async (req, res) => {
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     res.status(200).json({
         node: {
@@ -43,7 +45,7 @@ app.get('/tip', async (req, res) => {
         },
         tip_blocks_row,
     });
-});
+}); */
 
 app.get('/mempool', async (req, res) => {
     // const mempool = await Queries.getMempoolRows(db);
