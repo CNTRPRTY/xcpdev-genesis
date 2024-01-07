@@ -6,7 +6,10 @@ import {BITCOIN_VERSION, COUNTERPARTY_VERSION, DB_PATH} from "../constants.js";
 
 export const v1Router = Router();
 
-const db = new sqlite3.verbose().Database(DB_PATH, sqlite3.OPEN_READONLY);
+const verboseSqlite3 = sqlite3.verbose();
+
+
+const db = new verboseSqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);
 
 
 v1Router.get('/tip', async (req, res) => {
@@ -19,3 +22,4 @@ v1Router.get('/tip', async (req, res) => {
       tip_blocks_row,
   });
 });
+
