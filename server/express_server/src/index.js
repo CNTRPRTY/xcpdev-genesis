@@ -42,7 +42,7 @@ let cached_mempool = [];
 let cached_blocks = [];
 let cached_transactions = [];
 
-app.use(v1Router, '/');
+app.use('/', v1Router);
 
 /* app.get('/tip', async (req, res) => {
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
