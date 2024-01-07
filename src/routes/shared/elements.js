@@ -2,8 +2,10 @@
 
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
-import { timeIsoFormat, hashSlice, quantityWithDivisibility } from '../../utils';
+import {timeIsoFormat, hashSlice, quantityWithDivisibility, txTypeBadgeColor} from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
+import {Badge, TableCell, TableHead, TableHeaderCell, TableRow, Text} from "@tremor/react";
+import React from "react";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -142,32 +144,51 @@ class ListElements {
 
     static getTableRowMempoolHomeHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-
-                {/* wip, more can come from the backend */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
-
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            <TableRow>
+                <TableHeaderCell>type</TableHeaderCell>
+                <TableHeaderCell>tx_hash</TableHeaderCell>
+                <TableHeaderCell>source</TableHeaderCell>
+            </TableRow>
+            // <tr style={{ padding: "0.25rem" }}>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+            //
+            //     {/* wip, more can come from the backend */}
+            //     {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
+            //
+            //     {/* <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+            // </tr>
         );
     }
     static getTableRowMempoolHome(mempool_row_plus, index) { // wip, more can come from the backend
         // static getTableRowMempoolHome(mempool_row, index) {
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
-            </tr>
+            <TableRow key={index}>
+                <TableCell>
+                    <Badge color={txTypeBadgeColor(mempool_row_plus.cntrprty_decoded.msg_type)}>
+                        {mempool_row_plus.cntrprty_decoded.msg_type}
+                    </Badge>
+                </TableCell>
+                <TableCell>
+                    <Text>{mempool_row_plus.tx_hash}</Text>
+                </TableCell>
+                <TableCell>
+                    <Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link>
+                </TableCell>
+            </TableRow>
+
+            // <tr key={index} style={{ padding: "0.25rem" }}>
+            //     <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
+            //     <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
+            //     <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
+            //     {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
+            // </tr>
         );
 
 
@@ -1009,34 +1030,34 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
+                    <TableHeaderCell><Text>tx_hash</Text></TableHeaderCell>
+                    <TableHeaderCell><Text>tx_index</Text></TableHeaderCell>
                 </>
             );
         }
         else {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                <TableHeaderCell><Text>tx_index</Text></TableHeaderCell>
+                <TableHeaderCell><Text>tx_hash</Text></TableHeaderCell>
                 </>
             );
         }
 
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <TableRow>
                 {firstTwo}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sat)</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
+                <TableHeaderCell><Text>block_index</Text></TableHeaderCell>
+                <TableHeaderCell><Text>block_time_iso</Text></TableHeaderCell>
+                <TableHeaderCell><Text>fee (sat)</Text></TableHeaderCell>
+                <TableHeaderCell><Text>source</Text></TableHeaderCell>
+                <TableHeaderCell><Text>destination</Text></TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC burn</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>XCP mined</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowTransaction(transaction_row, index, is_home_page = false) {
@@ -1057,23 +1078,23 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
+                    <TableCell><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
+                    <TableCell>{transaction_row.tx_index}</TableCell>
                 </>
             );
-        }
-        else {
+        } else {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+                    <TableCell>{transaction_row.tx_index}</TableCell>
+                    <TableCell><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
                     {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
                 </>
             );
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow key={index}>
+            {/*<tr key={index} style={{ padding: "0.25rem" }}>*/}
 
                 {firstTwo}
 
@@ -1084,15 +1105,15 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.fee}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td>
+                <TableCell><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{transaction_row.fee}</TableCell>
+                <TableCell><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></TableCell>
+                <TableCell><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 

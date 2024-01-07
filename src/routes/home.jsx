@@ -7,6 +7,15 @@ import { timeIsoFormat, timeSince, hashSlice } from '../utils';
 
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
+import {
+    Button,
+    Card,
+    TextInput,
+    Title,
+    Table,
+    TableHead,
+    TableBody, TableFoot, TableFooterCell, Subtitle, TableRow
+} from "@tremor/react";
 
 // move to util if reused
 function isAssetName(possible) {
@@ -159,23 +168,33 @@ class Home extends React.Component {
                                 {this.state.blocks.map((block_row, index) => {
                                     return (
                                         <td key={index} style={{ padding: "0 1rem 0 0" }}>
-                                            <strong><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></strong>
-                                            <br />
-                                            {/* {timeIsoFormat(block_row.block_time)}
-                                            {' '} */}
-                                            {timeSince(new Date(block_row.block_time * 1000))}
-                                            <br /><br />
-                                            {block_row.messages_count} messages
-                                            {/* {block_row.messages} messages */}
-                                            <br /><br />
-                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
-                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
-                                            L:{hashSlice(block_row.ledger_hash)}<br />
-                                            TX:{hashSlice(block_row.txlist_hash)}<br />
-                                            M:{hashSlice(block_row.messages_hash)}<br />
-                                            {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
-                                            txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
-                                            messages_hash:{hashSlice(block_row.messages_hash)}<br /> */}
+                                            <Card className={"flex flex-col items-start justify-start"}>
+                                                <Link className={"text-yellow-600 "}
+                                                      to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link>
+
+                                                {/* {timeIsoFormat(block_row.block_time)}
+                                                {' '} */}
+                                                <Subtitle
+                                                    className={"text-sm"}>{timeSince(new Date(block_row.block_time * 1000))}</Subtitle>
+
+                                                <div className={"flex flex-row my-3"}>
+                                                    <span className={"font-bold mr-1"}>{block_row.messages_count}</span><Subtitle>{block_row.messages_count === 1 ? 'message' : 'messages'}</Subtitle>
+                                                </div>
+                                                {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
+                                                {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
+                                                <div className={"flex flex-row w-full justify-between"}>
+                                                    <span className={"font-bold mr-1"}>L:</span><Subtitle>{hashSlice(block_row.ledger_hash)}</Subtitle>
+                                                </div>
+                                                <div className={"flex flex-row w-full justify-between"}>
+                                                    <span className={"font-bold mr-1"}>TX:</span><Subtitle>{hashSlice(block_row.txlist_hash)}</Subtitle>
+                                                </div>
+                                                <div className={"flex flex-row w-full justify-between"}>
+                                                    <span className={"font-bold mr-1"}>M:</span><Subtitle>{hashSlice(block_row.messages_hash)}</Subtitle>
+                                                </div>
+                                                    {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
+                                                txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
+                                                messages_hash:{hashSlice(block_row.messages_hash)}<br /> */}
+                                            </Card>
                                         </td>
                                         // <td key={index} style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(block_row)}</td>
                                     );
@@ -187,10 +206,12 @@ class Home extends React.Component {
             );
         }
         const block_element = (
-            <>
-                <h2>Latest blocks:</h2>
-                {block_element_contents}
-            </>
+            <div className={"mt-12"}>
+                <Title className={"font-bold text-xl mb-3"}>Latest blocks</Title>
+                <div className={"overflow-scroll p-0.5"}>
+                    {block_element_contents}
+                </div>
+            </div>
         );
         //////////
 
@@ -204,27 +225,33 @@ class Home extends React.Component {
         }
         else if (this.state.mempool_full_new.length) {
             mempool_element_contents = (
-                <table>
-                    <tbody>
-                        {ListElements.getTableRowMempoolHomeHeader()}
-                        {this.state.mempool_full_new.map((mempool_row, index) => {
+                <Card className={"mt-12"}>
+                    <Title className={"font-bold text-xl"}>Unconfirmed transactions</Title>
+                    <Table className="mt-5">
+                        <TableHead>
+                            {ListElements.getTableRowMempoolHomeHeader()}
+                        </TableHead>
+                        <TableBody>
+                            {this.state.mempool_full_new.map((mempool_row, index) => {
 
-                            // cntrprty transaction
-                            let cntrprty_decoded = {};
-                            const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
-                            try {
-                                const current_version_past_block = 819000;
-                                cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
-                            }
-                            catch (e) {
-                                console.error(`cntrprty_decoded error: ${e}`);
-                            }
+                                // cntrprty transaction
+                                let cntrprty_decoded = {};
+                                const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                                try {
+                                    const current_version_past_block = 819000;
+                                    cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                                } catch (e) {
+                                    console.error(`cntrprty_decoded error: ${e}`);
+                                }
 
-                            mempool_row.cntrprty_decoded = cntrprty_decoded;
-                            return ListElements.getTableRowMempoolHome(mempool_row, index);
-                        })}
-                    </tbody>
-                </table>
+                                mempool_row.cntrprty_decoded = cntrprty_decoded;
+                                return ListElements.getTableRowMempoolHome(mempool_row, index);
+                            })}
+                            {/*</tbody>*/}
+                            {/*</table>*/}
+                        </TableBody>
+                    </Table>
+                </Card>
             );
         }
         // else if (this.state.mempool_full.length) {
@@ -244,7 +271,7 @@ class Home extends React.Component {
         const mempool_element = (
             <>
                 {/* <h2>Unconfirmed (mempool) transactions:</h2> */}
-                <h2>Unconfirmed transactions:</h2>
+                {/*<h2 className={"font-bold"}>Unconfirmed transactions:</h2>*/}
                 {/* <h2>Mempool transactions:</h2> */}
                 {/* <h2>Mempool:</h2> */}
                 {mempool_element_contents}
@@ -261,25 +288,38 @@ class Home extends React.Component {
             transactions_element_contents = (
                 <>
                     {/* <h4>Latest:</h4> */}
-                    <h4>Latest (tx_index desc):</h4>
+                    {/*<h4>Latest (tx_index desc):</h4>*/}
                     {/* <h4>Latest (most recent top):</h4> */}
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowTransactionHeader(is_home_page)}
-                            {this.state.btc_transactions_latest.map((transaction_row, index) => {
-                                return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
-                            })}
-                        </tbody>
-                    </table>
+                    <Card className={"my-12"}>
+                        <Title className={"font-bold text-xl"}>Block transactions</Title>
+                        <Subtitle>Latest (tx_index desc)</Subtitle>
+                        <Table className="mt-5">
+                            <TableHead>
+                                {ListElements.getTableRowTransactionHeader(is_home_page)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.btc_transactions_latest.map((transaction_row, index) => {
+                                    return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
+                                })}
+                            </TableBody>
+                            <TableFoot>
+                                <TableRow>
+                                    <TableFooterCell>
+                                        <Link className={"font-bold hover:text-yellow-500"} to={`/transactions#${link_tx_index}`}>All transactions</Link>
+                                    </TableFooterCell>
+                                </TableRow>
+                            </TableFoot>
+                        </Table>
+                    </Card>
 
-                    <h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4>
+                    {/*<h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4>*/}
                     {/* <h4><Link to={`/transactions`}>All transactions</Link></h4> */}
                 </>
             );
         }
         const transactions_element = (
             <>
-                <h2>Block transactions:</h2>
+                {/*<h2>Block transactions:</h2>*/}
                 {/* <h2>Transactions:</h2> */}
                 {transactions_element_contents}
             </>
@@ -290,9 +330,11 @@ class Home extends React.Component {
             <span>
                 <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
                     <form onSubmit={this.handleSearchSubmit}>
-                        <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder={placeholder} size={placeholder.length - 12} />
+                        <div className={"flex flex-row space-x-1"}>
+                        <TextInput className={"w-64"} type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder={placeholder} size={placeholder.length - 12} />
                         {' '}
-                        <input type="submit" value={"go"} />
+                        <Button type="submit" variant={"secondary"} value={"go"} >Go</Button>
+                        </div>
                     </form>
                 </div>
             </span>
