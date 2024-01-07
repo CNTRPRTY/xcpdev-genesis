@@ -587,10 +587,13 @@ async function updateTransactionsCache() {
 
 app.listen(port, () => {
 
+    /*
+    TODO: uncomment when node is synced
     setInterval(
         updateMempoolCache,
         updateMempoolCacheSeconds * 1000
     );
+    */
 
     setInterval(
         updateBlocksCache,
