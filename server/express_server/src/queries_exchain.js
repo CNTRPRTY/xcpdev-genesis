@@ -8,7 +8,7 @@ function queryDBRows(db, sql, params_obj) {
     });
 }
 
-export class Queries {
+export class QueriesExchain {
 
     // static async getMempoolRows(db) {
     //     const sql = `
