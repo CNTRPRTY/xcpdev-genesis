@@ -136,13 +136,10 @@ async function updateTransactionsCache() {
 
 app.listen(PORT, () => {
 
-    
-    //TODO: comment if node is not synced
-    /*setInterval(
+    setInterval(
         updateMempoolCache,
         updateMempoolCacheSeconds * 1000
-    );*/
-    
+    );
 
     setInterval(
         updateBlocksCache,
