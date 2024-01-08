@@ -5,16 +5,16 @@ import cors from 'cors';
 import { PORT } from './config.js';
 import { Queries } from './queries.js';
 import { db } from './db.js';
-import { libApiRequest, v1Router } from './routes/v1.router.js';
-import { v2Router } from './routes/v2.router.js';
+import { libApiRequest, rootRouter } from './routes/root.router.js';
+import { exchainRouter } from './routes/exchain.router.js';
 
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/', v1Router);
-app.use('/api/', v2Router);
+app.use('/', rootRouter);
+app.use('/exchain/', exchainRouter);
 
 // cache homepage
 export let cached_mempool = [];

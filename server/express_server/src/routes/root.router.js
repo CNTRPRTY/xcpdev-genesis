@@ -5,10 +5,10 @@ import { Queries } from "../queries.js";
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION } from "../config.js";
 import { cached_blocks, cached_mempool, cached_transactions } from "../index.js";
 
-export const v1Router = Router();
+export const rootRouter = Router();
 
 
-v1Router.get('/tip', async (req, res) => {
+rootRouter.get('/tip', async (req, res) => {
   const tip_blocks_row = await Queries.getBlocksRowTip(db);
   res.status(200).json({
     node: {
@@ -19,7 +19,7 @@ v1Router.get('/tip', async (req, res) => {
   });
 }); //TESTED
 
-v1Router.get('/mempool', async (req, res) => {
+rootRouter.get('/mempool', async (req, res) => {
   // const mempool = await Queries.getMempoolRows(db);
   res.status(200).json({
     node: {
@@ -31,7 +31,7 @@ v1Router.get('/mempool', async (req, res) => {
   });
 }); // NOT POSIBLE TO TEST IT AS IT RETURNS [] BC IS NOT SYNCED AND PAUSES INTERVAL
 
-v1Router.get('/blocks', async (req, res) => {
+rootRouter.get('/blocks', async (req, res) => {
   // TODO redo when the latest block is in memory
 
   // const blocks = await Queries.getMessagesByBlockLatest(db);
@@ -69,7 +69,7 @@ v1Router.get('/blocks', async (req, res) => {
 
 }); // TESTED
 
-v1Router.get('/tx/:txHash', async (req, res) => {
+rootRouter.get('/tx/:txHash', async (req, res) => {
   const tx_hash = req.params.txHash;
   // transaction could be in the mempool
   // but first try get direct from table
@@ -95,7 +95,7 @@ v1Router.get('/tx/:txHash', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/txindex/:txIndex', async (req, res) => {
+rootRouter.get('/txindex/:txIndex', async (req, res) => {
   // will just return the transaction_row for a subsequent client /tx/:txHash request
   let tx_index;
   try {
@@ -121,7 +121,7 @@ v1Router.get('/txindex/:txIndex', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/block/:blockIndex', async (req, res) => {
+rootRouter.get('/block/:blockIndex', async (req, res) => {
   const block_index = req.params.blockIndex;
   const block_row = await Queries.getBlocksRow(db, block_index);
   if (!block_row) {
@@ -138,7 +138,7 @@ v1Router.get('/block/:blockIndex', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/address/:address', async (req, res) => {
+rootRouter.get('/address/:address', async (req, res) => {
   const address = req.params.address;
   const tables = {};
   // tables.balances = await TableQueries.getBalancesRowsByAddress(db, address);
@@ -155,7 +155,7 @@ v1Router.get('/address/:address', async (req, res) => {
   });
 }); // TESTED BUT RETURNS empty arrays not sure why
 
-v1Router.get('/address/:address/balances', async (req, res) => {
+rootRouter.get('/address/:address/balances', async (req, res) => {
   const address = req.params.address;
   // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
   const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
@@ -165,7 +165,7 @@ v1Router.get('/address/:address/balances', async (req, res) => {
   });
 }); // TESTED
 
-v1Router.get('/asset/:assetName', async (req, res) => {
+rootRouter.get('/asset/:assetName', async (req, res) => {
   const asset_name = req.params.assetName;
   const asset_row = await Queries.getAssetsRowByAssetName(db, asset_name);
   if (!asset_row) {
@@ -194,7 +194,7 @@ v1Router.get('/asset/:assetName', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/asset/:assetName/balances', async (req, res) => {
+rootRouter.get('/asset/:assetName/balances', async (req, res) => {
   const asset_name = req.params.assetName;
   const balances = await Queries.getBalancesRowsByAssetName(db, asset_name);
   res.status(200).json({
@@ -202,7 +202,7 @@ v1Router.get('/asset/:assetName/balances', async (req, res) => {
   });
 }); // TESTED
 
-v1Router.get('/asset/:assetName/escrows', async (req, res) => {
+rootRouter.get('/asset/:assetName/escrows', async (req, res) => {
   const asset_name = req.params.assetName;
   const orders = await Queries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
   const dispensers = await Queries.getDispensersRowsByAssetName(db, asset_name);
@@ -214,7 +214,7 @@ v1Router.get('/asset/:assetName/escrows', async (req, res) => {
   });
 }); // TESTED
 
-v1Router.get('/asset/:assetName/exchanges', async (req, res) => {
+rootRouter.get('/asset/:assetName/exchanges', async (req, res) => {
   const asset_name = req.params.assetName;
   const orders_get = await Queries.getOrdersRowsGetAssetByAssetName(db, asset_name);
   res.status(200).json({
@@ -224,7 +224,7 @@ v1Router.get('/asset/:assetName/exchanges', async (req, res) => {
   });
 }); // TESTED
 
-v1Router.get('/asset/:assetName/subassets', async (req, res) => {
+rootRouter.get('/asset/:assetName/subassets', async (req, res) => {
   const asset_name = req.params.assetName;
   const assets = await Queries.getAssetsRowsForAssetLongname(db, asset_name);
   res.status(200).json({
@@ -232,7 +232,7 @@ v1Router.get('/asset/:assetName/subassets', async (req, res) => {
   });
 }); // TESTED
 
-v1Router.get('/subasset/:assetLongname', async (req, res) => {
+rootRouter.get('/subasset/:assetLongname', async (req, res) => {
   // will just return the asset_row for a subsequent client /asset/:assetName request
   const asset_longname = req.params.assetLongname;
   const asset_row = await Queries.getAssetsRowByAssetLongname(db, asset_longname);
@@ -248,7 +248,7 @@ v1Router.get('/subasset/:assetLongname', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/transactions', async (req, res) => {
+rootRouter.get('/transactions', async (req, res) => {
   // const btc_transactions_latest = await Queries.getTransactionsLatest(db);
   // if (!btc_transactions_latest.length) {
   //     res.status(404).json({
@@ -267,7 +267,7 @@ v1Router.get('/transactions', async (req, res) => {
   });
 }); // TESTED
 
-v1Router.get('/transactions/:txIndex', async (req, res) => {
+rootRouter.get('/transactions/:txIndex', async (req, res) => {
   // TODO improve, starting with most basic validation
   try {
     const tx_index = Number(req.params.txIndex);
@@ -294,7 +294,7 @@ v1Router.get('/transactions/:txIndex', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/transactions/dispensers/:txHash', async (req, res) => {
+rootRouter.get('/transactions/dispensers/:txHash', async (req, res) => {
   const tx_hash = req.params.txHash;
   const tip_blocks_row = await Queries.getBlocksRowTip(db);
   const dispensers_row = await Queries.getDispensersRow(db, tx_hash);
@@ -323,7 +323,7 @@ v1Router.get('/transactions/dispensers/:txHash', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/transactions/orders/:txHash', async (req, res) => {
+rootRouter.get('/transactions/orders/:txHash', async (req, res) => {
   const tx_hash = req.params.txHash;
   const tip_blocks_row = await Queries.getBlocksRowTip(db);
   const orders_row = await Queries.getOrdersRow(db, tx_hash);
@@ -357,7 +357,7 @@ v1Router.get('/transactions/orders/:txHash', async (req, res) => {
   }
 }); // TESTED
 
-v1Router.get('/messages/:messageIndex', async (req, res) => {
+rootRouter.get('/messages/:messageIndex', async (req, res) => {
   // TODO improve, starting with most basic validation
   try {
     const message_index = Number(req.params.messageIndex);
@@ -417,7 +417,7 @@ export async function libApiRequest(method, params = null) {
   return data;
 }
 
-v1Router.post('/lib_api_proxy', async (req, res) => {
+rootRouter.post('/lib_api_proxy', async (req, res) => {
   try {
     // TODO? some validation?
     const method = req.body.method;

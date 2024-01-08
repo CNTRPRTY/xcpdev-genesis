@@ -5,9 +5,10 @@ import { Queries } from "../queries.js";
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION } from "../config.js";
 import { cached_blocks, cached_mempool, cached_transactions } from "../index.js";
 
-export const v2Router = Router();
+// xchain.io/api replacement
+export const exchainRouter = Router();
 
-v2Router.get('/address/:address', async (req, res) => {
+exchainRouter.get('/address/:address', async (req, res) => {
   const address = req.params.address;
   const tables = {};
   // tables.balances = await TableQueries.getBalancesRowsByAddress(db, address);
