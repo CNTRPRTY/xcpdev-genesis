@@ -5,7 +5,7 @@ import cors from 'cors';
 import { PORT } from './config.js';
 import { Queries } from './queries.js';
 import { db } from './db.js';
-import { v1Router } from './routes/v1.router.js';
+import { libApiRequest, v1Router } from './routes/v1.router.js';
 import { v2Router } from './routes/v2.router.js';
 
 
@@ -138,10 +138,10 @@ app.listen(PORT, () => {
 
     
     //TODO: comment if node is not synced
-    setInterval(
+    /*setInterval(
         updateMempoolCache,
         updateMempoolCacheSeconds * 1000
-    );
+    );*/
     
 
     setInterval(

@@ -386,7 +386,7 @@ v1Router.get('/messages/:messageIndex', async (req, res) => {
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
-async function libApiRequest(method, params = null) {
+export async function libApiRequest(method, params = null) {
   const url = `http://0.0.0.0:4000/api/`; // trailing slash required!
   const username = 'rpc';
   const password = 'rpc';
