@@ -11,9 +11,11 @@ class App extends React.Component {
 
       <main className="App">
 
-        <div style={{ padding: "1rem" }}>
+        <div className={"p-4"}>
 
-          <div className={"mb-6"}><span className={"text-yellow-500 text-4xl font-extrabold"}>xcp</span><span className={"text-xl font-bold"}>.dev</span></div>
+          <Link to="/">
+            <div className={"mb-6"}><span className={"text-yellow-500 text-4xl font-extrabold"}>xcp</span><span className={"text-xl font-bold text-black"}>.dev</span></div>
+          </Link>
           <h3 className={"text-xl font-bold my-3"}>Counterparty Bitcoin Tools</h3>
           {/* <h3>Counterparty Bitcoin data explorer</h3> */}
           {/* <h3>Counterparty Bitcoin explorer</h3> */}
