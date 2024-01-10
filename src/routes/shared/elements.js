@@ -4,7 +4,16 @@ import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
 import {timeIsoFormat, hashSlice, quantityWithDivisibility, txTypeBadgeColor} from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
-import {Badge, TableCell, TableHead, TableHeaderCell, TableRow, Text} from "@tremor/react";
+import {
+    Accordion, AccordionBody, AccordionHeader,
+    Badge,
+    List,
+    ListItem, Subtitle,
+    TableCell,
+    TableHeaderCell,
+    TableRow,
+    Text
+} from "@tremor/react";
 import React from "react";
 
 // function timeIsoFormat(block_time) {
@@ -12,6 +21,9 @@ import React from "react";
 //     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
 // }
 
+/**
+ * TODO - replace if with a switch
+ */
 function createLinkElementBindings(bindings_json_stringified) {
     const bindingsPRE = JSON.parse(bindings_json_stringified);
     const entries = Object.entries(bindingsPRE);
@@ -123,20 +135,37 @@ function createNonLinkElement(json_stringified) {
 function linksElement(link_element_bindings, index) {
     const bindings_entries = Object.entries(link_element_bindings);
     return (
-        <table>
-            <tbody>
-                <tr key={index} style={{ padding: "0.25rem" }}>
-                    {bindings_entries.map((obj, index2) => {
+        <>
+            <List>
+                {bindings_entries.map((obj, index2) => {
                         const key = obj[0];
                         const element_value = obj[1];
                         // return (<>[{key}:{element_value}]</>);
                         return (
-                            <td key={index2} style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
+                            <ListItem>
+                                <span>{key}</span>
+                                <span>{element_value}</span>
+                            </ListItem>
                         );
-                    })}
-                </tr>
-            </tbody>
-        </table>
+                    }
+                )}
+            </List>
+
+        {/*<Table>*/}
+        {/*    <TableBody>*/}
+        {/*        <TableRow key={index} style={{ padding: "0.25rem" }}>*/}
+        {/*            {bindings_entries.map((obj, index2) => {*/}
+        {/*                const key = obj[0];*/}
+        {/*                const element_value = obj[1];*/}
+        {/*                // return (<>[{key}:{element_value}]</>);*/}
+        {/*                return (*/}
+        {/*                    <TableCell key={index2} style={{ padding: "0 1rem 0 0" }}><span className={"text-red-600"}>{key}</span>:{element_value}</TableCell>*/}
+        {/*                );*/}
+        {/*            })}*/}
+        {/*        </TableRow>*/}
+        {/*    </TableBody>*/}
+        {/*</Table>*/}
+        </>
     );
 }
 
@@ -303,14 +332,13 @@ class ListElements {
 
     static getTableRowMessageBlockHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx/state</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
-            </tr>
+            <TableRow>
+                <TableHeaderCell>Tx/state</TableHeaderCell>
+                <TableHeaderCell>Category</TableHeaderCell>
+                <TableHeaderCell>Command</TableHeaderCell>
+                <TableHeaderCell>Message Index</TableHeaderCell>
+                <TableHeaderCell>Bindings</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowMessageBlock(message_row, index) {
@@ -351,21 +379,31 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{
+                <TableCell>{
                     // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
-                }</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                }</TableCell>
+                <TableCell>{category}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                <TableCell>{command}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
+                <TableCell>{message_index}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+                <TableCell>
+                    {/*<Accordion className={"border-none m-0 overflow-visible"}>*/}
+                    {/*    <AccordionHeader className={"border-none pl-0"}>*/}
+                    {/*        <Subtitle>show details</Subtitle>*/}
+                    {/*    </AccordionHeader>*/}
+                    {/*    <AccordionBody className={"p-0"}>*/}
+                            {linksElement(bindingsElements, index)}
+                    {/*    </AccordionBody>*/}
+                    {/*</Accordion>*/}
+
+                </TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 

@@ -4,6 +4,8 @@ import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
+import {Card, Divider, List, ListItem, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
+import {FcNext, FcPrevious} from "react-icons/fc";
 
 class Block extends React.Component {
     constructor(props) {
@@ -88,14 +90,14 @@ class Block extends React.Component {
         let block_element_contents = (<p>loading...</p>);
         if (this.state.block_not_found) {
             block_element_contents = (
-                <p>block not found</p>
+                <p>Block not found</p>
             );
         }
         else if (this.state.messages && !this.state.messages.length) {
             block_element_contents = (
                 <>
                     <h3>Messages:</h3>
-                    <p>no messages in block</p>
+                    <p>No messages in block</p>
                 </>
             );
         }
@@ -103,19 +105,18 @@ class Block extends React.Component {
             block_element_contents = (
                 <>
                     <h3>Messages ({this.state.messages.length}):</h3>
-                    {/* <h3>Messages:</h3> */}
-
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowMessageBlockHeader()}
+                        </TableHead>
+                        <TableBody>
                             {this.state.messages.map((message_row, index) => {
                                 return ListElements.getTableRowMessageBlock(message_row, index);
                                 // const page = 'home'; // TODO?
                                 // return ListElements.getTableRowMessage(message_row, index, page);
                             })}
-                        </tbody>
-                    </table>
-
+                        </TableBody>
+                    </Table>
                 </>
             );
         }
@@ -124,25 +125,17 @@ class Block extends React.Component {
         if (this.state.block) {
             /////
             const previous_page_column = (
-                <td>
-                    <Link to={`/block/${this.state.block - 1}`}>{'<'}previous</Link>{' '}
-                </td>
+                <Link to={`/block/${this.state.block - 1}`}><FcPrevious className={"text-xl"}/></Link>
             );
             const next_page_column = (
-                <td>
-                    <Link to={`/block/${this.state.block + 1}`}>next{'>'}</Link>{' '}
-                </td>
+                <Link to={`/block/${this.state.block + 1}`}><FcNext className={"text-xl"}/></Link>
             );
 
             change_pages_element = (
-                <table>
-                    <tbody>
-                        <tr style={{ padding: "0.25rem" }}>
-                            {previous_page_column}
-                            {next_page_column}
-                        </tr>
-                    </tbody>
-                </table>
+                <div className={"flex flex-row space-x-1"}>
+                    {previous_page_column}
+                    {next_page_column}
+                </div>
             );
             /////
         }
@@ -152,35 +145,69 @@ class Block extends React.Component {
         if (this.state.block_row) {
             block_metadata = (
                 <>
-                    <ul>
-                        <li>block_index: {this.state.block}</li>
-                        {/* <li>block_time: {this.state.block_row.block_time}</li> */}
-                        <li>block_time_iso: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
-                    </ul>
-                    <ul>
-                        <li>block_hash: {this.state.block_row.block_hash}</li>
-                        <li>previous_block_hash: {this.state.block_row.previous_block_hash}</li>
-                    </ul>
-                    <ul>
-                        <li>ledger_hash (L): {this.state.block_row.ledger_hash}</li>
-                        <li>txlist_hash (TX): {this.state.block_row.txlist_hash}</li>
-                        <li>messages_hash (M): {this.state.block_row.messages_hash}</li>
-                        {/* <li>ledger_hash: {this.state.block_row.ledger_hash}</li>
-                        <li>txlist_hash: {this.state.block_row.txlist_hash}</li>
-                        <li>messages_hash: {this.state.block_row.messages_hash}</li> */}
-                    </ul>
+                    <List>
+                        <ListItem >
+                            <span>Block Index </span>
+                            <span>{this.state.block}</span>
+                        </ListItem>
+                        <ListItem >
+                            <span>Block Time </span>
+                            <span>{(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</span>
+                        </ListItem>
+                        <ListItem >
+                            <span>Block Hash</span>
+                            <span>{this.state.block_row.block_hash}</span>
+                        </ListItem>
+                        <ListItem >
+                            <span>Block Previous Hash</span>
+                            <span>{this.state.block_row.previous_block_hash}</span>
+                        </ListItem>
+                        <ListItem >
+                            <span>Ledger Hash (L):</span>
+                            <span>{this.state.block_row.ledger_hash}</span>
+                        </ListItem>
+                        <ListItem >
+                            <span>Txlist Hash (TX):</span>
+                            <span>{this.state.block_row.txlist_hash}</span>
+                        </ListItem>
+                        <ListItem >
+                            <span>Messages Hash (M):</span>
+                            <span>{this.state.block_row.messages_hash}</span>
+                        </ListItem>
+                    </List>
+
+                    {/*<ul>*/}
+                    {/*    <li>block_index: {this.state.block}</li>*/}
+                    {/*    /!* <li>block_time: {this.state.block_row.block_time}</li> *!/*/}
+                    {/*    <li>block_time_iso: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>*/}
+                    {/*</ul>*/}
+                    {/*<ul>*/}
+                    {/*    <li>block_hash: {this.state.block_row.block_hash}</li>*/}
+                    {/*    <li>previous_block_hash: {this.state.block_row.previous_block_hash}</li>*/}
+                    {/*</ul>*/}
+                    {/*<ul>*/}
+                    {/*    <li>ledger_hash (L): {this.state.block_row.ledger_hash}</li>*/}
+                    {/*    <li>txlist_hash (TX): {this.state.block_row.txlist_hash}</li>*/}
+                    {/*    <li>messages_hash (M): {this.state.block_row.messages_hash}</li>*/}
+                    {/*    /!* <li>ledger_hash: {this.state.block_row.ledger_hash}</li>*/}
+                    {/*    <li>txlist_hash: {this.state.block_row.txlist_hash}</li>*/}
+                    {/*    <li>messages_hash: {this.state.block_row.messages_hash}</li> *!/*/}
+                    {/*</ul>*/}
                 </>
             );
         }
 
         const block_element = (
-            <>
-                <h2>Bitcoin block: {this.state.block}</h2>
-                {/* <h2>Block: {this.state.block}</h2> */}
-                {change_pages_element}
-                {block_metadata}
-                {block_element_contents}
-            </>
+            <div className={"flex flex-col items-center"}>
+                <div className={"flex flex-row w-full max-w-[1300px] items-center space-x-1 my-3"}>
+                    <Title className={"font-bold text-xl"}>Block #{this.state.block}</Title> {change_pages_element}
+                </div>
+                <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
+                    {block_metadata}
+                    <Divider />
+                    {block_element_contents}
+                </Card>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(block_element);
