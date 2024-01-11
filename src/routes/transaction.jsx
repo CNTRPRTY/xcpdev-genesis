@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat, quantityWithDivisibility } from '../utils';
+import {Card, Divider, List, ListItem, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -210,7 +211,7 @@ class Transaction extends React.Component {
         if (this.state.transaction_not_found) {
             transaction_element_contents = (
                 // ideally, this should return basic transaction info for non counterparty transactions
-                <p>no CNTRPRTY block transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
+                <p>No CNTRPRTY block transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
                 // <p>no CNTRPRTY transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
                 // <p>transaction not found</p>
             );
@@ -222,17 +223,19 @@ class Transaction extends React.Component {
 
                     {/* // when it is in the mempool, it can be multiple rows just like the homepage */}
 
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowMempoolTxHeader()}
+                        </TableHead>
+                        <TableBody>
                             {this.state.mempool.map((mempool_row, index) => {
                                 return ListElements.getTableRowMempoolTx(mempool_row, index);
                                 // const page = 'tx';
                                 // return ListElements.getTableRowMempool(mempool_row, index, page);
                                 // return ListElements.getTableRowMempool(mempool_row, index);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
 
                 </>
             );
@@ -337,11 +340,11 @@ class Transaction extends React.Component {
                         <h3>Dispenser:</h3>
                         <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
                         <ul>
-                            <li>status: {dispenser_status}</li>
+                            <li>Status: {dispenser_status}</li>
                         </ul>
                         <ul>
-                            <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
-                            <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
+                            <li>Asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
+                            <li>Address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
                         </ul>
 
                         {!tell_reset ?
@@ -371,15 +374,18 @@ class Transaction extends React.Component {
                         {dispenses_rows.length ?
                             (
                                 <>
-                                    <p>Dispenses:</p>
-                                    <table>
-                                        <tbody>
+                                    <Divider />
+                                    <Title>Dispenses:</Title>
+                                    <Table>
+                                        <TableHead>
                                             {ListElements.getTableRowDispensesHeader()}
+                                        </TableHead>
+                                        <TableBody>
                                             {dispenses_rows.map((dispenses_row, index) => {
                                                 return ListElements.getTableRowDispenses(dispenses_row, index, asset_issuance);
                                             })}
-                                        </tbody>
-                                    </table>
+                                        </TableBody>
+                                    </Table>
                                 </>
                             )
                             : null
@@ -580,22 +586,22 @@ class Transaction extends React.Component {
 
                             <ul>
 
-                                <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                                <li>Tx Index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
 
-                                <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
+                                <li>Tx Hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
                                 {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                                 {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
                                 {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
                                 {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                                <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
+                                <li>Block Index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
                                 {/* <li>block_index: {this.state.transaction.block_index}</li> */}
                                 {/* <li>block_time: {this.state.transaction.block_time}</li> */}
-                                <li>block_time_iso: {timeIsoFormat(this.state.transaction.block_time)}</li>
+                                <li>Block time: {timeIsoFormat(this.state.transaction.block_time)}</li>
                                 {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                                <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
+                                <li>Source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
                                 {/* <li>source: {this.state.transaction.source}</li> */}
                                 {this.state.transaction.destination ? (
-                                    <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
+                                    <li>Destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
                                     // <li>destination: {this.state.transaction.destination}</li>
                                 ) : null}
                             </ul>
@@ -604,27 +610,31 @@ class Transaction extends React.Component {
 
                         <li>
                             {/* TODO? remove the whole section for Bitcoin only transactions (like dispense)...??? */}
-                            <p>Data:</p>
+                            <Divider />
+                            <Title>Data:</Title>
                             {(this.state.cntrprty_decoded && this.state.cntrprty_decoded.msg_decoded) ?
                             // {this.state.cntrprty_decoded.msg_decoded ?
                                 (
-                                    <ul>
-                                        <li>hex: {this.state.cntrprty_hex}</li>
-                                        <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
+                                    <List>
+                                        <ListItem><span>hex</span> <span>{this.state.cntrprty_hex}</span></ListItem>
+                                        <ListItem><span>type</span> <span>{this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</span></ListItem>
                                         
-                                        <li>decoded:
-                                            <ul>
-                                                {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
-                                                    const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
-                                                    return (
-                                                        <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        </li>
+                                        <ListItem>
+                                            <Subtitle>decoded</Subtitle>
+                                            <Card className={"max-w-2xl m-3"}>
+                                                <List>
+                                                    {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
+                                                        const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
+                                                        return (
+                                                            <ListItem key={list_index}><span>{msg_decoded_key}</span> <span>{msg_decoded_value}</span></ListItem>
+                                                        );
+                                                    })}
+                                                </List>
+                                            </Card>
+                                        </ListItem>
                                         {/* <li>decoded: {JSON.stringify(this.state.cntrprty_decoded.msg_decoded)}</li> */}
 
-                                    </ul>
+                                    </List>
                                 ) :
                                 (<p>(unable to decode this transaction)</p>)
                             }
@@ -685,21 +695,23 @@ class Transaction extends React.Component {
                             {/* TODO ALL?! */}
                             {/* <h3>"All" (WIP) messages:</h3> */}
                             {/* <h3>All messages:</h3> */}
-                            <p>Messages:</p>
-                            {/* <h3>Messages:</h3> */}
+                            <Divider />
+                            <Title>Messages:</Title>
 
                             {/* <ul>
                             <li> */}
-                            <table>
-                                <tbody>
+                            <Table>
+                                <TableHead>
                                     {ListElements.getTableRowMessageTxHeader()}
+                                </TableHead>
+                                <TableBody>
                                     {this.state.messages.map((message_row, index) => {
                                         return ListElements.getTableRowMessageTx(message_row, index);
                                         // const page = 'tx';
                                         // return ListElements.getTableRowMessage(message_row, index, page);
                                     })}
-                                </tbody>
-                            </table>
+                                </TableBody>
+                            </Table>
                             {/* </li> */}
                             {/* <li>supported: {this.state.transaction.supported}</li>
                             <li>data_type: {this.state.transaction.data.type}</li>
@@ -751,15 +763,21 @@ class Transaction extends React.Component {
         }
 
         const transaction_element = (
-            <>
-                {dispenser_element}
-                {order_element}
-                {btcpay_element}
-                {broadcast_element}
-                <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
-                {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
-                {transaction_element_contents}
-            </>
+            <div className={"flex flex-col items-center"}>
+                <div className={"flex flex-row w-full max-w-[1300px] items-center space-x-1 my-3"}>
+                    <Title className={"font-bold text-xl"}>Tx {this.state.tx_hash}</Title>
+                </div>
+                <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
+                    {dispenser_element}
+                    {order_element}
+                    {btcpay_element}
+                    {broadcast_element}
+                    <Divider />
+                    <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
+                    {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
+                    {transaction_element_contents}
+                </Card>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(transaction_element);
