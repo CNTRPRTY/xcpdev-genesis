@@ -198,7 +198,7 @@ class Block extends React.Component {
         }
 
         const block_element = (
-            <div className={"flex flex-col items-center"}>
+            <div className={"flex flex-col w-full items-center"}>
                 <div className={"flex flex-row w-full max-w-[1300px] items-center space-x-1 my-3"}>
                     <Title className={"font-bold text-xl"}>Block #{this.state.block}</Title> {change_pages_element}
                 </div>
