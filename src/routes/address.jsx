@@ -3,6 +3,7 @@ import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from 'react-router-dom';
+import {Card, Divider, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
 
 class Address extends React.Component {
     constructor(props) {
@@ -65,41 +66,47 @@ class Address extends React.Component {
 
             const address_open_dispensers_element = (
                 <>
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowDispensersHeader_addressPage()}
+                        </TableHead>
+                        <TableBody>
                             {this.state.tables.dispensers.open.map((dispensers_row, index) => {
                                 return ListElements.getTableRowDispensers_addressPage(dispensers_row, index);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </>
             );
 
             const address_closed_dispensers_element = (
                 <>
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowDispensersHeader_addressPage()}
+                        </TableHead>
+                        <TableBody>
                             {this.state.tables.dispensers.closed.map((dispensers_row, index) => {
                                 return ListElements.getTableRowDispensers_addressPage(dispensers_row, index);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </>
             );
 
 
             const address_broadcasts_element = (
                 <>
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowBroadcastAddressHeader()}
+                        </TableHead>
+                        <TableBody>
                             {this.state.tables.broadcasts.map((broadcast_row, index) => {
                                 return ListElements.getTableRowBroadcastAddress(broadcast_row, index);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </>
             );
 
@@ -148,57 +155,76 @@ class Address extends React.Component {
             const issuer_page = true;
             const issuer_genesis_element = (
                 <>
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)}
+                        </TableHead>
+                        <TableBody>
                             {issuer_genesis_issuances.sort((a, b) => a.tx_index - b.tx_index).map((issuances_row, index) => {
                                 return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </>
             );
             const issuer_transfer_element = (
                 <>
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)}
+                        </TableHead>
+                        <TableBody>
                             {issuer_transfer_issuances.sort((a, b) => a.tx_index - b.tx_index).map((issuances_row, index) => {
                                 return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </>
             );
 
             address_metadata = (
                 <>
-                    <h3>Dispensers:</h3>
-                    <h4>Open:</h4>
-                    {address_open_dispensers_element}
-                    <h4>Closed:</h4>
-                    {address_closed_dispensers_element}
+                    <Card>
+                        <Title className={"mb-6"}>Dispensers</Title>
+                        <Subtitle>Open</Subtitle>
+                        {address_open_dispensers_element}
+                        <Divider/>
+                        <Subtitle>Closed</Subtitle>
+                        {address_closed_dispensers_element}
+                        {/*<Divider/>*/}
+                    </Card>
 
-                    <h3>Balances:</h3>
-                    <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
+                    {/*<Title>Balance details <Link to={`/wallet/${this.state.address}`}>{this.state.address}</Link></Title>*/}
+                    {/*<p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>*/}
                     {/* <p><Link to={`/wallet#${this.state.address}`}>Wallet: {this.state.address}</Link></p> */}
 
-                    <h3>Broadcasts:</h3>
-                    {address_broadcasts_element}
-
-                    <h3>Asset issuances:</h3>
-                    <h4>Genesis:</h4>
-                    {issuer_genesis_element}
-                    <h4>Transfer:</h4>
-                    {issuer_transfer_element}
+                    <Card>
+                        <Title className={"mb-6"}>Broadcasts</Title>
+                        {address_broadcasts_element}
+                        {/*<Divider/>*/}
+                    </Card>
+                    <Card>
+                        <Title className={"mb-6"}>Asset issuances</Title>
+                        <Subtitle>Genesis</Subtitle>
+                        {issuer_genesis_element}
+                        <Subtitle>Transfer</Subtitle>
+                        {issuer_transfer_element}
+                    </Card>
                 </>
             );
         }
 
         const address_element = (
             <>
-                <h2>Address: {this.state.address}</h2>
-                {address_metadata}
+                <div className={"flex flex-col w-full items-center"}>
+                    <div className={"flex flex-col w-full max-w-[1300px] my-3 space-y-3"}>
+                        <Title className={"font-bold text-xl"}>Address <Link to={`/wallet/${this.state.address}`}>{this.state.address}</Link></Title>
+                        <Subtitle className={"m-0 p-0"}><Link to={`/wallet/${this.state.address}`}>Balance details</Link></Subtitle>
+                    </div>
+                    <div className={"flex flex-col w-full max-w-[1300px] space-y-3"}>
+                        {address_metadata}
+                    </div>
+                </div>
             </>
         );
 

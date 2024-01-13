@@ -341,13 +341,13 @@ class Home extends React.Component {
         );
 
         const homenew_element = (
-            <>
+            <div className={"w-full max-w-[1300px]"}>
                 {search_element}
                 {block_element}
                 {mempool_element}
                 {transactions_element}
                 {/* {tables_element} */}
-            </>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(homenew_element);

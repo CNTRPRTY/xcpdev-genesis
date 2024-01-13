@@ -96,7 +96,7 @@ class Block extends React.Component {
         else if (this.state.messages && !this.state.messages.length) {
             block_element_contents = (
                 <>
-                    <h3>Messages:</h3>
+                    <Title>Messages</Title>
                     <p>No messages in block</p>
                 </>
             );
@@ -104,7 +104,7 @@ class Block extends React.Component {
         else if (this.state.messages && this.state.messages.length) {
             block_element_contents = (
                 <>
-                    <h3>Messages ({this.state.messages.length}):</h3>
+                    <Title>Messages ({this.state.messages.length})</Title>
                     <Table>
                         <TableHead>
                             {ListElements.getTableRowMessageBlockHeader()}
@@ -198,13 +198,14 @@ class Block extends React.Component {
         }
 
         const block_element = (
-            <div className={"flex flex-col items-center"}>
+            <div className={"flex flex-col w-full items-center"}>
                 <div className={"flex flex-row w-full max-w-[1300px] items-center space-x-1 my-3"}>
                     <Title className={"font-bold text-xl"}>Block #{this.state.block}</Title> {change_pages_element}
                 </div>
                 <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
                     {block_metadata}
-                    <Divider />
+                </Card>
+                <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
                     {block_element_contents}
                 </Card>
             </div>
