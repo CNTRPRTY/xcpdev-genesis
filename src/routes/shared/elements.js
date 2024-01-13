@@ -6,7 +6,7 @@ import {timeIsoFormat, hashSlice, quantityWithDivisibility, txTypeBadgeColor} fr
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
 import {
     Accordion, AccordionBody, AccordionHeader,
-    Badge,
+    Badge, Divider,
     List,
     ListItem, Subtitle,
     TableCell,
@@ -469,15 +469,14 @@ class ListElements {
     // address broadcasts
     static getTableRowBroadcastAddressHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>rooow</td> */}
-            </tr>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
+                <TableHeaderCell>text</TableHeaderCell>
+                <TableHeaderCell>timestamp_iso</TableHeaderCell>
+                <TableHeaderCell>additional data</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowBroadcastAddress(broadcast_row, index) {
@@ -499,16 +498,16 @@ class ListElements {
         const nonlinkElements = createNonLinkElement(JSON.stringify(additional_data));
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</TableCell>
+                <TableCell><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{broadcast_row.text}</TableCell>
+                <TableCell>{timestamp_iso}</TableCell>
+                <TableCell>{linksElement(nonlinkElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(broadcast_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -516,35 +515,32 @@ class ListElements {
     static getTableRowIssuanceEventsAssetHeader(issuer_page = false) {
         // static getTableRowIssuanceEventsAssetHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
 
                 {issuer_page ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>)
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td>)
+                    (<TableHeaderCell>asset</TableHeaderCell>)
+                    : (<TableHeaderCell>issuance / destroy</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td> */}
 
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
+                <TableHeaderCell>quantity</TableHeaderCell>
 
                 {issuer_page ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>description</td>)
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td>)
+                    (<TableHeaderCell>description</TableHeaderCell>)
+                    : (<TableHeaderCell>description / tag</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td> */}
 
                 {issuer_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td>)
+                    : (<TableHeaderCell>issuer / source</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td> */}
 
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer</td> */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>data</td> */}
-            </tr>
+                {/* <TableHeaderCell>issuer</td> */}
+                {/* <TableHeaderCell>data</td> */}
+            </TableRow>
         );
     }
     static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible, issuer_page = false) {
@@ -612,32 +608,30 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></TableCell>
 
                 {issuer_page ?
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+                    <TableCell><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></TableCell>
+                    : (<TableCell>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</TableCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td> */}
 
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
+                <TableCell><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{quantity_with_divisibility}</TableCell>
+                <TableCell>{description_orwith_lock_element}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
 
                 {issuer_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuer_element}</td>)
+                    : (<TableCell>{issuer_element}</TableCell>)
                     // : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td> */}
 
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowIssuanceEventsDestroyAsset(issuance_event_row, index, divisible) {
@@ -799,26 +793,26 @@ class ListElements {
 
     static getTableRowDispensersHeader_addressPage() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+            <TableRow style={{ padding: "0.25rem" }}>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>asset (get)</TableHeaderCell>
+                <TableHeaderCell>sats / unit</TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowDispensers_addressPage(dispensers_row, index) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(dispensers_row.block_time)}</td>
+            <TableRow key={index} style={{ padding: "0.25rem" }}>
+                <TableCell><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></TableCell>
+                <TableCell><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></TableCell>
+                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
+                <TableCell><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></TableCell>
+                <TableCell>{timeIsoFormat(dispensers_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -1192,14 +1186,15 @@ class ListElements {
 class OneElements {
     static getFullPageForRouteElement(route_element) {
         return (
-            <main style={{ padding: "1rem" }}>
+            <main className={"flex flex-col w-full items-center justify-center"}>
                 {route_element}
-                <p>
+
+                <Divider />
+                <p className={"flex flex-row w-full items-center justify-center mt-6 space-x-3"}>
                     [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
-                    <br />
 
                     [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
-                    <br />
+
                     {/* [counterparty-lib v{COUNTERPARTY_VERSION}]
                     <br /> */}
 
