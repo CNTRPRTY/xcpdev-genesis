@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import WalletBalances from './wallet_balances';
 import WalletCreateSelect from './wallet_create_select';
+import {Title} from "@tremor/react";
 // import WalletCreate from './wallet_create';
 
 class Wallet extends React.Component {
@@ -225,7 +226,7 @@ class Wallet extends React.Component {
         if (this.state.error_loading) {
             wallet_element_contents = (
                 <>
-                    <p>these was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                    <p>There was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
                 </>
             );
         }
@@ -337,8 +338,14 @@ class Wallet extends React.Component {
 
         const wallet_element = (
             <>
-                <h2>Wallet tools:</h2>
-                {wallet_element_contents}
+                <div className={"flex flex-col w-full items-center"}>
+                    <div className={"flex flex-col w-full max-w-[1300px] my-3 space-y-3"}>
+                        <Title>Wallet tools</Title>
+                    </div>
+                    <div className={"flex flex-col w-full max-w-[1300px] space-y-3"}>
+                        {wallet_element_contents}
+                    </div>
+                </div>
             </>
         );
 

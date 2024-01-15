@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 // import { getCntrprty } from '../api';
 import { ListElements } from './shared/elements';
+import {Card, Table, TableBody, TableHead, Title} from "@tremor/react";
 // import { Outlet, Link } from "react-router-dom";
 
 class WalletBalances extends React.Component {
@@ -185,7 +186,7 @@ class WalletBalances extends React.Component {
         if (this.state.balances && !this.state.balances.length) {
             wallet_element_contents = (
                 <>
-                    <p>no balances for address</p>
+                    <p>No balances for address</p>
                     {/* <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p> */}
                 </>
             );
@@ -218,14 +219,16 @@ class WalletBalances extends React.Component {
 
             const address_balances_element = (
                 <>
-                    <table>
-                        <tbody>
+                    <Table>
+                        <TableHead>
                             {ListElements.getTableRowBalanceAddressHeader()}
+                        </TableHead>
+                        <TableBody>
                             {this.state.balances.sort(balancesSort).map((balances_row, index) => {
                                 return ListElements.getTableRowBalanceAddress(balances_row, index);
                             })}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </>
             );
 
@@ -251,16 +254,18 @@ class WalletBalances extends React.Component {
                     {/* <Outlet /> */}
 
 
-                    <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
-                    {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
+                    <Card>
+                        <Title>Assets balance (sorted by most units on top, then alphabetically):</Title>
+                        {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
 
-                    {/* <p>
-                        For [m]edia visit bitSTART:{' '}
-                        <a href={`https://bitst.art/_collector/${this.state.address}`} target="_blank">/_collector/{this.state.address}</a>
-                        // <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
-                    </p> */}
+                        {/* <p>
+                            For [m]edia visit bitSTART:{' '}
+                            <a href={`https://bitst.art/_collector/${this.state.address}`} target="_blank">/_collector/{this.state.address}</a>
+                            // <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
+                        </p> */}
 
-                    {address_balances_element}
+                        {address_balances_element}
+                    </Card>
                 </>
             );
 
