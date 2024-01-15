@@ -4,6 +4,7 @@ import { withRouter } from './shared/classhooks';
 import WalletCreateBroadcast from './wallet_create_broadcast';
 import WalletCreateIssuance from './wallet_create_issuance';
 import WalletCreateSend from './wallet_create_send';
+import {Card} from "@tremor/react";
 
 class WalletCreateSelect extends React.Component {
 
@@ -69,6 +70,7 @@ class WalletCreateSelect extends React.Component {
         let wallet_element_contents = null;
         wallet_element_contents = (
             <>
+                <Card>
                 <h3>Create unsigned transactions, to then sign and broadcast with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>:</h3>
                 {/* <h3>Create unsigned transactions, to then sign and broadcast with a <a href={`https://bitst.art/`} target="_blank">wallet</a>:</h3> */}
                 <p>Method:</p>
@@ -77,6 +79,7 @@ class WalletCreateSelect extends React.Component {
                     {this.renderMethodOptions()}
                 </select>
                 {this.renderMethodForm()}
+                </Card>
             </>
         );
         return (

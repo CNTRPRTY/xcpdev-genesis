@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 
 import WalletCreate from './wallet_create';
+import {Button, Textarea, TextInput} from "@tremor/react";
 
 class WalletCreateBroadcast extends WalletCreate {
 
@@ -80,7 +81,7 @@ class WalletCreateBroadcast extends WalletCreate {
                                 </td>
                                 <td>
                                     {/* TODO styling with css file */}
-                                    <textarea rows="2" cols="55" style={{
+                                    <Textarea rows="2" cols="55" style={{
                                         // https://stackoverflow.com/a/658197
                                         'whiteSpace': "nowrap",
                                         'overflow': "scroll",
@@ -89,7 +90,7 @@ class WalletCreateBroadcast extends WalletCreate {
                                         'overflow': "-moz-scrollbars-horizontal",
                                         // https://stackoverflow.com/a/5271803
                                         'resize': 'horizontal',
-                                    }} onChange={this.handleTextChange}></textarea>
+                                    }} onChange={this.handleTextChange}></Textarea>
                                 </td>
                             </tr>
 
@@ -98,7 +99,7 @@ class WalletCreateBroadcast extends WalletCreate {
                                     fee:
                                 </td>
                                 <td>
-                                    <input type="text" size="8" value={this.state.fee} onChange={this.handleFeeChange} />
+                                    <TextInput type="text" size="8" value={this.state.fee} onChange={this.handleFeeChange} />
                                 </td>
                             </tr>
                         </tbody>
@@ -111,7 +112,7 @@ class WalletCreateBroadcast extends WalletCreate {
                     :
                     null}
 
-                    <input type="submit" value="submit" disabled={this.state.open_dialog_obj !== null} />
+                    <Button type="submit" value="submit" disabled={this.state.open_dialog_obj !== null} >Submit</Button>
                     {/* <input type="submit" value="submit" disabled={this.state.in_post} /> */}
                 </form>
             </>

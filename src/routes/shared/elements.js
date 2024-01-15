@@ -412,19 +412,19 @@ class ListElements {
     static getTableRowBalanceAddressHeader(asset_page = false) {
         // static getTableRowBalanceAddressHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <TableRow>
 
                 {asset_page ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>)
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>)
+                    (<TableHeaderCell>Address</TableHeaderCell>)
+                    : (<TableHeaderCell>Asset</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td> */}
+                {/* <TableHeaderCell>asset</TableHeaderCell> */}
 
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are satoshi divisible)</td> */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are divisible)</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>units</td>
-            </tr>
+                {/* <TableHeaderCell>quantity (decimals are satoshi divisible)</TableHeaderCell> */}
+                {/* <TableHeaderCell>quantity (decimals are divisible)</TableHeaderCell> */}
+                <TableHeaderCell>Quantity</TableHeaderCell>
+                <TableHeaderCell>Units</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowBalanceAddress(balance_row, index, asset_page = false) {
@@ -438,11 +438,11 @@ class ListElements {
         const is_reset = balance_row.resets && true;
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow key={index}>
 
                 {asset_page ?
-                    (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></td>)
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>)
+                    (<TableCell><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></TableCell>)
+                    : (<TableCell><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></TableCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td> */}
 
@@ -451,18 +451,18 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
 
                 {is_reset ?
-                    (<td style={{ padding: "0 1rem 0 0" }}>RESET</td>)
+                    (<TableCell>RESET</TableCell>)
                     :
-                    (<td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>)
+                    (<TableCell><code>{quantity_with_divisibility}</code></TableCell>)
                     // (<td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><code>{`${BigInt(balance_row.quantity_text)}`}</code></td>
+                <TableCell><code>{`${BigInt(balance_row.quantity_text)}`}</code></TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{`${BigInt(balance_row.quantity_text)}`}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -1189,7 +1189,7 @@ class OneElements {
             <main className={"flex flex-col w-full items-center justify-center"}>
                 {route_element}
 
-                <Divider />
+                {/*<Divider />*/}
                 <p className={"flex flex-row w-full items-center justify-center mt-6 space-x-3"}>
                     [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
 
