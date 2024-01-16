@@ -24,7 +24,7 @@ const MSG_TYPE = {
 
     30: 'broadcast',
     50: 'dividend',
-    110: 'destroy', // TODO
+    110: 'destroy',
 }
 
 // block_height should not be needed, v9.60 changed a message format instead of making a new message type
@@ -588,6 +588,34 @@ function decode_data(data_hex, block_height) {
             asset2_hex,
             asset2,
             asset2_name: asset_name(asset2),
+        };
+    }
+
+    if (id == 110) { //Destroy
+        let asset_hex = cp_msg.substring(0, 16);
+        let asset = parseInt(asset_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let q_hex = cp_msg.substring(0, 16);
+        let q = parseInt(q_hex, 16);
+        cp_msg = cp_msg.substring(16);
+        let text_hex = cp_msg;
+        let text = hex2a(text_hex);
+        text = decodeURIComponent(escape(text.substring(0)));
+        // out += wl('Asset (hex)', asset_hex);
+        // out += wl('Asset (int)', asset);
+        // out += wl('Asset', asset_name(asset));
+        // out += wl('Destr Amount (hex)', q_hex);
+        // out += wl('Destr Amount (sat)', q);
+        // out += wl('Text (hex)', text_hex);
+        // out += wl('Text', text);
+        msg_decoded = {
+            asset_hex,
+            asset,
+            asset_name: asset_name(asset),
+            q_hex,
+            q,
+            text_hex,
+            text,
         };
     }
 
