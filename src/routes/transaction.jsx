@@ -4,7 +4,6 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty, getBlockMessages, selectTransactionMessagesFromAll } from '../api';
 import { OneElements, ListElements } from './shared/elements';
-// import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
@@ -17,14 +16,9 @@ class Transaction extends React.Component {
             tx_hash: props.router.params.txHash,
             transaction_not_found: null,
             transaction: null,
-            // messages_maybe: [],
+
             messages: [],
             mempool: [],
-
-            // main_messages: [],
-            // main_message: null,
-            // mempool_transaction_messages: null, // can be 1 or multiple
-            // // mempool_transaction: null, // can be multiple
 
             updateable_current_state_obj: null,
 
@@ -127,7 +121,7 @@ class Transaction extends React.Component {
                 if (
                     cntrprty_decoded &&
                     updateable.includes(cntrprty_decoded.id)
-                    ) {
+                ) {
 
                     // store current dispenser info
                     if (cntrprty_decoded.id === 12) {
@@ -138,8 +132,6 @@ class Transaction extends React.Component {
                         catch (e) {
                             console.error(`transactions/dispensers error: ${e}`);
                         }
-                        // // for now, just store response directly
-                        // updateable_current_state_obj = updated_dispenser_tx_response;
                     }
 
                     // store current order info
@@ -151,8 +143,6 @@ class Transaction extends React.Component {
                         catch (e) {
                             console.error(`transactions/orders error: ${e}`);
                         }
-                        // // for now, just store response directly
-                        // updateable_current_state_obj = await getCntrprty(`/transactions/orders/${tx_hash}`);
                     }
 
                 }
@@ -212,7 +202,6 @@ class Transaction extends React.Component {
                 // ideally, this should return basic transaction info for non counterparty transactions
                 <p>no CNTRPRTY block transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
                 // <p>no CNTRPRTY transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
-                // <p>transaction not found</p>
             );
         }
         else if (this.state.mempool.length) {
@@ -227,9 +216,6 @@ class Transaction extends React.Component {
                             {ListElements.getTableRowMempoolTxHeader()}
                             {this.state.mempool.map((mempool_row, index) => {
                                 return ListElements.getTableRowMempoolTx(mempool_row, index);
-                                // const page = 'tx';
-                                // return ListElements.getTableRowMempool(mempool_row, index, page);
-                                // return ListElements.getTableRowMempool(mempool_row, index);
                             })}
                         </tbody>
                     </table>
@@ -265,13 +251,11 @@ class Transaction extends React.Component {
                 const reverse = [...data_url_cut].reverse(); // https://stackoverflow.com/a/57569141
 
                 olga_element = (
-                    // <>
                     <li>
                         <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
                         <img src={data_url_chain_fixed} />
                         <p>Image *written* in Bitcoin since 2015</p>
 
-                        {/* <br /> */}
                         <input
                             type="range"
                             min="0" max={data_url_chain.length}
@@ -285,17 +269,14 @@ class Transaction extends React.Component {
 
                         <br />
                         <br />
-                        {/* <img src={`${data_url_cut}=`} /> */}
                         <img src={`${data_url_cut}=`} style={{ width: "200px" }} />
                         <br />
                         reverse:{' '}
                         [{reverse.join('')}]
                         <br />
                         esrever:{' '}
-                        {/* not reverse: */}
                         [{notreverse.join('')}]
                     </li>
-                    // </>
                 );
             }
 
@@ -352,8 +333,8 @@ class Transaction extends React.Component {
                                         <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li>
                                     </ul>
                                     <ul>
-                                    <li>
-                                        {`${dispensers_row.satoshirate/dispensers_row.give_quantity}`} sats / unit</li>
+                                        <li>
+                                            {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit</li>
                                         {/* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#operators
                                         The / operator also works as expected with whole numbers — but operations with a fractional result will be truncated when used with a BigInt value — they won't return any fractional digits.
                                         // <li>{`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit</li> */}
@@ -398,10 +379,10 @@ class Transaction extends React.Component {
             ) {
 
                 const tip_blocks_row = this.state.updateable_current_state_obj.tip_blocks_row;
-                
+
                 // // only doing this kind of check for dispensers
                 // let tell_multiple = false;
-                
+
                 const give_issuance = this.state.updateable_current_state_obj.give_issuances_row[0];
                 let give_tell_reset = false;
                 if (give_issuance.resets) {
@@ -423,7 +404,7 @@ class Transaction extends React.Component {
 
                 const order_matches_rows = this.state.updateable_current_state_obj.order_matches_rows;
                 const order_matches_btcpays_rows = this.state.updateable_current_state_obj.btcpays_rows;
-                    
+
                 order_element = (
                     <>
                         <h3>Order:</h3>
@@ -457,7 +438,6 @@ class Transaction extends React.Component {
                                     {!get_tell_reset ?
                                         (
                                             <li>{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</li>
-                                            // <li>{quantityWithDivisibility(get_issuance.divisible, orders_row.get_remaining)} of {quantityWithDivisibility(get_issuance.divisible, orders_row.get_quantity)} remaining</li>
                                         )
                                         :
                                         (
@@ -564,10 +544,6 @@ class Transaction extends React.Component {
 
             transaction_element_contents = (
                 <>
-                    {/* {olga_element} */}
-
-                    {/* // at least for now, not using tables for single element result
-                // just using a simple ul for now */}
 
                     <ul>
 
@@ -584,19 +560,11 @@ class Transaction extends React.Component {
 
                                 <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
                                 {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
-                                {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
-                                {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
-                                {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
                                 <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
-                                {/* <li>block_index: {this.state.transaction.block_index}</li> */}
-                                {/* <li>block_time: {this.state.transaction.block_time}</li> */}
                                 <li>block_time_iso: {timeIsoFormat(this.state.transaction.block_time)}</li>
-                                {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
                                 <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
-                                {/* <li>source: {this.state.transaction.source}</li> */}
                                 {this.state.transaction.destination ? (
                                     <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
-                                    // <li>destination: {this.state.transaction.destination}</li>
                                 ) : null}
                             </ul>
 
@@ -606,12 +574,11 @@ class Transaction extends React.Component {
                             {/* TODO? remove the whole section for Bitcoin only transactions (like dispense)...??? */}
                             <p>Data:</p>
                             {(this.state.cntrprty_decoded && this.state.cntrprty_decoded.msg_decoded) ?
-                            // {this.state.cntrprty_decoded.msg_decoded ?
                                 (
                                     <ul>
                                         <li>hex: {this.state.cntrprty_hex}</li>
                                         <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
-                                        
+
                                         <li>decoded:
                                             <ul>
                                                 {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
@@ -622,7 +589,6 @@ class Transaction extends React.Component {
                                                 })}
                                             </ul>
                                         </li>
-                                        {/* <li>decoded: {JSON.stringify(this.state.cntrprty_decoded.msg_decoded)}</li> */}
 
                                     </ul>
                                 ) :
@@ -630,121 +596,19 @@ class Transaction extends React.Component {
                             }
                         </li>
 
-                        {/* <li>
-                        <h3>CNTRPRTY data:</h3>
-                        // CNTRPRTY:
-                        // {'{'}
-                        <table>
-                            <tbody>
-                                <tr style={{ padding: "0.25rem" }}>
-                                    <td style={{ padding: "0 1rem 0 0" }}>tx_index: {this.state.transaction.tx_index}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>supported: {this.state.transaction.supported}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>data_type: {this.state.transaction.data.type}</td>
-                                    // <td style={{ padding: "0 1rem 0 0" }}>CNTRPRTY: {'{'}data: {JSON.stringify(this.state.transaction.data.data)}{'}'}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>data: {JSON.stringify(this.state.transaction.data.data)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        // {'}'}
-                    </li> */}
-
-                        {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li> */}
-                        {/* <li>CNTRPRTY tx_index: {this.state.transaction.tx_index}</li> */}
-
                         <li>
-                            {/* <ul> */}
-                            {/* <li>source: {this.state.transaction.source}</li> */}
-                            {/* {this.state.transaction.destination ? (
-                                <li>destination: {this.state.transaction.destination}</li>
-                            ) : null} */}
-                            {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-
-                            {/* </ul> */}
-
-
-                            {/* {this.state.main_messages.length ? (
-                            <>
-                                <h3>Main messages:</h3>
-                                // <h3>Main message:</h3>
-
-                                <table>
-                                    <tbody>
-                                        {ListElements.getTableRowMessageTxHeader()}
-                                        {this.state.main_messages.map((message_row, index) => {
-                                            return ListElements.getTableRowMessageTx(message_row, index);
-                                            // const page = 'tx';
-                                            // return ListElements.getTableRowMessage(message_row, index, page);
-                                        })}
-                                        // {ListElements.getTableRowMessage(this.state.main_message, 0, 'tx')}
-                                    </tbody>
-                                </table>
-                            </>
-                        ) : null} */}
-
-
-                            {/* TODO ALL?! */}
-                            {/* <h3>"All" (WIP) messages:</h3> */}
-                            {/* <h3>All messages:</h3> */}
                             <p>Messages:</p>
-                            {/* <h3>Messages:</h3> */}
-
-                            {/* <ul>
-                            <li> */}
                             <table>
                                 <tbody>
                                     {ListElements.getTableRowMessageTxHeader()}
                                     {this.state.messages.map((message_row, index) => {
                                         return ListElements.getTableRowMessageTx(message_row, index);
-                                        // const page = 'tx';
-                                        // return ListElements.getTableRowMessage(message_row, index, page);
                                     })}
                                 </tbody>
                             </table>
-                            {/* </li> */}
-                            {/* <li>supported: {this.state.transaction.supported}</li>
-                            <li>data_type: {this.state.transaction.data.type}</li>
-                            <li>data: {JSON.stringify(this.state.transaction.data.data)}</li> */}
-                            {/* </ul> */}
                         </li>
 
-
-                        {/* <li>
-                        <h3>Other (possibly related) block messages:</h3>
-                        <table>
-                            <tbody>
-                                {this.state.messages_maybe.map((message_row, index) => {
-
-                                    // // basic filters here to remove what is more likely NOT part of this
-
-                                    // if (this.state.messages.includes(message_row)) {
-                                    //     return null;
-                                    // }
-
-                                    // const bindings = JSON.parse(message_row.bindings);
-                                    // if (bindings.tx_hash && bindings.tx_hash !== this.state.tx_hash) {
-                                    //     return null;
-                                    // }
-                                    // else if (bindings.event && bindings.event !== this.state.tx_hash) {
-                                    //     return null;
-                                    // }
-
-                                    const page = 'tx';
-                                    return ListElements.getTableRowMessage(message_row, index, page);
-                                })}
-                            </tbody>
-                        </table>
-                    </li> */}
-
                     </ul>
-
-                    {/* // <table>
-                //     <tbody>
-                //         {this.state.mempool_full.map((mempool_row, index) => {
-                //             // {this.state.mempool_grouped.map((mempool_row, index) => {
-                //             return ListElements.getTableRowMempool(mempool_row, index);
-                //         })}
-                //     </tbody>
-                // </table> */}
 
                 </>
             );
@@ -757,22 +621,11 @@ class Transaction extends React.Component {
                 {btcpay_element}
                 {broadcast_element}
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
-                {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                 {transaction_element_contents}
             </>
         );
 
         return OneElements.getFullPageForRouteElement(transaction_element);
-        // return (
-        //     <main style={{ padding: "1rem" }}>
-        //         {transaction_element}
-        //         <p>
-        //             [xcp.dev v1.0]
-        //             <br />
-        //             [counterparty-lib v9.59] in [Bitcoin Core v0.21]
-        //         </p>
-        //     </main>
-        // );
     }
 
 }
