@@ -121,7 +121,7 @@ class Transaction extends React.Component {
                 if (
                     cntrprty_decoded &&
                     updateable.includes(cntrprty_decoded.id)
-                    ) {
+                ) {
 
                     // store current dispenser info
                     if (cntrprty_decoded.id === 12) {
@@ -333,8 +333,8 @@ class Transaction extends React.Component {
                                         <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li>
                                     </ul>
                                     <ul>
-                                    <li>
-                                        {`${dispensers_row.satoshirate/dispensers_row.give_quantity}`} sats / unit</li>
+                                        <li>
+                                            {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit</li>
                                         {/* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#operators
                                         The / operator also works as expected with whole numbers — but operations with a fractional result will be truncated when used with a BigInt value — they won't return any fractional digits.
                                         // <li>{`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit</li> */}
@@ -379,10 +379,10 @@ class Transaction extends React.Component {
             ) {
 
                 const tip_blocks_row = this.state.updateable_current_state_obj.tip_blocks_row;
-                
+
                 // // only doing this kind of check for dispensers
                 // let tell_multiple = false;
-                
+
                 const give_issuance = this.state.updateable_current_state_obj.give_issuances_row[0];
                 let give_tell_reset = false;
                 if (give_issuance.resets) {
@@ -404,7 +404,7 @@ class Transaction extends React.Component {
 
                 const order_matches_rows = this.state.updateable_current_state_obj.order_matches_rows;
                 const order_matches_btcpays_rows = this.state.updateable_current_state_obj.btcpays_rows;
-                    
+
                 order_element = (
                     <>
                         <h3>Order:</h3>
@@ -578,7 +578,7 @@ class Transaction extends React.Component {
                                     <ul>
                                         <li>hex: {this.state.cntrprty_hex}</li>
                                         <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
-                                        
+
                                         <li>decoded:
                                             <ul>
                                                 {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
