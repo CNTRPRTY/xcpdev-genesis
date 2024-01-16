@@ -18,6 +18,10 @@ const MSG_TYPE = {
     20: 'issuance',
     21: 'issuance.subasset',
 
+    // TODO name can be improved
+    22: 'issuance.22',
+    23: 'issuance.subasset.23',
+
     30: 'broadcast',
     50: 'dividend',
     110: 'destroy', // TODO
@@ -361,9 +365,13 @@ function decode_data(data_hex, block_height) {
         };
     }
 
-    if (id == 20 && block_height >= 753500) { //Issuance, post change 2022
+    if (
+        (id == 20 && block_height >= 753500) // Issuance, post change 2022 (v9.60)
+        ||
+        id == 22 // Issuance message id updated at 819300 (v9.61)
+    ) {
         // editing msg_type
-        json_out.msg_type = `${json_out.msg_type}[753500:]`;
+        json_out.msg_type = (id == 22) ? json_out.msg_type : `${json_out.msg_type}[753500:]`;
 
         let asset_hex = cp_msg.substring(0, 16);
         let asset = parseInt(asset_hex, 16);
@@ -425,9 +433,13 @@ function decode_data(data_hex, block_height) {
         };
     }
 
-    if (id == 21 && block_height >= 753500) { //Issuance (Subasset), post change 2022
+    if (
+        (id == 21 && block_height >= 753500) // Issuance (Subasset), post change 2022 (v9.60)
+        ||
+        id == 23 // Issuance (Subasset) message id updated at 819300 (v9.61)
+    ) {
         // editing msg_type
-        json_out.msg_type = `${json_out.msg_type}[753500:]`;
+        json_out.msg_type = (id == 23) ? json_out.msg_type : `${json_out.msg_type}[753500:]`;
 
         let asset_hex = cp_msg.substring(0, 16);
         let asset = BigInt('0x' + asset_hex).toString(10);
@@ -440,7 +452,7 @@ function decode_data(data_hex, block_height) {
         cp_msg = cp_msg.substring(2);
         //remove call data, add lock and reset
         let lock_hex = cp_msg.substring(0, 2);
-        let lock = parseInt(lock_hex, 16);        
+        let lock = parseInt(lock_hex, 16);
         cp_msg = cp_msg.substring(2);
         let reset_hex = cp_msg.substring(0, 2);
         let reset = parseInt(reset_hex, 16);
