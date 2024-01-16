@@ -260,6 +260,7 @@ function decode_data(data_hex, block_height) {
         let status = parseInt(status_hex, 16);
         cp_msg = cp_msg.substring(2);
         let disp_addr_hex = cp_msg;
+        let disp_addr = hex_to_address(disp_addr_hex);
         // out += wl('Asset (hex)', asset_hex);
         // out += wl('Asset (int)', asset);
         // out += wl('Asset', asset_name(asset));
@@ -288,6 +289,7 @@ function decode_data(data_hex, block_height) {
             status_hex,
             status,
             disp_addr_hex,
+            disp_addr,
         };
     }
 
