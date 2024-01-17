@@ -69,7 +69,15 @@ class Home extends React.Component {
 
         // simple for now:
         if (to_navigate.length === 64) {
-            path_type = 'tx';
+            // simplest to allow both block_hash and tx_hash
+            const min_diff = '00000000'; // TODO double check
+            if (to_navigate.startsWith(min_diff)) {
+                path_type = 'block';
+            }
+            else {
+                path_type = 'tx';
+            }
+            // path_type = 'tx';
         }
         else if (Number.isInteger(Number(to_navigate))) {
             // simplest to allow both block_height and tx_index

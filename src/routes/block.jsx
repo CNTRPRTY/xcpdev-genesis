@@ -9,50 +9,72 @@ class Block extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            block: Number(props.router.params.block),
+            block: props.router.params.block,
+            // block: Number(props.router.params.block),
             block_not_found: null,
             block_row: null,
             messages: null,
         };
     }
 
-    async fetchData(block) {
+    async fetchData(_block) {
+
         let block_response = {};
-        try {
-            block_response = await getCntrprty(`/block/${block}`);
-        }
-        catch (e) {
-            block_response.messages = null;
-        }
-        // const block_response = await getCntrprty(`/block/${block}`);
 
-        // console.log(`rrr1`);
-        // console.log(JSON.stringify(block_response));
-        // console.log(`rrr2`);
+        // handle blockhash redirect
+        if (!Number.isInteger(Number(_block))) {
+            // assume is blockhash
+            try {
+                const blockindex_response = await getCntrprty(`/blockhash/${_block}`);
+                this.props.router.navigate(`/block/${blockindex_response.block_row.block_index}`, { replace: true });
+            }
+            catch (e) {
+                this.setState({
+                    block_not_found: true,
+                });
+            }
+        }
+        else {
 
-        if (!block_response.messages) {
-            this.setState({
-                block,
-                block_not_found: true,
-                block_row: null,
-                messages: null,
-            });
-        }
-        else if (!block_response.messages.length) {
-            this.setState({
-                block,
-                block_not_found: null,
-                block_row: block_response.block_row,
-                messages: [],
-            });
-        }
-        else { // block_response.messages.length
-            this.setState({
-                block,
-                block_not_found: null,
-                block_row: block_response.block_row,
-                messages: block_response.messages,
-            });
+            const block = Number(_block);
+
+            try {
+                block_response = await getCntrprty(`/block/${block}`);
+            }
+            catch (e) {
+                block_response.messages = null;
+            }
+            // const block_response = await getCntrprty(`/block/${block}`);
+
+            // console.log(`rrr1`);
+            // console.log(JSON.stringify(block_response));
+            // console.log(`rrr2`);
+
+            if (!block_response.messages) {
+                this.setState({
+                    block,
+                    block_not_found: true,
+                    block_row: null,
+                    messages: null,
+                });
+            }
+            else if (!block_response.messages.length) {
+                this.setState({
+                    block,
+                    block_not_found: null,
+                    block_row: block_response.block_row,
+                    messages: [],
+                });
+            }
+            else { // block_response.messages.length
+                this.setState({
+                    block,
+                    block_not_found: null,
+                    block_row: block_response.block_row,
+                    messages: block_response.messages,
+                });
+            }
+
         }
 
     }

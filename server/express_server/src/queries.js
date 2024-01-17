@@ -66,6 +66,24 @@ class Queries {
         }
     }
 
+    static async getBlocksRowByBlockHash(db, block_hash) {
+        const sql = `
+            SELECT *
+            FROM blocks
+            WHERE block_hash = $block_hash;
+        `;
+        const params_obj = {
+            $block_hash: block_hash,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        if (rows.length > 1) throw Error(`unexpected getBlocksRowByBlockHash:${block_hash}`);
+        else if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+
     static async getBlocksRowTip(db) {
         const sql = `
             SELECT *
