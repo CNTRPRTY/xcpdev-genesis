@@ -165,6 +165,22 @@ app.get('/block/:blockIndex', async (req, res) => {
     }
 });
 
+app.get('/blockhash/:blockHash', async (req, res) => {
+    // will just return the block_index for a subsequent client /block/:blockIndex request
+    const block_hash = req.params.blockHash;
+    const block_row = await Queries.getBlocksRowByBlockHash(db, block_hash);
+    if (!block_row) {
+        res.status(404).json({
+            error: '404 Not Found'
+        });
+    }
+    else {
+        res.status(200).json({
+            block_row,
+        });
+    }
+});
+
 // TODO? split in multiple api calls like asset
 app.get('/address/:address', async (req, res) => {
     const address = req.params.address;
