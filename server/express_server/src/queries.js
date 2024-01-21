@@ -899,6 +899,7 @@ class Queries {
         const sql = `
             SELECT
                 bp.*,
+                CAST(bp.btc_amount AS TEXT) AS btc_amount_text,
                 b.block_time
             FROM btcpays bp
             JOIN blocks b
