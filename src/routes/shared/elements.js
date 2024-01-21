@@ -993,7 +993,8 @@ class ListElements {
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{btcpays_row.status}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(true, BigInt(btcpays_row.btc_amount_text))}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${btcpays_row.block_index}`}>{btcpays_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(btcpays_row.block_time)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(btcpays_row)}</td> */}
