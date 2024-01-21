@@ -27,14 +27,28 @@ function hashSlice(hash) {
     return `${hash.slice(0, 5)}...${hash.slice(-5)}`
 }
 
-function quantityWithDivisibility(divisible, quantity_integer) {
+function quantityWithDivisibility(divisible, _quantity_integer) {
     // return divisible ? (quantity_integer / (10 ** 8)).toFixed(8) : quantity_integer;
 
     // now done based on string
     // TODO locale formatting
+
+    let quantity_integer;
+    let is_negative;
+    if (_quantity_integer < 0) {
+        // normalize to positive, then add negative back at last step
+        quantity_integer = -_quantity_integer;
+        is_negative = true;
+    }
+    else {
+        quantity_integer = _quantity_integer;
+        is_negative = false;
+    }
+
+    let to_return;
     if (divisible) {
         const quantity_integer_string_length = `${quantity_integer}`.length;
-        let to_return;
+        // let to_return;
         if (quantity_integer_string_length < 8) {
             to_return = `${quantity_integer}`;
             while (to_return.length < 8) {
@@ -48,11 +62,14 @@ function quantityWithDivisibility(divisible, quantity_integer) {
             const first_chars_left = `${quantity_integer}`.slice(0, quantity_integer_string_length - 8);
             to_return = `${first_chars_left ? first_chars_left : '0'}.${decimals}`;
         }
-        return to_return;
+        // return to_return;
     }
     else {
-        return `${quantity_integer}`;
+        to_return = `${quantity_integer}`;
+        // return `${quantity_integer}`;
     }
+
+    return `${is_negative ? '-' : ''}${to_return}`;
 }
 
 export {
