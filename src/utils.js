@@ -27,21 +27,25 @@ function hashSlice(hash) {
     return `${hash.slice(0, 5)}...${hash.slice(-5)}`
 }
 
-function quantityWithDivisibility(divisible, _quantity_integer) {
+function quantityWithDivisibility(divisible, quantity_bigint) {
     // return divisible ? (quantity_integer / (10 ** 8)).toFixed(8) : quantity_integer;
+
+    if (typeof quantity_bigint !== 'bigint') {
+        throw Error('quantityWithDivisibility param must be a bigint');
+    }
 
     // now done based on string
     // TODO locale formatting
 
     let quantity_integer;
     let is_negative;
-    if (_quantity_integer < 0) {
+    if (quantity_bigint < 0) {
         // normalize to positive, then add negative back at last step
-        quantity_integer = -_quantity_integer;
+        quantity_integer = -quantity_bigint;
         is_negative = true;
     }
     else {
-        quantity_integer = _quantity_integer;
+        quantity_integer = quantity_bigint;
         is_negative = false;
     }
 
