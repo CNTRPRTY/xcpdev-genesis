@@ -7,7 +7,7 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
-import { timeIsoFormat, quantityWithDivisibility } from '../utils';
+import { timeIsoFormat, quantityWithDivisibility, formatDivision } from '../utils';
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -334,10 +334,11 @@ class Transaction extends React.Component {
                                     </ul>
                                     <ul>
                                         <li>
-                                            {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit</li>
-                                        {/* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#operators
-                                        The / operator also works as expected with whole numbers — but operations with a fractional result will be truncated when used with a BigInt value — they won't return any fractional digits.
-                                        // <li>{`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit</li> */}
+                                            {`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)} sats / unit`}
+                                            {/* {`${(dispensers_row.satoshirate / dispensers_row.give_quantity).toFixed(10)}`} sats / unit */}
+                                            {/* {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit */}
+                                            {/* {`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit */}
+                                        </li>
                                     </ul>
                                 </>
                             )
