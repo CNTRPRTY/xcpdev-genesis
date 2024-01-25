@@ -38,6 +38,8 @@ async function getCntrprty(path) {
         }
     }
 
+    // TODO if you get here throw error (and show in frontend)
+
 }
 // async function getCntrprty(path) {
 //     // export async function getCntrprty(path) {
