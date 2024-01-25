@@ -12,38 +12,68 @@ async function sleep(ms) {
 }
 
 async function getCntrprty(path) {
-    // export async function getCntrprty(path) {
-    // export async function getCP(path) {
+
+    const url = `${api_host}${path}`;
     const options = {
         method: "GET",
     };
-    let res = {}; // TODO?
-    const res1 = await fetch(`${api_host}${path}`, options);
-    // const res = await fetch(`${api_host}${path}`, options);
-    // const res = await fetch(`${api_host}/mainnet/cp/${path}`, options);
-    if (!res1.ok) {
 
-        if (res1.status === 504) { // 504 Gateway Timeout
-
-            // try one more time
-            ////////////////////
-            // sleep a bit
-            await sleep(1000);
-            const res2 = await fetch(`${api_host}${path}`, options);
-            if (!res2.ok) throw Error(`2ndtry[${res2.status}:${res2.statusText}]`);
-            else res = res2;
-            ////////////////////
-
+    // exponential backoff
+    let thetry = 1;
+    const tries_max = 5;
+    while (thetry < tries_max) {
+        const res = await fetch(url, options);
+        if (res.status !== 202) {
+            if (!res.ok) {
+                throw Error(`[${res.status}:${res.statusText}]`);
+            }
+            else {
+                const data = await res.json();
+                return data.data;
+            }
         }
+        else { // is 202
+            await sleep(thetry * 1000);
+            thetry++;
+        }
+    }
 
-        throw Error(`[${res1.status}:${res1.statusText}]`);
-    }
-    else {
-        res = res1;
-    }
-    const data = await res.json();
-    return data.data;
+    // TODO if you get here throw error (and show in frontend)
+
 }
+// async function getCntrprty(path) {
+//     // export async function getCntrprty(path) {
+//     // export async function getCP(path) {
+//     const options = {
+//         method: "GET",
+//     };
+//     let res = {}; // TODO?
+//     const res1 = await fetch(`${api_host}${path}`, options);
+//     // const res = await fetch(`${api_host}${path}`, options);
+//     // const res = await fetch(`${api_host}/mainnet/cp/${path}`, options);
+//     if (!res1.ok) {
+
+//         if (res1.status === 504) { // 504 Gateway Timeout
+
+//             // try one more time
+//             ////////////////////
+//             // sleep a bit
+//             await sleep(1000);
+//             const res2 = await fetch(`${api_host}${path}`, options);
+//             if (!res2.ok) throw Error(`2ndtry[${res2.status}:${res2.statusText}]`);
+//             else res = res2;
+//             ////////////////////
+
+//         }
+
+//         throw Error(`[${res1.status}:${res1.statusText}]`);
+//     }
+//     else {
+//         res = res1;
+//     }
+//     const data = await res.json();
+//     return data.data;
+// }
 
 async function postLibApiProxyFetch(method, params) {
     // async function postLibApiProxy(method, params) {

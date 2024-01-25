@@ -181,21 +181,30 @@ app.get('/blockhash/:blockHash', async (req, res) => {
     }
 });
 
-// TODO? split in multiple api calls like asset
-app.get('/address/:address', async (req, res) => {
+app.get('/address/:address/dispensers', async (req, res) => {
     const address = req.params.address;
-    const tables = {};
-    // tables.balances = await TableQueries.getBalancesRowsByAddress(db, address);
-    tables.broadcasts = await Queries.getBroadcastsRowsByAddress(db, address);
-    tables.issuances = await Queries.getIssuancesRowsByAssetsByIssuer(db, address);
-
-    const dispensers = {};
-    dispensers.open = await Queries.getOpenDispensersRowsByAddress(db, address);
-    dispensers.closed = await Queries.getClosedDispensersRowsByAddress(db, address);
-    tables.dispensers = dispensers;
-
+    // const dispensers = {}; // changed to direct lists...
+    const dispensers_open = await Queries.getOpenDispensersRowsByAddress(db, address);
+    const dispensers_closed = await Queries.getClosedDispensersRowsByAddress(db, address);
     res.status(200).json({
-        tables,
+        dispensers_open,
+        dispensers_closed,
+    });
+});
+
+app.get('/address/:address/broadcasts', async (req, res) => {
+    const address = req.params.address;
+    const broadcasts = await Queries.getBroadcastsRowsByAddress(db, address);
+    res.status(200).json({
+        broadcasts,
+    });
+});
+
+app.get('/address/:address/issuances', async (req, res) => {
+    const address = req.params.address;
+    const issuances = await Queries.getIssuancesRowsByAssetsByIssuer(db, address);
+    res.status(200).json({
+        issuances,
     });
 });
 
