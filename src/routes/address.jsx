@@ -9,13 +9,16 @@ function baseState(address) {
         address,
 
         dispensers_loading: true,
+        dispensers_loading_error: null,
         dispensers_open: [],
         dispensers_closed: [],
 
         broadcasts_loading: true,
+        broadcasts_loading_error: null,
         broadcasts: [],
 
         issuances_loading: true,
+        issuances_loading_error: null,
         issuances: [],
     };
 }
@@ -32,24 +35,45 @@ class Address extends React.Component {
 
         // TODO? eventually the requests/setstate could be done in parallel async, but not favorable for the current backend
 
-        const dispensers_response = await getCntrprty(`/address/${address}/dispensers`);
-        this.setState({
-            dispensers_loading: false,
-            dispensers_open: dispensers_response.dispensers_open,
-            dispensers_closed: dispensers_response.dispensers_closed,
-        });
+        try {
+            const dispensers_response = await getCntrprty(`/address/${address}/dispensers`);
+            this.setState({
+                dispensers_loading: false,
+                dispensers_open: dispensers_response.dispensers_open,
+                dispensers_closed: dispensers_response.dispensers_closed,
+            });
+        }
+        catch (err) {
+            this.setState({
+                dispensers_loading_error: err,
+            });
+        }
 
-        const broadcasts_response = await getCntrprty(`/address/${address}/broadcasts`);
-        this.setState({
-            broadcasts_loading: false,
-            broadcasts: broadcasts_response.broadcasts,
-        });
+        try {
+            const broadcasts_response = await getCntrprty(`/address/${address}/broadcasts`);
+            this.setState({
+                broadcasts_loading: false,
+                broadcasts: broadcasts_response.broadcasts,
+            });
+        }
+        catch (err) {
+            this.setState({
+                broadcasts_loading_error: err,
+            });
+        }
 
-        const issuances_response = await getCntrprty(`/address/${address}/issuances`);
-        this.setState({
-            issuances_loading: false,
-            issuances: issuances_response.issuances,
-        });
+        try {
+            const issuances_response = await getCntrprty(`/address/${address}/issuances`);
+            this.setState({
+                issuances_loading: false,
+                issuances: issuances_response.issuances,
+            });
+        }
+        catch (err) {
+            this.setState({
+                issuances_loading_error: err,
+            });
+        }
 
     }
 
@@ -69,7 +93,10 @@ class Address extends React.Component {
     render() {
 
         let address_open_dispensers_element = (<p>loading...</p>);
-        if (!this.state.dispensers_loading) {
+        if (this.state.dispensers_loading_error) {
+            address_open_dispensers_element = (<p>{`${this.state.dispensers_loading_error}`}</p>);
+        }
+        else if (!this.state.dispensers_loading) {
             address_open_dispensers_element =
                 this.state.dispensers_open && this.state.dispensers_open.length ?
                     (
@@ -88,7 +115,10 @@ class Address extends React.Component {
         }
 
         let address_closed_dispensers_element = (<p>loading...</p>);
-        if (!this.state.dispensers_loading) {
+        if (this.state.dispensers_loading_error) {
+            address_closed_dispensers_element = (<p>{`${this.state.dispensers_loading_error}`}</p>);
+        }
+        else if (!this.state.dispensers_loading) {
             address_closed_dispensers_element =
                 this.state.dispensers_closed && this.state.dispensers_closed.length ?
                     (
@@ -107,7 +137,10 @@ class Address extends React.Component {
         }
 
         let address_broadcasts_element = (<p>loading...</p>);
-        if (!this.state.broadcasts_loading) {
+        if (this.state.broadcasts_loading_error) {
+            address_broadcasts_element = (<p>{`${this.state.broadcasts_loading_error}`}</p>);
+        }
+        else if (!this.state.broadcasts_loading) {
             address_broadcasts_element =
                 this.state.broadcasts && this.state.broadcasts.length ?
                     (
@@ -170,7 +203,10 @@ class Address extends React.Component {
         const issuer_page = true;
 
         let issuer_genesis_element = (<p>loading...</p>);
-        if (!this.state.issuances_loading) {
+        if (this.state.issuances_loading_error) {
+            issuer_genesis_element = (<p>{`${this.state.issuances_loading_error}`}</p>);
+        }
+        else if (!this.state.issuances_loading) {
             issuer_genesis_element =
                 issuer_genesis_issuances.length ?
                     (
@@ -189,7 +225,10 @@ class Address extends React.Component {
         }
 
         let issuer_transfer_element = (<p>loading...</p>);
-        if (!this.state.issuances_loading) {
+        if (this.state.issuances_loading_error) {
+            issuer_transfer_element = (<p>{`${this.state.issuances_loading_error}`}</p>);
+        }
+        else if (!this.state.issuances_loading) {
             issuer_transfer_element =
                 issuer_transfer_issuances.length ?
                     (

@@ -37,9 +37,8 @@ async function getCntrprty(path) {
             thetry++;
         }
     }
-
-    // TODO if you get here throw error (and show in frontend)
-
+    // max tries reached
+    throw Error(`[202:Accepted (limit reached, try again)]`);
 }
 // async function getCntrprty(path) {
 //     // export async function getCntrprty(path) {
