@@ -9,22 +9,26 @@ import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat, quantityWithDivisibility, formatDivision } from '../utils';
 
+function baseState(tx_hash) {
+    return {
+        tx_hash,
+        transaction_not_found: null,
+        transaction: null,
+
+        messages: [],
+        mempool: [],
+
+        updateable_current_state_obj: null,
+
+        olga_length: 0,
+        olga_chars_cut: 0,
+    };
+}
+
 class Transaction extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tx_hash: props.router.params.txHash,
-            transaction_not_found: null,
-            transaction: null,
-
-            messages: [],
-            mempool: [],
-
-            updateable_current_state_obj: null,
-
-            olga_length: 0,
-            olga_chars_cut: 0,
-        };
+        this.state = baseState(props.router.params.txHash);
         this.handleRange = this.handleRange.bind(this);
     }
 
@@ -54,6 +58,8 @@ class Transaction extends React.Component {
             }
         }
         else {
+
+            this.setState(baseState(tx_hash));
 
             try {
                 transaction_response = await getCntrprty(`/tx/${tx_hash}`);
