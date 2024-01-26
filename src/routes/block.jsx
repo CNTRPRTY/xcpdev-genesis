@@ -5,16 +5,20 @@ import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
 
+function baseState(block) {
+    return {
+        block,
+        // block: Number(props.router.params.block),
+        block_not_found: null,
+        block_row: null,
+        messages: null,
+    };
+}
+
 class Block extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            block: props.router.params.block,
-            // block: Number(props.router.params.block),
-            block_not_found: null,
-            block_row: null,
-            messages: null,
-        };
+        this.state = baseState(props.router.params.block);
     }
 
     async fetchData(_block) {
@@ -37,6 +41,8 @@ class Block extends React.Component {
         else {
 
             const block = Number(_block);
+
+            this.setState(baseState(block));
 
             try {
                 block_response = await getCntrprty(`/block/${block}`);
