@@ -8,31 +8,33 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from 'react-router-dom';
 import { timeIsoFormat, quantityWithDivisibility } from '../utils';
 
+function baseState(asset_name) {
+    return {
+        asset_name,
+        asset_btc_xcp: false,
+        asset_not_found: null,
+        asset_row: null,
+
+        tip_blocks_row: null,
+
+        issuances: [],
+        destructions: [],
+
+        subassets: [],
+
+        balances: [], // "holders"
+        // vs. escrows
+        orders: [],
+        dispensers: [],
+
+        orders_get: [], // orders this asset can be exchanged for
+    };
+}
+
 class Asset extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            asset_name: props.router.params.assetName,
-            asset_btc_xcp: false,
-            asset_not_found: null,
-            asset_row: null,
-
-            tip_blocks_row: null,
-
-            issuances: [],
-            destructions: [],
-
-            subassets: [],
-
-            balances: [], // "holders"
-            // vs. escrows
-            orders: [],
-            dispensers: [],
-
-            orders_get: [], // orders this asset can be exchanged for
-
-            // tables: null,
-        };
+        this.state = baseState(props.router.params.assetName);
     }
 
     async fetchData(asset_name) {
@@ -52,6 +54,8 @@ class Asset extends React.Component {
             }
         }
         else {
+
+            this.setState(baseState(asset_name));
 
             try {
                 asset_response = await getCntrprty(`/asset/${asset_name}`);
