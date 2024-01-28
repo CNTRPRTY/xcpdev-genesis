@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { timeIsoFormat, hashSlice, quantityWithDivisibility, formatDivision } from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
 
+import Search from './search';
+
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
 //     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
@@ -1140,19 +1142,30 @@ class OneElements {
     static getFullPageForRouteElement(route_element) {
         return (
             <main style={{ padding: "1rem" }}>
-                {route_element}
+
+                <h1>xcp.dev</h1>
+                <h3>Counterparty Bitcoin Tools</h3>
+                <nav
+                    style={{
+                    borderBottom: "solid 1px",
+                    paddingBottom: "1rem",
+                    }}
+                >
+                    <Link to="/">Data</Link> |{" "}
+                    <Link to="/wallet">Wallet</Link>
+                    <Search />
+                </nav>
+
+                <div style={{ padding: "1rem" }}>
+                    {route_element}
+                </div>
+
                 <p>
                     [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.3</a>]
                     <br />
-
                     [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
                     <br />
-                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}]
-                    <br /> */}
-
                     [Bitcoin Core v{BITCOIN_VERSION}]
-                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}] in [Bitcoin Core v{BITCOIN_VERSION}] */}
-                    {/* [counterparty-lib v9.59] in [Bitcoin Core v0.21.1] */}
                 </p>
             </main>
         );
