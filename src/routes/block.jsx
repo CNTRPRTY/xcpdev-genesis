@@ -101,10 +101,11 @@ class Block extends React.Component {
         // console.log(`rrrrrrrrr3`);
 
         // props.router.params.block
-        const updatedProp = Number(this.props.router.params.block);
-        // const updatedProp = this.props.router.params.block;
+        // const updatedProp = Number(this.props.router.params.block);
+        const updatedProp = this.props.router.params.block;
         // const updatedProp = this.props.block;
-        if (updatedProp !== Number(prevProps.router.params.block)) {
+        if (`${updatedProp}`.trim() !== `${prevProps.router.params.block}`.trim()) {
+            // if (updatedProp !== Number(prevProps.router.params.block)) {
             // if (updatedProp !== prevProps.router.params.block) {
             // if (updatedProp !== prevProps.block) {
             await this.fetchData(updatedProp);
