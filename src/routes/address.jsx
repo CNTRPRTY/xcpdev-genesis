@@ -78,15 +78,13 @@ class Address extends React.Component {
     }
 
     async componentDidMount() {
-        // not awaiting it
-        this.fetchData(this.state.address);
+        await this.fetchData(this.state.address);
     }
 
     async componentDidUpdate(prevProps) {
         const updatedProp = this.props.router.params.address;
         if (updatedProp !== prevProps.router.params.address) {
-            // not awaiting it
-            this.fetchData(updatedProp);
+            await this.fetchData(updatedProp);
         }
     }
 
