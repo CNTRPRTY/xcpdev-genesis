@@ -102,10 +102,10 @@ async function postLibApiProxyFetch(method, params) {
     // // return data.data;
 }
 
-async function getBlockMessages(block_height) {
-    // TODO cache by block_hash to avoid reorg logic
-    return getCntrprty(`/block/${block_height}`);
-}
+// async function getBlockMessages(block_height) {
+//     // TODO cache by block_hash to avoid reorg logic
+//     return getCntrprty(`/block/${block_height}`);
+// }
 
 // could cache messages by txid (and block) TODO? "block_messages" instead of messages_all?
 function selectTransactionMessagesFromAll(tx_hash, messages_all) {
@@ -187,6 +187,6 @@ export {
     getCntrprty,
     postLibApiProxyFetch,
     // postLibApiProxy,
-    getBlockMessages,
+    // getBlockMessages,
     selectTransactionMessagesFromAll,
 };

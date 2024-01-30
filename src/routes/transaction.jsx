@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { getCntrprty, getBlockMessages, selectTransactionMessagesFromAll } from '../api';
+import { getCntrprty, selectTransactionMessagesFromAll } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
@@ -92,7 +92,8 @@ class Transaction extends React.Component {
                 // get block messages data
                 let messages_all = [];
                 try {
-                    messages_all = (await getBlockMessages(transaction_response.transaction.block_index)).messages;
+                    messages_all = (await getCntrprty(`/block/${transaction_response.transaction.block_index}/messages`)).messages;
+                    // messages_all = (await getBlockMessages(transaction_response.transaction.block_index)).messages;
                 }
                 catch (e) {
                     console.error(`messages_all error: ${e}`);
