@@ -15,6 +15,7 @@ function baseState(block) {
         block_row_loading_error: null,
         block_row: null,
 
+        messages_block: null, // for ux, to not show a different block's messages in transitions
         messages_loading: true,
         messages_loading_error: null,
         messages: [],
@@ -77,6 +78,7 @@ class Block extends React.Component {
                 try {
                     const messages_response = await getCntrprty(`/block/${block}/messages`);
                     this.setState({
+                        messages_block: block,
                         messages_loading: false,
                         messages: messages_response.messages,
                     });
@@ -136,7 +138,12 @@ class Block extends React.Component {
         if (this.state.messages_loading_error) {
             block_messages_element = (<p>{`${this.state.messages_loading_error}`}</p>);
         }
-        else if (!this.state.messages_loading) {
+        else if (
+            !this.state.messages_loading
+            &&
+            this.state.block === this.state.messages_block
+        ) {
+            // else if (!this.state.messages_loading) {
 
             if (this.state.messages.length) {
                 block_messages_element_header = (<h3>Messages ({this.state.messages.length}):</h3>);
