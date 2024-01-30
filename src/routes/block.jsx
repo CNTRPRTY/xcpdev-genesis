@@ -160,16 +160,20 @@ class Block extends React.Component {
         }
 
 
-        const previous_page_column = (
-            <td>
-                <Link to={`/block/${this.state.block - 1}`}>{'<'}previous</Link>{' '}
-            </td>
-        );
-        const next_page_column = (
-            <td>
-                <Link to={`/block/${this.state.block + 1}`}>next{'>'}</Link>{' '}
-            </td>
-        );
+        const previous_page_column = !this.state.block_row_loading ?
+            (
+                <td>
+                    <Link to={`/block/${this.state.block - 1}`}>{'<'}previous</Link>{' '}
+                </td>
+            )
+            : (<td>{`<previous `}</td>);
+        const next_page_column = !this.state.block_row_loading ?
+            (
+                <td>
+                    <Link to={`/block/${this.state.block + 1}`}>next{'>'}</Link>{' '}
+                </td>
+            )
+            : (<td>{`next>`}</td>);
         const change_pages_element = (
             <table>
                 <tbody>
