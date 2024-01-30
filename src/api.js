@@ -21,7 +21,7 @@ async function getCntrprty(path) {
     // exponential backoff
     let thetry = 1;
     const tries_max = 5;
-    while (thetry < tries_max) {
+    while (thetry <= tries_max) {
         const res = await fetch(url, options);
         if (res.status !== 202) {
             if (!res.ok) {
@@ -33,7 +33,16 @@ async function getCntrprty(path) {
             }
         }
         else { // is 202
-            await sleep(thetry * 1000);
+
+            // first tries faster
+            if (thetry <= Math.ceil(tries_max / 2)) {
+                await sleep(thetry * 500);
+            }
+            else {
+                await sleep(thetry * 1000);
+            }
+
+            // await sleep(thetry * 1000);
             thetry++;
         }
     }
