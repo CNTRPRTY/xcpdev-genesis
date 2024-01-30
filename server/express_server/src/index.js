@@ -157,12 +157,20 @@ app.get('/block/:blockIndex', async (req, res) => {
         });
     }
     else {
-        const messages = await Queries.getMessagesRowsByBlock(db, block_index);
+        // const messages = await Queries.getMessagesRowsByBlock(db, block_index);
         res.status(200).json({
             block_row,
-            messages,
+            // messages,
         });
     }
+});
+
+app.get('/block/:blockIndex/messages', async (req, res) => {
+    const block_index = req.params.blockIndex;
+    const messages = await Queries.getMessagesRowsByBlock(db, block_index);
+    res.status(200).json({
+        messages,
+    });
 });
 
 app.get('/blockhash/:blockHash', async (req, res) => {
