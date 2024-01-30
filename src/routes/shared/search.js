@@ -101,7 +101,8 @@ class Search extends React.Component {
     const placeholder = " block / tx / address / asset";
     // const placeholder = " block / tx_index / tx_hash / address / asset";
 
-    const placeholder_size = placeholder.length - 10;
+    const placeholder_size = placeholder.length - 8;
+    // const placeholder_size = placeholder.length - 10;
     // const placeholder_size = placeholder.length - 12;
 
     return (
