@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat, quantityWithDivisibility, formatDivision } from '../utils';
-import Olga from './specialtx/olga';
+import Olga from './transaction_component/olga';
 
 function baseState(tx_hash) {
     return {
