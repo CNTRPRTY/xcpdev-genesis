@@ -9,6 +9,8 @@ import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat, quantityWithDivisibility, formatDivision } from '../utils';
 import Olga from './transaction_component/olga';
+import TransactionStatic from './transaction_component/transaction_static';
+import TransactionUpdateable from './transaction_component/transaction_updateable';
 
 function baseState(tx_hash) {
     return {
@@ -18,8 +20,6 @@ function baseState(tx_hash) {
 
         messages: [],
         mempool: [],
-
-        updateable_current_state_obj: null,
     };
 }
 
@@ -91,44 +91,6 @@ class Transaction extends React.Component {
                 // TODO quick hack
                 transaction_response.messages = selectTransactionMessagesFromAll(tx_hash, messages_all);
 
-
-                // updateable tx types
-                const updateable = [
-                    12, // dispenser
-                    10, // order
-                ];
-
-                let updateable_current_state_obj = null;
-                if (
-                    cntrprty_decoded &&
-                    updateable.includes(cntrprty_decoded.id)
-                ) {
-
-                    // store current dispenser info
-                    if (cntrprty_decoded.id === 12) {
-                        try {
-                            // for now, just store response directly
-                            updateable_current_state_obj = await getCntrprty(`/transactions/dispensers/${tx_hash}`);
-                        }
-                        catch (e) {
-                            console.error(`transactions/dispensers error: ${e}`);
-                        }
-                    }
-
-                    // store current order info
-                    if (cntrprty_decoded.id === 10) {
-                        try {
-                            // for now, just store response directly
-                            updateable_current_state_obj = await getCntrprty(`/transactions/orders/${tx_hash}`);
-                        }
-                        catch (e) {
-                            console.error(`transactions/orders error: ${e}`);
-                        }
-                    }
-
-                }
-
-
                 this.setState({
                     tx_hash,
                     transaction: transaction_response.transaction,
@@ -137,8 +99,6 @@ class Transaction extends React.Component {
                     cntrprty_decoded,
 
                     messages: transaction_response.messages,
-
-                    updateable_current_state_obj,
                 });
             }
             else { // transaction_response.mempool.length
@@ -153,27 +113,19 @@ class Transaction extends React.Component {
     }
 
     async componentDidMount() {
-        // not awaiting it
-        this.fetchData(this.state.tx_hash);
-        // await this.fetchData(this.state.tx_hash);
+        await this.fetchData(this.state.tx_hash);
     }
 
     async componentDidUpdate(prevProps) {
         const updatedProp = this.props.router.params.txHash;
         if (updatedProp !== prevProps.router.params.txHash) {
-            // not awaiting it
-            this.fetchData(updatedProp);
+            await this.fetchData(updatedProp);
         }
     }
 
     render() {
 
-        let dispenser_element = null;
-        let order_element = null;
-
-        let btcpay_element = null;
-
-        let broadcast_element = null;
+        let header_transaction_element = null;
 
         let transaction_element_contents = (<p>loading...</p>);
         if (this.state.transaction_not_found) {
@@ -212,266 +164,16 @@ class Transaction extends React.Component {
                 olga_element = <Olga olga_message={only_message_in_block} />;
             }
 
+            // is header transaction component?
+            const updateable = TransactionUpdateable.tx_type_ids;
+            const therest = TransactionStatic.tx_type_ids;
 
-            // is updateable: dispenser
-            if (
-                this.state.cntrprty_decoded.id === 12 &&
-                this.state.updateable_current_state_obj
-            ) {
-
-                const tip_blocks_row = this.state.updateable_current_state_obj.tip_blocks_row;
-                let tell_multiple = false;
-                if (this.state.updateable_current_state_obj.issuances_row.length > 1) {
-                    tell_multiple = true;
-                }
-                const asset_issuance = this.state.updateable_current_state_obj.issuances_row[0];
-                let tell_reset = false;
-                if (asset_issuance.resets) {
-                    tell_reset = true;
-                }
-                const dispensers_row = this.state.updateable_current_state_obj.dispensers_row;
-
-                // status (integer): The state of the dispenser. 0 for open, 1 for open using open_address, 10 for closed.
-                let dispenser_status;
-                if (dispensers_row.status === 0) {
-                    dispenser_status = 'open';
-                }
-                else if (dispensers_row.status === 1) {
-                    dispenser_status = 'open_address';
-                }
-                else if (dispensers_row.status === 10) {
-                    dispenser_status = 'closed';
-                }
-
-                const dispenses_rows = this.state.updateable_current_state_obj.dispenses_rows;
-
-                dispenser_element = (
-                    <>
-                        <h3>Dispenser:</h3>
-                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
-                        <ul>
-                            <li>status: {dispenser_status}</li>
-                        </ul>
-                        <ul>
-                            <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
-                            <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
-                        </ul>
-
-                        {!tell_reset ?
-                            (
-                                <>
-                                    <ul>
-                                        <li>{`${BigInt(dispensers_row.satoshirate_text)}`} sats for {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}</li>
-                                        <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li>
-                                    </ul>
-                                    <ul>
-                                        <li>
-                                            {`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)} sats / unit`}
-                                            {/* {`${(dispensers_row.satoshirate / dispensers_row.give_quantity).toFixed(10)}`} sats / unit */}
-                                            {/* {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit */}
-                                            {/* {`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit */}
-                                        </li>
-                                    </ul>
-                                </>
-                            )
-                            :
-                            (
-                                <ul>
-                                    <li>v9.60 RESET ASSET</li>
-                                </ul>
-                            )
-                        }
-
-                        {dispenses_rows.length ?
-                            (
-                                <>
-                                    <p>Dispenses:</p>
-                                    <table>
-                                        <tbody>
-                                            {ListElements.getTableRowDispensesHeader()}
-                                            {dispenses_rows.map((dispenses_row, index) => {
-                                                return ListElements.getTableRowDispenses(dispenses_row, index, asset_issuance);
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </>
-                            )
-                            : null
-                        }
-
-                    </>
-                );
-
+            if (updateable.includes(this.state.cntrprty_decoded.id)) {
+                header_transaction_element = <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
             }
-
-
-            // is updateable: order
-            if (
-                this.state.cntrprty_decoded.id === 10 &&
-                this.state.updateable_current_state_obj
-            ) {
-
-                const tip_blocks_row = this.state.updateable_current_state_obj.tip_blocks_row;
-
-                // // only doing this kind of check for dispensers
-                // let tell_multiple = false;
-
-                const give_issuance = this.state.updateable_current_state_obj.give_issuances_row[0];
-                let give_tell_reset = false;
-                if (give_issuance.resets) {
-                    give_tell_reset = true;
-                }
-
-                const get_issuance = this.state.updateable_current_state_obj.get_issuances_row[0];
-                let get_tell_reset = false;
-                if (get_issuance.resets) {
-                    get_tell_reset = true;
-                }
-
-                const orders_row = this.state.updateable_current_state_obj.orders_row;
-
-                const expire_block_message = (orders_row.expire_index > tip_blocks_row.block_index) ?
-                    `expire block: ${orders_row.expire_index} (in ${orders_row.expire_index - tip_blocks_row.block_index} blocks)`
-                    :
-                    `expired in block: ${orders_row.expire_index}`;
-
-                const order_matches_rows = this.state.updateable_current_state_obj.order_matches_rows;
-                const order_matches_btcpays_rows = this.state.updateable_current_state_obj.btcpays_rows;
-
-                order_element = (
-                    <>
-                        <h3>Order:</h3>
-                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
-                        <ul>
-                            <li>status: {orders_row.status}</li>
-                        </ul>
-
-                        <ul>
-                            <li>give (asset escrowed):
-                                <ul>
-                                    <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
-                                    {!give_tell_reset ?
-                                        (
-                                            <li>{quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_remaining_text))} of {quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_quantity_text))} remaining</li>
-                                        )
-                                        :
-                                        (
-                                            <ul>
-                                                <li>v9.60 RESET ASSET</li>
-                                            </ul>
-                                        )
-                                    }
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>get (asset requested in exchange):
-                                <ul>
-                                    <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
-                                    {!get_tell_reset ?
-                                        (
-                                            <li>{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</li>
-                                        )
-                                        :
-                                        (
-                                            <ul>
-                                                <li>v9.60 RESET ASSET</li>
-                                            </ul>
-                                        )
-                                    }
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <ul>
-                            <li>{expire_block_message}</li>
-                            {orders_row.fee_required ?
-                                (
-                                    <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
-                                )
-                                : null
-                            }
-                        </ul>
-
-                        {order_matches_rows.length ?
-                            (
-                                <>
-                                    <p>Order matches:</p>
-                                    <table>
-                                        <tbody>
-                                            {ListElements.getTableRowOrderMatchesHeader()}
-                                            {order_matches_rows.map((order_matches_row, index) => {
-                                                const order_metadata = {
-                                                    tx_hash: orders_row.tx_hash,
-                                                    give_issuance: give_issuance,
-                                                    get_issuance: get_issuance,
-                                                }
-                                                return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
-                                            })}
-                                        </tbody>
-                                    </table>
-                                    {/* !nested terniary! */}
-                                    {order_matches_btcpays_rows.length ?
-                                        (
-                                            <>
-                                                <p>BTC pays:</p>
-                                                <table>
-                                                    <tbody>
-                                                        {ListElements.getTableRowOrderMatchesBtcpaysHeader()}
-                                                        {order_matches_btcpays_rows.map((btcpays_row, index) => {
-                                                            return ListElements.getTableRowOrderMatchesBtcpays(btcpays_row, index);
-                                                        })}
-                                                    </tbody>
-                                                </table>
-                                            </>
-                                        )
-                                        : null
-                                    }
-                                </>
-                            )
-                            : null
-                        }
-
-                    </>
-                );
-
-            }
-
-
-            // is btcpay (trying handling based only on cntrprty_decoded)
-            if (this.state.cntrprty_decoded.id === 11) {
-                const order_0 = this.state.cntrprty_decoded.msg_decoded.order_0;
-                const order_1 = this.state.cntrprty_decoded.msg_decoded.order_1;
-                btcpay_element = (
-                    <>
-                        <h3>BTC pay:</h3>
-                        <ul>
-                            <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
-                            <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
-                        </ul>
-                    </>
-                );
-            }
-
-
-            // is broadcast
-            if (this.state.cntrprty_decoded.id === 30) {
-                const text = this.state.cntrprty_decoded.msg_decoded.text;
-                broadcast_element = (
-                    <>
-                        <h3>Broadcast:</h3>
-                        <textarea rows="2" cols="55" style={{
-                            // https://stackoverflow.com/a/658197
-                            'whiteSpace': "nowrap",
-                            'overflow': "scroll",
-                            'overflowY': "hidden",
-                            'overflowX': "scroll",
-                            'overflow': "-moz-scrollbars-horizontal",
-                            // https://stackoverflow.com/a/5271803
-                            'resize': 'horizontal',
-                        }} value={text} readOnly />
-                    </>
-                );
+            
+            if (therest.includes(this.state.cntrprty_decoded.id)) {
+                header_transaction_element = <TransactionStatic decoded_obj={this.state.cntrprty_decoded} />
             }
 
 
@@ -549,10 +251,7 @@ class Transaction extends React.Component {
 
         const transaction_element = (
             <>
-                {dispenser_element}
-                {order_element}
-                {btcpay_element}
-                {broadcast_element}
+                {header_transaction_element}
                 <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
                 {transaction_element_contents}
             </>
