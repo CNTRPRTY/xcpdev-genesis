@@ -261,7 +261,7 @@ app.get('/asset/:assetName/issuances', async (req, res) => {
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const issuances = await Queries.getIssuancesRowsByAssetName(db, asset_name);
     res.status(200).json({
-        tip_blocks_row, // for more certainty (but still not perfect)
+        tip_blocks_row, // included in all asset page calls for client side verification (but still not perfect)
         issuances,
     });
 });
@@ -271,15 +271,17 @@ app.get('/asset/:assetName/destructions', async (req, res) => {
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const destructions = await Queries.getDestructionsRowsByAssetName(db, asset_name);
     res.status(200).json({
-        tip_blocks_row, // for more certainty (but still not perfect)
+        tip_blocks_row,
         destructions,
     });
 });
 
 app.get('/asset/:assetName/balances', async (req, res) => {
     const asset_name = req.params.assetName;
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const balances = await Queries.getBalancesRowsByAssetName(db, asset_name);
     res.status(200).json({
+        tip_blocks_row,
         balances,
     });
 });
