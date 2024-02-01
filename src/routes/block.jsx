@@ -59,9 +59,6 @@ class Block extends React.Component {
                 });
             }
             catch (err) {
-
-                // TODO: not found would get here, right?
-
                 this.setState({
                     block_row_loading_error: err,
                     // block_not_found: true,
@@ -195,7 +192,8 @@ class Block extends React.Component {
 
         const block_element = (
             <>
-                <h2>Bitcoin block: {this.state.block}</h2>
+                <h2>Block: {this.state.block}</h2>
+                {/* <h2>Bitcoin block: {this.state.block}</h2> */}
 
                 {change_pages_element}
                 {block_metadata_element}
