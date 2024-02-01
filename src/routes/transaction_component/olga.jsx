@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-function getOlgaDataUrl(olga_message) {
-    const bindings = JSON.parse(olga_message.bindings);
-    const broadcast_text_raw = bindings.text;
-    const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
+function getOlgaDataUrl(olga_text) {
+    const data_url_chain = `${'data:image'}${olga_text.split('data:image')[1]}`;
     return data_url_chain;
 }
 
@@ -13,12 +11,12 @@ class Olga extends React.Component {
     constructor(props) {
         super(props);
 
-        const olga_message = props.olga_message;
-        const data_url_chain = getOlgaDataUrl(olga_message);
+        const olga_text = props.olga_text;
+        const data_url_chain = getOlgaDataUrl(olga_text);
         const olga_length = data_url_chain.length;
 
         this.state = {
-            olga_message,
+            olga_text,
             olga_length,
             olga_chars_cut: 0,
         };
@@ -34,16 +32,8 @@ class Olga extends React.Component {
     }
 
     render() {
-
-        // is olga
-
-        const only_message_in_block = this.state.olga_message;
-        // const only_message_in_block = this.state.messages[0];
         
-        const data_url_chain = getOlgaDataUrl(only_message_in_block);
-        // const bindings = JSON.parse(only_message_in_block.bindings);
-        // const broadcast_text_raw = bindings.text;
-        // const data_url_chain = `${'data:image'}${broadcast_text_raw.split('data:image')[1]}`;
+        const data_url_chain = getOlgaDataUrl(this.state.olga_text);
 
         let data_url_cut; // making copies of both
 
@@ -62,8 +52,8 @@ class Olga extends React.Component {
         const reverse = [...data_url_cut].reverse(); // https://stackoverflow.com/a/57569141
 
         const olga_element = (
-            <li>
-                <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
+            <>
+                <h3>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></h3>
                 <img src={data_url_chain_fixed} />
                 <p>Image *written* in Bitcoin since 2015</p>
 
@@ -87,7 +77,7 @@ class Olga extends React.Component {
                 <br />
                 esrever:{' '}
                 [{notreverse.join('')}]
-            </li>
+            </>
         );
 
         return olga_element;

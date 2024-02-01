@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import Olga from './olga';
 
 class TransactionStatic extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            tx_hash: props.tx_hash,
             decoded_obj: props.decoded_obj, // TODO does not apply to dispenses (which could be mixed with any other transaction?)
         };
     }
@@ -39,8 +41,18 @@ class TransactionStatic extends React.Component {
             // if (this.state.cntrprty_decoded.id === 30) {
             const text = this.state.decoded_obj.msg_decoded.text;
             // const text = this.state.cntrprty_decoded.msg_decoded.text;
+
+            // is olga?
+            let olga_element = null;
+            if (this.state.tx_hash === Olga.broadcast_tx_hash) {
+                olga_element = <Olga olga_text={text} />;
+            }
+
             broadcast_element = (
                 <>
+                    {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
+                    {olga_element}
+
                     <h3>Broadcast:</h3>
                     <textarea rows="2" cols="55" style={{
                         // https://stackoverflow.com/a/658197

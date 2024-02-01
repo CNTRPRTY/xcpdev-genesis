@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat, quantityWithDivisibility, formatDivision } from '../utils';
-import Olga from './transaction_component/olga';
 import TransactionStatic from './transaction_component/transaction_static';
 import TransactionUpdateable from './transaction_component/transaction_updateable';
 
@@ -157,13 +156,6 @@ class Transaction extends React.Component {
 
         else if (this.state.transaction) {
 
-            // is olga?
-            let olga_element = null;
-            if (this.state.transaction.tx_hash === Olga.broadcast_tx_hash) {
-                const only_message_in_block = this.state.messages[0];
-                olga_element = <Olga olga_message={only_message_in_block} />;
-            }
-
             // is header transaction component?
             const updateable = TransactionUpdateable.tx_type_ids;
             const therest = TransactionStatic.tx_type_ids;
@@ -173,7 +165,7 @@ class Transaction extends React.Component {
             }
             
             if (therest.includes(this.state.cntrprty_decoded.id)) {
-                header_transaction_element = <TransactionStatic decoded_obj={this.state.cntrprty_decoded} />
+                header_transaction_element = <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
             }
 
 
@@ -181,9 +173,6 @@ class Transaction extends React.Component {
                 <>
 
                     <ul>
-
-                        {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
-                        {olga_element}
 
                         <li>
 
