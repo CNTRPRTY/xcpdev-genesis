@@ -226,7 +226,7 @@ app.get('/address/:address/balances', async (req, res) => {
     });
 });
 
-// TODO remove 'tables' from here
+// TODO remove 'tables' from here... and tip_blocks_row
 app.get('/asset/:assetName', async (req, res) => {
     const asset_name = req.params.assetName;
     const asset_row = await Queries.getAssetsRowByAssetName(db, asset_name);
@@ -258,18 +258,20 @@ app.get('/asset/:assetName', async (req, res) => {
 
 app.get('/asset/:assetName/issuances', async (req, res) => {
     const asset_name = req.params.assetName;
-    let issuances = [];
-    issuances = await Queries.getIssuancesRowsByAssetName(db, asset_name);
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    const issuances = await Queries.getIssuancesRowsByAssetName(db, asset_name);
     res.status(200).json({
+        tip_blocks_row, // for more certainty (but still not perfect)
         issuances,
     });
 });
 
 app.get('/asset/:assetName/destructions', async (req, res) => {
     const asset_name = req.params.assetName;
-    let destructions = [];
-    destructions = await Queries.getDestructionsRowsByAssetName(db, asset_name);
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    const destructions = await Queries.getDestructionsRowsByAssetName(db, asset_name);
     res.status(200).json({
+        tip_blocks_row, // for more certainty (but still not perfect)
         destructions,
     });
 });
