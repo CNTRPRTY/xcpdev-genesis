@@ -13,6 +13,7 @@ const MSG_TYPE = {
     10: 'order',
     11: 'btcpay',
     12: 'dispenser',
+    13: 'dispense', // lib added, not in tx
 
     // issuance message unpacking changed in v9.60 (activated in block 753500) [https://github.com/CounterpartyXCP/cips/issues/66]
     20: 'issuance',
@@ -252,6 +253,10 @@ function decode_data(data_hex, block_height) {
             disp_addr_hex,
             disp_addr,
         };
+    }
+
+    if (id == 13) { //Dispense
+        msg_decoded = {};
     }
 
     if (id == 20 && block_height < 753500) { //Issuance, pre change 2022
