@@ -92,12 +92,20 @@ class Asset extends React.Component {
             }
             else {
 
-                // first add duplicate data handling flags
-                let last_description = asset_response.tables.issuances[0].description;
-                for (let i = 0; i < asset_response.tables.issuances.length; i++) {
-                    const issuance = asset_response.tables.issuances[i];
+                // first step in transition
+                const issuances_response = await getCntrprty(`/asset/${asset_name}/issuances`);
+                const destructions_response = await getCntrprty(`/asset/${asset_name}/destructions`);
 
-                    issuance.display_source = false; // only display for the first (is a genesis transfer)                    
+
+                // first add duplicate data handling flags
+                let last_description = issuances_response.issuances[0].description;
+                for (let i = 0; i < issuances_response.issuances.length; i++) {
+                    const issuance = issuances_response.issuances[i];
+                    // let last_description = asset_response.tables.issuances[0].description;
+                    // for (let i = 0; i < asset_response.tables.issuances.length; i++) {
+                    //     const issuance = asset_response.tables.issuances[i];
+
+                    issuance.display_source = false; // only display for the first (is a genesis transfer)
                     if (i === 0) { // TODO should be FIRST VALID...
                         if (issuance.source !== issuance.issuer) issuance.display_source = true;
                     }
@@ -116,8 +124,10 @@ class Asset extends React.Component {
                     asset_not_found: null,
                     asset_row: asset_response.asset_row,
                     tip_blocks_row: asset_response.tip_blocks_row,
-                    issuances: asset_response.tables.issuances,
-                    destructions: asset_response.tables.destructions,
+                    issuances: issuances_response.issuances,
+                    destructions: destructions_response.destructions,
+                    // issuances: asset_response.tables.issuances,
+                    // destructions: asset_response.tables.destructions,
                 });
 
                 // check subassets
