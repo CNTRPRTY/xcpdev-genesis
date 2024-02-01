@@ -254,7 +254,6 @@ class Address extends React.Component {
 
                 <h3>Balances:</h3>
                 <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
-                {/* <p><Link to={`/wallet#${this.state.address}`}>Wallet: {this.state.address}</Link></p> */}
 
                 <h3>Broadcasts:</h3>
                 {address_broadcasts_element}

@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat } from '../utils';
-import TransactionStatic from './transaction_component/transaction_static';
-import TransactionUpdateable from './transaction_component/transaction_updateable';
+import TransactionStatic from './transaction_header/header_static';
+import TransactionUpdateable from './transaction_header/header_updateable';
 
 function baseState(tx_hash) {
     return {
@@ -218,11 +218,11 @@ class Transaction extends React.Component {
             const therest = TransactionStatic.tx_type_ids;
 
             if (updateable.includes(this.state.cntrprty_decoded.id)) {
-                header_transaction_element = <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
+                header_transaction_element = <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
             }
 
             if (therest.includes(this.state.cntrprty_decoded.id)) {
-                header_transaction_element = <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
+                header_transaction_element = <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
             }
 
 
