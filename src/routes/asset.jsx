@@ -276,12 +276,12 @@ class Asset extends React.Component {
             const genesis_issuance = all_issuance_events.find((obj) => obj.status === 'valid');
             const lock_issuance = all_issuance_events.find((obj) => (obj.status === 'valid' && obj.locked));
 
-            let total_integer = BigInt(0);
+            let total_integer = BigInt(0); // ALWAYS use BigInt...
             // let total_integer = 0;
             for (const issuance_event of all_issuance_events) {
                 if (issuance_event.status === 'valid') {
                     if (issuance_event.issuance_event_type === 'issuance') {
-                        total_integer += BigInt(issuance_event.quantity_text);
+                        total_integer += BigInt(issuance_event.quantity_text); // ... AND ALWAYS use _text variant (except for divisions that don't work well with BigInt, use util.formatDivision)
                         // total_integer += BigInt(issuance_event.quantity);
                         // total_integer += issuance_event.quantity;
                     }
@@ -291,7 +291,7 @@ class Asset extends React.Component {
                 }
             }
 
-            const quantity_with_divisibility = quantityWithDivisibility(genesis_issuance.divisible, total_integer);
+            const quantity_with_divisibility = quantityWithDivisibility(genesis_issuance.divisible, total_integer); // ALWAYS use quantityWithDivisibility when divisibility is relevant (not talking about units)
             // const quantity_with_divisibility = genesis_issuance.divisible ? (total_integer / (10 ** 8)).toFixed(8) : total_integer;
 
             const issuance_events_message = this.state.destructions.length ?
