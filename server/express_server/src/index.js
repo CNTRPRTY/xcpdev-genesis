@@ -200,6 +200,22 @@ app.get('/address/:address/dispensers', async (req, res) => {
     });
 });
 
+app.get('/address/:address/dispensers/open', async (req, res) => {
+    const address = req.params.address;
+    const dispensers_open = await Queries.getOpenDispensersRowsByAddress(db, address);
+    res.status(200).json({
+        dispensers_open,
+    });
+});
+
+app.get('/address/:address/dispensers/closed', async (req, res) => {
+    const address = req.params.address;
+    const dispensers_closed = await Queries.getClosedDispensersRowsByAddress(db, address);
+    res.status(200).json({
+        dispensers_closed,
+    });
+});
+
 app.get('/address/:address/broadcasts', async (req, res) => {
     const address = req.params.address;
     const broadcasts = await Queries.getBroadcastsRowsByAddress(db, address);

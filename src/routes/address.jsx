@@ -8,9 +8,12 @@ function baseState(address) {
     return {
         address,
 
-        dispensers_loading: true,
-        dispensers_loading_error: null,
+        dispensers_open_loading: true,
+        dispensers_open_loading_error: null,
         dispensers_open: [],
+
+        dispensers_closed_loading: true,
+        dispensers_closed_loading_error: null,
         dispensers_closed: [],
 
         broadcasts_loading: true,
@@ -36,16 +39,28 @@ class Address extends React.Component {
         // TODO? eventually the requests/setstate could be done in parallel async, but not favorable for the current backend
 
         try {
-            const dispensers_response = await getCntrprty(`/address/${address}/dispensers`);
+            const dispensers_open_response = await getCntrprty(`/address/${address}/dispensers/open`);
             this.setState({
-                dispensers_loading: false,
-                dispensers_open: dispensers_response.dispensers_open,
-                dispensers_closed: dispensers_response.dispensers_closed,
+                dispensers_open_loading: false,
+                dispensers_open: dispensers_open_response.dispensers_open,
             });
         }
         catch (err) {
             this.setState({
-                dispensers_loading_error: err,
+                dispensers_open_loading_error: err,
+            });
+        }
+
+        try {
+            const dispensers_closed_response = await getCntrprty(`/address/${address}/dispensers/closed`);
+            this.setState({
+                dispensers_closed_loading: false,
+                dispensers_closed: dispensers_closed_response.dispensers_closed,
+            });
+        }
+        catch (err) {
+            this.setState({
+                dispensers_closed_loading_error: err,
             });
         }
 
@@ -91,10 +106,10 @@ class Address extends React.Component {
     render() {
 
         let address_open_dispensers_element = (<p>loading...</p>);
-        if (this.state.dispensers_loading_error) {
-            address_open_dispensers_element = (<p>{`${this.state.dispensers_loading_error}`}</p>);
+        if (this.state.dispensers_open_loading_error) {
+            address_open_dispensers_element = (<p>{`${this.state.dispensers_open_loading_error}`}</p>);
         }
-        else if (!this.state.dispensers_loading) {
+        else if (!this.state.dispensers_open_loading) {
             address_open_dispensers_element =
                 this.state.dispensers_open && this.state.dispensers_open.length ?
                     (
@@ -113,10 +128,10 @@ class Address extends React.Component {
         }
 
         let address_closed_dispensers_element = (<p>loading...</p>);
-        if (this.state.dispensers_loading_error) {
-            address_closed_dispensers_element = (<p>{`${this.state.dispensers_loading_error}`}</p>);
+        if (this.state.dispensers_closed_loading_error) {
+            address_closed_dispensers_element = (<p>{`${this.state.dispensers_closed_loading_error}`}</p>);
         }
-        else if (!this.state.dispensers_loading) {
+        else if (!this.state.dispensers_closed_loading) {
             address_closed_dispensers_element =
                 this.state.dispensers_closed && this.state.dispensers_closed.length ?
                     (
