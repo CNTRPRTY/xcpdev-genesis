@@ -640,6 +640,25 @@ class Asset extends React.Component {
                 ////////////
                 let asset_state_element = (<p>loading...</p>);
                 if (
+                    this.state.issuances_loading_error ||
+                    this.state.destructions_loading_error ||
+
+                    this.state.orders_give_loading_error ||
+                    this.state.dispensers_loading_error ||
+                    this.state.balances_loading_error
+                ) {
+                    asset_state_element = (
+                        <>
+                            {this.state.issuances_loading_error ? (<p>issuances_loading_error: {`${this.state.issuances_loading_error}`}</p>) : null}
+                            {this.state.destructions_loading_error ? (<p>destructions_loading_error: {`${this.state.destructions_loading_error}`}</p>) : null}
+                            {this.state.orders_give_loading_error ? (<p>orders_give_loading_error: {`${this.state.orders_give_loading_error}`}</p>) : null}
+                            {this.state.dispensers_loading_error ? (<p>dispensers_loading_error: {`${this.state.dispensers_loading_error}`}</p>) : null}
+                            {this.state.balances_loading_error ? (<p>balances_loading_error: {`${this.state.balances_loading_error}`}</p>) : null}
+                        </>
+                    );
+                }
+                else if (
+                // if (
                     !this.state.issuances_loading &&
                     !this.state.destructions_loading &&
 
