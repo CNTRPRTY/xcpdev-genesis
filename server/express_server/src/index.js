@@ -302,6 +302,7 @@ app.get('/asset/:assetName/balances', async (req, res) => {
     });
 });
 
+// TODO split then remove
 app.get('/asset/:assetName/escrows', async (req, res) => {
     const asset_name = req.params.assetName;
     const orders = await Queries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
@@ -311,6 +312,26 @@ app.get('/asset/:assetName/escrows', async (req, res) => {
             orders,
             dispensers,
         },
+    });
+});
+
+app.get('/asset/:assetName/escrows/dispensers', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    const dispensers = await Queries.getDispensersRowsByAssetName(db, asset_name);
+    res.status(200).json({
+        tip_blocks_row,
+        dispensers,
+    });
+});
+
+app.get('/asset/:assetName/escrows/orders', async (req, res) => {
+    const asset_name = req.params.assetName;
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    const orders_give = await Queries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
+    res.status(200).json({
+        tip_blocks_row,
+        orders_give,
     });
 });
 
