@@ -337,8 +337,13 @@ app.get('/asset/:assetName/escrows/orders', async (req, res) => {
 
 app.get('/asset/:assetName/exchanges', async (req, res) => {
     const asset_name = req.params.assetName;
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const orders_get = await Queries.getOrdersRowsGetAssetByAssetName(db, asset_name);
     res.status(200).json({
+        tip_blocks_row,
+        orders_get,
+
+        // TODO kept for transition... delete after
         tables: {
             orders_get,
         },
