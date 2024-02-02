@@ -106,7 +106,16 @@ class Block extends React.Component {
 
         let block_metadata_element = (<p>loading...</p>);
         if (this.state.block_row_loading_error) {
-            block_metadata_element = (<p>{`${this.state.block_row_loading_error}`}</p>);
+            // special render for not found error
+            let to_print;
+            if (this.state.block_row_loading_error.message.startsWith('[404:')) {
+                to_print = `block not found...`;
+            }
+            else {
+                to_print = `${this.state.block_row_loading_error}`;
+            }
+            block_metadata_element = (<p>{to_print}</p>);
+            // block_metadata_element = (<p>{`${this.state.block_row_loading_error}`}</p>);
         }
         else if (!this.state.block_row_loading) {
             block_metadata_element = (
