@@ -22,13 +22,15 @@ async function getCntrprty(path) {
     let thetry = 1;
     const tries_max = 5;
     while (thetry <= tries_max) {
-        const res = await fetch(url, options);
-        if (res.status !== 202) {
-            if (!res.ok) {
-                throw Error(`[${res.status}:${res.statusText}]`);
+        const response = await fetch(url, options);
+        if (response.status !== 202) {
+            if (!response.ok) {
+                const errorTextPre = await response.text(); // can come empty
+                const errorText = errorTextPre.trim().length === 0 ? '' : ` ${errorTextPre}`; // add space if not empty
+                throw Error(`[${response.status}:${response.statusText}]${errorText}`);
             }
             else {
-                const data = await res.json();
+                const data = await response.json();
                 return data.data;
             }
         }
@@ -47,7 +49,7 @@ async function getCntrprty(path) {
         }
     }
     // max tries reached
-    throw Error(`[202:Accepted (limit reached, try again)]`);
+    throw Error(`[202:Accepted] Limit reached, try again.`);
 }
 // async function getCntrprty(path) {
 //     // export async function getCntrprty(path) {
