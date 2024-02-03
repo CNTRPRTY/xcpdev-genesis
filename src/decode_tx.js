@@ -9,11 +9,12 @@
 const MSG_TYPE = {
     0: 'send.version1',
     2: 'send.enhanced_send', // wrong id in __init__.py
+    3: 'send.mpma', // not in __init__.py
     4: 'sweep', // not in __init__.py
     10: 'order',
     11: 'btcpay',
     12: 'dispenser',
-    13: 'dispense', // lib added, not in tx
+    13: 'dispense', // lib added not in tx, not in __init__.py
 
     // issuance message unpacking changed in v9.60 (activated in block 753500) [https://github.com/CounterpartyXCP/cips/issues/66]
     20: 'issuance',
@@ -117,6 +118,10 @@ function decode_data(data_hex, block_height) {
             memo_hex,
             memo,
         };
+    }
+
+    if (id == 3) { //MPMA Send
+        msg_decoded = {}; // TODO
     }
 
     if (id == 4) { //Sweep
