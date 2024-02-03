@@ -213,17 +213,20 @@ class Transaction extends React.Component {
             );
 
 
-            // is header transaction component?
-            const updateable = TransactionUpdateable.tx_type_ids;
-            const therest = TransactionStatic.tx_type_ids;
+            if (this.state.cntrprty_decoded) {
+                // is header transaction component?
+                const updateable = TransactionUpdateable.tx_type_ids;
+                const therest = TransactionStatic.tx_type_ids;
 
-            if (updateable.includes(this.state.cntrprty_decoded.id)) {
-                header_transaction_element = <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
-            }
+                if (updateable.includes(this.state.cntrprty_decoded.id)) {
+                    header_transaction_element = <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
+                }
 
-            if (therest.includes(this.state.cntrprty_decoded.id)) {
-                header_transaction_element = <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
+                if (therest.includes(this.state.cntrprty_decoded.id)) {
+                    header_transaction_element = <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
+                }
             }
+            // else it should already be in cntrprty_error
 
 
             let transaction_cntrprty_element = null;
