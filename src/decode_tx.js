@@ -26,6 +26,7 @@ const MSG_TYPE = {
 
     30: 'broadcast',
     50: 'dividend',
+    70: 'cancel',
     110: 'destroy',
 }
 
@@ -599,6 +600,10 @@ function decode_data(data_hex, block_height) {
             asset2,
             asset2_name: asset_name(asset2),
         };
+    }
+
+    if (id == 70) { //Cancel
+        msg_decoded = {}; // TODO
     }
 
     if (id == 110) { //Destroy
