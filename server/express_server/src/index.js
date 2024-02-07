@@ -17,7 +17,7 @@ const BITCOIN_VERSION = '24.0.1';
 // const BITCOIN_VERSION = '0.21.1';
 
 // fednode exec counterparty counterparty-client --version
-const COUNTERPARTY_VERSION = '9.60.1';
+const COUNTERPARTY_VERSION = '9.60.3';
 // const COUNTERPARTY_VERSION = '9.59.7';
 
 // read only
