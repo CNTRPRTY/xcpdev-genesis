@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // required for posts
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('better-sqlite3');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const { Queries } = require('./queries');
@@ -23,8 +23,7 @@ const COUNTERPARTY_VERSION = '9.60.3';
 // read only
 const DB_PATH = '/var/lib/docker/volumes/federatednode_counterparty-data/_data/counterparty.db'
 
-// https://github.com/TryGhost/node-sqlite3/wiki/API
-const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);
+const db = sqlite3(DB_PATH, { readonly: true });
 
 
 

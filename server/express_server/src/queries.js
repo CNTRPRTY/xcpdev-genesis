@@ -1,11 +1,10 @@
 // returns an array
-function queryDBRows(db, sql, params_obj) {
-    return new Promise(function (resolve, reject) {
-        db.all(sql, params_obj, function (err, rows) {
-            if (err) return reject(err);
-            else return resolve(rows);
-        });
-    });
+async function queryDBRows(db, sql, params_obj_nodollarsign) {
+    // is natively synchronous, made async for continuity with previous library (github.com/TryGhost/node-sqlite3)
+    const stmt = db.prepare(sql);
+    // https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md#binding-parameters
+    const all = stmt.all(params_obj_nodollarsign);
+    return all;
 }
 
 class Queries {
@@ -25,7 +24,7 @@ class Queries {
             WHERE tx_hash = $tx_hash;
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -37,7 +36,7 @@ class Queries {
             WHERE tx_hash = $tx_hash;
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -55,7 +54,7 @@ class Queries {
             WHERE block_index = $block_index;
         `;
         const params_obj = {
-            $block_index: block_index,
+            block_index,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -73,7 +72,7 @@ class Queries {
             WHERE block_hash = $block_hash;
         `;
         const params_obj = {
-            $block_hash: block_hash,
+            block_hash,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -115,7 +114,7 @@ class Queries {
         //     WHERE block_index = $block_index;
         // `;
         const params_obj = {
-            $block_index: block_index,
+            block_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -138,7 +137,7 @@ class Queries {
         //     LIMIT 100;
         // `;
         const params_obj = {
-            $limit: limit,
+            limit,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -153,7 +152,7 @@ class Queries {
             ORDER BY block_index DESC;
         `;
         const params_obj = {
-            $block_index: from_block_index,
+            block_index: from_block_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -167,8 +166,8 @@ class Queries {
             ORDER BY block_index ASC;
         `;
         const params_obj = {
-            $start_block_index: start_block_index,
-            $end_block_index: end_block_index,
+            start_block_index,
+            end_block_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -182,8 +181,8 @@ class Queries {
             ORDER BY block_index ASC;
         `;
         const params_obj = {
-            $start_block_index: start_block_index,
-            $end_block_index: end_block_index,
+            start_block_index,
+            end_block_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -216,7 +215,7 @@ class Queries {
         //     LIMIT $limit;
         // `;
         const params_obj = {
-            $limit: limit,
+            limit,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -250,8 +249,8 @@ class Queries {
         //     ORDER BY t.tx_index ASC;
         // `;
         const params_obj = {
-            $from_tx_index: from_tx_index,
-            $to_tx_index: to_tx_index,
+            from_tx_index,
+            to_tx_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -263,7 +262,7 @@ class Queries {
             WHERE tx_index = $tx_index;
         `;
         const params_obj = {
-            $tx_index: tx_index,
+            tx_index,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -284,8 +283,8 @@ class Queries {
             ORDER BY m.message_index ASC;
         `;
         const params_obj = {
-            $from_message_index: from_message_index,
-            $to_message_index: to_message_index,
+            from_message_index,
+            to_message_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -318,7 +317,7 @@ class Queries {
         // https://stackoverflow.com/a/26820991
         // https://github.com/TryGhost/node-sqlite3/issues/922#issuecomment-1179480916
         const params_obj1 = {
-            $asset_name: asset_name,
+            asset_name,
         };
         const rows1 = await queryDBRows(db, sql1, params_obj1);
 
@@ -409,7 +408,7 @@ class Queries {
         //     WHERE address = $address;
         // `;
         const params_obj1 = {
-            $address: address,
+            address,
         };
         // return queryDBRows(db, sql, params_obj);
         let rows1 = await queryDBRows(db, sql1, params_obj1);
@@ -423,8 +422,8 @@ class Queries {
             AND asset = $asset;
         `;
         const params_obj2 = {
-            $address: address,
-            $asset: 'XCP',
+            address,
+            asset: 'XCP',
         };
         // return queryDBRows(db, sql, params_obj);
         const rows2 = await queryDBRows(db, sql2, params_obj2);
@@ -445,7 +444,7 @@ class Queries {
                 AND i.reset = true;
             `;
             const params_obj3 = {
-                $address: address,
+                address,
             };
             // return queryDBRows(db, sql, params_obj);
             const rows3 = await queryDBRows(db, sql3, params_obj3);
@@ -509,7 +508,7 @@ class Queries {
         //     ORDER BY block_index ASC;
         // `;
         const params_obj = {
-            $source: address,
+            source: address,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -541,7 +540,7 @@ class Queries {
         //     ORDER BY i.tx_index ASC;
         // `;
         const params_obj = {
-            $issuer: address,
+            issuer: address,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -553,7 +552,7 @@ class Queries {
             WHERE asset_name = $asset_name;
         `;
         const params_obj = {
-            $asset_name: asset_name,
+            asset_name,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -571,7 +570,7 @@ class Queries {
             WHERE asset_longname = $asset_longname;
         `;
         const params_obj = {
-            $asset_longname: asset_longname,
+            asset_longname,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -592,7 +591,7 @@ class Queries {
             ORDER BY a.block_index ASC;
         `;
         const params_obj = {
-            $asset_longname_start: `${asset_name}.%`,
+            asset_longname_start: `${asset_name}.%`,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -611,7 +610,7 @@ class Queries {
             WHERE a.asset_name = $asset_name
         `;
         const params_obj1 = {
-            $asset_name: asset_name,
+            asset_name,
         };
         // return queryDBRows(db, sql, params_obj);
         let rows1 = await queryDBRows(db, sql1, params_obj1);
@@ -648,7 +647,7 @@ class Queries {
                 AND reset = true;
             `;
             const params_obj2 = {
-                $asset_name: asset_name,
+                asset_name,
             };
             const rows2 = await queryDBRows(db, sql2, params_obj2);
 
@@ -690,7 +689,7 @@ class Queries {
         //     ORDER BY block_index ASC;
         // `;
         const params_obj = {
-            $asset_name: asset_name,
+            asset_name,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -717,7 +716,7 @@ class Queries {
         //     ORDER BY block_index ASC;
         // `;
         const params_obj = {
-            $asset_name: asset_name,
+            asset_name,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -739,8 +738,8 @@ class Queries {
             ORDER BY o.tx_index ASC;
         `;
         const params_obj = {
-            $asset_name: asset_name,
-            $status: status,
+            asset_name,
+            status,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -761,8 +760,8 @@ class Queries {
             ORDER BY d.tx_index ASC;
         `;
         const params_obj = {
-            $asset_name: asset_name,
-            $status: status,
+            asset_name,
+            status,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -783,8 +782,8 @@ class Queries {
             ORDER BY d.tx_index ASC;
         `;
         const params_obj = {
-            $address: address,
-            $status: status,
+            address,
+            status,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -805,8 +804,8 @@ class Queries {
             ORDER BY d.tx_index ASC;
         `;
         const params_obj = {
-            $address: address,
-            $status: status,
+            address,
+            status,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -828,8 +827,8 @@ class Queries {
             ORDER BY o.tx_index ASC;
         `;
         const params_obj = {
-            $asset_name: asset_name,
-            $status: status,
+            asset_name,
+            status,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -852,7 +851,7 @@ class Queries {
             WHERE d.tx_hash = $tx_hash;
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -875,7 +874,7 @@ class Queries {
             WHERE ds.dispenser_tx_hash = $tx_hash;
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -895,7 +894,7 @@ class Queries {
             WHERE o.tx_hash = $tx_hash;
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         const rows = await queryDBRows(db, sql, params_obj);
         // return queryDBRows(db, sql, params_obj)
@@ -920,7 +919,7 @@ class Queries {
             OR om.tx1_hash = $tx_hash;
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         return queryDBRows(db, sql, params_obj);
     }
@@ -942,7 +941,7 @@ class Queries {
             );
         `;
         const params_obj = {
-            $tx_hash: tx_hash,
+            tx_hash,
         };
         return queryDBRows(db, sql, params_obj);
     }
