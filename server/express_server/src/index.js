@@ -444,10 +444,10 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const dispensers_row = await Queries.getDispensersRow(db, tx_hash);
-    
+
     // // second one depending on COUNTERPARTY_VERSION
     // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
-    
+
     // const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
     if (!dispensers_row) {
         res.status(404).json({
@@ -473,11 +473,11 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const orders_row = await Queries.getOrdersRow(db, tx_hash);
-    
+
     // third oneS depending on COUNTERPARTY_VERSION
     const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
     const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
-    
+
     const order_matches_rows = await Queries.getOrderMatchesRows(db, tx_hash);
     let btcpays_rows = [];
     if (
@@ -731,7 +731,7 @@ async function updateTransactionsCache() {
     // if (lib_response.result) {
     //     cached_transactions = lib_response.result;
     // }
-    
+
     const btc_transactions_latest = await Queries.getTransactionsLatest(db);
     cached_transactions = btc_transactions_latest;
 }
