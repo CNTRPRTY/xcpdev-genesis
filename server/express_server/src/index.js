@@ -514,6 +514,42 @@ app.get('/messages/:messageIndex', async (req, res) => {
 });
 
 
+// non-standard on purpose
+app.get('/blocks_messages_range/:startBlockIndex/:endBlockIndex', async (req, res) => {
+    const start_block_index = req.params.startBlockIndex;
+    const end_block_index = req.params.endBlockIndex;
+
+    // first get the blocks in the range
+    const blocks_all = await Queries.getBlocksInRange(db, start_block_index, end_block_index);
+
+    // then get the messages in the range of blocks
+    const messages = await Queries.getMessagesByBlocksInRange(db, start_block_index, end_block_index);
+
+    // do a dict for easy access
+    const block_messages_dict = {};
+    for (const message_row of messages) {
+        if (block_messages_dict[message_row.block_index]) {
+            block_messages_dict[message_row.block_index].push(message_row);
+        }
+        else { // first message for block
+            block_messages_dict[message_row.block_index] = [message_row];
+        }
+    }
+
+    // then add the messages to the blocks
+    let blocks_with_messages = [];
+    for (const block of blocks_all) {
+        blocks_with_messages.push({
+            ...block,
+            _messages: (block_messages_dict[block.block_index] ? block_messages_dict[block.block_index] : []),
+        });
+    }
+
+    res.status(200).json({
+        blocks: blocks_with_messages,
+    });
+});
+
 
 // counterparty-lib api proxy
 async function libApiRequest(method, params = null) {

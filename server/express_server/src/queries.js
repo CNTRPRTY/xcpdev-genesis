@@ -158,6 +158,36 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getBlocksInRange(db, start_block_index, end_block_index) {
+        const sql = `
+            SELECT *
+            FROM blocks
+            WHERE block_index >= $start_block_index
+            AND block_index <= $end_block_index
+            ORDER BY block_index ASC;
+        `;
+        const params_obj = {
+            $start_block_index: start_block_index,
+            $end_block_index: end_block_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
+    static async getMessagesByBlocksInRange(db, start_block_index, end_block_index) {
+        const sql = `
+            SELECT *
+            FROM messages
+            WHERE block_index >= $start_block_index
+            AND block_index <= $end_block_index
+            ORDER BY block_index ASC;
+        `;
+        const params_obj = {
+            $start_block_index: start_block_index,
+            $end_block_index: end_block_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getTransactionsLatest(db) {
         const limit = 30; // 10
         const sql = `
