@@ -184,7 +184,7 @@ class Home extends React.Component {
             transactions_element_contents = (
                 <>
                     {/* <h4>Latest:</h4> */}
-                    <h4>Latest (tx_index desc):</h4>
+                    <h4>Latest (tx index desc):</h4>
                     {/* <h4>Latest (most recent top):</h4> */}
                     <table>
                         <tbody>

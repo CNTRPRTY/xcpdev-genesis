@@ -158,7 +158,7 @@ class Transactionspage extends React.Component {
                 {jump_year_element}
 
                 <h3>
-                    Transactions from tx_index {this.state.from_index} to {this.state.to_index}:
+                    Transactions from tx index {this.state.from_index} to {this.state.to_index}:
                 </h3>
 
                 {change_pages_element}
