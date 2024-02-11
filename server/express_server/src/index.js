@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // required for posts
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('better-sqlite3');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 const { Queries } = require('./queries');
@@ -17,14 +17,13 @@ const BITCOIN_VERSION = '24.0.1';
 // const BITCOIN_VERSION = '0.21.1';
 
 // fednode exec counterparty counterparty-client --version
-const COUNTERPARTY_VERSION = '9.60.1';
+const COUNTERPARTY_VERSION = '9.60.3';
 // const COUNTERPARTY_VERSION = '9.59.7';
 
 // read only
 const DB_PATH = '/var/lib/docker/volumes/federatednode_counterparty-data/_data/counterparty.db'
 
-// https://github.com/TryGhost/node-sqlite3/wiki/API
-const db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY);
+const db = sqlite3(DB_PATH, { readonly: true });
 
 
 
@@ -187,6 +186,24 @@ app.get('/blockhash/:blockHash', async (req, res) => {
             block_row,
         });
     }
+});
+
+// TODO already splitted, to be removed
+app.get('/address/:address', async (req, res) => {
+    const address = req.params.address;
+    const tables = {};
+    // tables.balances = await TableQueries.getBalancesRowsByAddress(db, address);
+    tables.broadcasts = await Queries.getBroadcastsRowsByAddress(db, address);
+    tables.issuances = await Queries.getIssuancesRowsByAssetsByIssuer(db, address);
+
+    const dispensers = {};
+    dispensers.open = await Queries.getOpenDispensersRowsByAddress(db, address);
+    dispensers.closed = await Queries.getClosedDispensersRowsByAddress(db, address);
+    tables.dispensers = dispensers;
+
+    res.status(200).json({
+        tables,
+    });
 });
 
 app.get('/address/:address/dispensers', async (req, res) => {
@@ -426,10 +443,10 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const dispensers_row = await Queries.getDispensersRow(db, tx_hash);
-    
+
     // // second one depending on COUNTERPARTY_VERSION
     // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
-    
+
     // const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
     if (!dispensers_row) {
         res.status(404).json({
@@ -455,11 +472,11 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
     const tx_hash = req.params.txHash;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const orders_row = await Queries.getOrdersRow(db, tx_hash);
-    
+
     // third oneS depending on COUNTERPARTY_VERSION
     const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
     const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
-    
+
     const order_matches_rows = await Queries.getOrderMatchesRows(db, tx_hash);
     let btcpays_rows = [];
     if (
@@ -513,6 +530,42 @@ app.get('/messages/:messageIndex', async (req, res) => {
     }
 });
 
+
+// non-standard on purpose
+app.get('/blocks_messages_range/:startBlockIndex/:endBlockIndex', async (req, res) => {
+    const start_block_index = req.params.startBlockIndex;
+    const end_block_index = req.params.endBlockIndex;
+
+    // first get the blocks in the range
+    const blocks_all = await Queries.getBlocksInRange(db, start_block_index, end_block_index);
+
+    // then get the messages in the range of blocks
+    const messages = await Queries.getMessagesByBlocksInRange(db, start_block_index, end_block_index);
+
+    // do a dict for easy access
+    const block_messages_dict = {};
+    for (const message_row of messages) {
+        if (block_messages_dict[message_row.block_index]) {
+            block_messages_dict[message_row.block_index].push(message_row);
+        }
+        else { // first message for block
+            block_messages_dict[message_row.block_index] = [message_row];
+        }
+    }
+
+    // then add the messages to the blocks
+    let blocks_with_messages = [];
+    for (const block of blocks_all) {
+        blocks_with_messages.push({
+            ...block,
+            _messages: (block_messages_dict[block.block_index] ? block_messages_dict[block.block_index] : []),
+        });
+    }
+
+    res.status(200).json({
+        blocks: blocks_with_messages,
+    });
+});
 
 
 // counterparty-lib api proxy
@@ -677,7 +730,7 @@ async function updateTransactionsCache() {
     // if (lib_response.result) {
     //     cached_transactions = lib_response.result;
     // }
-    
+
     const btc_transactions_latest = await Queries.getTransactionsLatest(db);
     cached_transactions = btc_transactions_latest;
 }

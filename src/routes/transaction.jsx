@@ -256,10 +256,10 @@ class Transaction extends React.Component {
             transaction_element_contents = (
                 <>
                     <ul>
-                        <li>tx_hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
+                        <li>tx hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
                         {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
-                        <li>block_index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
-                        <li>block_time_iso: {timeIsoFormat(this.state.transaction.block_time)}</li>
+                        <li>block index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
+                        <li>block time: {timeIsoFormat(this.state.transaction.block_time)}</li>
                     </ul>
                     {transaction_cntrprty_element}
                 </>

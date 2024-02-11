@@ -8,7 +8,8 @@
 // using naming conventions from counterparty-lib/counterpartylib/lib/messages (messages/__init__.py)
 const MSG_TYPE = {
     0: 'send.version1',
-    2: 'send.enhanced_send', // wrong id in __init__.py
+    2: 'send.enhanced', // better name, wrong id in __init__.py
+    // 2: 'send.enhanced_send', // wrong id in __init__.py
     3: 'send.mpma', // not in __init__.py
     4: 'sweep', // not in __init__.py
     10: 'order',
@@ -26,6 +27,9 @@ const MSG_TYPE = {
 
     30: 'broadcast',
     50: 'dividend',
+
+    // TODO: id:67 message 0 burn: https://www.xcp.dev/tx/685623401c3f5e9d2eaaf0657a50454e56a270ee7630d409e98d3bc257560098 
+
     70: 'cancel',
     110: 'destroy',
 }
@@ -634,12 +638,15 @@ function decode_data(data_hex, block_height) {
         };
     }
 
-    if (msg_decoded) {
-        json_out = {
-            ...json_out,
-            msg_decoded,
-        }
+    if (!msg_decoded) {
+        throw Error(`[decoding not configured] ${JSON.stringify(json_out)}`);
     }
+    // if (msg_decoded) {
+    json_out = {
+        ...json_out,
+        msg_decoded,
+    }
+    // }
 
     return json_out;
 }
