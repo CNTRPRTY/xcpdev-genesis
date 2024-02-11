@@ -137,7 +137,7 @@ class Messagespage extends React.Component {
                 {jump_year_element}
 
                 <h3>
-                    Messages from message_index {this.state.from_index} to {this.state.to_index}:
+                    Messages from message index {this.state.from_index} to {this.state.to_index}:
                     {/* Transactions from tx_index {this.state.from_index} to {this.state.to_index}: */}
                 </h3>
 

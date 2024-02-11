@@ -240,7 +240,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
             </tr>
         );
@@ -289,7 +289,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx/state</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
             </tr>
         );
@@ -414,10 +414,10 @@ class ListElements {
         return (
             <tr style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>rooow</td> */}
             </tr>
@@ -469,8 +469,8 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td> */}
 
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
 
                 {issuer_page ?
@@ -633,12 +633,12 @@ class ListElements {
     static getTableRowSubassetsHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset_longname</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset_name</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset longname</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset name</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>longname</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>name</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
             </tr>
         );
@@ -686,8 +686,8 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
 
                 {/* {asset_page ?
                     null
@@ -748,8 +748,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
             </tr>
         );
@@ -777,8 +777,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
             </tr>
         );
@@ -831,8 +831,8 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
 
                 {/* {asset_page ?
                     null
@@ -899,8 +899,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>give remaining units (escrowed)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>{get_asset_metadata.asset} requested</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
             </tr>
         );
@@ -933,8 +933,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>forward</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>backward</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(order_matches_row)</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(order_metadata)</td> */}
             </tr>
@@ -989,8 +989,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(btcpays_row)</td> */}
             </tr>
         );
@@ -1017,16 +1017,16 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>
                 </>
             );
         }
         else {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>
                 </>
             );
         }
@@ -1036,8 +1036,8 @@ class ListElements {
                 {firstTwo}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sat)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
@@ -1108,13 +1108,13 @@ class ListElements {
     static getTableRowMessagesHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp</td>
             </tr>
         );
     }

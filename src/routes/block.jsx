@@ -121,17 +121,17 @@ class Block extends React.Component {
             block_metadata_element = (
                 <>
                     <ul>
-                        <li>block_index: {this.state.block}</li>
-                        <li>block_time_iso: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
+                        <li>block index: {this.state.block}</li>
+                        <li>block time: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
                     </ul>
                     <ul>
-                        <li>block_hash: {this.state.block_row.block_hash}</li>
-                        <li>previous_block_hash: {this.state.block_row.previous_block_hash}</li>
+                        <li>block hash: {this.state.block_row.block_hash}</li>
+                        <li>previous block hash: {this.state.block_row.previous_block_hash}</li>
                     </ul>
                     <ul>
-                        <li>ledger_hash (L): {this.state.block_row.ledger_hash}</li>
-                        <li>txlist_hash (TX): {this.state.block_row.txlist_hash}</li>
-                        <li>messages_hash (M): {this.state.block_row.messages_hash}</li>
+                        <li>ledger hash (L): {this.state.block_row.ledger_hash}</li>
+                        <li>txlist hash (TX): {this.state.block_row.txlist_hash}</li>
+                        <li>messages hash (M): {this.state.block_row.messages_hash}</li>
                     </ul>
                 </>
             );
