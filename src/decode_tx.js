@@ -634,12 +634,15 @@ function decode_data(data_hex, block_height) {
         };
     }
 
-    if (msg_decoded) {
-        json_out = {
-            ...json_out,
-            msg_decoded,
-        }
+    if (!msg_decoded) {
+        throw Error(`[decoding not configured] ${JSON.stringify(json_out)}`);
     }
+    // if (msg_decoded) {
+    json_out = {
+        ...json_out,
+        msg_decoded,
+    }
+    // }
 
     return json_out;
 }
