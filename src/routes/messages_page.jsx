@@ -89,7 +89,7 @@ class Messagespage extends React.Component {
                 y2023: 8460931,
             };
         }
-        else { // 9.60
+        else if (COUNTERPARTY_VERSION.startsWith('9.60')) {
             years = {
                 y2014: 0,
                 y2015: 505211,
@@ -101,6 +101,22 @@ class Messagespage extends React.Component {
                 y2021: 5850483,
                 y2022: 7070644,
                 y2023: 8820356,
+                y2024: 10307726,
+            };
+        }
+        else { // 9.61
+            years = {
+                y2014: 0,
+                y2015: 505211,
+                y2016: 1350000,
+                y2017: 2582382,
+                y2018: 4186987,
+                y2019: 5228022,
+                y2020: 5558173,
+                y2021: 5850490, // update was in 2023...
+                y2022: 7070697,
+                y2023: 8820491,
+                y2024: 10315836, // ??? 10315837 2023 block time?
             };
         }
         const jump_year_element = (
@@ -118,7 +134,8 @@ class Messagespage extends React.Component {
                     <Link to={`/messages#${years['y2020']}`}>2020</Link>{' | '}
                     <Link to={`/messages#${years['y2021']}`}>2021</Link>{' | '}
                     <Link to={`/messages#${years['y2022']}`}>2022</Link>{' | '}
-                    <Link to={`/messages#${years['y2023']}`}>2023</Link>
+                    <Link to={`/messages#${years['y2023']}`}>2023</Link>{' | '}
+                    <Link to={`/messages#${years['y2024']}`}>2024</Link>
                 </p>
             </>
         );

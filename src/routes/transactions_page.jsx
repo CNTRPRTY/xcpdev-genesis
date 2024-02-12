@@ -86,7 +86,7 @@ class Transactionspage extends React.Component {
                 y2023: 2199002,
             };
         }
-        else { // 9.60
+        else if (COUNTERPARTY_VERSION.startsWith('9.60')) {
             years = {
                 y2014: 0,
                 y2015: 134093,
@@ -98,6 +98,22 @@ class Transactionspage extends React.Component {
                 y2021: 1540493,
                 y2022: 1835266,
                 y2023: 2209456,
+                y2024: 2619739,
+            };
+        }
+        else { // 9.61
+            years = {
+                y2014: 0,
+                y2015: 134093,
+                y2016: 399428,
+                y2017: 751271,
+                y2018: 1152661,
+                y2019: 1405841,
+                y2020: 1482018,
+                y2021: 1540493,
+                y2022: 1835266,
+                y2023: 2209456,
+                y2024: 2618802,
             };
         }
         // keeping this around as I'm not sure why is not matching with either (it should have with 9.60 I think...)
@@ -128,19 +144,9 @@ class Transactionspage extends React.Component {
                     <Link to={`/transactions#${years['y2020']}`}>2020</Link>{' | '}
                     <Link to={`/transactions#${years['y2021']}`}>2021</Link>{' | '}
                     <Link to={`/transactions#${years['y2022']}`}>2022</Link>{' | '}
-                    <Link to={`/transactions#${years['y2023']}`}>2023</Link>
+                    <Link to={`/transactions#${years['y2023']}`}>2023</Link>{' | '}
+                    <Link to={`/transactions#${years['y2024']}`}>2024</Link>
                 </p>
-                {/* <p>
-                        2014: <Link to={`/transactions#${years['y2014']}`}>{years['y2014']}</Link>{' | '}
-                        2015: <Link to={`/transactions#${years['y2015']}`}>{years['y2015']}</Link>{' | '}
-                        2016: <Link to={`/transactions#${years['y2016']}`}>{years['y2016']}</Link>{' | '}
-                        2017: <Link to={`/transactions#${years['y2017']}`}>{years['y2017']}</Link>{' | '}
-                        2018: <Link to={`/transactions#${years['y2018']}`}>{years['y2018']}</Link>{' | '}
-                        2019: <Link to={`/transactions#${years['y2019']}`}>{years['y2019']}</Link>{' | '}
-                        2020: <Link to={`/transactions#${years['y2020']}`}>{years['y2020']}</Link>{' | '}
-                        2021: <Link to={`/transactions#${years['y2021']}`}>{years['y2021']}</Link>{' | '}
-                        2022: <Link to={`/transactions#${years['y2022']}`}>{years['y2022']}</Link>
-                    </p> */}
             </>
         );
 
