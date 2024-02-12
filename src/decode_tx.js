@@ -28,7 +28,9 @@ const MSG_TYPE = {
     30: 'broadcast',
     50: 'dividend',
 
-    // TODO: id:67 message 0 burn: https://www.xcp.dev/tx/685623401c3f5e9d2eaaf0657a50454e56a270ee7630d409e98d3bc257560098 
+    // TODO:
+    // - after some research, don't see id:67 anywhere... so maybe the decoding itself is different at this time...
+    // id:67 message 0 burn: https://www.xcp.dev/tx/685623401c3f5e9d2eaaf0657a50454e56a270ee7630d409e98d3bc257560098 
 
     70: 'cancel',
     110: 'destroy',
