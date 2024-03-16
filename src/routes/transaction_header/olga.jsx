@@ -48,8 +48,10 @@ class Olga extends React.Component {
         const source_fix = "XzkBVJ+7LLFsvw/8VIX1OE5OPsAAAAASUVORK5CYII=";
         const data_url_chain_fixed = `${data_url_chain}${source_fix}`;
 
-        const notreverse = [...data_url_cut]; // making both arrays for consistency
-        const reverse = [...data_url_cut].reverse(); // https://stackoverflow.com/a/57569141
+        // DON'T DELETE, KEEP COMMENTED!
+        // const notreverse = [...data_url_cut]; // making both arrays for consistency
+        // const reverse = [...data_url_cut].reverse(); // https://stackoverflow.com/a/57569141
+        // DON'T DELETE, KEEP COMMENTED!
 
         const olga_element = (
             <>
@@ -71,12 +73,14 @@ class Olga extends React.Component {
                 <br />
                 <br />
                 <img src={`${data_url_cut}=`} style={{ width: "200px" }} />
-                <br />
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
+                {/* <br />
                 reverse:{' '}
                 [{reverse.join('')}]
                 <br />
                 esrever:{' '}
-                [{notreverse.join('')}]
+                [{notreverse.join('')}] */}
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
             </>
         );
 
