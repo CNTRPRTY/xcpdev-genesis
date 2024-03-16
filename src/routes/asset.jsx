@@ -670,6 +670,8 @@ class Asset extends React.Component {
                         <>
                             <ul>
                                 <li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li>
+                                <li>holders: {this.state.balances.filter(row => row.quantity !== 0).length} (lifetime: {this.state.balances.length})</li>
+                                {/* <li>holders (lifetime): {this.state.balances.filter(row => row.quantity !== 0).length} ({this.state.balances.length})</li> */}
                             </ul>
                             <br />
 
