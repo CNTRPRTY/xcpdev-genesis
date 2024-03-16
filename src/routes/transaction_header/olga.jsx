@@ -68,7 +68,7 @@ class Olga extends React.Component {
                 />
 
                 <br />
-                *<a href={`https://github.com/CNTRPRTY/xcpdev/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">on chain only</a>* image *can* be seen below, use slider (works on desktop)
+                *<a href={`https://github.com/CNTRPRTY/xcpdev-genesis/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">on chain only</a>* image *can* be seen below, use slider (works on desktop)
 
                 <br />
                 <br />
