@@ -635,6 +635,15 @@ class Asset extends React.Component {
                     </>
                 );
 
+                /////////
+                // for optional show transfers:
+                let hastransfers_element = null;
+                const valid_transfers = this.state.issuances.filter(row => (row.status === 'valid' && row.transfer === 1));
+                if (valid_transfers.length) {
+                    hastransfers_element = ` (${valid_transfers.length} transfers)`;
+                }
+                /////////
+
                 // doing what is left now that all required info is loaded
 
                 ////////////
@@ -669,7 +678,8 @@ class Asset extends React.Component {
                     asset_state_element = (
                         <>
                             <ul>
-                                <li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li>
+                                <li>issuance events: {this.state.issuances.length} issuances{hastransfers_element}, {this.state.destructions.length} destructions</li>
+                                {/* <li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li> */}
                                 <li>holders: {this.state.balances.filter(row => row.quantity !== 0).length} (lifetime: {this.state.balances.length})</li>
                                 {/* <li>holders (lifetime): {this.state.balances.filter(row => row.quantity !== 0).length} ({this.state.balances.length})</li> */}
                             </ul>
