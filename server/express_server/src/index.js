@@ -338,32 +338,38 @@ app.get('/asset/:assetName/escrows', async (req, res) => {
     });
 });
 
+// app.get('/asset/:assetName/dispensers/open', async (req, res) => {
 app.get('/asset/:assetName/escrows/dispensers', async (req, res) => {
     const asset_name = req.params.assetName;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const dispensers = await Queries.getDispensersRowsByAssetName(db, asset_name);
     res.status(200).json({
         tip_blocks_row,
+        dispensers_open,
         dispensers,
     });
 });
 
+// app.get('/asset/:assetName/orders/give', async (req, res) => {
 app.get('/asset/:assetName/escrows/orders', async (req, res) => {
     const asset_name = req.params.assetName;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const orders_give = await Queries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
     res.status(200).json({
         tip_blocks_row,
+        orders_give_open,
         orders_give,
     });
 });
 
+// app.get('/asset/:assetName/orders/get', async (req, res) => {
 app.get('/asset/:assetName/exchanges', async (req, res) => {
     const asset_name = req.params.assetName;
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
     const orders_get = await Queries.getOrdersRowsGetAssetByAssetName(db, asset_name);
     res.status(200).json({
         tip_blocks_row,
+        orders_get_open,
         orders_get,
 
         // TODO kept for transition... delete after
