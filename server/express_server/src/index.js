@@ -297,18 +297,6 @@ app.get('/asset/:assetName/balances', async (req, res) => {
     });
 });
 
-// TODO split then remove
-app.get('/asset/:assetName/escrows', async (req, res) => {
-    const asset_name = req.params.assetName;
-    const orders = await Queries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
-    const dispensers = await Queries.getDispensersRowsByAssetName(db, asset_name);
-    res.status(200).json({
-        tables: {
-            orders,
-            dispensers,
-        },
-    });
-});
 
 // app.get('/asset/:assetName/dispensers/open', async (req, res) => {
 app.get('/asset/:assetName/escrows/dispensers', async (req, res) => {
