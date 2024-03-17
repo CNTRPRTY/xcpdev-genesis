@@ -53,10 +53,10 @@ app.get('/tip', async (req, res) => {
 app.get('/mempool', async (req, res) => {
     // const mempool = await Queries.getMempoolRows(db);
     res.status(200).json({
-        node: {
-            BITCOIN_VERSION,
-            COUNTERPARTY_VERSION,
-        },
+        // node: {
+        //     BITCOIN_VERSION,
+        //     COUNTERPARTY_VERSION,
+        // },
         mempool: cached_mempool,
         // mempool,
     });
@@ -89,10 +89,10 @@ app.get('/blocks', async (req, res) => {
     // });
 
     res.status(200).json({
-        node: {
-            BITCOIN_VERSION,
-            COUNTERPARTY_VERSION,
-        },
+        // node: {
+        //     BITCOIN_VERSION,
+        //     COUNTERPARTY_VERSION,
+        // },
         blocks: cached_blocks,
         // blocks: blocks_all,
         // blocks,
