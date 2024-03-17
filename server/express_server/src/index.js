@@ -195,17 +195,6 @@ app.get('/blockhash/:blockHash', async (req, res) => {
 });
 
 
-app.get('/address/:address/dispensers', async (req, res) => {
-    const address = req.params.address;
-    // const dispensers = {}; // changed to direct lists...
-    const dispensers_open = await Queries.getOpenDispensersRowsByAddress(db, address);
-    const dispensers_closed = await Queries.getClosedDispensersRowsByAddress(db, address);
-    res.status(200).json({
-        dispensers_open,
-        dispensers_closed,
-    });
-});
-
 app.get('/address/:address/dispensers/open', async (req, res) => {
     const address = req.params.address;
     const dispensers_open = await Queries.getOpenDispensersRowsByAddress(db, address);
