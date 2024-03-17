@@ -151,7 +151,8 @@ class Asset extends React.Component {
                     this.setState({
                         orders_get_loading: false,
                         orders_get_tip_blocks_row: orders_get_response.tip_blocks_row,
-                        orders_get: orders_get_response.orders_get,
+                        orders_get: orders_get_response.orders_get_open,
+                        // orders_get: orders_get_response.orders_get,
                     });
                 }
                 catch (err) {
@@ -165,7 +166,8 @@ class Asset extends React.Component {
                     this.setState({
                         orders_give_loading: false,
                         orders_give_tip_blocks_row: orders_give_response.tip_blocks_row,
-                        orders_give: orders_give_response.orders_give,
+                        orders_give: orders_give_response.orders_give_open,
+                        // orders_give: orders_give_response.orders_give,
                         // orders: [],
                     });
                 }
@@ -183,7 +185,8 @@ class Asset extends React.Component {
                         this.setState({
                             dispensers_loading: false,
                             dispensers_tip_blocks_row: dispensers_response.tip_blocks_row,
-                            dispensers: dispensers_response.dispensers,
+                            dispensers: dispensers_response.dispensers_open,
+                            // dispensers: dispensers_response.dispensers,
                         });
                     }
                     catch (err) {

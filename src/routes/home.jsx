@@ -56,7 +56,8 @@ class Home extends React.Component {
     async fetchDataLatest() {
         const latest_response = await getCntrprty(`/transactions`);
         this.setState({
-            btc_transactions_latest: latest_response.btc_transactions_latest,
+            btc_transactions_latest: latest_response.transactions_latest,
+            // btc_transactions_latest: latest_response.btc_transactions_latest,
         });
     }
 
