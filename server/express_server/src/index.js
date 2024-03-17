@@ -305,7 +305,7 @@ app.get('/asset/:assetName/escrows/dispensers', async (req, res) => {
     const dispensers = await Queries.getDispensersRowsByAssetName(db, asset_name);
     res.status(200).json({
         tip_blocks_row,
-        dispensers_open,
+        dispensers_open: dispensers,
         dispensers,
     });
 });
@@ -317,7 +317,7 @@ app.get('/asset/:assetName/escrows/orders', async (req, res) => {
     const orders_give = await Queries.getOrdersRowsGiveAssetByAssetName(db, asset_name);
     res.status(200).json({
         tip_blocks_row,
-        orders_give_open,
+        orders_give_open: orders_give,
         orders_give,
     });
 });
@@ -329,7 +329,7 @@ app.get('/asset/:assetName/exchanges', async (req, res) => {
     const orders_get = await Queries.getOrdersRowsGetAssetByAssetName(db, asset_name);
     res.status(200).json({
         tip_blocks_row,
-        orders_get_open,
+        orders_get_open: orders_get,
         orders_get,
 
         // TODO kept for transition... delete after
