@@ -194,23 +194,6 @@ app.get('/blockhash/:blockHash', async (req, res) => {
     }
 });
 
-// TODO already splitted, to be removed
-app.get('/address/:address', async (req, res) => {
-    const address = req.params.address;
-    const tables = {};
-    // tables.balances = await TableQueries.getBalancesRowsByAddress(db, address);
-    tables.broadcasts = await Queries.getBroadcastsRowsByAddress(db, address);
-    tables.issuances = await Queries.getIssuancesRowsByAssetsByIssuer(db, address);
-
-    const dispensers = {};
-    dispensers.open = await Queries.getOpenDispensersRowsByAddress(db, address);
-    dispensers.closed = await Queries.getClosedDispensersRowsByAddress(db, address);
-    tables.dispensers = dispensers;
-
-    res.status(200).json({
-        tables,
-    });
-});
 
 app.get('/address/:address/dispensers', async (req, res) => {
     const address = req.params.address;
