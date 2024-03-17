@@ -33,13 +33,19 @@ let cached_blocks = [];
 let cached_transactions = [];
 
 
-app.get('/tip', async (req, res) => {
-    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+app.get('/', async (req, res) => {
     res.status(200).json({
-        node: {
+        doc: 'https://xcp.dev/api',
+        node: { // only at tip (because is in the url now)
             BITCOIN_VERSION,
             COUNTERPARTY_VERSION,
         },
+    });
+});
+
+app.get('/tip', async (req, res) => {
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    res.status(200).json({
         tip_blocks_row,
     });
 });
