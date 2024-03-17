@@ -388,7 +388,7 @@ app.get('/asset/:assetName/subassets', async (req, res) => {
 });
 
 app.get('/subasset/:assetLongname', async (req, res) => {
-    // will just return the asset_row for a subsequent client /asset/:assetName request
+    // will just return the asset_row for a subsequent client /asset/:assetName/<> request
     const asset_longname = req.params.assetLongname;
     const asset_row = await Queries.getAssetsRowByAssetLongname(db, asset_longname);
     if (!asset_row) {
@@ -419,8 +419,9 @@ app.get('/transactions', async (req, res) => {
 
     // }
     res.status(200).json({
-        // TODO? rename?
+        // TODO rename!
         btc_transactions_latest: cached_transactions,
+        transactions_latest: cached_transactions,
     });
 });
 
