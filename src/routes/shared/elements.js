@@ -1161,7 +1161,7 @@ class OneElements {
                 </div>
 
                 <p>
-                    [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.4</a>]
+                    [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
                     {' '}|{' '}
                     <Link to="/api">API</Link>
                     <br />
