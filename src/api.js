@@ -4,7 +4,7 @@ const COUNTERPARTY_VERSION_ALT_URL = "";
 
 const BITCOIN_VERSION = "";
 const COUNTERPARTY_VERSION = "";
-const api_host = "";
+const API_HOST = "";
 
 // https://stackoverflow.com/a/39914235
 async function sleep(ms) {
@@ -13,7 +13,7 @@ async function sleep(ms) {
 
 async function getCntrprty(path) {
 
-    const url = `${api_host}${path}`;
+    const url = `${API_HOST}${path}`;
     const options = {
         method: "GET",
     };
@@ -95,7 +95,7 @@ async function postLibApiProxyFetch(method, params) {
             params,
         }),
     };
-    return fetch(`${api_host}${path}`, options);
+    return fetch(`${API_HOST}${path}`, options);
     // const res = await fetch(`${api_host}${path}`, options);
     // if (!res.ok) {
     //     if (res.status === 429) {
@@ -195,6 +195,8 @@ export {
 
     BITCOIN_VERSION,
     COUNTERPARTY_VERSION,
+    API_HOST,
+
     getCntrprty,
     postLibApiProxyFetch,
     // postLibApiProxy,
