@@ -27,8 +27,7 @@ class Apidoc extends React.Component {
         const url_asset_destructions = `${API_HOST}/asset/TWERK/destructions`;
         const url_asset_balances = `${API_HOST}/asset/DAILYSMOL/balances`;
         const url_asset_market_escrows_dispensers = `${API_HOST}/asset/DAILYSMOL/escrows/dispensers`;
-        // const url_asset_market_escrows_dispensers = `${API_HOST}/asset/DAILYSMOL/dispensers`;
-        const url_market_tx_dispenser = `${API_HOST}/transactions/dispensers/f46faf8e4e6d1d23c7f1aa4b8769c5e84651dfd31ae315f082cde60a3264589b`;
+        const url_market_tx_dispenser = `${API_HOST}/transactions/dispensers/f15fcbec8ecad50eef5455e40fc87a9d42c18dd1de5bb7bfd8c0a61d9bcaa254`;
 
         const latest_element = (
             <>
