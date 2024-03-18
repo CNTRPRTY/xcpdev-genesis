@@ -219,13 +219,13 @@ app.get('/asset/:assetName', async (req, res) => {
             destructions = await Queries.getDestructionsRowsByAssetName(db, asset_name);
         }
         res.status(200).json({
-            tip_blocks_row,
+            // tip_blocks_row,
             asset_row,
-            // mixed is ok!
-            tables: {
-                issuances,
-                destructions
-            },
+            // // mixed is ok!
+            // tables: {
+            //     issuances,
+            //     destructions
+            // },
         });
     }
 });
@@ -269,7 +269,7 @@ app.get('/asset/:assetName/escrows/dispensers', async (req, res) => {
     res.status(200).json({
         tip_blocks_row,
         dispensers_open: dispensers,
-        dispensers,
+        // dispensers,
     });
 });
 
@@ -281,7 +281,7 @@ app.get('/asset/:assetName/escrows/orders', async (req, res) => {
     res.status(200).json({
         tip_blocks_row,
         orders_give_open: orders_give,
-        orders_give,
+        // orders_give,
     });
 });
 
@@ -293,12 +293,12 @@ app.get('/asset/:assetName/exchanges', async (req, res) => {
     res.status(200).json({
         tip_blocks_row,
         orders_get_open: orders_get,
-        orders_get,
+        // orders_get,
 
-        // TODO kept for transition... delete after
-        tables: {
-            orders_get,
-        },
+        // // TODO kept for transition... delete after
+        // tables: {
+        //     orders_get,
+        // },
     });
 });
 
@@ -330,7 +330,7 @@ app.get('/subasset/:assetLongname', async (req, res) => {
 // only latest
 app.get('/transactions', async (req, res) => {
     res.status(200).json({
-        btc_transactions_latest: cached_transactions,
+        // btc_transactions_latest: cached_transactions,
         transactions_latest: cached_transactions,
     });
 });
