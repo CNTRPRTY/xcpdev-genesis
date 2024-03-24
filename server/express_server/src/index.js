@@ -454,6 +454,34 @@ app.get('/messages/:messageIndex', async (req, res) => {
 });
 
 
+app.get('/blocks/:blockIndex', async (req, res) => {
+    // app.get('/blocks/:blockTime', async (req, res) => { // would be cool but is not indexed... (also good for clear difference to /block/blockIndex)
+    // TODO improve, starting with most basic validation
+    try {
+        const block_index = Number(req.params.blockIndex);
+        const to_index = Number(block_index) + 99;
+        const blocks = await Queries.getBlocksInRange(db, block_index, to_index);
+        res.status(200).json({
+            node: {
+                BITCOIN_VERSION,
+                COUNTERPARTY_VERSION,
+            },
+            from_index: block_index,
+            to_index,
+            blocks,
+        });
+    }
+    catch (err) {
+        console.log(`blocks/:blockIndex error:`);
+        console.log(err);
+        res.status(500).json({
+            // TODO cleanup!
+            error: 'Maybe 500 error', // TODO!
+        });
+    }
+});
+
+
 // non-standard on purpose
 app.get('/blocks_messages_range/:startBlockIndex/:endBlockIndex', async (req, res) => {
     const start_block_index = req.params.startBlockIndex;
