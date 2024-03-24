@@ -108,15 +108,31 @@ class Search extends React.Component {
     return (
       <>
 
-        {/* <span> */}
-        <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
+        {/*  */}
+        <input
+          class="border-solid border-2"
+          type="text"
+          value={this.state.search}
+          onChange={this.handleSearchChange}
+          placeholder={placeholder}
+          size={placeholder_size}
+        />
+        {' '}
+        <button
+          class="px-1 border-solid border-2"
+          onClick={this.handleSearchSubmit}
+        >
+          go
+        </button>
+        {/*  */}
+
+        {/* <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
           <form onSubmit={this.handleSearchSubmit}>
             <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder={placeholder} size={placeholder_size} />
             {' '}
             <input type="submit" value={"go"} />
           </form>
-        </div>
-        {/* </span> */}
+        </div> */}
 
       </>
 

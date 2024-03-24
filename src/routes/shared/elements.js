@@ -1143,32 +1143,47 @@ class OneElements {
         return (
             <main style={{ padding: "1rem" }}>
 
-                <h1>xcp.dev</h1>
-                <h3>Counterparty Bitcoin Tools</h3>
+                <div class="py-1 my-1">
+                    <h1 class="text-3xl font-bold">
+                        xcp.dev
+                    </h1>
+                    <h3>Counterparty Bitcoin Tools</h3>
+                </div>
+
+                <div class="py-1 my-1">
                 <nav
                     style={{
-                    borderBottom: "solid 1px",
-                    paddingBottom: "1rem",
+                        borderBottom: "solid 1px",
+                        paddingBottom: "1rem",
                     }}
                 >
-                    <Link to="/">Data</Link> |{" "}
-                    <Link to="/wallet">Wallet</Link>
-                    <Search />
-                </nav>
+                    <Link class="underline" to="/">Data</Link> |{" "}
+                    <Link class="underline" to="/wallet">Wallet</Link>
 
-                <div style={{ padding: "1rem" }}>
+                    <div>
+                        <Search />
+                    </div>
+                    {/* <Search /> */}
+                </nav>
+                </div>
+                
+                <div class="py-1 my-1">
+                {/* <div style={{ padding: "1rem" }}> */}
                     {route_element}
                 </div>
 
+                <div class="py-1 my-1">
                 <p>
-                    [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+                    [<a class="underline" href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
                     {' '}|{' '}
-                    <Link to="/api">API</Link>
+                    <Link class="underline" to="/api">API</Link>
                     <br />
-                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
+                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a class="underline" href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
                     <br />
                     [Bitcoin Core v{BITCOIN_VERSION}]
                 </p>
+                </div>
+
             </main>
         );
     }
