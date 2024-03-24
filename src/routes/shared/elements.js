@@ -1038,7 +1038,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sat)</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sats)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC burn</td>

@@ -53,7 +53,7 @@ class Home extends React.Component {
         });
     }
 
-    async fetchDataLatest() {
+    async fetchDataTransactions() {
         const latest_response = await getCntrprty(`/transactions`);
         this.setState({
             btc_transactions_latest: latest_response.transactions_latest,
@@ -65,7 +65,7 @@ class Home extends React.Component {
         // not awaiting it
         this.fetchDataBlocks();
         this.fetchDataMempool();
-        this.fetchDataLatest();
+        this.fetchDataTransactions();
     }
 
     render() {
@@ -112,7 +112,9 @@ class Home extends React.Component {
         }
         const block_element = (
             <>
-                <h2>Latest blocks:</h2>
+                <h2>Latest blocks: (<Link to={`/blocks`}>all</Link>)</h2>
+                {/* <h2>Latest blocks: (<Link to={`/blocks`}>All blocks</Link>)</h2> */}
+                {/* <h2>Latest blocks:</h2> */}
                 {block_element_contents}
             </>
         );
@@ -185,7 +187,7 @@ class Home extends React.Component {
             transactions_element_contents = (
                 <>
                     {/* <h4>Latest:</h4> */}
-                    <h4>Latest (tx index desc):</h4>
+                    {/* <h4>Latest (tx index desc):</h4> */}
                     {/* <h4>Latest (most recent top):</h4> */}
                     <table>
                         <tbody>
@@ -196,14 +198,16 @@ class Home extends React.Component {
                         </tbody>
                     </table>
 
-                    <h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4>
+                    {/* <h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4> */}
                     {/* <h4><Link to={`/transactions`}>All transactions</Link></h4> */}
                 </>
             );
         }
         const transactions_element = (
             <>
-                <h2>Block transactions:</h2>
+                <h2>Latest confimed transactions: (<Link to={`/transactions`}>all</Link>)</h2>
+                {/* <h2>Latest confimed transactions: (<Link to={`/transactions`}>All transactions</Link>)</h2> */}
+                {/* <h2>Block transactions:</h2> */}
                 {/* <h2>Transactions:</h2> */}
                 {transactions_element_contents}
             </>
