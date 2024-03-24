@@ -21,7 +21,7 @@ class Apidoc extends React.Component {
         const url_block_messages = `${API_HOST}/block/800000/messages`;
         const url_address_balances = `${API_HOST}/address/1HbJtt8hm7TGd2DhHvxuw4BRdZsd2iuxYp/balances`;
         const url_address_broadcasts = `${API_HOST}/address/1HbJtt8hm7TGd2DhHvxuw4BRdZsd2iuxYp/broadcasts`;
-        const url_asset = `${API_HOST}/asset/OLGA`;
+        const url_asset = `${API_HOST}/asset/TEST`;
         const url_subasset = `${API_HOST}/subasset/OTHERWORLD.EarthEaters`;
         const url_asset_issuances = `${API_HOST}/asset/OLGA/issuances`;
         const url_asset_destructions = `${API_HOST}/asset/TWERK/destructions`;
