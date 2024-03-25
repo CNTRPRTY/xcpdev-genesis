@@ -47,6 +47,9 @@ class Search extends React.Component {
     event.preventDefault();
 
     let to_navigate = this.state.search.replace(/\s/g, ''); // remove all whitespace (https://stackoverflow.com/a/6623263)
+    // do nothing if empty
+    if (!to_navigate.length) return;
+    
     this.setState({ search: '' });
 
     let path_type = null;
