@@ -167,7 +167,7 @@ class ListElements {
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link class="underline" to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
             </tr>
         );
@@ -1077,7 +1077,7 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link class="underline" to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
                     <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
                 </>
             );
@@ -1086,7 +1086,7 @@ class ListElements {
             firstTwo = (
                 <>
                     <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link class="underline" to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
                     {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
                 </>
             );
@@ -1104,11 +1104,11 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link class="underline" to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.fee}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link class="underline" to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link class="underline" to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
@@ -1169,8 +1169,8 @@ class OneElements {
                         paddingBottom: "1rem",
                     }}
                 >
-                    <Link class="underline" to="/">Data</Link> |{" "}
-                    <Link class="underline" to="/wallet">Wallet</Link>
+                    <Link to="/">Data</Link> |{" "}
+                    <Link to="/wallet">Wallet</Link>
 
                     <div>
                         <Search />
@@ -1186,11 +1186,11 @@ class OneElements {
 
                 <div class="py-1 my-1">
                 <p>
-                    [<a class="underline" href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+                    [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
                     {' '}|{' '}
-                    <Link class="underline" to="/api">API</Link>
+                    <Link to="/api">API</Link>
                     <br />
-                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a class="underline" href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
+                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
                     <br />
                     [Bitcoin Core v{BITCOIN_VERSION}]
                 </p>

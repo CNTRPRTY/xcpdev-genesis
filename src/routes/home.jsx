@@ -59,7 +59,7 @@ class Home extends React.Component {
                             {this.state.blocks.map((block_row, index) => {
                                 return (
                                     <td key={index} style={{ padding: "0 1rem 0 0" }}>
-                                        <Link class="underline" to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
+                                        <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
                                         {timeSince(new Date(block_row.block_time * 1000))}<br />
                                         <br />
                                         {block_row.messages_count} messages<br />
@@ -81,7 +81,7 @@ class Home extends React.Component {
                     Latest blocks:
                     {' '}
                     <span class="font-normal">
-                        ( <Link class="underline" to={`/blocks`}>all</Link> )
+                        ( <Link to={`/blocks`}>all</Link> )
                     </span>
                 </h2>
                 {block_element_contents}
@@ -149,7 +149,7 @@ class Home extends React.Component {
                     Latest confirmed transactions:
                     {' '}
                     <span class="font-normal">
-                        ( <Link class="underline" to={`/transactions`}>all</Link> )
+                        ( <Link to={`/transactions`}>all</Link> )
                     </span>
                 </h2>
                 {transactions_element_contents}

@@ -33,13 +33,13 @@ class Apidoc extends React.Component {
             <>
                 <ul class="list-disc list-inside">
                     <li>
-                        mempool: <a class="underline" href={url_latest_mempool} target="_blank">{url_latest_mempool}</a>
+                        mempool: <a href={url_latest_mempool} target="_blank">{url_latest_mempool}</a>
                     </li>
                     <li>
-                        transactions: <a class="underline" href={url_latest_transactions} target="_blank">{url_latest_transactions}</a>
+                        transactions: <a href={url_latest_transactions} target="_blank">{url_latest_transactions}</a>
                     </li>
                     <li>
-                        blocks: <a class="underline" href={url_latest_blocks} target="_blank">{url_latest_blocks}</a>
+                        blocks: <a href={url_latest_blocks} target="_blank">{url_latest_blocks}</a>
                     </li>
                 </ul>
             </>
@@ -51,49 +51,49 @@ class Apidoc extends React.Component {
                 <div>
                     <ul class="list-disc list-inside">
                         <li>
-                            transaction: <a class="underline" href={url_transaction} target="_blank">{url_transaction}</a>
+                            transaction: <a href={url_transaction} target="_blank">{url_transaction}</a>
                         </li>
 
                         <li>
-                            block: <a class="underline" href={url_block} target="_blank">{url_block}</a>
+                            block: <a href={url_block} target="_blank">{url_block}</a>
                         </li>
 
                         <li>
-                            block messages: <a class="underline" href={url_block_messages} target="_blank">{url_block_messages}</a>
+                            block messages: <a href={url_block_messages} target="_blank">{url_block_messages}</a>
                         </li>
 
                         <li>
-                            address balances: <a class="underline" href={url_address_balances} target="_blank">{url_address_balances}</a>
+                            address balances: <a href={url_address_balances} target="_blank">{url_address_balances}</a>
                         </li>
 
                         <li>
-                            address broadcasts: <a class="underline" href={url_address_broadcasts} target="_blank">{url_address_broadcasts}</a>
+                            address broadcasts: <a href={url_address_broadcasts} target="_blank">{url_address_broadcasts}</a>
                         </li>
 
                         <li>
-                            asset genesis: <a class="underline" href={url_asset} target="_blank">{url_asset}</a>
+                            asset genesis: <a href={url_asset} target="_blank">{url_asset}</a>
                         </li>
                         <li>
-                            asset genesis (longname): <a class="underline" href={url_subasset} target="_blank">{url_subasset}</a>
-                        </li>
-
-                        <li>
-                            asset issuances: <a class="underline" href={url_asset_issuances} target="_blank">{url_asset_issuances}</a>
-                        </li>
-                        <li>
-                            asset destructions: <a class="underline" href={url_asset_destructions} target="_blank">{url_asset_destructions}</a>
-                        </li>
-                        <li>
-                            asset holders: <a class="underline" href={url_asset_balances} target="_blank">{url_asset_balances}</a>
-                        </li>
-                        <li>
-                            market: open asset dispensers: <a class="underline" href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a>
-                            {/* market open: asset dispensers: <a class="underline" href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a> */}
+                            asset genesis (longname): <a href={url_subasset} target="_blank">{url_subasset}</a>
                         </li>
 
                         <li>
-                            market: dispenser info: <a class="underline" href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a>
-                            {/* market transaction: dispenser: <a class="underline" href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a> */}
+                            asset issuances: <a href={url_asset_issuances} target="_blank">{url_asset_issuances}</a>
+                        </li>
+                        <li>
+                            asset destructions: <a href={url_asset_destructions} target="_blank">{url_asset_destructions}</a>
+                        </li>
+                        <li>
+                            asset holders: <a href={url_asset_balances} target="_blank">{url_asset_balances}</a>
+                        </li>
+                        <li>
+                            market: open asset dispensers: <a href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a>
+                            {/* market open: asset dispensers: <a href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a> */}
+                        </li>
+
+                        <li>
+                            market: dispenser info: <a href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a>
+                            {/* market transaction: dispenser: <a href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a> */}
                         </li>
 
                     </ul>
