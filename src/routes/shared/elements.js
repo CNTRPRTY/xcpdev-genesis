@@ -1018,14 +1018,25 @@ class ListElements {
             firstTwo = (
                 <>
                     <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>
+
+                    <td
+                        class="whitespace-nowrap"
+                        style={{ padding: "0 1rem 0.25rem 0" }}
+                    >tx index</td>
+                    {/* this one is not currently seen, but for consistency */}
+                    {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td> */}
                 </>
             );
         }
         else {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>
+                    <td
+                        class="whitespace-nowrap"
+                        style={{ padding: "0 1rem 0.25rem 0" }}
+                    >tx index</td>
+                    {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td> */}
+
                     <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>
                 </>
             );
@@ -1120,8 +1131,19 @@ class ListElements {
     static getTableRowMessagesHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+
+                <td
+                    class="whitespace-nowrap"
+                    style={{ padding: "0 1rem 0.25rem 0" }}
+                >message index</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
+
+                <td
+                    class="whitespace-nowrap"
+                    style={{ padding: "0 1rem 0.25rem 0" }}
+                >block index</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td> */}
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
