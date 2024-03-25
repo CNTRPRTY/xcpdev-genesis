@@ -6,8 +6,6 @@ import { OneElements } from './shared/elements';
 import { timeIsoFormat } from '../utils';
 
 class Blockspage extends React.Component {
-    // class Messagespage extends React.Component {
-    // class Transactionspage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -25,28 +23,32 @@ class Blockspage extends React.Component {
         }
 
         this.state = {
-            page_not_found: null,
 
             from_index: index_if_specified,
             to_index: null,
-            rows: [],
+
+            rows_loading: true,
+            rows_loading_error: null,
+            rows: null,
         };
     }
 
     async fetchData(from_index) {
-        const response = await getCntrprty(`/blocks/${from_index}`);
-
-        if (!response) {
-            this.setState({ page_not_found: true });
-        }
-        else {
+        try {
+            const response = await getCntrprty(`/blocks/${from_index}`);
             this.setState({
                 from_index: response.from_index,
                 to_index: response.to_index,
+
+                rows_loading: false,
                 rows: response.blocks,
             });
         }
-
+        catch (err) {
+            this.setState({
+                rows_loading_error: err,
+            });
+        }
     }
 
     async componentDidMount() {
@@ -65,14 +67,6 @@ class Blockspage extends React.Component {
 
     render() {
 
-        let content_element = (<p>loading...</p>);
-        if (this.state.page_not_found) {
-            return (
-                <main style={{ padding: "1rem" }}>
-                    <h2>No results found</h2>
-                </main>
-            );
-        }
         // Here is always the same
         let years = {
             y2014: 278319,
@@ -108,17 +102,20 @@ class Blockspage extends React.Component {
             </>
         );
 
-        const change_pages_element = (
-            <p><Link to={`/blocks#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
-        );
+        let content_element = (<p>loading...</p>);
+        if (this.state.rows_loading_error) {
+            content_element = (<p>{`${this.state.rows_loading_error}`}</p>);
+        }
+        else if (!this.state.rows_loading) {
 
-        content_element = (
-            <div>
+            const change_pages_element = (
+                <p><Link to={`/blocks#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
+            );
 
-                <p>All Bitcoin blocks since CNTRPRTY <Link to={`/transactions`}>started</Link>, in ascending order.</p>
-
-                {jump_year_element}
-
+            content_element = 
+            this.state.rows.length ?
+            (
+                <>
                 <h3>
                     From block index {this.state.from_index} to {this.state.to_index}:
                 </h3>
@@ -158,13 +155,16 @@ class Blockspage extends React.Component {
                 </table>
 
                 {change_pages_element}
-
-            </div>
-        );
+                </>
+            )
+            : (<p>no rows found...</p>);
+        }
 
         const page_element = (
             <>
                 <h2>Blocks:</h2>
+                <p>All Bitcoin blocks since CNTRPRTY <Link to={`/transactions`}>started</Link>, in ascending order.</p>
+                {jump_year_element}
                 {content_element}
             </>
         );
