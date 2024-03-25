@@ -112,52 +112,52 @@ class Blockspage extends React.Component {
                 <p><Link to={`/blocks#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
             );
 
-            content_element = 
-            this.state.rows.length ?
-            (
-                <>
-                <h3>
-                    From block index {this.state.from_index} to {this.state.to_index}:
-                </h3>
+            content_element =
+                this.state.rows.length ?
+                    (
+                        <>
+                            <h3>
+                                From block index {this.state.from_index} to {this.state.to_index}:
+                            </h3>
 
-                {change_pages_element}
+                            {change_pages_element}
 
-                <table>
-                    <tbody>
+                            <table>
+                                <tbody>
 
-                        <tr style={{ padding: "0.25rem" }}>
-                            <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
-                            <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
-                            <td style={{ padding: "0 1rem 0.25rem 0" }}>block hash</td>
-                            <td style={{ padding: "0 1rem 0.25rem 0" }}>transactions hash</td>
-                            <td style={{ padding: "0 1rem 0.25rem 0" }}>messages hash</td>
-                            <td style={{ padding: "0 1rem 0.25rem 0" }}>ledger hash</td>
-                        </tr>
+                                    <tr style={{ padding: "0.25rem" }}>
+                                        <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                                        <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
+                                        <td style={{ padding: "0 1rem 0.25rem 0" }}>block hash</td>
+                                        <td style={{ padding: "0 1rem 0.25rem 0" }}>transactions hash</td>
+                                        <td style={{ padding: "0 1rem 0.25rem 0" }}>messages hash</td>
+                                        <td style={{ padding: "0 1rem 0.25rem 0" }}>ledger hash</td>
+                                    </tr>
 
-                        {/* {ListElements.getTableRowMessagesHeader()} */}
-                        {this.state.rows.map((block_row, index) => {
+                                    {/* {ListElements.getTableRowMessagesHeader()} */}
+                                    {this.state.rows.map((block_row, index) => {
 
-                            const block_time_iso = timeIsoFormat(block_row.block_time);
-                            return (
-                                <tr key={index} style={{ padding: "0.25rem" }}>
-                                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>{block_row.block_hash}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>{block_row.txlist_hash}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>{block_row.messages_hash}</td>
-                                    <td style={{ padding: "0 1rem 0 0" }}>{block_row.ledger_hash}</td>
-                                </tr>
-                            );
+                                        const block_time_iso = timeIsoFormat(block_row.block_time);
+                                        return (
+                                            <tr key={index} style={{ padding: "0.25rem" }}>
+                                                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
+                                                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                                                <td style={{ padding: "0 1rem 0 0" }}>{block_row.block_hash}</td>
+                                                <td style={{ padding: "0 1rem 0 0" }}>{block_row.txlist_hash}</td>
+                                                <td style={{ padding: "0 1rem 0 0" }}>{block_row.messages_hash}</td>
+                                                <td style={{ padding: "0 1rem 0 0" }}>{block_row.ledger_hash}</td>
+                                            </tr>
+                                        );
 
-                            // return ListElements.getTableRowMessages(message_row, index);
-                        })}
-                    </tbody>
-                </table>
+                                        // return ListElements.getTableRowMessages(message_row, index);
+                                    })}
+                                </tbody>
+                            </table>
 
-                {change_pages_element}
-                </>
-            )
-            : (<p>no rows found...</p>);
+                            {change_pages_element}
+                        </>
+                    )
+                    : (<p>no rows found...</p>);
         }
 
         const page_element = (
