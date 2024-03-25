@@ -3,7 +3,7 @@ import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
-import { timeIsoFormat, timeSince, hashSlice } from '../utils';
+import { timeSince, hashSlice } from '../utils';
 
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
@@ -12,21 +12,16 @@ class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {            
-            ////
+        this.state = {
             blocks: null,
-            ////
             mempool_empty: null,
             // mempool_full: [],
             mempool_full_new: [],
-            get_running_info: null,
-            //
             btc_transactions_latest: null,
         };
     }
 
     async fetchDataBlocks() {
-        // TODO cache instead of repeating the call?
         const block_response = await getCntrprty('/blocks');
         this.setState({
             blocks: block_response.blocks,
@@ -49,7 +44,6 @@ class Home extends React.Component {
             mempool_empty,
             // mempool_full,
             mempool_full_new, // still wip
-            // get_running_info: mempool_response.get_running_info, // not used
         });
     }
 
@@ -57,12 +51,11 @@ class Home extends React.Component {
         const latest_response = await getCntrprty(`/transactions`);
         this.setState({
             btc_transactions_latest: latest_response.transactions_latest,
-            // btc_transactions_latest: latest_response.btc_transactions_latest,
         });
     }
 
     async componentDidMount() {
-        // not awaiting it
+        // no await
         this.fetchDataBlocks();
         this.fetchDataMempool();
         this.fetchDataTransactions();
@@ -71,61 +64,49 @@ class Home extends React.Component {
     render() {
 
 
-        //////////
         let block_element_contents = (<p>loading...</p>);
-
         if (this.state.blocks && this.state.blocks.length) {
             block_element_contents = (
-                <>
                     <table>
                         <tbody>
                             <tr style={{ padding: "0.25rem" }}>
                                 {this.state.blocks.map((block_row, index) => {
                                     return (
                                         <td key={index} style={{ padding: "0 1rem 0 0" }}>
-                                            <strong><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></strong>
+                                            <Link class="underline" to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
+                                            {timeSince(new Date(block_row.block_time * 1000))}<br />
                                             <br />
-                                            {/* {timeIsoFormat(block_row.block_time)}
-                                            {' '} */}
-                                            {timeSince(new Date(block_row.block_time * 1000))}
-                                            <br /><br />
-                                            {block_row.messages_count} messages
-                                            {/* {block_row.messages} messages */}
-                                            <br /><br />
-                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
-                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
+                                            {block_row.messages_count} messages<br />
+                                            <br />
                                             L:{hashSlice(block_row.ledger_hash)}<br />
                                             TX:{hashSlice(block_row.txlist_hash)}<br />
                                             M:{hashSlice(block_row.messages_hash)}<br />
-                                            {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
-                                            txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
-                                            messages_hash:{hashSlice(block_row.messages_hash)}<br /> */}
                                         </td>
-                                        // <td key={index} style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(block_row)}</td>
                                     );
                                 })}
                             </tr>
                         </tbody>
                     </table>
-                </>
             );
         }
         const block_element = (
             <>
-                <h2>Latest blocks: (<Link to={`/blocks`}>all</Link>)</h2>
-                {/* <h2>Latest blocks: (<Link to={`/blocks`}>All blocks</Link>)</h2> */}
-                {/* <h2>Latest blocks:</h2> */}
+                <h2 class="font-bold text-xl mb-1">
+                    Latest blocks:
+                    {' '}
+                    <span class="font-normal">
+                        ( <Link class="underline" to={`/blocks`}>all</Link> )
+                    </span>
+                </h2>
                 {block_element_contents}
             </>
         );
-        //////////
 
 
         let mempool_element_contents = (<p>loading...</p>);
         if (this.state.mempool_empty) {
             mempool_element_contents = (
                 <p>Try refreshing the page in a couple of minutes...</p>
-                // <p>Try refreshing the page in a couple of minutes... (<a href={`https://github.com/CounterpartyXCP/counterparty-lib/issues/1227`} target="_blank">why?</a>)</p>
             );
         }
         else if (this.state.mempool_full_new.length) {
@@ -153,26 +134,11 @@ class Home extends React.Component {
                 </table>
             );
         }
-        // else if (this.state.mempool_full.length) {
-        //     mempool_element_contents = (
-        //         <table>
-        //             <tbody>
-        //                 {ListElements.getTableRowMempoolHomeHeader()}
-        //                 {this.state.mempool_full.map((mempool_row, index) => {
-        //                     // {this.state.mempool_grouped.map((mempool_row, index) => {
-        //                     return ListElements.getTableRowMempoolHome(mempool_row, index);
-        //                     // return ListElements.getTableRowMempool(mempool_row, index);
-        //                 })}
-        //             </tbody>
-        //         </table>
-        //     );
-        // }
         const mempool_element = (
             <>
-                {/* <h2>Unconfirmed (mempool) transactions:</h2> */}
-                <h2>Unconfirmed transactions:</h2>
-                {/* <h2>Mempool transactions:</h2> */}
-                {/* <h2>Mempool:</h2> */}
+                <h2 class="font-bold text-xl mb-1">
+                    Unconfirmed transactions:
+                </h2>
                 {mempool_element_contents}
             </>
         );
@@ -180,15 +146,7 @@ class Home extends React.Component {
         let transactions_element_contents = (<p>loading...</p>);
         if (this.state.btc_transactions_latest && this.state.btc_transactions_latest.length) {
             const is_home_page = true;
-
-            const link_tx_index = this.state.btc_transactions_latest[0].tx_index - 99;
-            // const link_tx_index = this.state.btc_transactions_latest[0].tx_index - 999;
-
             transactions_element_contents = (
-                <>
-                    {/* <h4>Latest:</h4> */}
-                    {/* <h4>Latest (tx index desc):</h4> */}
-                    {/* <h4>Latest (most recent top):</h4> */}
                     <table>
                         <tbody>
                             {ListElements.getTableRowTransactionHeader(is_home_page)}
@@ -197,43 +155,36 @@ class Home extends React.Component {
                             })}
                         </tbody>
                     </table>
-
-                    {/* <h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4> */}
-                    {/* <h4><Link to={`/transactions`}>All transactions</Link></h4> */}
-                </>
             );
         }
         const transactions_element = (
             <>
-                <h2>Latest confimed transactions: (<Link to={`/transactions`}>all</Link>)</h2>
-                {/* <h2>Latest confimed transactions: (<Link to={`/transactions`}>All transactions</Link>)</h2> */}
-                {/* <h2>Block transactions:</h2> */}
-                {/* <h2>Transactions:</h2> */}
+                <h2 class="font-bold text-xl mb-1">
+                    Latest confirmed transactions:
+                    {' '}
+                    <span class="font-normal">
+                        ( <Link class="underline" to={`/transactions`}>all</Link> )
+                    </span>
+                </h2>
                 {transactions_element_contents}
             </>
         );
 
         const homenew_element = (
             <>
-                {block_element}
-                {mempool_element}
-                {transactions_element}
-                {/* {tables_element} */}
+                <div class="py-2 my-2">
+                    {block_element}
+                </div>
+                <div class="py-2 my-2">
+                    {mempool_element}
+                </div>
+                <div class="py-2 my-2">
+                    {transactions_element}
+                </div>
             </>
         );
 
         return OneElements.getFullPageForRouteElement(homenew_element);
-        // return OneElements.getFullPageForRouteElement(mempool_element);
-        // return (
-        //     <main style={{ padding: "1rem" }}>
-        //         {mempool_element}
-        //         <p>
-        //             [xcp.dev v1.0]
-        //             <br />
-        //             [counterparty-lib v9.59] in [Bitcoin Core v0.21???]
-        //         </p>
-        //     </main>
-        // );
     }
 
 }
