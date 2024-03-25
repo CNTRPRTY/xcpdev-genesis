@@ -14,10 +14,8 @@ class Home extends React.Component {
         super(props);
         this.state = {
             blocks: null,
-            mempool_empty: null,
-            // mempool_full: [],
-            mempool_full_new: [],
-            btc_transactions_latest: null,
+            mempool: null,
+            transactions: null,
         };
     }
 
@@ -30,27 +28,16 @@ class Home extends React.Component {
 
     async fetchDataMempool() {
         const mempool_response = await getCntrprty('/mempool');
-
-        const mempool_full_new = mempool_response.mempool;
-        // const mempool_full = mempool_response.mempool;
-
-        let mempool_empty = false;
-        if (mempool_full_new.length === 0) {
-            // if (mempool_full.length === 0) {
-            mempool_empty = true;
-        }
-
+        const mempool = mempool_response.mempool;
         this.setState({
-            mempool_empty,
-            // mempool_full,
-            mempool_full_new, // still wip
+            mempool
         });
     }
 
     async fetchDataTransactions() {
-        const latest_response = await getCntrprty(`/transactions`);
+        const transactions_response = await getCntrprty(`/transactions`);
         this.setState({
-            btc_transactions_latest: latest_response.transactions_latest,
+            transactions: transactions_response.transactions_latest,
         });
     }
 
@@ -104,17 +91,17 @@ class Home extends React.Component {
 
 
         let mempool_element_contents = (<p>loading...</p>);
-        if (this.state.mempool_empty) {
+        if (this.state.mempool && !this.state.mempool.length) {
             mempool_element_contents = (
                 <p>Try refreshing the page in a couple of minutes...</p>
             );
         }
-        else if (this.state.mempool_full_new.length) {
+        else if (this.state.mempool && this.state.mempool.length) {
             mempool_element_contents = (
                 <table>
                     <tbody>
                         {ListElements.getTableRowMempoolHomeHeader()}
-                        {this.state.mempool_full_new.map((mempool_row, index) => {
+                        {this.state.mempool.map((mempool_row, index) => {
 
                             // cntrprty transaction
                             let cntrprty_decoded = {};
@@ -144,13 +131,13 @@ class Home extends React.Component {
         );
 
         let transactions_element_contents = (<p>loading...</p>);
-        if (this.state.btc_transactions_latest && this.state.btc_transactions_latest.length) {
+        if (this.state.transactions && this.state.transactions.length) {
             const is_home_page = true;
             transactions_element_contents = (
                 <table>
                     <tbody>
                         {ListElements.getTableRowTransactionHeader(is_home_page)}
-                        {this.state.btc_transactions_latest.map((transaction_row, index) => {
+                        {this.state.transactions.map((transaction_row, index) => {
                             return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
                         })}
                     </tbody>
