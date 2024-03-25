@@ -28,16 +28,15 @@ class Home extends React.Component {
 
     async fetchDataMempool() {
         const mempool_response = await getCntrprty('/mempool');
-        const mempool = mempool_response.mempool;
         this.setState({
-            mempool
+            mempool: mempool_response.mempool,
         });
     }
 
     async fetchDataTransactions() {
         const transactions_response = await getCntrprty(`/transactions`);
         this.setState({
-            transactions: transactions_response.transactions_latest,
+            transactions: transactions_response.transactions_latest, // TODO consistency
         });
     }
 
