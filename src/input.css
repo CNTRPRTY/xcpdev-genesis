@@ -16,3 +16,10 @@ code {
 
 @tailwind components;
 @tailwind utilities;
+
+/* https://stackoverflow.com/a/65134135 */
+@layer base {
+  a {
+    @apply underline text-blue-700;
+  }
+}
