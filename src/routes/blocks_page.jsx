@@ -115,34 +115,52 @@ class Blockspage extends React.Component {
                 this.state.rows.length ?
                     (
                         <>
-                            <h3>
-                                From block index {this.state.from_index} to {this.state.to_index}:
-                            </h3>
+                            <div class="py-1 my-1">
+                                <p>
+                                    From block index {this.state.from_index} to {this.state.to_index}:
+                                </p>
+                            </div>
 
-                            {change_pages_element}
+                            <div class="py-1 my-1">
+                                {change_pages_element}
+                            </div>
 
-                            <table>
-                                <tbody>
-                                    {ListElements.getTableRowBlocksHeader()}
-                                    {this.state.rows.map((block_row, index) => {
-                                        return ListElements.getTableRowBlocks(block_row, index);
-                                    })}
-                                </tbody>
-                            </table>
+                            <div class="py-1 my-1">
+                                <table>
+                                    <tbody>
+                                        {ListElements.getTableRowBlocksHeader()}
+                                        {this.state.rows.map((block_row, index) => {
+                                            return ListElements.getTableRowBlocks(block_row, index);
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
 
-                            {change_pages_element}
+                            <div class="pt-1 mt-1">
+                            {/* <div class="py-1 my-1"> */}
+                                {change_pages_element}
+                            </div>
                         </>
                     )
                     : (<p>no rows found...</p>);
         }
 
         const page_element = (
-            <>
-                <h2>Blocks:</h2>
-                <p>All Bitcoin blocks since CNTRPRTY <Link to={`/transactions`}>started</Link>, in ascending order.</p>
-                {jump_year_element}
-                {content_element}
-            </>
+            <div class="py-2 my-2">
+                <h2 class="font-bold text-xl mb-1">
+                    Blocks:
+                </h2>
+                <div class="py-1 my-1">
+                    <p>All Bitcoin blocks since CNTRPRTY <Link to={`/transactions`}>started</Link>, in ascending order.</p>
+                </div>
+                <div class="py-1 my-1">
+                    {jump_year_element}
+                </div>
+                <div class="pt-1 mt-1">
+                {/* <div class="py-1 my-1"> */}
+                    {content_element}
+                </div>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(page_element);
