@@ -67,26 +67,26 @@ class Home extends React.Component {
         let block_element_contents = (<p>loading...</p>);
         if (this.state.blocks && this.state.blocks.length) {
             block_element_contents = (
-                    <table>
-                        <tbody>
-                            <tr style={{ padding: "0.25rem" }}>
-                                {this.state.blocks.map((block_row, index) => {
-                                    return (
-                                        <td key={index} style={{ padding: "0 1rem 0 0" }}>
-                                            <Link class="underline" to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
-                                            {timeSince(new Date(block_row.block_time * 1000))}<br />
-                                            <br />
-                                            {block_row.messages_count} messages<br />
-                                            <br />
-                                            L:{hashSlice(block_row.ledger_hash)}<br />
-                                            TX:{hashSlice(block_row.txlist_hash)}<br />
-                                            M:{hashSlice(block_row.messages_hash)}<br />
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        </tbody>
-                    </table>
+                <table>
+                    <tbody>
+                        <tr style={{ padding: "0.25rem" }}>
+                            {this.state.blocks.map((block_row, index) => {
+                                return (
+                                    <td key={index} style={{ padding: "0 1rem 0 0" }}>
+                                        <Link class="underline" to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
+                                        {timeSince(new Date(block_row.block_time * 1000))}<br />
+                                        <br />
+                                        {block_row.messages_count} messages<br />
+                                        <br />
+                                        L:{hashSlice(block_row.ledger_hash)}<br />
+                                        TX:{hashSlice(block_row.txlist_hash)}<br />
+                                        M:{hashSlice(block_row.messages_hash)}<br />
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    </tbody>
+                </table>
             );
         }
         const block_element = (
@@ -147,14 +147,14 @@ class Home extends React.Component {
         if (this.state.btc_transactions_latest && this.state.btc_transactions_latest.length) {
             const is_home_page = true;
             transactions_element_contents = (
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowTransactionHeader(is_home_page)}
-                            {this.state.btc_transactions_latest.map((transaction_row, index) => {
-                                return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
-                            })}
-                        </tbody>
-                    </table>
+                <table>
+                    <tbody>
+                        {ListElements.getTableRowTransactionHeader(is_home_page)}
+                        {this.state.btc_transactions_latest.map((transaction_row, index) => {
+                            return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
+                        })}
+                    </tbody>
+                </table>
             );
         }
         const transactions_element = (
