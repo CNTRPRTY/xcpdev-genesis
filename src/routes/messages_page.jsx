@@ -21,28 +21,32 @@ class Messagespage extends React.Component {
         }
 
         this.state = {
-            page_not_found: null,
 
             from_index: index_if_specified,
             to_index: null,
-            rows: [],
+
+            rows_loading: true,
+            rows_loading_error: null,
+            rows: null,
         };
     }
 
     async fetchData(from_index) {
-        const response = await getCntrprty(`/messages/${from_index}`);
-
-        if (!response) {
-            this.setState({ page_not_found: true });
-        }
-        else {
+        try {
+            const response = await getCntrprty(`/messages/${from_index}`);
             this.setState({
                 from_index: response.from_index,
                 to_index: response.to_index,
+
+                rows_loading: false,
                 rows: response.messages,
             });
         }
-
+        catch (err) {
+            this.setState({
+                rows_loading_error: err,
+            });
+        }
     }
 
     async componentDidMount() {
@@ -61,14 +65,6 @@ class Messagespage extends React.Component {
 
     render() {
 
-        let content_element = (<p>loading...</p>);
-        if (this.state.page_not_found) {
-            return (
-                <main style={{ padding: "1rem" }}>
-                    <h2>No results found</h2>
-                </main>
-            );
-        }
         // Doing this manually helps in verification...
         let years;
         if (COUNTERPARTY_VERSION.startsWith('9.59')) {
@@ -136,44 +132,67 @@ class Messagespage extends React.Component {
             </>
         );
 
-        const change_pages_element = (
-            <p><Link to={`/messages#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
-        );
+        let content_element = (<p>loading...</p>);
+        if (this.state.rows_loading_error) {
+            content_element = (<p>{`${this.state.rows_loading_error}`}</p>);
+        }
+        else if (!this.state.rows_loading) {
 
-        content_element = (
-            <div>
+            const change_pages_element = (
+                <p><Link to={`/messages#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
+            );
 
-                <p>All CNTRPRTY Bitcoin transaction and state messages in ascending order.</p>
+            content_element =
+                this.state.rows.length ?
+                    (
+                        <>
+                            <div class="py-1 my-1">
+                                <p>
+                                    Messages from message index {this.state.from_index} to {this.state.to_index}:
+                                </p>
+                            </div>
 
-                <p><Link to={`/transactions`}>All transactions</Link></p>
+                            <div class="py-1 my-1">
+                                {change_pages_element}
+                            </div>
 
-                {jump_year_element}
+                            <div class="py-1 my-1">
+                                <table>
+                                    <tbody>
+                                        {ListElements.getTableRowMessagesHeader()}
+                                        {this.state.rows.map((row, index) => {
+                                            return ListElements.getTableRowMessages(row, index);
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
 
-                <h3>
-                    Messages from message index {this.state.from_index} to {this.state.to_index}:
-                </h3>
-
-                {change_pages_element}
-
-                <table>
-                    <tbody>
-                        {ListElements.getTableRowMessagesHeader()}
-                        {this.state.rows.map((message_row, index) => {
-                            return ListElements.getTableRowMessages(message_row, index);
-                        })}
-                    </tbody>
-                </table>
-
-                {change_pages_element}
-
-            </div>
-        );
+                            <div class="pt-1 mt-1">
+                                {/* <div class="py-1 my-1"> */}
+                                {change_pages_element}
+                            </div>
+                        </>
+                    )
+                    : (<p>no rows found...</p>);
+        }
 
         const page_element = (
-            <>
-                <h2>Messages:</h2>
-                {content_element}
-            </>
+            <div class="py-2 my-2">
+                <h2 class="font-bold text-xl mb-1">
+                    Messages:
+                </h2>
+                <div class="py-1 my-1">
+                    <p>All CNTRPRTY Bitcoin transaction and state messages in ascending order.</p>
+                    <p><Link to={`/transactions`}>All transactions</Link></p>
+                </div>
+                <div class="py-1 my-1">
+                    {jump_year_element}
+                </div>
+                <div class="pt-1 mt-1">
+                    {/* <div class="py-1 my-1"> */}
+                    {content_element}
+                </div>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(page_element);

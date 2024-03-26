@@ -129,8 +129,8 @@ class Blockspage extends React.Component {
                                 <table>
                                     <tbody>
                                         {ListElements.getTableRowBlocksHeader()}
-                                        {this.state.rows.map((block_row, index) => {
-                                            return ListElements.getTableRowBlocks(block_row, index);
+                                        {this.state.rows.map((row, index) => {
+                                            return ListElements.getTableRowBlocks(row, index);
                                         })}
                                     </tbody>
                                 </table>
