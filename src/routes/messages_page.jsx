@@ -1,12 +1,10 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty, COUNTERPARTY_VERSION } from "../api";
-// import { getCntrprty } from "../api";
 import { Link } from "react-router-dom";
 import { OneElements, ListElements } from './shared/elements';
 
 class Messagespage extends React.Component {
-    // class Transactionspage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -33,7 +31,6 @@ class Messagespage extends React.Component {
 
     async fetchData(from_index) {
         const response = await getCntrprty(`/messages/${from_index}`);
-        // const response = await getCntrprty(`/transactions/${from_index}`);
 
         if (!response) {
             this.setState({ page_not_found: true });
@@ -43,7 +40,6 @@ class Messagespage extends React.Component {
                 from_index: response.from_index,
                 to_index: response.to_index,
                 rows: response.messages,
-                // rows: response.transactions,
             });
         }
 
@@ -155,7 +151,6 @@ class Messagespage extends React.Component {
 
                 <h3>
                     Messages from message index {this.state.from_index} to {this.state.to_index}:
-                    {/* Transactions from tx_index {this.state.from_index} to {this.state.to_index}: */}
                 </h3>
 
                 {change_pages_element}
@@ -166,10 +161,6 @@ class Messagespage extends React.Component {
                         {this.state.rows.map((message_row, index) => {
                             return ListElements.getTableRowMessages(message_row, index);
                         })}
-                        {/* {ListElements.getTableRowTransactionHeader()}
-                            {this.state.rows.map((transaction_row, index) => {
-                                return ListElements.getTableRowTransaction(transaction_row, index);
-                            })} */}
                     </tbody>
                 </table>
 
@@ -181,7 +172,6 @@ class Messagespage extends React.Component {
         const page_element = (
             <>
                 <h2>Messages:</h2>
-                {/* <h2>Transactions:</h2> */}
                 {content_element}
             </>
         );
@@ -192,4 +182,3 @@ class Messagespage extends React.Component {
 }
 
 export default withRouter(Messagespage);
-// export default withRouter(Transactionspage);
