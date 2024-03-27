@@ -27,11 +27,16 @@ class TransactionStatic extends React.Component {
             // const order_1 = this.state.cntrprty_decoded.msg_decoded.order_1;
             btcpay_element = (
                 <>
-                    <h3>BTC pay:</h3>
-                    <ul>
+                    <h3 class="font-bold text-xl mb-1">
+                        BTC pay:
+                    </h3>
+                    {/* <h3>BTC pay:</h3> */}
+                    <div class="py-1 my-1">
+                    <ul class="list-disc list-inside">
                         <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
                         <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
                     </ul>
+                    </div>
                 </>
             );
         }
@@ -45,7 +50,13 @@ class TransactionStatic extends React.Component {
             // is olga?
             let olga_element = null;
             if (this.state.tx_hash === Olga.broadcast_tx_hash) {
-                olga_element = <Olga olga_text={text} />;
+                olga_element = (
+                    <div class="pb-1 mb-1">
+                    {/* <div class="py-1 my-1"> */}
+                        <Olga olga_text={text} />
+                    </div>
+                );
+                // olga_element = <Olga olga_text={text} />;
             }
 
             broadcast_element = (
@@ -53,8 +64,16 @@ class TransactionStatic extends React.Component {
                     {/* non protocol / manual connection to the tx (but SHOULD still be on-chain based) */}
                     {olga_element}
 
-                    <h3>Broadcast:</h3>
-                    <textarea rows="2" cols="55" style={{
+                    <h3 class="font-bold text-xl mb-1">
+                        Broadcast:
+                    </h3>
+                    {/* <h3>Broadcast:</h3> */}
+                    <div class="py-1 my-1">
+                    <textarea
+                    class="border-solid border-2 border-gray-300"
+                    rows="2"
+                    cols="55"
+                    style={{
                         // https://stackoverflow.com/a/658197
                         'whiteSpace': "nowrap",
                         'overflow': "scroll",
@@ -63,7 +82,11 @@ class TransactionStatic extends React.Component {
                         'overflow': "-moz-scrollbars-horizontal",
                         // https://stackoverflow.com/a/5271803
                         'resize': 'horizontal',
-                    }} value={text} readOnly />
+                    }}
+                    value={text}
+                    readOnly
+                    />
+                    </div>
                 </>
             );
         }

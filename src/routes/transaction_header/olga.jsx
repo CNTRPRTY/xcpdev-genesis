@@ -55,11 +55,17 @@ class Olga extends React.Component {
 
         const olga_element = (
             <>
+                <div class="pb-1 mb-1">
+                {/* <div class="py-1 my-1"> */}
                 <h3>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></h3>
+                </div>
+                <div class="py-1 my-1">
                 <img
                 style={{ width: "200px" }}
                 src={data_url_chain_fixed}
                 />
+                </div>
+                <div class="py-1 my-1">
                 <p>
                     Image
                     *<a href={`https://github.com/CNTRPRTY/xcpdev-genesis/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>*
@@ -67,6 +73,7 @@ class Olga extends React.Component {
                     {' '}
                     in Bitcoin since 2015
                 </p>
+                </div>
                 {/* <p>Image *written* in Bitcoin since 2015</p> */}
 
                 {/* // DON'T DELETE, KEEP COMMENTED! */}

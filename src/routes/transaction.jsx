@@ -232,7 +232,8 @@ class Transaction extends React.Component {
 
                 if (updateable.includes(this.state.cntrprty_decoded.id)) {
                     header_transaction_element = (
-                        <div class="py-1 my-1">
+                        <div class="pb-1 mb-4">
+                        {/* <div class="py-1 my-1"> */}
                             <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
                         </div>
                     );
@@ -240,7 +241,8 @@ class Transaction extends React.Component {
 
                 if (therest.includes(this.state.cntrprty_decoded.id)) {
                     header_transaction_element = (
-                        <div class="py-1 my-1">
+                        <div class="pb-1 mb-4">
+                        {/* <div class="py-1 my-1"> */}
                             <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
                         </div>
                     );
