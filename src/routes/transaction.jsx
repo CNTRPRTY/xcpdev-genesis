@@ -213,8 +213,7 @@ class Transaction extends React.Component {
             }
             const messages_element = (
                 <>
-                    <div class="pt-1 mt-1">
-                        {/* <div class="py-1 my-1"> */}
+                    <div class="py-1 my-1">
                         <h4 class="font-bold">
                             Messages:
                         </h4>
@@ -254,21 +253,28 @@ class Transaction extends React.Component {
             if (this.state.cntrprty_decoded || this.state.messages.length) {
                 transaction_cntrprty_element = (
                     <div class="pt-1 mt-1">
-                        {/* <div class="py-1 my-1"> */}
-                        <h3 class="font-bold">
-                            CNTRPRTY:
-                        </h3>
-                        <div class="py-1 my-1 ml-4">
+                        <div class="pt-1 mt-1">
                             <ul class="list-disc list-inside">
-                                <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
-                                <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
-                                {this.state.transaction.destination ? (
-                                    <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
-                                ) : null}
+                                <li>
+                                    {/* <div class="py-1 my-1"> */}
+                                    <strong>CNTRPRTY:</strong>
+                                    {/* <h3 class="font-bold">
+                                        CNTRPRTY:
+                                    </h3> */}
+                                    <div class="py-1 my-1 ml-4">
+                                        <ul class="list-disc list-inside">
+                                            <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                                            <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
+                                            {this.state.transaction.destination ? (
+                                                <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
+                                            ) : null}
+                                        </ul>
+                                    </div>
+                                    <div class="py-1 my-1 ml-4">
+                                        {cntrprty_element}
+                                    </div>
+                                </li>
                             </ul>
-                        </div>
-                        <div class="py-1 my-1 ml-4">
-                            {cntrprty_element}
                         </div>
                         <div class="pt-1 mt-1">
                             {/* <div class="py-1 my-1"> */}
