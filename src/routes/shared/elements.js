@@ -240,7 +240,13 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
+
+                <td
+                    class="whitespace-nowrap"
+                    style={{ padding: "0 1rem 0.25rem 0" }}
+                >message index</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
+                
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
             </tr>
         );
@@ -269,7 +275,13 @@ class ListElements {
 
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td>
+
+                <td
+                    class="whitespace-nowrap"
+                    style={{ padding: "0 1rem 0 0" }}
+                >{message_row.main_message ? 'main message' : ''}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td> */}
+                
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
