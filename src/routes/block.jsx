@@ -120,25 +120,35 @@ class Block extends React.Component {
         else if (!this.state.block_row_loading) {
             block_metadata_element = (
                 <>
-                    <ul>
-                        <li>block index: {this.state.block}</li>
-                        <li>block time: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
-                    </ul>
-                    <ul>
-                        <li>block hash: {this.state.block_row.block_hash}</li>
-                        <li>previous block hash: {this.state.block_row.previous_block_hash}</li>
-                    </ul>
-                    <ul>
-                        <li>ledger hash (L): {this.state.block_row.ledger_hash}</li>
-                        <li>txlist hash (TX): {this.state.block_row.txlist_hash}</li>
-                        <li>messages hash (M): {this.state.block_row.messages_hash}</li>
-                    </ul>
+                    <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
+                            <li>block index: {this.state.block}</li>
+                            <li>block time: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
+                        </ul>
+                    </div>
+                    <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
+                            <li>block hash: {this.state.block_row.block_hash}</li>
+                            <li>previous block hash: {this.state.block_row.previous_block_hash}</li>
+                        </ul>
+                    </div>
+                    <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
+                            <li>ledger hash (L): {this.state.block_row.ledger_hash}</li>
+                            <li>txlist hash (TX): {this.state.block_row.txlist_hash}</li>
+                            <li>messages hash (M): {this.state.block_row.messages_hash}</li>
+                        </ul>
+                    </div>
                 </>
             );
         }
 
 
-        let block_messages_element_header = (<h3>Messages:</h3>);
+        let block_messages_element_header = (
+            <h3 class="font-bold">
+                Messages:
+            </h3>
+        );
 
         let block_messages_element = (<p>loading...</p>);
         if (this.state.messages_loading_error) {
@@ -152,7 +162,11 @@ class Block extends React.Component {
             // else if (!this.state.messages_loading) {
 
             if (this.state.messages.length) {
-                block_messages_element_header = (<h3>Messages ({this.state.messages.length}):</h3>);
+                block_messages_element_header = (
+                    <h3 class="font-bold">
+                        Messages ({this.state.messages.length}):
+                    </h3>
+                );
             }
 
             block_messages_element =
@@ -192,6 +206,9 @@ class Block extends React.Component {
                 <tbody>
                     <tr style={{ padding: "0.25rem" }}>
                         {previous_page_column}
+                        <td>
+                            <div class="mx-1">{' | '}</div>
+                        </td>
                         {next_page_column}
                     </tr>
                 </tbody>
@@ -199,20 +216,34 @@ class Block extends React.Component {
         );
 
 
-        const block_element = (
-            <>
-                <h2>Block: {this.state.block}</h2>
-                {/* <h2>Bitcoin block: {this.state.block}</h2> */}
+        const page_element = (
+            <div class="py-2 my-2">
+                <h2 class="font-bold text-xl mb-1">
+                    Block: {this.state.block}
+                </h2>
 
-                {change_pages_element}
-                {block_metadata_element}
+                <div class="py-1 my-1">
+                    {change_pages_element}
+                </div>
+                <div class="pt-1 mt-1">
+                    {/* <div class="py-1 my-1"> */}
+                    {block_metadata_element}
+                </div>
 
-                {block_messages_element_header}
-                {block_messages_element}
-            </>
+                <div class="pt-1 mt-1">
+                    {/* <div class="py-1 my-1"> */}
+                    <div class="py-1 my-1">
+                        {block_messages_element_header}
+                    </div>
+                    <div class="pt-1 mt-1">
+                        {/* <div class="py-1 my-1"> */}
+                        {block_messages_element}
+                    </div>
+                </div>
+            </div>
         );
 
-        return OneElements.getFullPageForRouteElement(block_element);
+        return OneElements.getFullPageForRouteElement(page_element);
     }
 
 }
