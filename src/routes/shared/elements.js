@@ -285,11 +285,22 @@ class ListElements {
     static getTableRowMessageBlockHeader() {
         return (
             <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx/state</td> */}
+
+                <td
+                    class="whitespace-nowrap"
+                    style={{ padding: "0 1rem 0.25rem 0" }}
+                >tx / state</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td> */}
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
+
+                <td
+                    class="whitespace-nowrap"
+                    style={{ padding: "0 1rem 0.25rem 0" }}
+                >message index</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
             </tr>
         );
