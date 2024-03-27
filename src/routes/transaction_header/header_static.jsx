@@ -32,10 +32,10 @@ class TransactionStatic extends React.Component {
                     </h3>
                     {/* <h3>BTC pay:</h3> */}
                     <div class="py-1 my-1">
-                    <ul class="list-disc list-inside">
-                        <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
-                        <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
-                    </ul>
+                        <ul class="list-disc list-inside">
+                            <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
+                            <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
+                        </ul>
                     </div>
                 </>
             );
@@ -52,7 +52,7 @@ class TransactionStatic extends React.Component {
             if (this.state.tx_hash === Olga.broadcast_tx_hash) {
                 olga_element = (
                     <div class="pb-1 mb-1">
-                    {/* <div class="py-1 my-1"> */}
+                        {/* <div class="py-1 my-1"> */}
                         <Olga olga_text={text} />
                     </div>
                 );
@@ -69,23 +69,23 @@ class TransactionStatic extends React.Component {
                     </h3>
                     {/* <h3>Broadcast:</h3> */}
                     <div class="py-1 my-1">
-                    <textarea
-                    class="border-solid border-2 border-gray-300"
-                    rows="2"
-                    cols="55"
-                    style={{
-                        // https://stackoverflow.com/a/658197
-                        'whiteSpace': "nowrap",
-                        'overflow': "scroll",
-                        'overflowY': "hidden",
-                        'overflowX': "scroll",
-                        'overflow': "-moz-scrollbars-horizontal",
-                        // https://stackoverflow.com/a/5271803
-                        'resize': 'horizontal',
-                    }}
-                    value={text}
-                    readOnly
-                    />
+                        <textarea
+                            class="border-solid border-2 border-gray-300"
+                            rows="2"
+                            cols="55"
+                            style={{
+                                // https://stackoverflow.com/a/658197
+                                'whiteSpace': "nowrap",
+                                'overflow': "scroll",
+                                'overflowY': "hidden",
+                                'overflowX': "scroll",
+                                'overflow': "-moz-scrollbars-horizontal",
+                                // https://stackoverflow.com/a/5271803
+                                'resize': 'horizontal',
+                            }}
+                            value={text}
+                            readOnly
+                        />
                     </div>
                 </>
             );

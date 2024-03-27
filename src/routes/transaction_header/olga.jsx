@@ -32,7 +32,7 @@ class Olga extends React.Component {
     }
 
     render() {
-        
+
         const data_url_chain = getOlgaDataUrl(this.state.olga_text);
 
         let data_url_cut; // making copies of both
@@ -56,23 +56,23 @@ class Olga extends React.Component {
         const olga_element = (
             <>
                 <div class="pb-1 mb-1">
-                {/* <div class="py-1 my-1"> */}
-                <h3>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></h3>
+                    {/* <div class="py-1 my-1"> */}
+                    <h3>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></h3>
                 </div>
                 <div class="py-1 my-1">
-                <img
-                style={{ width: "200px" }}
-                src={data_url_chain_fixed}
-                />
+                    <img
+                        style={{ width: "200px" }}
+                        src={data_url_chain_fixed}
+                    />
                 </div>
                 <div class="py-1 my-1">
-                <p>
-                    Image
-                    *<a href={`https://github.com/CNTRPRTY/xcpdev-genesis/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>*
-                    {/* *written* */}
-                    {' '}
-                    in Bitcoin since 2015
-                </p>
+                    <p>
+                        Image
+                        *<a href={`https://github.com/CNTRPRTY/xcpdev-genesis/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>*
+                        {/* *written* */}
+                        {' '}
+                        in Bitcoin since 2015
+                    </p>
                 </div>
                 {/* <p>Image *written* in Bitcoin since 2015</p> */}
 
@@ -94,7 +94,7 @@ class Olga extends React.Component {
                 <br />
                 <br />
                 <img src={`${data_url_cut}=`} style={{ width: "200px" }} /> */}
-                
+
                 {/* <br />
                 reverse:{' '}
                 [{reverse.join('')}]
