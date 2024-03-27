@@ -56,10 +56,24 @@ class Olga extends React.Component {
         const olga_element = (
             <>
                 <h3>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></h3>
-                <img src={data_url_chain_fixed} />
-                <p>Image *written* in Bitcoin since 2015</p>
+                <img
+                style={{ width: "200px" }}
+                src={data_url_chain_fixed}
+                />
+                <p>
+                    Image
+                    *<a href={`https://github.com/CNTRPRTY/xcpdev-genesis/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>*
+                    {/* *written* */}
+                    {' '}
+                    in Bitcoin since 2015
+                </p>
+                {/* <p>Image *written* in Bitcoin since 2015</p> */}
 
-                <input
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
+
+                {/* <input
                     type="range"
                     min="0" max={data_url_chain.length}
                     value={data_url_chain.length - this.state.olga_chars_cut}
@@ -72,14 +86,17 @@ class Olga extends React.Component {
 
                 <br />
                 <br />
-                <img src={`${data_url_cut}=`} style={{ width: "200px" }} />
-                {/* // DON'T DELETE, KEEP COMMENTED! */}
+                <img src={`${data_url_cut}=`} style={{ width: "200px" }} /> */}
+                
                 {/* <br />
                 reverse:{' '}
                 [{reverse.join('')}]
                 <br />
                 esrever:{' '}
                 [{notreverse.join('')}] */}
+
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
+                {/* // DON'T DELETE, KEEP COMMENTED! */}
                 {/* // DON'T DELETE, KEEP COMMENTED! */}
             </>
         );
