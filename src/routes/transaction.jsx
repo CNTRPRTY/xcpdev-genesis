@@ -133,26 +133,26 @@ class Transaction extends React.Component {
             if (this.state.cntrprty_error) {
                 cntrprty_element = (
                     <>
-                        <ul>
-                            <li>
+                        {/* <ul>
+                            <li> */}
                                 <h4>Data:</h4>
                                 <p>
                                     unable to decode this transaction:
                                     <br />
                                     {`${this.state.cntrprty_error}`}
                                 </p>
-                            </li>
-                        </ul>
+                            {/* </li>
+                        </ul> */}
                     </>
                 );
             }
             else if (this.state.cntrprty_decoded) {
                 cntrprty_element = (
                     <>
-                        <ul>
-                            <li>
+                        {/* <ul>
+                            <li> */}
                                 <h4>Data:</h4>
-                                <ul>
+                                <ul class="list-disc list-inside">
 
                                     <li>hex: {this.state.cntrprty_hex}</li>
                                     <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
@@ -160,7 +160,7 @@ class Transaction extends React.Component {
                                     {Object.keys(this.state.cntrprty_decoded.msg_decoded).length ?
                                         (
                                             <li>decoded:
-                                                <ul>
+                                                <ul class="list-disc list-inside">
                                                     {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
                                                         const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
                                                         return (
@@ -174,8 +174,8 @@ class Transaction extends React.Component {
                                     }
 
                                 </ul>
-                            </li>
-                        </ul>
+                            {/* </li>
+                        </ul> */}
                     </>
                 );
             }
@@ -203,12 +203,14 @@ class Transaction extends React.Component {
             }
             const messages_element = (
                 <>
-                    <ul>
-                        <li>
-                            <h4>Messages:</h4>
+                    {/* <ul>
+                        <li> */}
+                            <h4 class="font-bold">
+                                Messages:
+                            </h4>
                             {messages_element_content}
-                        </li>
-                    </ul>
+                        {/* </li>
+                    </ul> */}
                 </>
             );
 
@@ -219,11 +221,19 @@ class Transaction extends React.Component {
                 const therest = TransactionStatic.tx_type_ids;
 
                 if (updateable.includes(this.state.cntrprty_decoded.id)) {
-                    header_transaction_element = <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
+                    header_transaction_element = (
+                        <div class="py-1 my-1">
+                            <TransactionUpdateable tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
+                        </div>
+                    );
                 }
 
                 if (therest.includes(this.state.cntrprty_decoded.id)) {
-                    header_transaction_element = <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />;
+                    header_transaction_element = (
+                        <div class="py-1 my-1">
+                            <TransactionStatic tx_hash={this.state.transaction.tx_hash} decoded_obj={this.state.cntrprty_decoded} />
+                        </div>
+                    );
                 }
             }
             // else it should already be in cntrprty_error
@@ -233,12 +243,12 @@ class Transaction extends React.Component {
             if (this.state.cntrprty_decoded || this.state.messages.length) {
                 transaction_cntrprty_element = (
                     <>
-                        <ul>
-                            <li>
+                        {/* <ul>
+                            <li> */}
                                 {/* <h3>Counterparty:</h3> */}
                                 <h3>CNTRPRTY:</h3>
                                 {/* <h3>CNTRPRTY transaction:</h3> */}
-                                <ul>
+                                <ul class="list-disc list-inside">
                                     <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
                                     <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
                                     {this.state.transaction.destination ? (
@@ -247,15 +257,15 @@ class Transaction extends React.Component {
                                 </ul>
                                 {cntrprty_element}
                                 {messages_element}
-                            </li>
-                        </ul>
+                            {/* </li>
+                        </ul> */}
                     </>
                 );
             }
 
             transaction_element_contents = (
                 <>
-                    <ul>
+                    <ul class="list-disc list-inside">
                         <li>tx hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
                         {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                         <li>block index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
@@ -266,15 +276,22 @@ class Transaction extends React.Component {
             );
         }
 
-        const transaction_element = (
-            <>
+        const route_element = (
+            <div class="py-2 my-2">
+                
                 {header_transaction_element}
-                <h2>Transaction: {this.state.tx_hash}</h2>
-                {transaction_element_contents}
-            </>
+                
+                <h2 class="font-bold text-xl mb-1">
+                    Transaction: {this.state.tx_hash}
+                </h2>
+                <div class="py-1 my-1">
+                    {transaction_element_contents}
+                </div>
+
+            </div>
         );
 
-        return OneElements.getFullPageForRouteElement(transaction_element);
+        return OneElements.getFullPageForRouteElement(route_element);
     }
 
 }
