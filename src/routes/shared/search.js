@@ -111,7 +111,7 @@ class Search extends React.Component {
     return (
       <form onSubmit={this.handleSearchSubmit}>
         <input
-          class="border-solid border-2"
+          class="border-solid border-2 border-gray-300"
           type="text"
           value={this.state.search}
           onChange={this.handleSearchChange}
@@ -120,7 +120,7 @@ class Search extends React.Component {
         />
         {' '}
         <input
-          class="px-1 border-solid border-2"
+          class="px-1 border-solid border-2 border-gray-400"
           type="submit"
           value={"go"}
         />
