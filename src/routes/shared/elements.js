@@ -1257,7 +1257,8 @@ class OneElements {
                 </nav>
                 </div>
                 
-                <div class="py-1 m-1">
+                <div class="py-1 my-1 ml-4">
+                {/* <div class="py-1 m-1"> */}
                 {/* <div class="py-1 my-1"> */}
                 {/* <div style={{ padding: "1rem" }}> */}
                     {route_element}
