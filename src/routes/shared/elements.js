@@ -1193,9 +1193,9 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block hash</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>transactions hash</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>messages hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>ledger hash</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>txlist hash</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>messages hash</td>
             </tr>
         );
     }
@@ -1206,9 +1206,9 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.block_hash}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_row.ledger_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.txlist_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.messages_hash}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_row.ledger_hash}</td>
             </tr>
         );
     }
