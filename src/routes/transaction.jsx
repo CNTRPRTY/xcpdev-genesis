@@ -133,49 +133,41 @@ class Transaction extends React.Component {
             if (this.state.cntrprty_error) {
                 cntrprty_element = (
                     <>
-                        {/* <ul>
-                            <li> */}
-                                <h4>Data:</h4>
-                                <p>
-                                    unable to decode this transaction:
-                                    <br />
-                                    {`${this.state.cntrprty_error}`}
-                                </p>
-                            {/* </li>
-                        </ul> */}
+                        <h4>Data:</h4>
+                        <p>
+                            unable to decode this transaction:
+                            <br />
+                            {`${this.state.cntrprty_error}`}
+                        </p>
                     </>
                 );
             }
             else if (this.state.cntrprty_decoded) {
                 cntrprty_element = (
                     <>
-                        {/* <ul>
-                            <li> */}
-                                <h4>Data:</h4>
-                                <ul class="list-disc list-inside">
+                        <h4>Data:</h4>
+                        <ul class="list-disc list-inside">
 
-                                    <li>hex: {this.state.cntrprty_hex}</li>
-                                    <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
+                            <li>hex: {this.state.cntrprty_hex}</li>
+                            <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
 
-                                    {Object.keys(this.state.cntrprty_decoded.msg_decoded).length ?
-                                        (
-                                            <li>decoded:
-                                                <ul class="list-disc list-inside">
-                                                    {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
-                                                        const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
-                                                        return (
-                                                            <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
-                                                        );
-                                                    })}
-                                                </ul>
-                                            </li>
-                                        )
-                                        : null
-                                    }
+                            {Object.keys(this.state.cntrprty_decoded.msg_decoded).length ?
+                                (
+                                    <li>decoded:
+                                        <ul class="list-disc list-inside">
+                                            {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
+                                                const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
+                                                return (
+                                                    <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </li>
+                                )
+                                : null
+                            }
 
-                                </ul>
-                            {/* </li>
-                        </ul> */}
+                        </ul>
                     </>
                 );
             }
@@ -203,14 +195,10 @@ class Transaction extends React.Component {
             }
             const messages_element = (
                 <>
-                    {/* <ul>
-                        <li> */}
-                            <h4 class="font-bold">
-                                Messages:
-                            </h4>
-                            {messages_element_content}
-                        {/* </li>
-                    </ul> */}
+                    <h4 class="font-bold">
+                        Messages:
+                    </h4>
+                    {messages_element_content}
                 </>
             );
 
@@ -243,22 +231,16 @@ class Transaction extends React.Component {
             if (this.state.cntrprty_decoded || this.state.messages.length) {
                 transaction_cntrprty_element = (
                     <>
-                        {/* <ul>
-                            <li> */}
-                                {/* <h3>Counterparty:</h3> */}
-                                <h3>CNTRPRTY:</h3>
-                                {/* <h3>CNTRPRTY transaction:</h3> */}
-                                <ul class="list-disc list-inside">
-                                    <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
-                                    <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
-                                    {this.state.transaction.destination ? (
-                                        <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
-                                    ) : null}
-                                </ul>
-                                {cntrprty_element}
-                                {messages_element}
-                            {/* </li>
-                        </ul> */}
+                        <h3>CNTRPRTY:</h3>
+                        <ul class="list-disc list-inside">
+                            <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                            <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
+                            {this.state.transaction.destination ? (
+                                <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
+                            ) : null}
+                        </ul>
+                        {cntrprty_element}
+                        {messages_element}
                     </>
                 );
             }
@@ -278,9 +260,9 @@ class Transaction extends React.Component {
 
         const route_element = (
             <div class="py-2 my-2">
-                
+
                 {header_transaction_element}
-                
+
                 <h2 class="font-bold text-xl mb-1">
                     Transaction: {this.state.tx_hash}
                 </h2>
