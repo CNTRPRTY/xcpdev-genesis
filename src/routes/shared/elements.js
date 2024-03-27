@@ -1238,14 +1238,15 @@ class OneElements {
                     <Link to="/">Data</Link> |{" "}
                     <Link to="/wallet">Wallet</Link>
 
-                    <div>
+                    <div class="my-1">
                         <Search />
                     </div>
                     {/* <Search /> */}
                 </nav>
                 </div>
                 
-                <div class="py-1 my-1">
+                <div class="py-1 m-1">
+                {/* <div class="py-1 my-1"> */}
                 {/* <div style={{ padding: "1rem" }}> */}
                     {route_element}
                 </div>
