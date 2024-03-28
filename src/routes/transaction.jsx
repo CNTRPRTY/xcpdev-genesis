@@ -265,7 +265,7 @@ class Transaction extends React.Component {
                                     </h3> */}
                                     <div class="py-1 my-1 ml-4">
                                         <ul class="list-disc list-inside">
-                                            <li>tx_index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                                            <li>tx index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
                                             <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
                                             {this.state.transaction.destination ? (
                                                 <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
