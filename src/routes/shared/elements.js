@@ -236,17 +236,14 @@ class ListElements {
 
     static getTableRowMessageTxHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >message index</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
-                
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
             </tr>
         );
@@ -276,6 +273,7 @@ class ListElements {
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
 
+                {/* special non-header case */}
                 <td
                     class="whitespace-nowrap"
                     style={{ padding: "0 1rem 0 0" }}
@@ -296,23 +294,14 @@ class ListElements {
 
     static getTableRowMessageBlockHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >tx / state</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td> */}
-
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >message index</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
-
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
             </tr>
         );
@@ -435,7 +424,13 @@ class ListElements {
     // address broadcasts
     static getTableRowBroadcastAddressHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
+                {/* <tr style={{ padding: "0.25rem" }}> */}
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
@@ -482,7 +477,13 @@ class ListElements {
     static getTableRowIssuanceEventsAssetHeader(issuer_page = false) {
         // static getTableRowIssuanceEventsAssetHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
+                {/* <tr style={{ padding: "0.25rem" }}> */}
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
 
                 {issuer_page ?
@@ -1041,50 +1042,31 @@ class ListElements {
             firstTwo = (
                 <>
                     <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>
-
-                    <td
-                        class="whitespace-nowrap"
-                        style={{ padding: "0 1rem 0.25rem 0" }}
-                    >tx index</td>
-                    {/* this one is not currently seen, but for consistency */}
-                    {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td> */}
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>
                 </>
             );
         }
         else {
             firstTwo = (
                 <>
-                    <td
-                        class="whitespace-nowrap"
-                        style={{ padding: "0 1rem 0.25rem 0" }}
-                    >tx index</td>
-                    {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td> */}
-
+                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>
                     <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>
                 </>
             );
         }
 
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
                 {firstTwo}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
 
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >block index</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td> */}
-
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >fee (sats)</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sats)</td> */}
-
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sats)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC burn</td>
@@ -1153,20 +1135,12 @@ class ListElements {
     // messages
     static getTableRowMessagesHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >message index</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >block index</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td> */}
-
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
@@ -1195,14 +1169,11 @@ class ListElements {
     // blocks
     static getTableRowBlocksHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0.25rem 0" }}
-                >block index</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td> */}
-
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>ledger hash</td>
