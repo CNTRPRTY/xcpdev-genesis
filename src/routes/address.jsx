@@ -259,36 +259,53 @@ class Address extends React.Component {
                     : (<p>no transfer issuances</p>);
         }
 
-        const address_metadata = (
-            <>
-                <h3>Dispensers:</h3>
-                <h4>Open:</h4>
-                {address_open_dispensers_element}
-                <h4>Closed:</h4>
-                {address_closed_dispensers_element}
+        const route_element = (
+            <div class="py-2 my-2">
+                <h2 class="font-bold text-xl mb-1">
+                    Address: {this.state.address}
+                </h2>
 
-                <h3>Balances:</h3>
-                <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
+                <div class="py-1 my-1">
+                    <h3 class="font-bold">
+                        Dispensers:
+                    </h3>
+                    <strong>Open:</strong>
+                    {/* <h4>Open:</h4> */}
+                    {address_open_dispensers_element}
+                    <strong>Closed:</strong>
+                    {/* <h4>Closed:</h4> */}
+                    {address_closed_dispensers_element}
+                </div>
 
-                <h3>Broadcasts:</h3>
-                {address_broadcasts_element}
+                <div class="py-1 my-1">
+                    <h3 class="font-bold">
+                        Balances:
+                    </h3>
+                    <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
+                </div>
 
-                <h3>Asset issuances:</h3>
-                <h4>Genesis:</h4>
-                {issuer_genesis_element}
-                <h4>Transfer:</h4>
-                {issuer_transfer_element}
-            </>
+                <div class="py-1 my-1">
+                    <h3 class="font-bold">
+                        Broadcasts:
+                    </h3>
+                    {address_broadcasts_element}
+                </div>
+
+                <div class="py-1 my-1">
+                    <h3 class="font-bold">
+                        Asset issuances:
+                    </h3>
+                    <strong>Genesis:</strong>
+                    {/* <h4>Genesis:</h4> */}
+                    {issuer_genesis_element}
+                    <strong>Transfer:</strong>
+                    {/* <h4>Transfer:</h4> */}
+                    {issuer_transfer_element}
+                </div>
+            </div>
         );
 
-        const address_element = (
-            <>
-                <h2>Address: {this.state.address}</h2>
-                {address_metadata}
-            </>
-        );
-
-        return OneElements.getFullPageForRouteElement(address_element);
+        return OneElements.getFullPageForRouteElement(route_element);
 
     }
 
