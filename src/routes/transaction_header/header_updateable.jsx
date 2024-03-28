@@ -102,57 +102,57 @@ class TransactionUpdateable extends React.Component {
                     <>
                         {/* <h3>Dispenser:</h3> */}
                         <div class="pb-1 mb-1">
-                        {/* <div class="py-1 my-1"> */}
-                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
+                            {/* <div class="py-1 my-1"> */}
+                            <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
                         </div>
 
                         <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>status: {dispenser_status}</li>
-                        </ul>
+                            <ul class="list-disc list-inside">
+                                <li>status: {dispenser_status}</li>
+                            </ul>
                         </div>
 
                         <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
-                            <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
-                        </ul>
+                            <ul class="list-disc list-inside">
+                                <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
+                                <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
+                            </ul>
                         </div>
 
                         {!tell_reset ?
                             (
                                 <>
                                     <div class="py-1 my-1">
-                                    <ul class="list-disc list-inside">
-                                        <li>
-                                            {`${BigInt(dispensers_row.satoshirate_text)}`}
-                                            {' sats for '}
-                                            {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}
-                                            {' ('}
-                                            {formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}
-                                            {' sats / unit)'}
-                                        </li>
-                                        {/* <li>{`${BigInt(dispensers_row.satoshirate_text)}`} sats for {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}</li> */}
-                                        {/* <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li> */}
-                                    </ul>
+                                        <ul class="list-disc list-inside">
+                                            <li>
+                                                {`${BigInt(dispensers_row.satoshirate_text)}`}
+                                                {' sats for '}
+                                                {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}
+                                                {' ('}
+                                                {formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}
+                                                {' sats / unit)'}
+                                            </li>
+                                            {/* <li>{`${BigInt(dispensers_row.satoshirate_text)}`} sats for {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}</li> */}
+                                            {/* <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li> */}
+                                        </ul>
                                     </div>
 
                                     <div class="py-1 my-1">
-                                    <ul class="list-disc list-inside">
-                                        <li>
-                                            {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))}
-                                            {' of '}
-                                            {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))}
-                                            {' remaining'}
-                                        </li>
+                                        <ul class="list-disc list-inside">
+                                            <li>
+                                                {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))}
+                                                {' of '}
+                                                {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))}
+                                                {' remaining'}
+                                            </li>
 
-                                        {/* <li>
+                                            {/* <li>
                                             {`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)} sats / unit`}
                                             // {`${(dispensers_row.satoshirate / dispensers_row.give_quantity).toFixed(10)}`} sats / unit
                                             // {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit
                                             // {`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit
                                         </li> */}
-                                    </ul>
+                                        </ul>
                                     </div>
                                 </>
                             )
@@ -226,127 +226,127 @@ class TransactionUpdateable extends React.Component {
                     <>
                         {/* <h3>Order:</h3> */}
                         <div class="pb-1 mb-1">
-                        {/* <div class="py-1 my-1"> */}
-                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
+                            {/* <div class="py-1 my-1"> */}
+                            <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
                         </div>
 
                         <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>status: {orders_row.status}</li>
-                        </ul>
+                            <ul class="list-disc list-inside">
+                                <li>status: {orders_row.status}</li>
+                            </ul>
                         </div>
 
                         <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>give (asset escrowed):
-                                <div class="pb-1 mb-1 ml-4">
-                                {/* <div class="py-1 my-1 ml-4"> */}
-                                <ul class="list-disc list-inside">
-                                    <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
-                                    {!give_tell_reset ?
-                                        (
-                                            <li>{quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_remaining_text))} of {quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_quantity_text))} remaining</li>
-                                        )
-                                        :
-                                        (
-                                            // <ul>
-                                                <li>v9.60 RESET ASSET</li>
-                                            // </ul>
-                                        )
-                                    }
-                                </ul>
-                                </div>
-                            </li>
-                        </ul>
+                            <ul class="list-disc list-inside">
+                                <li>give (asset escrowed):
+                                    <div class="pb-1 mb-1 ml-4">
+                                        {/* <div class="py-1 my-1 ml-4"> */}
+                                        <ul class="list-disc list-inside">
+                                            <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
+                                            {!give_tell_reset ?
+                                                (
+                                                    <li>{quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_remaining_text))} of {quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_quantity_text))} remaining</li>
+                                                )
+                                                :
+                                                (
+                                                    // <ul>
+                                                    <li>v9.60 RESET ASSET</li>
+                                                    // </ul>
+                                                )
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>get (asset requested in exchange):
-                                <div class="pb-1 mb-1 ml-4">
-                                {/* <div class="py-1 my-1 ml-4"> */}
-                                <ul class="list-disc list-inside">
-                                    <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
-                                    {!get_tell_reset ?
-                                        (
-                                            <li>{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</li>
-                                        )
-                                        :
-                                        (
-                                            // <ul>
-                                                <li>v9.60 RESET ASSET</li>
-                                            // </ul>
-                                        )
-                                    }
-                                </ul>
-                                </div>
-                            </li>
-                        </ul>
+                            <ul class="list-disc list-inside">
+                                <li>get (asset requested in exchange):
+                                    <div class="pb-1 mb-1 ml-4">
+                                        {/* <div class="py-1 my-1 ml-4"> */}
+                                        <ul class="list-disc list-inside">
+                                            <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
+                                            {!get_tell_reset ?
+                                                (
+                                                    <li>{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</li>
+                                                )
+                                                :
+                                                (
+                                                    // <ul>
+                                                    <li>v9.60 RESET ASSET</li>
+                                                    // </ul>
+                                                )
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>{expire_block_message}</li>
-                            {orders_row.fee_required ?
-                                (
-                                    <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
-                                )
-                                : null
-                            }
-                        </ul>
+                            <ul class="list-disc list-inside">
+                                <li>{expire_block_message}</li>
+                                {orders_row.fee_required ?
+                                    (
+                                        <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
+                                    )
+                                    : null
+                                }
+                            </ul>
                         </div>
 
                         {order_matches_rows.length ?
                             (
                                 <>
-                                <div class="pt-1 mt-1">
-                                        {/* <div class="py-1 my-1"> */}
-                                    <p class="font-bold">
-                                        Order matches:
-                                    </p>
                                     <div class="pt-1 mt-1">
-                                    {/* <div class="py-1 my-1"> */}
-                                    <table>
-                                        <tbody>
-                                            {ListElements.getTableRowOrderMatchesHeader()}
-                                            {order_matches_rows.map((order_matches_row, index) => {
-                                                const order_metadata = {
-                                                    tx_hash: orders_row.tx_hash,
-                                                    give_issuance: give_issuance,
-                                                    get_issuance: get_issuance,
-                                                }
-                                                return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
-                                            })}
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                    {/* !nested terniary! */}
-                                    {order_matches_btcpays_rows.length ?
-                                        (
-                                            // <>
+                                        {/* <div class="py-1 my-1"> */}
+                                        <p class="font-bold">
+                                            Order matches:
+                                        </p>
+                                        <div class="pt-1 mt-1">
+                                            {/* <div class="py-1 my-1"> */}
+                                            <table>
+                                                <tbody>
+                                                    {ListElements.getTableRowOrderMatchesHeader()}
+                                                    {order_matches_rows.map((order_matches_row, index) => {
+                                                        const order_metadata = {
+                                                            tx_hash: orders_row.tx_hash,
+                                                            give_issuance: give_issuance,
+                                                            get_issuance: get_issuance,
+                                                        }
+                                                        return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {/* !nested terniary! */}
+                                        {order_matches_btcpays_rows.length ?
+                                            (
+                                                // <>
                                                 // {/* TODO why (pt-1) mt-3 /4 didn't work? */}
                                                 <div class="pt-1 mt-2">
-                                                {/* <div class="pt-1 mt-1"> */}
-                                                {/* <div class="py-1 my-1"> */}
-                                                <p class="font-bold">
-                                                    BTC pays:
-                                                </p>
-                                                <div class="pt-1 mt-1">
-                                                {/* <div class="py-1 my-1"> */}
-                                                <table>
-                                                    <tbody>
-                                                        {ListElements.getTableRowOrderMatchesBtcpaysHeader()}
-                                                        {order_matches_btcpays_rows.map((btcpays_row, index) => {
-                                                            return ListElements.getTableRowOrderMatchesBtcpays(btcpays_row, index);
-                                                        })}
-                                                    </tbody>
-                                                </table>
+                                                    {/* <div class="pt-1 mt-1"> */}
+                                                    {/* <div class="py-1 my-1"> */}
+                                                    <p class="font-bold">
+                                                        BTC pays:
+                                                    </p>
+                                                    <div class="pt-1 mt-1">
+                                                        {/* <div class="py-1 my-1"> */}
+                                                        <table>
+                                                            <tbody>
+                                                                {ListElements.getTableRowOrderMatchesBtcpaysHeader()}
+                                                                {order_matches_btcpays_rows.map((btcpays_row, index) => {
+                                                                    return ListElements.getTableRowOrderMatchesBtcpays(btcpays_row, index);
+                                                                })}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
-                                                </div>
-                                            // </>
-                                        )
-                                        : null
-                                    }
+                                                // </>
+                                            )
+                                            : null
+                                        }
                                     </div>
                                 </>
                             )
