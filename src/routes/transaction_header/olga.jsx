@@ -57,11 +57,13 @@ class Olga extends React.Component {
             <>
                 <div class="pb-1 mb-1">
                     {/* <div class="py-1 my-1"> */}
-                    <h3>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></h3>
+                    <strong>
+                        Honoring <Link to={`/asset/OLGA`}>OLGA</Link>
+                    </strong>
                 </div>
                 <div class="py-1 my-1">
                     <img
-                        style={{ width: "200px" }}
+                        style={{ width: "220px" }}
                         src={data_url_chain_fixed}
                     />
                 </div>
