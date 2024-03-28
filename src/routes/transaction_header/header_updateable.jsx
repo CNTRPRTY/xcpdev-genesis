@@ -364,7 +364,9 @@ class TransactionUpdateable extends React.Component {
                 <h3 class="font-bold text-xl mb-1">
                     {transaction_state_element_header}:
                 </h3>
-                <div class="py-1 my-1">
+                {/* indent only for updatable */}
+                <div class="py-1 my-1 ml-4">
+                    {/* <div class="py-1 my-1"> */}
                     {transaction_state_element}
                 </div>
             </>
