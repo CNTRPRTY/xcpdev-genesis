@@ -224,15 +224,24 @@ class TransactionUpdateable extends React.Component {
 
                 transaction_state_element = (
                     <>
-                        <h3>Order:</h3>
+                        {/* <h3>Order:</h3> */}
+                        <div class="pb-1 mb-1">
+                        {/* <div class="py-1 my-1"> */}
                         <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
-                        <ul>
+                        </div>
+
+                        <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
                             <li>status: {orders_row.status}</li>
                         </ul>
+                        </div>
 
-                        <ul>
+                        <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
                             <li>give (asset escrowed):
-                                <ul>
+                                <div class="pb-1 mb-1 ml-4">
+                                {/* <div class="py-1 my-1 ml-4"> */}
+                                <ul class="list-disc list-inside">
                                     <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
                                     {!give_tell_reset ?
                                         (
@@ -240,17 +249,23 @@ class TransactionUpdateable extends React.Component {
                                         )
                                         :
                                         (
-                                            <ul>
+                                            // <ul>
                                                 <li>v9.60 RESET ASSET</li>
-                                            </ul>
+                                            // </ul>
                                         )
                                     }
                                 </ul>
+                                </div>
                             </li>
                         </ul>
-                        <ul>
+                        </div>
+
+                        <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
                             <li>get (asset requested in exchange):
-                                <ul>
+                                <div class="pb-1 mb-1 ml-4">
+                                {/* <div class="py-1 my-1 ml-4"> */}
+                                <ul class="list-disc list-inside">
                                     <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
                                     {!get_tell_reset ?
                                         (
@@ -258,16 +273,19 @@ class TransactionUpdateable extends React.Component {
                                         )
                                         :
                                         (
-                                            <ul>
+                                            // <ul>
                                                 <li>v9.60 RESET ASSET</li>
-                                            </ul>
+                                            // </ul>
                                         )
                                     }
                                 </ul>
+                                </div>
                             </li>
                         </ul>
+                        </div>
 
-                        <ul>
+                        <div class="py-1 my-1">
+                        <ul class="list-disc list-inside">
                             <li>{expire_block_message}</li>
                             {orders_row.fee_required ?
                                 (
@@ -276,11 +294,18 @@ class TransactionUpdateable extends React.Component {
                                 : null
                             }
                         </ul>
+                        </div>
 
                         {order_matches_rows.length ?
                             (
                                 <>
-                                    <p>Order matches:</p>
+                                <div class="pt-1 mt-1">
+                                        {/* <div class="py-1 my-1"> */}
+                                    <p class="font-bold">
+                                        Order matches:
+                                    </p>
+                                    <div class="pt-1 mt-1">
+                                    {/* <div class="py-1 my-1"> */}
                                     <table>
                                         <tbody>
                                             {ListElements.getTableRowOrderMatchesHeader()}
@@ -294,11 +319,20 @@ class TransactionUpdateable extends React.Component {
                                             })}
                                         </tbody>
                                     </table>
+                                    </div>
                                     {/* !nested terniary! */}
                                     {order_matches_btcpays_rows.length ?
                                         (
-                                            <>
-                                                <p>BTC pays:</p>
+                                            // <>
+                                                // {/* TODO why (pt-1) mt-3 /4 didn't work? */}
+                                                <div class="pt-1 mt-2">
+                                                {/* <div class="pt-1 mt-1"> */}
+                                                {/* <div class="py-1 my-1"> */}
+                                                <p class="font-bold">
+                                                    BTC pays:
+                                                </p>
+                                                <div class="pt-1 mt-1">
+                                                {/* <div class="py-1 my-1"> */}
                                                 <table>
                                                     <tbody>
                                                         {ListElements.getTableRowOrderMatchesBtcpaysHeader()}
@@ -307,10 +341,13 @@ class TransactionUpdateable extends React.Component {
                                                         })}
                                                     </tbody>
                                                 </table>
-                                            </>
+                                                </div>
+                                                </div>
+                                            // </>
                                         )
                                         : null
                                     }
+                                    </div>
                                 </>
                             )
                             : null
