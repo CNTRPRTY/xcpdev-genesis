@@ -222,6 +222,8 @@ class TransactionUpdateable extends React.Component {
                 const order_matches_rows = this.state.transaction_state.order_matches_rows;
                 const order_matches_btcpays_rows = this.state.transaction_state.btcpays_rows;
 
+                const btc_is_promise = give_issuance.asset === 'BTC' ? 'promise' : 'escrowed';
+                
                 transaction_state_element = (
                     <>
                         {/* <h3>Order:</h3> */}
@@ -238,7 +240,9 @@ class TransactionUpdateable extends React.Component {
 
                         <div class="py-1 my-1">
                             <ul class="list-disc list-inside">
-                                <li>give (asset escrowed):
+                                <li>give ({btc_is_promise}):
+                                {/* <li>give asset ({btc_is_promise}): */}
+                                {/* <li>give (asset escrowed): */}
                                     <div class="pb-1 mb-1 ml-4">
                                         {/* <div class="py-1 my-1 ml-4"> */}
                                         <ul class="list-disc list-inside">
@@ -262,7 +266,9 @@ class TransactionUpdateable extends React.Component {
 
                         <div class="py-1 my-1">
                             <ul class="list-disc list-inside">
-                                <li>get (asset requested in exchange):
+                                <li>get (requested in exchange):
+                                {/* <li>get asset (requested in exchange): */}
+                                {/* <li>get (asset requested in exchange): */}
                                     <div class="pb-1 mb-1 ml-4">
                                         {/* <div class="py-1 my-1 ml-4"> */}
                                         <ul class="list-disc list-inside">
