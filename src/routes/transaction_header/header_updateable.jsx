@@ -132,26 +132,12 @@ class TransactionUpdateable extends React.Component {
                                                 {formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}
                                                 {' sats / unit)'}
                                             </li>
-                                            {/* <li>{`${BigInt(dispensers_row.satoshirate_text)}`} sats for {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}</li> */}
-                                            {/* <li>{quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))} of {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))} remaining</li> */}
-                                        </ul>
-                                    </div>
-
-                                    <div class="py-1 my-1">
-                                        <ul class="list-disc list-inside">
                                             <li>
                                                 {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))}
                                                 {' of '}
                                                 {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))}
                                                 {' remaining'}
                                             </li>
-
-                                            {/* <li>
-                                            {`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)} sats / unit`}
-                                            // {`${(dispensers_row.satoshirate / dispensers_row.give_quantity).toFixed(10)}`} sats / unit
-                                            // {`${dispensers_row.satoshirate / dispensers_row.give_quantity}`} sats / unit
-                                            // {`${BigInt(dispensers_row.satoshirate_text)/BigInt(dispensers_row.give_quantity_text)}`} sats / unit
-                                        </li> */}
                                         </ul>
                                     </div>
                                 </>
@@ -235,6 +221,13 @@ class TransactionUpdateable extends React.Component {
                         <div class="py-1 my-1">
                             <ul class="list-disc list-inside">
                                 <li>status: {orders_row.status}</li>
+                                <li>{expire_block_message}</li>
+                                {orders_row.fee_required ?
+                                    (
+                                        <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
+                                    )
+                                    : null
+                                }
                             </ul>
                         </div>
 
@@ -287,18 +280,6 @@ class TransactionUpdateable extends React.Component {
                                         </ul>
                                     </div>
                                 </li>
-                            </ul>
-                        </div>
-
-                        <div class="py-1 my-1">
-                            <ul class="list-disc list-inside">
-                                <li>{expire_block_message}</li>
-                                {orders_row.fee_required ?
-                                    (
-                                        <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
-                                    )
-                                    : null
-                                }
                             </ul>
                         </div>
 
