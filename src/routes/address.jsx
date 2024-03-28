@@ -168,7 +168,10 @@ class Address extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no broadcasts</p>);
+                    : (
+                        // TODO alignment when empty has not been done (at all?)
+                        <p>no broadcasts</p>
+                    );
         }
 
 
@@ -265,42 +268,76 @@ class Address extends React.Component {
                     Address: {this.state.address}
                 </h2>
 
-                <div class="py-1 my-1">
-                    <h3 class="font-bold">
-                        Dispensers:
-                    </h3>
-                    <strong>Open:</strong>
-                    {/* <h4>Open:</h4> */}
-                    {address_open_dispensers_element}
-                    <strong>Closed:</strong>
-                    {/* <h4>Closed:</h4> */}
-                    {address_closed_dispensers_element}
+                <div class="py-1 mt-1 mb-4">
+                    {/* <div class="py-1 my-1"> */}
+                    <span class="font-bold">
+                        Balances:
+                    </span>
+                    {/* <h3 class="font-bold">
+                        Balances:
+                    </h3> */}
+                    {/* <p> */}
+                    {' '}
+                    <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
+                    {/* </p> */}
                 </div>
 
                 <div class="py-1 my-1">
                     <h3 class="font-bold">
+                        Dispensers:
+                    </h3>
+                    <div class="py-1 my-1">
+                        <strong>Open:</strong>
+                        {/* <h4>Open:</h4> */}
+                        <div class="py-1 my-1">
+                            {address_open_dispensers_element}
+                        </div>
+                    </div>
+                    <div class="py-1 my-1">
+                        <strong>Closed:</strong>
+                        {/* <h4>Closed:</h4> */}
+                        <div class="py-1 my-1">
+                            {address_closed_dispensers_element}
+                        </div>
+                    </div>
+                </div>
+
+                {/* <div class="py-1 my-1">
+                    <h3 class="font-bold">
                         Balances:
                     </h3>
                     <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
-                </div>
+                </div> */}
 
                 <div class="py-1 my-1">
                     <h3 class="font-bold">
                         Broadcasts:
                     </h3>
-                    {address_broadcasts_element}
+                    <div class="py-1 my-1">
+                        {address_broadcasts_element}
+                    </div>
                 </div>
 
                 <div class="py-1 my-1">
                     <h3 class="font-bold">
                         Asset issuances:
                     </h3>
-                    <strong>Genesis:</strong>
-                    {/* <h4>Genesis:</h4> */}
-                    {issuer_genesis_element}
-                    <strong>Transfer:</strong>
-                    {/* <h4>Transfer:</h4> */}
-                    {issuer_transfer_element}
+                    <div class="py-1 my-1">
+                        <strong>Genesis:</strong>
+                        {/* <h4>Genesis:</h4> */}
+                        <div class="py-1 my-1">
+                            {issuer_genesis_element}
+                        </div>
+                    </div>
+                    <div class="pt-1 mt-1">
+                        {/* <div class="py-1 my-1"> */}
+                        <strong>Transfer:</strong>
+                        {/* <h4>Transfer:</h4> */}
+                        <div class="pt-1 mt-1">
+                            {/* <div class="py-1 my-1"> */}
+                            {issuer_transfer_element}
+                        </div>
+                    </div>
                 </div>
             </div>
         );
