@@ -435,7 +435,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>rooow</td> */}
             </tr>
@@ -453,6 +453,9 @@ class ListElements {
 
         const additional_data = {
             // TODO anything missing?
+
+            timestamp: timestamp_iso,
+
             value: broadcast_row.value,
             fee_fraction_int: broadcast_row.fee_fraction_int,
             locked: broadcast_row.locked,
@@ -465,7 +468,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(broadcast_row)}</td> */}
