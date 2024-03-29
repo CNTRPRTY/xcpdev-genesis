@@ -800,7 +800,10 @@ class ListElements {
 
     static getTableRowDispensersHeader_addressPage() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
