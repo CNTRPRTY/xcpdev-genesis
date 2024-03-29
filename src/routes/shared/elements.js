@@ -474,6 +474,35 @@ class ListElements {
     }
 
     // asset issuances/destructions
+    /// address page, for now
+    static getTableRowIssuanceTransferHeader() {
+        return (
+            <tr
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
+            </tr>
+        );
+    }
+    static getTableRowIssuanceTransfer(issuance_event_row, index) {
+        const mainname = issuance_event_row.asset_longname ? issuance_event_row.asset_longname : issuance_event_row.asset;
+        const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
+        return (
+            <tr key={index} style={{ padding: "0.25rem" }}>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+            </tr>
+        );
+    }
+    ///
     static getTableRowIssuanceEventsAssetHeader(issuer_page = false) {
         // static getTableRowIssuanceEventsAssetHeader() {
         return (

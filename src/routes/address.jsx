@@ -251,9 +251,11 @@ class Address extends React.Component {
                         <>
                             <table>
                                 <tbody>
-                                    {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)}
+                                    {ListElements.getTableRowIssuanceTransferHeader()}
+                                    {/* {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)} */}
                                     {issuer_transfer_issuances.sort((a, b) => a.tx_index - b.tx_index).map((issuances_row, index) => {
-                                        return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
+                                        return ListElements.getTableRowIssuanceTransfer(issuances_row, index);
+                                        // return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
                                     })}
                                 </tbody>
                             </table>
