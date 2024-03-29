@@ -298,7 +298,8 @@ class Address extends React.Component {
                     <div class="py-1 my-1">
                         <strong>Closed:</strong>
                         {/* <h4>Closed:</h4> */}
-                        <div class="py-1 my-1">
+                        <div class="pt-1 mt-1">
+                        {/* <div class="py-1 my-1"> */}
                             {address_closed_dispensers_element}
                         </div>
                     </div>
