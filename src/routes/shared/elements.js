@@ -138,7 +138,7 @@ function linksElement(link_element_bindings, index) {
                     class="whitespace-nowrap"
                     style={{ padding: "0.25rem" }}
                 >
-                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
+                    {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
                     {bindings_entries.map((obj, index2) => {
                         const key = obj[0];
                         const element_value = obj[1];
@@ -293,7 +293,7 @@ class ListElements {
                     style={{ padding: "0 1rem 0 0" }}
                 >{message_row.main_message ? 'main message' : ''}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td> */}
-                
+
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
@@ -391,17 +391,17 @@ class ListElements {
             if (invalid_tx_notice && invalid_tx_notice.startsWith('invalid')) {
                 invalid_tx_notice = 'invalid';
             }
-            
+
             const addvalid = invalid_tx_notice ? invalid_tx_notice : ''; // valid implicit (non valids surfaced)
             // // const addvalid = invalid_tx_notice ? 'invalid' : 'valid';
             // const addvalid = invalid_tx_notice ? invalid_tx_notice : 'valid';
-            
+
             const addspace = (addvalid !== '') ? ' ' : '';
-            
+
             const addinsert = nonsert_tx_notice ? nonsert_tx_notice : 'insert';
             // // const addinsert = nonsert_tx_notice ? `/ ${nonsert_tx_notice}` : '/ insert';
             // const addinsert = nonsert_tx_notice ? ` ${nonsert_tx_notice}` : ' insert';
-            
+
             incolumn = `${addvalid}${addspace}${addinsert}`;
             // incolumn = `${addvalid}${addinsert}`;
             // incolumn = `${invalid_tx_notice ? invalid_tx_notice : ''}${nonsert_tx_notice ? nonsert_tx_notice : ''}`;
@@ -458,7 +458,7 @@ class ListElements {
         const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, BigInt(balance_row.quantity_text));
         // const quantity_with_divisibility = quantityWithDivisibility(balance_row.divisible, balance_row.quantity);
         // const quantity_with_divisibility = balance_row.divisible ? (Number(balance_row.quantity) / (10 ** 8)).toFixed(8) : Number(balance_row.quantity);
-        
+
         // surface reset assets (only show units)
         const is_reset = balance_row.resets && true;
 
@@ -579,7 +579,7 @@ class ListElements {
     static getTableRowIssuanceEventsAssetHeader(issuer_page = false) {
         // static getTableRowIssuanceEventsAssetHeader() {
         return (
-            
+
             <tr
                 class="whitespace-nowrap"
                 style={{ padding: "0.25rem" }}
@@ -850,7 +850,7 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate / dispensers_row.give_quantity}`}</td> */}
-                
+
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
@@ -888,10 +888,10 @@ class ListElements {
             <tr key={index} style={{ padding: "0.25rem" }}>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>
-                
+
                 <td style={{ padding: "0 1rem 0 0" }}>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate / dispensers_row.give_quantity}`}</td> */}
-                
+
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(dispensers_row.block_time)}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
@@ -1000,8 +1000,8 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}>
                     <>
-                    <Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link>
-                    {` ${BigInt(orders_row.get_remaining_text)}`}
+                        <Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link>
+                        {` ${BigInt(orders_row.get_remaining_text)}`}
                     </>
                 </td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
@@ -1093,14 +1093,14 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{order_matches_row.status}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>
                     <>
-                    <Link to={`/asset/${order_matches_row.forward_asset}`}>{order_matches_row.forward_asset}</Link>
-                    {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.forward_asset], BigInt(order_matches_row.forward_quantity_text))}`}
+                        <Link to={`/asset/${order_matches_row.forward_asset}`}>{order_matches_row.forward_asset}</Link>
+                        {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.forward_asset], BigInt(order_matches_row.forward_quantity_text))}`}
                     </>
                 </td>
                 <td style={{ padding: "0 1rem 0 0" }}>
                     <>
-                    <Link to={`/asset/${order_matches_row.backward_asset}`}>{order_matches_row.backward_asset}</Link>
-                    {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.backward_asset], BigInt(order_matches_row.backward_quantity_text))}`}
+                        <Link to={`/asset/${order_matches_row.backward_asset}`}>{order_matches_row.backward_asset}</Link>
+                        {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.backward_asset], BigInt(order_matches_row.backward_quantity_text))}`}
                     </>
                 </td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></td>
@@ -1329,39 +1329,39 @@ class OneElements {
                 </div>
 
                 <div class="py-1 my-1">
-                <nav
-                    style={{
-                        borderBottom: "solid 1px",
-                        paddingBottom: "1rem",
-                    }}
-                >
-                    <Link to="/">Data</Link> |{" "}
-                    <Link to="/wallet">Wallet</Link>
+                    <nav
+                        style={{
+                            borderBottom: "solid 1px",
+                            paddingBottom: "1rem",
+                        }}
+                    >
+                        <Link to="/">Data</Link> |{" "}
+                        <Link to="/wallet">Wallet</Link>
 
-                    <div class="my-1">
-                        <Search />
-                    </div>
-                    {/* <Search /> */}
-                </nav>
+                        <div class="my-1">
+                            <Search />
+                        </div>
+                        {/* <Search /> */}
+                    </nav>
                 </div>
-                
+
                 <div class="py-1 my-1 ml-4">
-                {/* <div class="py-1 m-1"> */}
-                {/* <div class="py-1 my-1"> */}
-                {/* <div style={{ padding: "1rem" }}> */}
+                    {/* <div class="py-1 m-1"> */}
+                    {/* <div class="py-1 my-1"> */}
+                    {/* <div style={{ padding: "1rem" }}> */}
                     {route_element}
                 </div>
 
                 <div class="py-1 my-1">
-                <p>
-                    [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
-                    {' '}|{' '}
-                    <Link to="/api">API</Link>
-                    <br />
-                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
-                    <br />
-                    [Bitcoin Core v{BITCOIN_VERSION}]
-                </p>
+                    <p>
+                        [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+                        {' '}|{' '}
+                        <Link to="/api">API</Link>
+                        <br />
+                        [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
+                        <br />
+                        [Bitcoin Core v{BITCOIN_VERSION}]
+                    </p>
                 </div>
 
             </main>
