@@ -80,6 +80,9 @@ function createLinkElementBindings(bindings_json_stringified) {
         else if (key === 'tx1_address') {
             bindings.tx1_address = (<Link to={`/address/${value}`}>{value}</Link>);
         }
+        else if (key === 'origin') {
+            bindings.origin = (<Link to={`/address/${value}`}>{value}</Link>);
+        }
 
         else if (key === 'block_index') {
             bindings.block_index = (<Link to={`/block/${value}`}>{value}</Link>);
