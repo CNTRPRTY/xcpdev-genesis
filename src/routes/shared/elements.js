@@ -1214,7 +1214,11 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap" // going into the rows, this one can be all tr because all values lengths are expected
+                style={{ padding: "0.25rem" }}
+            >
 
                 {firstTwo}
 
@@ -1259,7 +1263,11 @@ class ListElements {
         const timestamp_iso = timeIsoFormat(message_row.timestamp);
         const bindingsElements = createLinkElementBindings(message_row.bindings);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.message_index}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
@@ -1290,7 +1298,11 @@ class ListElements {
     static getTableRowBlocks(block_row, index) {
         const block_time_iso = timeIsoFormat(block_row.block_time);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.block_hash}</td>
