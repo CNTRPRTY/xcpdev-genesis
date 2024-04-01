@@ -19,6 +19,8 @@ function baseState(block) {
         messages_loading: true,
         messages_loading_error: null,
         messages: [],
+
+        messages_show_bindings: false,
     };
 }
 
@@ -205,11 +207,25 @@ class Block extends React.Component {
                 this.state.messages.length ?
                     (
                         <>
+
+                            {/* trying this... */}
+                            <input type="checkbox" onClick={(e) => {
+                                // e.preventDefault(); // breaks it!
+                                this.setState((prevState, props) => ({
+                                    messages_show_bindings: !prevState.messages_show_bindings
+                                }));
+                            }}/>
+                            {' '}
+                            show bindings
+                            {/*  */}
+
                             <table>
                                 <tbody>
-                                    {ListElements.getTableRowMessageBlockHeader()}
+                                    {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings)}
+                                    {/* {ListElements.getTableRowMessageBlockHeader()} */}
                                     {this.state.messages.map((message_row, index) => {
-                                        return ListElements.getTableRowMessageBlock(message_row, index);
+                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings);
+                                        // return ListElements.getTableRowMessageBlock(message_row, index);
                                     })}
                                 </tbody>
                             </table>
