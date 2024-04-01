@@ -266,7 +266,8 @@ class ListElements {
         // surfacing the invalid
         const status = bindings.status;
         let invalid_tx_notice = null;
-        if (status && (typeof status === 'string') && status.startsWith('invalid')) {
+        if (status && (typeof status === 'string') && status !== 'valid') {
+            // if (status && (typeof status === 'string') && status.startsWith('invalid')) {
             invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
             // invalid_tx_notice = (<>{` invalid`}</>);
             // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
@@ -295,21 +296,33 @@ class ListElements {
         );
     }
 
-    static getTableRowMessageBlockHeader() {
+    static getTableRowMessageBlockHeader(show_bindings) {
+        // static getTableRowMessageBlockHeader() {
         return (
             <tr
                 class="whitespace-nowrap"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td> */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td> */}
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>status / command</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>command / status</td> */}
+
+                {show_bindings ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
+                    : null
+                }
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+
             </tr>
         );
     }
-    static getTableRowMessageBlock(message_row, index) {
+    static getTableRowMessageBlock(message_row, index, show_bindings) {
+        // static getTableRowMessageBlock(message_row, index) {
         // static getTableRowMessage(message_row, index) {
         // const page = 'tx';
         const category = message_row.category;
@@ -340,27 +353,71 @@ class ListElements {
         // surfacing the invalid
         const status = bindings.status;
         let invalid_tx_notice = null;
-        if (status && (typeof status === 'string') && status.startsWith('invalid')) {
-            invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
+        if (status && (typeof status === 'string') && status !== 'valid') {
+            // if (status && (typeof status === 'string') && status.startsWith('invalid')) {
+            invalid_tx_notice = status;
+            // invalid_tx_notice = (<>{' '}<strong>{status}</strong></>);
+            // invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
             // invalid_tx_notice = (<>{` invalid`}</>);
             // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
         }
 
+        // surfacing non-inserts, updates (or anything else?)
+        let nonsert_tx_notice = null;
+        if (command !== 'insert') {
+            nonsert_tx_notice = command;
+            // const addspace = invalid_tx_notice ? ' ' : '';
+            // nonsert_tx_notice = `${addspace}${command}`;
+            // nonsert_tx_notice = (<>{' '}<strong>{command}</strong></>);
+        }
+
+        // surfacing in column
+        let incolumn = 'insert'; // valid implicit (non valids surfaced)
+        // let incolumn = 'valid'; // insert implicit
+        // let incolumn = 'valid insert';
+        if (invalid_tx_notice || nonsert_tx_notice) {
+
+            // dont show invalid details here
+            if (invalid_tx_notice && invalid_tx_notice.startsWith('invalid')) {
+                invalid_tx_notice = 'invalid';
+            }
+            
+            const addvalid = invalid_tx_notice ? invalid_tx_notice : ''; // valid implicit (non valids surfaced)
+            // // const addvalid = invalid_tx_notice ? 'invalid' : 'valid';
+            // const addvalid = invalid_tx_notice ? invalid_tx_notice : 'valid';
+            
+            const addspace = (addvalid !== '') ? ' ' : '';
+            
+            const addinsert = nonsert_tx_notice ? nonsert_tx_notice : 'insert';
+            // // const addinsert = nonsert_tx_notice ? `/ ${nonsert_tx_notice}` : '/ insert';
+            // const addinsert = nonsert_tx_notice ? ` ${nonsert_tx_notice}` : ' insert';
+            
+            incolumn = `${addvalid}${addspace}${addinsert}`;
+            // incolumn = `${addvalid}${addinsert}`;
+            // incolumn = `${invalid_tx_notice ? invalid_tx_notice : ''}${nonsert_tx_notice ? nonsert_tx_notice : ''}`;
+        }
+
         return (
             <tr key={index} style={{ padding: "0.25rem" }}>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{
                     // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
                 }</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
+                {/* }{invalid_tx_notice}{nonsert_tx_notice}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{command}</td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
+
+                <td style={{ padding: "0 1rem 0 0" }}>{incolumn}</td>
+
+                {show_bindings ?
+                    (<td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>)
+                    : null
+                }
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td> */}
+
             </tr>
         );
     }
