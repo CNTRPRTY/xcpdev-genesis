@@ -225,7 +225,9 @@ class Block extends React.Component {
                 <div class="py-1 my-1">
                     {change_pages_element}
                 </div>
-                <div class="pt-1 mt-1">
+                <div class="pt-1 mt-1 ml-4 whitespace-nowrap overflow-auto">
+                {/* <div class="pt-1 mt-1 ml-4 whitespace-nowrap overflow-auto border-4"> */}
+                {/* <div class="pt-1 mt-1"> */}
                     {/* <div class="py-1 my-1"> */}
                     {block_metadata_element}
                 </div>
@@ -235,7 +237,9 @@ class Block extends React.Component {
                     <div class="py-1 my-1">
                         {block_messages_element_header}
                     </div>
-                    <div class="pt-1 mt-1">
+                    <div class="pt-1 mt-1 ml-4 overflow-auto">
+                    {/* <div class="pt-1 mt-1 overflow-auto border-4"> */}
+                    {/* <div class="pt-1 mt-1"> */}
                         {/* <div class="py-1 my-1"> */}
                         {block_messages_element}
                     </div>
