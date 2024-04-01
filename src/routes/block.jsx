@@ -121,22 +121,54 @@ class Block extends React.Component {
             block_metadata_element = (
                 <>
                     <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>block index: {this.state.block}</li>
-                            <li>block time: {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</li>
+                        <ul>
+                            {/* does not show with overflow-auto */}
+                            {/* <ul class="list-disc list-outside"> */}
+                            <li>
+                                <span class="text-gray-600">block index:</span>
+                                {' '}
+                                {this.state.block}
+                            </li>
+                            <li>
+                                <span class="text-gray-600">block time:</span>
+                                {' '}
+                                {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}
+                            </li>
                         </ul>
                     </div>
                     <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>block hash: {this.state.block_row.block_hash}</li>
-                            <li>previous block hash: {this.state.block_row.previous_block_hash}</li>
+                        <ul>
+                        {/* <ul class="list-disc list-outside"> */}
+                            <li>
+                                <span class="text-gray-600">block hash:</span>
+                                {' '}
+                                {this.state.block_row.block_hash}
+                            </li>
+                            <li>
+                                <span class="text-gray-600">previous block hash:</span>
+                                {' '}
+                                {this.state.block_row.previous_block_hash}
+                            </li>
                         </ul>
                     </div>
                     <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>ledger hash (L): {this.state.block_row.ledger_hash}</li>
-                            <li>txlist hash (TX): {this.state.block_row.txlist_hash}</li>
-                            <li>messages hash (M): {this.state.block_row.messages_hash}</li>
+                        <ul>
+                        {/* <ul class="list-disc list-outside"> */}
+                            <li>
+                                <span class="text-gray-600">ledger hash (L):</span>
+                                {' '}
+                                {this.state.block_row.ledger_hash}
+                            </li>
+                            <li>
+                                <span class="text-gray-600">txlist hash (TX):</span>
+                                {' '}
+                                {this.state.block_row.txlist_hash}
+                            </li>
+                            <li>
+                                <span class="text-gray-600">messages hash (M):</span>
+                                {' '}
+                                {this.state.block_row.messages_hash}
+                            </li>
                         </ul>
                     </div>
                 </>

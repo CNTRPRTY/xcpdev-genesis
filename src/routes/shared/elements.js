@@ -310,7 +310,7 @@ class ListElements {
         // static getTableRowMessageBlockHeader() {
         return (
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
