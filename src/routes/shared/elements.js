@@ -94,10 +94,12 @@ function createLinkElementBindings(bindings_json_stringified) {
             bindings.tx1_block_index = (<Link to={`/block/${value}`}>{value}</Link>);
         }
 
-        else if (key === 'status') {
-            bindings.status = ((typeof value === 'string') && value.startsWith('invalid')) ?
-                (<strong>{value}</strong>) : (<>{value}</>);
-        }
+        // maybe this is wanted in some places still?... then becomes an input param
+        // else if (key === 'status') {
+        //     bindings.status = ((typeof value === 'string') && value !== 'valid') ?
+        //     // bindings.status = ((typeof value === 'string') && value.startsWith('invalid')) ?
+        //         (<strong>{value}</strong>) : (<>{value}</>);
+        // }
 
         else {
             bindings[key] = (<>{`${value}`}</>);
@@ -128,7 +130,15 @@ function linksElement(link_element_bindings, index) {
     return (
         <table>
             <tbody>
-                <tr key={index} style={{ padding: "0.25rem" }}>
+                {/*
+                for now doing this, but maybe in some places i would prefer wrapping... (which in case then this becomes an input param)
+                */}
+                <tr
+                    key={index}
+                    class="whitespace-nowrap"
+                    style={{ padding: "0.25rem" }}
+                >
+                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
                     {bindings_entries.map((obj, index2) => {
                         const key = obj[0];
                         const element_value = obj[1];
