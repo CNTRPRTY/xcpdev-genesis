@@ -324,17 +324,27 @@ class Address extends React.Component {
 
         const route_element = (
             <div class="py-2 my-2">
-                <h2 class="font-bold text-xl mb-1">
-                    Address: {this.state.address}
+                <h2 class="font-bold text-xl mb-1 overflow-auto">
+                {/* <h2 class="font-bold text-xl mb-1"> */}
+                    Address:
+                    {' '}
+                    <span class="whitespace-nowrap">
+                        {this.state.address}
+                    </span>
+                    {/* Address: {this.state.address} */}
                 </h2>
 
-                <div class="py-1 mt-1 mb-4">
+                <div class="py-1 mt-1 mb-4 overflow-auto">
+                {/* <div class="py-1 mt-1 mb-4"> */}
                     {/* <div class="py-1 my-1"> */}
                     <span class="font-bold dark:text-slate-100">
                         Balances:
                     </span>
                     {' '}
-                    <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
+                    <span class="whitespace-nowrap">
+                        <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
+                    </span>
+                    {/* <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link> */}
                 </div>
 
                 <div class="py-1 my-1">
@@ -407,6 +417,236 @@ class Address extends React.Component {
                 </div>
             </div>
         );
+        // const route_element = (
+        //     <div class="py-2 my-2">
+
+        //         {/* <h2> */}
+        //         <span class="font-bold text-xl mb-1 dark:text-slate-100">
+        //             Address:
+        //         </span>
+        //         <br />
+        //         <span class="font-bold text-xl mb-1 overflow-auto dark:text-slate-100">
+        //         {/* <h2 class="font-bold text-xl mb-1"> */}
+        //             {this.state.address}
+        //             {/* Address: {this.state.address} */}
+        //         </span>
+        //         {/* </h2> */}
+
+        //         {/* <h2 class="font-bold text-xl mb-1 whitespace-nowrap overflow-auto"> */}
+        //         {/* <h2 class="font-bold text-xl mb-1 overflow-auto"> */}
+        //         <h2 class="font-bold text-xl mb-1">
+        //             Address:
+        //         </h2>
+        //         <h2 class="font-bold text-xl mb-1 overflow-auto">
+        //         {/* <h2 class="font-bold text-xl mb-1"> */}
+        //             {this.state.address}
+        //             {/* Address: {this.state.address} */}
+        //         </h2>
+
+        //         {/* <div class="py-1 mt-1 mb-4 whitespace-nowrap overflow-auto"> */}
+        //         <div class="py-1 mt-1 mb-4 overflow-auto">
+        //         {/* <div class="py-1 mt-1 mb-4"> */}
+        //             {/* <div class="py-1 my-1"> */}
+        //             <span class="font-bold dark:text-slate-100">
+        //                 Balances:
+        //             </span>
+        //             {' '}
+        //             <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
+        //         </div>
+
+        //         <h2 class="font-bold text-xl mb-1 text-balance">
+        //         {/* <h2 class="font-bold text-xl mb-1 whitespace-nowrap overflow-auto"> */}
+        //         {/* <h2 class="font-bold text-xl mb-1 overflow-auto"> */}
+        //         {/* <h2 class="font-bold text-xl mb-1"> */}
+        //             Address: {this.state.address}
+        //         </h2>
+
+        //         <div class="py-1 mt-1 mb-4 text-balance">
+        //         {/* <div class="py-1 mt-1 mb-4 whitespace-nowrap overflow-auto"> */}
+        //         {/* <div class="py-1 mt-1 mb-4 overflow-auto"> */}
+        //         {/* <div class="py-1 mt-1 mb-4"> */}
+        //             {/* <div class="py-1 my-1"> */}
+        //             <span class="font-bold dark:text-slate-100">
+        //                 Balances:
+        //             </span>
+        //             {' '}
+        //             <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
+        //         </div>
+
+        //         <div class="py-1 my-1">
+        //             <h3 class="font-bold">
+        //                 Dispensers:
+        //             </h3>
+        //             <div class="py-1 my-1">
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Open:
+        //                 </span>
+                        
+        //                 {/* TODO remove strong everywhere! */}
+        //                 {/* TODO remove strong everywhere! */}
+        //                 {/* TODO remove strong everywhere! */}
+
+        //                 {/* <strong>Open:</strong> */}
+        //                 {/* <h4>Open:</h4> */}
+        //                 <div class="py-1 my-1 ml-4 overflow-auto">
+        //                 {/* <div class="py-1 my-1"> */}
+        //                     {address_open_dispensers_element}
+        //                 </div>
+        //             </div>
+        //             <div class="py-1 my-1">
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Closed:
+        //                 </span>
+        //                 {/* <strong>Closed:</strong> */}
+        //                 {/* <h4>Closed:</h4> */}
+        //                 <div class="pt-1 mt-1 ml-4 overflow-auto">
+        //                 {/* <div class="pt-1 mt-1"> */}
+        //                 {/* <div class="py-1 my-1"> */}
+        //                     {address_closed_dispensers_element}
+        //                 </div>
+        //             </div>
+        //         </div>
+
+        //         <div class="py-1 my-1">
+        //             <h3 class="font-bold">
+        //                 Broadcasts:
+        //             </h3>
+        //             <div class="py-1 my-1 ml-4 overflow-auto">
+        //             {/* <div class="py-1 my-1"> */}
+        //                 {address_broadcasts_element}
+        //             </div>
+        //         </div>
+
+        //         <div class="py-1 my-1">
+        //             <h3 class="font-bold">
+        //                 Asset issuances:
+        //             </h3>
+        //             <div class="py-1 my-1">
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Genesis:
+        //                 </span>
+        //                 {/* <strong>Genesis:</strong> */}
+        //                 {/* <h4>Genesis:</h4> */}
+        //                 <div class="py-1 my-1 ml-4 overflow-auto">
+        //                 {/* <div class="py-1 my-1"> */}
+        //                     {issuer_genesis_element}
+        //                 </div>
+        //             </div>
+        //             <div class="pt-1 mt-1">
+        //                 {/* <div class="py-1 my-1"> */}
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Transfer:
+        //                 </span>
+        //                 {/* <strong>Transfer:</strong> */}
+        //                 {/* <h4>Transfer:</h4> */}
+        //                 <div class="pt-1 mt-1 ml-4 overflow-auto">
+        //                 {/* <div class="pt-1 mt-1"> */}
+        //                     {/* <div class="py-1 my-1"> */}
+        //                     {issuer_transfer_element}
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </div>
+        // );
+        // const route_element = (
+        //     <div class="py-2 my-2">
+
+        //         {/* <span class="whitespace-nowrap overflow-x-auto"> */}
+
+        //         {/* <h2 class="font-bold text-xl mb-1 whitespace-nowrap overflow-auto"> */}
+        //         <h2 class="font-bold text-xl mb-1 overflow-auto">
+        //         {/* <h2 class="font-bold text-xl mb-1"> */}
+        //             Address: {this.state.address}
+        //         </h2>
+
+        //         {/* <div class="py-1 mt-1 mb-4 whitespace-nowrap overflow-auto"> */}
+        //         <div class="py-1 mt-1 mb-4 overflow-auto">
+        //         {/* <div class="py-1 mt-1 mb-4"> */}
+        //             {/* <div class="py-1 my-1"> */}
+        //             <span class="font-bold dark:text-slate-100">
+        //                 Balances:
+        //             </span>
+        //             {' '}
+        //             <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
+        //         </div>
+
+        //         {/* </span> */}
+
+        //         <div class="py-1 my-1">
+        //             <h3 class="font-bold">
+        //                 Dispensers:
+        //             </h3>
+        //             <div class="py-1 my-1">
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Open:
+        //                 </span>
+                        
+        //                 {/* TODO remove strong everywhere! */}
+        //                 {/* TODO remove strong everywhere! */}
+        //                 {/* TODO remove strong everywhere! */}
+
+        //                 {/* <strong>Open:</strong> */}
+        //                 {/* <h4>Open:</h4> */}
+        //                 <div class="py-1 my-1 ml-4 overflow-auto">
+        //                 {/* <div class="py-1 my-1"> */}
+        //                     {address_open_dispensers_element}
+        //                 </div>
+        //             </div>
+        //             <div class="py-1 my-1">
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Closed:
+        //                 </span>
+        //                 {/* <strong>Closed:</strong> */}
+        //                 {/* <h4>Closed:</h4> */}
+        //                 <div class="pt-1 mt-1 ml-4 overflow-auto">
+        //                 {/* <div class="pt-1 mt-1"> */}
+        //                 {/* <div class="py-1 my-1"> */}
+        //                     {address_closed_dispensers_element}
+        //                 </div>
+        //             </div>
+        //         </div>
+
+        //         <div class="py-1 my-1">
+        //             <h3 class="font-bold">
+        //                 Broadcasts:
+        //             </h3>
+        //             <div class="py-1 my-1 ml-4 overflow-auto">
+        //             {/* <div class="py-1 my-1"> */}
+        //                 {address_broadcasts_element}
+        //             </div>
+        //         </div>
+
+        //         <div class="py-1 my-1">
+        //             <h3 class="font-bold">
+        //                 Asset issuances:
+        //             </h3>
+        //             <div class="py-1 my-1">
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Genesis:
+        //                 </span>
+        //                 {/* <strong>Genesis:</strong> */}
+        //                 {/* <h4>Genesis:</h4> */}
+        //                 <div class="py-1 my-1 ml-4 overflow-auto">
+        //                 {/* <div class="py-1 my-1"> */}
+        //                     {issuer_genesis_element}
+        //                 </div>
+        //             </div>
+        //             <div class="pt-1 mt-1">
+        //                 {/* <div class="py-1 my-1"> */}
+        //                 <span class="font-bold dark:text-slate-100">
+        //                     Transfer:
+        //                 </span>
+        //                 {/* <strong>Transfer:</strong> */}
+        //                 {/* <h4>Transfer:</h4> */}
+        //                 <div class="pt-1 mt-1 ml-4 overflow-auto">
+        //                 {/* <div class="pt-1 mt-1"> */}
+        //                     {/* <div class="py-1 my-1"> */}
+        //                     {issuer_transfer_element}
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </div>
+        // );
 
         return <OneElements route_element={route_element} />;
         // return OneElements.getFullPageForRouteElement(route_element);
