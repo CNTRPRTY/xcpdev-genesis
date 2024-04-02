@@ -1393,17 +1393,6 @@ class OneElements extends React.Component {
                     <h1 class="text-3xl font-bold">
                         xcp.dev
                     </h1>
-
-                    {/*  */}
-                    <input
-                        type="checkbox"
-                        onClick={this.handleDarkModeToggle}
-                        checked={this.state.theme === "dark"}
-                    />
-                    {' '}
-                    dark mode
-                    {/*  */}
-
                     <h3>Counterparty Bitcoin Tools</h3>
                 </div>
 
@@ -1432,6 +1421,21 @@ class OneElements extends React.Component {
 
                 <div class="py-1 my-1">
                     <p>
+
+                        {/*  */}
+                        <label>
+                        <input
+                            type="checkbox"
+                            onClick={this.handleDarkModeToggle}
+                            checked={this.state.theme === "dark"}
+                        />
+                        {' '}
+                        <span class="text-gray-600 dark:text-gray-400">dark mode</span>
+                        {/* <span class="dark:text-slate-100">dark mode</span> */}
+                        </label>
+                        <br />
+                        {/*  */}
+
                         {'[ '}
                         <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>
                         {' '}|{' '}
