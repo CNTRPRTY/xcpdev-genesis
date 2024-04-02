@@ -335,14 +335,15 @@ class Wallet extends React.Component {
 
         }
 
-        const wallet_element = (
+        const route_element = (
             <>
                 <h2>Wallet tools:</h2>
                 {wallet_element_contents}
             </>
         );
 
-        return OneElements.getFullPageForRouteElement(wallet_element);
+        return <OneElements route_element={route_element} />;
+        // return OneElements.getFullPageForRouteElement(wallet_element);
     }
 
 }

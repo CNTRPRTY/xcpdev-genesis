@@ -345,7 +345,8 @@ class Address extends React.Component {
             </div>
         );
 
-        return OneElements.getFullPageForRouteElement(route_element);
+        return <OneElements route_element={route_element} />;
+        // return OneElements.getFullPageForRouteElement(route_element);
 
     }
 

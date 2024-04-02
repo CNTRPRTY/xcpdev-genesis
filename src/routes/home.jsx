@@ -156,7 +156,7 @@ class Home extends React.Component {
             </>
         );
 
-        const homenew_element = (
+        const route_element = (
             <>
                 <div class="py-2 my-2">
                     {block_element}
@@ -170,7 +170,8 @@ class Home extends React.Component {
             </>
         );
 
-        return OneElements.getFullPageForRouteElement(homenew_element);
+        return <OneElements route_element={route_element} />;
+        // return OneElements.getFullPageForRouteElement(homenew_element);
     }
 
 }

@@ -847,7 +847,8 @@ class Asset extends React.Component {
 
         }
 
-        return OneElements.getFullPageForRouteElement(asset_page_element);
+        return <OneElements route_element={asset_page_element} />;
+        // return OneElements.getFullPageForRouteElement(asset_page_element);
 
     }
 

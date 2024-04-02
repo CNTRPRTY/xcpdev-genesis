@@ -210,6 +210,24 @@ class Block extends React.Component {
 
                             {/* trying this... */}
                             <input type="checkbox" onClick={(e) => {
+
+                                // ////
+                                // console.log(`aaa1`);
+                                // const theme = localStorage.theme;
+                                // console.log(theme);
+                                // console.log(`aaa2`);
+                                // const colorTheme = theme === "dark" ? "light" : "dark";
+                                // console.log(colorTheme);
+                                // console.log(`aaa3`);
+                                // const rootelem = document.getElementById("main-content");
+                                // console.log(rootelem);
+                                // console.log(`aaa4`);
+                                // if (theme) rootelem.classList.remove(theme);
+                                // // rootelem.classList.remove(theme);
+                                // rootelem.classList.add(colorTheme);
+                                // localStorage.setItem("theme", colorTheme);
+                                // ////
+
                                 // e.preventDefault(); // breaks it!
                                 this.setState((prevState, props) => ({
                                     messages_show_bindings: !prevState.messages_show_bindings
@@ -264,7 +282,7 @@ class Block extends React.Component {
         );
 
 
-        const page_element = (
+        const route_element = (
             <div class="py-2 my-2">
                 <h2 class="font-bold text-xl mb-1">
                     Block: {this.state.block}
@@ -295,7 +313,8 @@ class Block extends React.Component {
             </div>
         );
 
-        return OneElements.getFullPageForRouteElement(page_element);
+        return <OneElements route_element={route_element} />;
+        // return OneElements.getFullPageForRouteElement(page_element);
     }
 
 }

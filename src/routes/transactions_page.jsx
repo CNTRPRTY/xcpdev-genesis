@@ -189,7 +189,7 @@ class Transactionspage extends React.Component {
                     : (<p>no rows found...</p>);
         }
 
-        const page_element = (
+        const route_element = (
             <div class="py-2 my-2">
                 <h2 class="font-bold text-xl mb-1">
                     Transactions:
@@ -208,7 +208,8 @@ class Transactionspage extends React.Component {
             </div>
         );
 
-        return OneElements.getFullPageForRouteElement(page_element);
+        return <OneElements route_element={route_element} />;
+        // return OneElements.getFullPageForRouteElement(page_element);
 
     }
 }

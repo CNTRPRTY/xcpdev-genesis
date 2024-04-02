@@ -102,7 +102,7 @@ class Apidoc extends React.Component {
 
         );
 
-        const page_element = (
+        const route_element = (
             <>					
                 <h2>xcp.dev API examples:</h2>
                 {/* <h2>xcp.dev api (Open Beta):</h2> */}
@@ -128,7 +128,8 @@ class Apidoc extends React.Component {
             </>
         );
 
-        return OneElements.getFullPageForRouteElement(page_element);
+        return <OneElements route_element={route_element} />;
+        // return OneElements.getFullPageForRouteElement(page_element);
 
     }
 }

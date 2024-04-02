@@ -1,5 +1,6 @@
 /* global BigInt */
 
+import React from 'react';
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
 import { timeIsoFormat, hashSlice, quantityWithDivisibility, formatDivision } from '../../utils';
@@ -1316,15 +1317,116 @@ class ListElements {
 
 }
 
-class OneElements {
-    static getFullPageForRouteElement(route_element) {
+function setTheme(element, theme) {
+    element.classList.add(theme);
+    localStorage.setItem("theme", theme);
+}
+
+function switchTheme(storedTheme) {
+    const newColorTheme = storedTheme === "dark" ? "light" : "dark";
+
+    const elem = document.documentElement;
+    // const elem = document.getElementById("main-content");
+
+    elem.classList.remove(storedTheme);
+    setTheme(elem, newColorTheme);
+    // elem.classList.add(newColorTheme);
+    // localStorage.setItem("theme", newColorTheme);
+    return newColorTheme;
+}
+
+class OneElements extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            theme: localStorage.theme,
+        };
+        this.handleDarkModeToggle = this.handleDarkModeToggle.bind(this);
+    }
+
+    handleDarkModeToggle(event) {
+
+        // console.log(`ooo1`);
+        // console.log(event.target);
+        // console.log(`ooo2`);
+
+        ///////
+        const storedTheme = this.state.theme;
+        // const storedTheme = localStorage.theme;
+
+        const newColorTheme = switchTheme(storedTheme);
+        // const newColorTheme = storedTheme === "dark" ? "light" : "dark";
+        // const elem = document.getElementById("main-content");
+        // elem.classList.remove(storedTheme);
+        // elem.classList.add(newColorTheme);
+        // localStorage.setItem("theme", newColorTheme);
+        ///////
+
+        this.setState({ theme: newColorTheme });
+    }
+
+    componentDidMount() {
+        const elem = document.documentElement;
+        // const elem = document.getElementById("main-content");
+        setTheme(elem, this.state.theme);
+    }
+
+    render() {
+        // static getFullPageForRouteElement(route_element) {
+
+        // TODO?
+        // https://tailwindcss.com/docs/dark-mode#supporting-system-preference-and-manual-selection
+        // - move into own component, using 'document.documentElement', and it may improve
+        // //////
+        // if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        //     document.documentElement.classList.add('dark')
+        //   } else {
+        //     document.documentElement.classList.remove('dark')
+        //   }
+        // //////
+
+        // const storedThemeLoad = localStorage.theme;
+        // // const newColorTheme = storedTheme === "dark";
+
         return (
-            <main style={{ padding: "1rem" }}>
+            <span // appropriate for styling purposes: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+                // class="bg-white dark:bg-black"    
+                id="main-content"
+                // class="dark" // this to default in dark mode? (and checkbox must start selected...)
+            >
+            {/* <main style={{ padding: "1rem" }}> */}
+
+                <div
+                    class="min-h-screen bg-white dark:bg-black"
+                    // class="bg-white dark:bg-black"
+                    style={{ padding: "1rem" }}
+                >
 
                 <div class="py-1 my-1">
                     <h1 class="text-3xl font-bold">
                         xcp.dev
                     </h1>
+
+                    {/*  */}
+                    <input
+                        type="checkbox"
+                        onClick={this.handleDarkModeToggle}
+                        // onClick={(e) => {
+                        //     const storedTheme = localStorage.theme;
+                        //     const newColorTheme = storedTheme === "dark" ? "light" : "dark";
+                        //     const elem = document.getElementById("main-content");
+                        //     elem.classList.remove(storedTheme);
+                        //     elem.classList.add(newColorTheme);
+                        //     localStorage.setItem("theme", newColorTheme);
+                        // }}
+                        checked={this.state.theme === "dark"}
+                        // checked={storedThemeLoad === "dark"}
+                    />
+                    {' '}
+                    dark mode
+                    {/*  */}
+
                     <h3>Counterparty Bitcoin Tools</h3>
                 </div>
 
@@ -1349,7 +1451,8 @@ class OneElements {
                     {/* <div class="py-1 m-1"> */}
                     {/* <div class="py-1 my-1"> */}
                     {/* <div style={{ padding: "1rem" }}> */}
-                    {route_element}
+                    {this.props.route_element}
+                    {/* {route_element} */}
                 </div>
 
                 <div class="py-1 my-1">
@@ -1364,10 +1467,110 @@ class OneElements {
                     </p>
                 </div>
 
-            </main>
-        );
+                </div>
+
+            {/* </main> */}
+            </span>
+            );
     }
 }
+// class OneElements {
+//     static getFullPageForRouteElement(route_element) {
+
+//         // TODO?
+//         // https://tailwindcss.com/docs/dark-mode#supporting-system-preference-and-manual-selection
+//         // - wont work like this, but maybe if is a separate react component after the id definition...
+//         // //////
+//         // if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+//         //     document.documentElement.classList.add('dark')
+//         //   } else {
+//         //     document.documentElement.classList.remove('dark')
+//         //   }
+//         // //////
+
+//         const storedThemeLoad = localStorage.theme;
+//         // const newColorTheme = storedTheme === "dark";
+
+//         return (
+//             <span // appropriate for styling purposes: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+//                 id="main-content"
+//                 // class="dark" // this to default in dark mode? (and checkbox must start selected...)
+//             >
+//             {/* <main style={{ padding: "1rem" }}> */}
+
+//                 <div
+//                     class="bg-white dark:bg-black"
+//                     style={{ padding: "1rem" }}
+//                 >
+
+//                 <div class="py-1 my-1">
+//                     <h1 class="text-3xl font-bold">
+//                         xcp.dev
+//                     </h1>
+
+//                     {/*  */}
+//                     <input
+//                         type="checkbox"
+//                         onClick={(e) => {
+//                             const storedTheme = localStorage.theme;
+//                             const newColorTheme = storedTheme === "dark" ? "light" : "dark";
+//                             const elem = document.getElementById("main-content");
+//                             elem.classList.remove(storedTheme);
+//                             elem.classList.add(newColorTheme);
+//                             localStorage.setItem("theme", newColorTheme);
+//                         }}
+//                         checked={storedThemeLoad === "dark"}
+//                     />
+//                     {' '}
+//                     dark mode
+//                     {/*  */}
+
+//                     <h3>Counterparty Bitcoin Tools</h3>
+//                 </div>
+
+//                 <div class="py-1 my-1">
+//                     <nav
+//                         style={{
+//                             borderBottom: "solid 1px",
+//                             paddingBottom: "1rem",
+//                         }}
+//                     >
+//                         <Link to="/">Data</Link> |{" "}
+//                         <Link to="/wallet">Wallet</Link>
+
+//                         <div class="my-1">
+//                             <Search />
+//                         </div>
+//                         {/* <Search /> */}
+//                     </nav>
+//                 </div>
+
+//                 <div class="py-1 my-1 ml-4">
+//                     {/* <div class="py-1 m-1"> */}
+//                     {/* <div class="py-1 my-1"> */}
+//                     {/* <div style={{ padding: "1rem" }}> */}
+//                     {route_element}
+//                 </div>
+
+//                 <div class="py-1 my-1">
+//                     <p>
+//                         [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+//                         {' '}|{' '}
+//                         <Link to="/api">API</Link>
+//                         <br />
+//                         [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
+//                         <br />
+//                         [Bitcoin Core v{BITCOIN_VERSION}]
+//                     </p>
+//                 </div>
+
+//                 </div>
+
+//             {/* </main> */}
+//             </span>
+//             );
+//     }
+// }
 
 export {
     ListElements,
