@@ -111,7 +111,7 @@ class Block extends React.Component {
                 loading...
             </p>
         );
-        {/* let block_metadata_element = (<p>loading...</p>); */}
+        {/* let block_metadata_element = (<p>loading...</p>); */ }
         if (this.state.block_row_loading_error) {
             // special render for not found error
             let to_print;
@@ -264,13 +264,13 @@ class Block extends React.Component {
                         <>
 
                             <label>
-                            <input type="checkbox" onClick={() => {
-                                this.setState((prevState, props) => ({
-                                    messages_show_bindings: !prevState.messages_show_bindings
-                                }));
-                            }} />
-                            {' '}
-                            <span class="text-gray-600 dark:text-gray-400">show bindings</span>
+                                <input type="checkbox" onClick={() => {
+                                    this.setState((prevState, props) => ({
+                                        messages_show_bindings: !prevState.messages_show_bindings
+                                    }));
+                                }} />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">show bindings</span>
                             </label>
 
                             <table>
@@ -314,7 +314,7 @@ class Block extends React.Component {
                         class="dark:text-slate-100"
                         style={{ padding: "0.25rem" }}
                     >
-                    {/* <tr style={{ padding: "0.25rem" }}> */}
+                        {/* <tr style={{ padding: "0.25rem" }}> */}
                         {previous_page_column}
                         <td>
                             <div class="mx-1">{' | '}</div>
