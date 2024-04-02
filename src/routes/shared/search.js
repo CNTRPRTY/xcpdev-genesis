@@ -111,16 +111,17 @@ class Search extends React.Component {
     return (
       <form onSubmit={this.handleSearchSubmit}>
         <input
-          class="border-solid border-2 border-gray-300"
+          class="border-r-0 border-solid border-2 border-gray-300"
+          // class="border-solid border-2 border-gray-300"
           type="text"
           value={this.state.search}
           onChange={this.handleSearchChange}
           placeholder={placeholder}
           size={placeholder_size}
         />
-        {' '}
         <input
-          class="px-1 border-solid border-2 border-gray-400"
+          class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+          // class="px-1 border-solid border-2 border-gray-400"
           type="submit"
           value={"go"}
         />
