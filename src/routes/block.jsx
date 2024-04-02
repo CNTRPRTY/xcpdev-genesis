@@ -106,7 +106,12 @@ class Block extends React.Component {
 
     render() {
 
-        let block_metadata_element = (<p>loading...</p>);
+        let block_metadata_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
+        {/* let block_metadata_element = (<p>loading...</p>); */}
         if (this.state.block_row_loading_error) {
             // special render for not found error
             let to_print;
@@ -116,7 +121,12 @@ class Block extends React.Component {
             else {
                 to_print = `${this.state.block_row_loading_error}`;
             }
-            block_metadata_element = (<p>{to_print}</p>);
+            block_metadata_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {to_print}
+                </p>
+            );
+            // block_metadata_element = (<p>{to_print}</p>);
             // block_metadata_element = (<p>{`${this.state.block_row_loading_error}`}</p>);
         }
         else if (!this.state.block_row_loading) {
@@ -124,9 +134,19 @@ class Block extends React.Component {
                 <>
                     <div class="py-1 my-1">
                         <ul>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">block index:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.block}</span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">block time:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</span>
+                            </li>
                             {/* does not show with overflow-auto */}
                             {/* <ul class="list-disc list-outside"> */}
-                            <li>
+                            {/* <li>
                                 <span class="text-gray-600">block index:</span>
                                 {' '}
                                 {this.state.block}
@@ -135,13 +155,23 @@ class Block extends React.Component {
                                 <span class="text-gray-600">block time:</span>
                                 {' '}
                                 {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div class="py-1 my-1">
                         <ul>
-                            {/* <ul class="list-disc list-outside"> */}
                             <li>
+                                <span class="text-gray-600 dark:text-gray-400">block hash:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.block_row.block_hash}</span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">previous block hash:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.block_row.previous_block_hash}</span>
+                            </li>
+                            {/* <ul class="list-disc list-outside"> */}
+                            {/* <li>
                                 <span class="text-gray-600">block hash:</span>
                                 {' '}
                                 {this.state.block_row.block_hash}
@@ -150,13 +180,28 @@ class Block extends React.Component {
                                 <span class="text-gray-600">previous block hash:</span>
                                 {' '}
                                 {this.state.block_row.previous_block_hash}
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div class="py-1 my-1">
                         <ul>
-                            {/* <ul class="list-disc list-outside"> */}
                             <li>
+                                <span class="text-gray-600 dark:text-gray-400">ledger hash (L):</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.block_row.ledger_hash}</span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">txlist hash (TX):</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.block_row.txlist_hash}</span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">messages hash (M):</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.block_row.messages_hash}</span>
+                            </li>
+                            {/* <ul class="list-disc list-outside"> */}
+                            {/* <li>
                                 <span class="text-gray-600">ledger hash (L):</span>
                                 {' '}
                                 {this.state.block_row.ledger_hash}
@@ -170,7 +215,7 @@ class Block extends React.Component {
                                 <span class="text-gray-600">messages hash (M):</span>
                                 {' '}
                                 {this.state.block_row.messages_hash}
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </>
@@ -184,9 +229,19 @@ class Block extends React.Component {
             </h3>
         );
 
-        let block_messages_element = (<p>loading...</p>);
+        let block_messages_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
+        // let block_messages_element = (<p>loading...</p>);
         if (this.state.messages_loading_error) {
-            block_messages_element = (<p>{`${this.state.messages_loading_error}`}</p>);
+            block_messages_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.messages_loading_error}`}
+                </p>
+            );
+            // block_messages_element = (<p>{`${this.state.messages_loading_error}`}</p>);
         }
         else if (
             !this.state.messages_loading
@@ -230,7 +285,11 @@ class Block extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no messages in block</p>);
+                    : (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            no messages in block
+                        </p>
+                    );
         }
 
 
@@ -251,7 +310,11 @@ class Block extends React.Component {
         const change_pages_element = (
             <table>
                 <tbody>
-                    <tr style={{ padding: "0.25rem" }}>
+                    <tr
+                        class="dark:text-slate-100"
+                        style={{ padding: "0.25rem" }}
+                    >
+                    {/* <tr style={{ padding: "0.25rem" }}> */}
                         {previous_page_column}
                         <td>
                             <div class="mx-1">{' | '}</div>
