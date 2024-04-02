@@ -415,7 +415,7 @@ class ListElements {
                 class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-            {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
+                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{
                     // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
@@ -1385,7 +1385,7 @@ class OneElements extends React.Component {
             <span // appropriate for styling purposes: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
                 id="main-content"
             >
-            {/* <main style={{ padding: "1rem" }}> */}
+                {/* <main style={{ padding: "1rem" }}> */}
 
                 <div
                     // fixes 'tailwind background color full screen' https://stackoverflow.com/a/66028460
@@ -1395,80 +1395,80 @@ class OneElements extends React.Component {
                     style={{ padding: "1rem" }}
                 >
 
-                <div class="py-1 my-1">
-                    <h1 class="text-3xl font-bold">
-                        xcp.dev
-                    </h1>
-                    <h3>Counterparty Bitcoin Tools</h3>
-                </div>
+                    <div class="py-1 my-1">
+                        <h1 class="text-3xl font-bold">
+                            xcp.dev
+                        </h1>
+                        <h3>Counterparty Bitcoin Tools</h3>
+                    </div>
 
-                <div class="py-1 my-1">
-                    <nav
-                        style={{
-                            borderBottom: "solid 1px",
-                            paddingBottom: "1rem",
-                        }}
-                    >
-                        <Link to="/">Data</Link> |{" "}
-                        <Link to="/wallet">Wallet</Link>
+                    <div class="py-1 my-1">
+                        <nav
+                            style={{
+                                borderBottom: "solid 1px",
+                                paddingBottom: "1rem",
+                            }}
+                        >
+                            <Link to="/">Data</Link> |{" "}
+                            <Link to="/wallet">Wallet</Link>
 
-                        <div class="my-1">
-                            <Search />
-                        </div>
-                    </nav>
-                </div>
+                            <div class="my-1">
+                                <Search />
+                            </div>
+                        </nav>
+                    </div>
 
-                <div class="py-1 my-1 ml-4">
-                    {/* <div class="py-1 m-1"> */}
-                    {/* <div class="py-1 my-1"> */}
-                    {/* <div style={{ padding: "1rem" }}> */}
-                    {this.props.route_element}
-                </div>
+                    <div class="py-1 my-1 ml-4">
+                        {/* <div class="py-1 m-1"> */}
+                        {/* <div class="py-1 my-1"> */}
+                        {/* <div style={{ padding: "1rem" }}> */}
+                        {this.props.route_element}
+                    </div>
 
-                <div class="py-1 my-1">
-                    <p>
+                    <div class="py-1 my-1">
+                        <p>
 
-                        {/*  */}
-                        <label>
-                        <input
-                            type="checkbox"
-                            onClick={this.handleDarkModeToggle}
-                            checked={this.state.theme === "dark"}
-                        />
-                        {' '}
-                        <span class="text-gray-600 dark:text-gray-400">dark mode</span>
-                        {/* <span class="dark:text-slate-100">dark mode</span> */}
-                        </label>
-                        <br />
-                        {/*  */}
+                            {/*  */}
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onClick={this.handleDarkModeToggle}
+                                    checked={this.state.theme === "dark"}
+                                />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">dark mode</span>
+                                {/* <span class="dark:text-slate-100">dark mode</span> */}
+                            </label>
+                            <br />
+                            {/*  */}
 
-                        {'[ '}
-                        <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>
-                        {' '}|{' '}
-                        <Link to="/api">API</Link>
-                        {' ]'}
-                        {/* [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+                            {'[ '}
+                            <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>
+                            {' '}|{' '}
+                            <Link to="/api">API</Link>
+                            {' ]'}
+                            {/* [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
                         {' '}|{' '}
                         <Link to="/api">API</Link> */}
 
-                        <br />
-                        [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
-                        [ <a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a> ]
-                        <br />
-                        [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
+                            <br />
+                            [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
+                            [ <a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a> ]
+                            <br />
+                            [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
 
-                        {/* <br />
+                            {/* <br />
                         [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
                         <br />
                         [Bitcoin Core v{BITCOIN_VERSION}] */}
-                    </p>
-                </div>
+                        </p>
+                    </div>
 
                 </div>
 
-            {/* </main> */}
+                {/* </main> */}
             </span>
-            );
+        );
     }
 }
 
