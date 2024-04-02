@@ -21,6 +21,8 @@ import Blockspage from './routes/blocks_page';
 import Apidoc from './routes/apidoc';
 import Wallet from './routes/wallet';
 
+import { OneElements } from './routes/shared/elements';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -43,9 +45,16 @@ root.render(
           <Route
             path="*"
             element={
-              <main style={{ padding: "1rem" }}>
-                <p>There is a problem with the entered url...</p>
-              </main>
+              <OneElements route_element={
+                <div class="py-2 my-2">
+                  <p class="dark:text-slate-100">
+                    There is a problem with the url...
+                  </p>
+                </div>
+              } />
+              // <main style={{ padding: "1rem" }}>
+              //   <p>There is a problem with the entered url...</p>
+              // </main>
             }
           />
         </Route>
