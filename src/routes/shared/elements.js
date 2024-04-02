@@ -1317,6 +1317,13 @@ class ListElements {
 
 }
 
+
+function getThemedElement() {
+    // const elem = document.documentElement;
+    const elem = document.getElementById("main-content");
+    return elem;
+}
+
 function setTheme(element, theme) {
     element.classList.add(theme);
     localStorage.setItem("theme", theme);
@@ -1325,8 +1332,9 @@ function setTheme(element, theme) {
 function switchTheme(storedTheme) {
     const newColorTheme = storedTheme === "dark" ? "light" : "dark";
 
-    const elem = document.documentElement;
-    // const elem = document.getElementById("main-content");
+    const elem = getThemedElement();
+    // const elem = document.documentElement;
+    // // const elem = document.getElementById("main-content");
 
     elem.classList.remove(storedTheme);
     setTheme(elem, newColorTheme);
@@ -1367,8 +1375,9 @@ class OneElements extends React.Component {
     }
 
     componentDidMount() {
-        const elem = document.documentElement;
-        // const elem = document.getElementById("main-content");
+        const elem = getThemedElement();
+        // const elem = document.documentElement;
+        // // const elem = document.getElementById("main-content");
         setTheme(elem, this.state.theme);
     }
 
