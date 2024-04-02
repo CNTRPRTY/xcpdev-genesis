@@ -1350,6 +1350,8 @@ class OneElements extends React.Component {
     }
 
     handleDarkModeToggle() {
+        // https://tailwindcss.com/docs/dark-mode
+        // https://www.geeksforgeeks.org/how-to-add-dark-mode-in-reactjs-using-tailwind-css/
         const storedTheme = this.state.theme;
         const newColorTheme = switchTheme(storedTheme);
         this.setState({ theme: newColorTheme });
@@ -1380,7 +1382,9 @@ class OneElements extends React.Component {
             {/* <main style={{ padding: "1rem" }}> */}
 
                 <div
-                    class="min-h-screen bg-white dark:bg-black"
+                    // fixes 'tailwind background color full screen' https://stackoverflow.com/a/66028460
+                    class="min-h-screen bg-slate-50 dark:bg-slate-800"
+                    // class="min-h-screen bg-white dark:bg-black"
                     // class="bg-white dark:bg-black"
                     style={{ padding: "1rem" }}
                 >
