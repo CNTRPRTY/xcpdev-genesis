@@ -208,34 +208,15 @@ class Block extends React.Component {
                     (
                         <>
 
-                            {/* trying this... */}
-                            <input type="checkbox" onClick={(e) => {
-
-                                // ////
-                                // console.log(`aaa1`);
-                                // const theme = localStorage.theme;
-                                // console.log(theme);
-                                // console.log(`aaa2`);
-                                // const colorTheme = theme === "dark" ? "light" : "dark";
-                                // console.log(colorTheme);
-                                // console.log(`aaa3`);
-                                // const rootelem = document.getElementById("main-content");
-                                // console.log(rootelem);
-                                // console.log(`aaa4`);
-                                // if (theme) rootelem.classList.remove(theme);
-                                // // rootelem.classList.remove(theme);
-                                // rootelem.classList.add(colorTheme);
-                                // localStorage.setItem("theme", colorTheme);
-                                // ////
-
-                                // e.preventDefault(); // breaks it!
+                            <label>
+                            <input type="checkbox" onClick={() => {
                                 this.setState((prevState, props) => ({
                                     messages_show_bindings: !prevState.messages_show_bindings
                                 }));
                             }} />
                             {' '}
-                            show bindings
-                            {/*  */}
+                            <span class="text-gray-600 dark:text-gray-400">show bindings</span>
+                            </label>
 
                             <table>
                                 <tbody>
