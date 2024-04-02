@@ -311,7 +311,8 @@ class ListElements {
         // static getTableRowMessageBlockHeader() {
         return (
             <tr
-                class="whitespace-nowrap text-gray-600"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                // class="whitespace-nowrap text-gray-600"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
@@ -409,7 +410,12 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
+            {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{
                     // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
