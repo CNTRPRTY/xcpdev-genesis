@@ -1432,13 +1432,25 @@ class OneElements extends React.Component {
 
                 <div class="py-1 my-1">
                     <p>
-                        [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+                        {'[ '}
+                        <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>
                         {' '}|{' '}
                         <Link to="/api">API</Link>
+                        {' ]'}
+                        {/* [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
+                        {' '}|{' '}
+                        <Link to="/api">API</Link> */}
+
                         <br />
+                        [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
+                        [ <a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a> ]
+                        <br />
+                        [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
+
+                        {/* <br />
                         [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
                         <br />
-                        [Bitcoin Core v{BITCOIN_VERSION}]
+                        [Bitcoin Core v{BITCOIN_VERSION}] */}
                     </p>
                 </div>
 
