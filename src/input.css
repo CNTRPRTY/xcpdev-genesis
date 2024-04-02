@@ -20,6 +20,14 @@ code {
 /* https://stackoverflow.com/a/65134135 */
 @layer base {
   a {
-    @apply underline text-blue-700;
+    @apply underline text-blue-700 dark:text-blue-400;
+  }
+
+  input {
+    @apply bg-slate-50;
+  }
+
+  h1, h2, h3, h4 {
+    @apply dark:text-slate-100;
   }
 }
