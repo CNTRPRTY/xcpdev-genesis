@@ -105,9 +105,17 @@ class Address extends React.Component {
 
     render() {
 
-        let address_open_dispensers_element = (<p>loading...</p>);
+        let address_open_dispensers_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.dispensers_open_loading_error) {
-            address_open_dispensers_element = (<p>{`${this.state.dispensers_open_loading_error}`}</p>);
+            address_open_dispensers_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.dispensers_open_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.dispensers_open_loading) {
             address_open_dispensers_element =
@@ -124,12 +132,24 @@ class Address extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no open dispensers</p>);
+                    : (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        no open dispensers
+                    </p>
+                    );
         }
 
-        let address_closed_dispensers_element = (<p>loading...</p>);
+        let address_closed_dispensers_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.dispensers_closed_loading_error) {
-            address_closed_dispensers_element = (<p>{`${this.state.dispensers_closed_loading_error}`}</p>);
+            address_closed_dispensers_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.dispensers_closed_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.dispensers_closed_loading) {
             address_closed_dispensers_element =
@@ -146,12 +166,24 @@ class Address extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no closed dispensers</p>);
+                    : (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        no closed dispensers
+                    </p>
+                    );
         }
 
-        let address_broadcasts_element = (<p>loading...</p>);
+        let address_broadcasts_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.broadcasts_loading_error) {
-            address_broadcasts_element = (<p>{`${this.state.broadcasts_loading_error}`}</p>);
+            address_broadcasts_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.broadcasts_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.broadcasts_loading) {
             address_broadcasts_element =
@@ -170,7 +202,9 @@ class Address extends React.Component {
                     )
                     : (
                         // TODO alignment when empty has not been done (at all?)
-                        <p>no broadcasts</p>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            no broadcasts
+                        </p>
                     );
         }
 
@@ -218,9 +252,17 @@ class Address extends React.Component {
 
         const issuer_page = true;
 
-        let issuer_genesis_element = (<p>loading...</p>);
+        let issuer_genesis_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.issuances_loading_error) {
-            issuer_genesis_element = (<p>{`${this.state.issuances_loading_error}`}</p>);
+            issuer_genesis_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.issuances_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.issuances_loading) {
             issuer_genesis_element =
@@ -237,12 +279,24 @@ class Address extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no genesis issuances</p>);
+                    : (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        no genesis issuances
+                    </p>
+                    );
         }
 
-        let issuer_transfer_element = (<p>loading...</p>);
+        let issuer_transfer_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.issuances_loading_error) {
-            issuer_transfer_element = (<p>{`${this.state.issuances_loading_error}`}</p>);
+            issuer_transfer_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.issuances_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.issuances_loading) {
             issuer_transfer_element =
@@ -261,7 +315,11 @@ class Address extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no transfer issuances</p>);
+                    : (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        no transfer issuances
+                    </p>
+                    );
         }
 
         const route_element = (
@@ -272,16 +330,11 @@ class Address extends React.Component {
 
                 <div class="py-1 mt-1 mb-4">
                     {/* <div class="py-1 my-1"> */}
-                    <span class="font-bold">
+                    <span class="font-bold dark:text-slate-100">
                         Balances:
                     </span>
-                    {/* <h3 class="font-bold">
-                        Balances:
-                    </h3> */}
-                    {/* <p> */}
                     {' '}
                     <Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link>
-                    {/* </p> */}
                 </div>
 
                 <div class="py-1 my-1">
@@ -289,34 +342,36 @@ class Address extends React.Component {
                         Dispensers:
                     </h3>
                     <div class="py-1 my-1">
-                        <strong>Open:</strong>
+                        <span class="font-bold dark:text-slate-100">
+                            Open:
+                        </span>
+                        {/* <strong>Open:</strong> */}
                         {/* <h4>Open:</h4> */}
-                        <div class="py-1 my-1">
+                        <div class="py-1 my-1 ml-4 overflow-auto">
+                        {/* <div class="py-1 my-1"> */}
                             {address_open_dispensers_element}
                         </div>
                     </div>
                     <div class="py-1 my-1">
-                        <strong>Closed:</strong>
+                        <span class="font-bold dark:text-slate-100">
+                            Closed:
+                        </span>
+                        {/* <strong>Closed:</strong> */}
                         {/* <h4>Closed:</h4> */}
-                        <div class="pt-1 mt-1">
+                        <div class="pt-1 mt-1 ml-4 overflow-auto">
+                        {/* <div class="pt-1 mt-1"> */}
                         {/* <div class="py-1 my-1"> */}
                             {address_closed_dispensers_element}
                         </div>
                     </div>
                 </div>
 
-                {/* <div class="py-1 my-1">
-                    <h3 class="font-bold">
-                        Balances:
-                    </h3>
-                    <p><Link to={`/wallet/${this.state.address}`}>xcp.dev/wallet/{this.state.address}</Link></p>
-                </div> */}
-
                 <div class="py-1 my-1">
                     <h3 class="font-bold">
                         Broadcasts:
                     </h3>
-                    <div class="py-1 my-1">
+                    <div class="py-1 my-1 ml-4 overflow-auto">
+                    {/* <div class="py-1 my-1"> */}
                         {address_broadcasts_element}
                     </div>
                 </div>
@@ -326,17 +381,25 @@ class Address extends React.Component {
                         Asset issuances:
                     </h3>
                     <div class="py-1 my-1">
-                        <strong>Genesis:</strong>
+                        <span class="font-bold dark:text-slate-100">
+                            Genesis:
+                        </span>
+                        {/* <strong>Genesis:</strong> */}
                         {/* <h4>Genesis:</h4> */}
-                        <div class="py-1 my-1">
+                        <div class="py-1 my-1 ml-4 overflow-auto">
+                        {/* <div class="py-1 my-1"> */}
                             {issuer_genesis_element}
                         </div>
                     </div>
                     <div class="pt-1 mt-1">
                         {/* <div class="py-1 my-1"> */}
-                        <strong>Transfer:</strong>
+                        <span class="font-bold dark:text-slate-100">
+                            Transfer:
+                        </span>
+                        {/* <strong>Transfer:</strong> */}
                         {/* <h4>Transfer:</h4> */}
-                        <div class="pt-1 mt-1">
+                        <div class="pt-1 mt-1 ml-4 overflow-auto">
+                        {/* <div class="pt-1 mt-1"> */}
                             {/* <div class="py-1 my-1"> */}
                             {issuer_transfer_element}
                         </div>
