@@ -170,7 +170,10 @@ class ListElements {
 
     static getTableRowMempoolHomeHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
@@ -190,7 +193,11 @@ class ListElements {
         // static getTableRowMempoolHome(mempool_row, index) {
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
@@ -631,7 +638,7 @@ class ListElements {
         return (
 
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 {/* <tr style={{ padding: "0.25rem" }}> */}
@@ -731,7 +738,13 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                // general row nowrap NOT SURE IF fine here
+                class="whitespace-nowrap dark:text-slate-100"
+                // class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
 
                 {issuer_page ?

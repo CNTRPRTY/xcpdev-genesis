@@ -50,12 +50,20 @@ class Home extends React.Component {
     render() {
 
 
-        let block_element_contents = (<p>loading...</p>);
+        let block_element_contents = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.blocks && this.state.blocks.length) {
             block_element_contents = (
                 <table>
                     <tbody>
-                        <tr style={{ padding: "0.25rem" }}>
+                        <tr
+                            class="whitespace-nowrap dark:text-slate-100"
+                            style={{ padding: "0.25rem" }}
+                        >
+                            {/* <tr style={{ padding: "0.25rem" }}> */}
                             {this.state.blocks.map((block_row, index) => {
                                 return (
                                     <td key={index} style={{ padding: "0 1rem 0 0" }}>
@@ -84,15 +92,23 @@ class Home extends React.Component {
                         ( <Link to={`/blocks`}>all</Link> )
                     </span>
                 </h2>
-                {block_element_contents}
+                <div class="py-1 my-1 ml-4 overflow-auto">
+                    {block_element_contents}
+                </div>
             </>
         );
 
 
-        let mempool_element_contents = (<p>loading...</p>);
+        let mempool_element_contents = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.mempool && !this.state.mempool.length) {
             mempool_element_contents = (
-                <p>Try refreshing the page in a couple of minutes...</p>
+                <p class="dark:text-slate-100">
+                    Try refreshing the page in a couple of minutes...
+                </p>
             );
         }
         else if (this.state.mempool && this.state.mempool.length) {
@@ -125,11 +141,17 @@ class Home extends React.Component {
                 <h2 class="font-bold text-xl mb-1">
                     Unconfirmed transactions:
                 </h2>
-                {mempool_element_contents}
+                <div class="py-1 my-1 ml-4 overflow-auto">
+                    {mempool_element_contents}
+                </div>
             </>
         );
 
-        let transactions_element_contents = (<p>loading...</p>);
+        let transactions_element_contents = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.transactions && this.state.transactions.length) {
             const is_home_page = true;
             transactions_element_contents = (
@@ -152,7 +174,10 @@ class Home extends React.Component {
                         ( <Link to={`/transactions`}>all</Link> )
                     </span>
                 </h2>
-                {transactions_element_contents}
+                <div class="pt-1 mt-1 ml-4 overflow-auto">
+                    {/* <div class="py-1 my-1 ml-4 overflow-auto"> */}
+                    {transactions_element_contents}
+                </div>
             </>
         );
 
