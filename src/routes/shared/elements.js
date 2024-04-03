@@ -503,7 +503,7 @@ class ListElements {
         return (
 
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 {/* <tr style={{ padding: "0.25rem" }}> */}
@@ -540,7 +540,13 @@ class ListElements {
         const nonlinkElements = createNonLinkElement(JSON.stringify(additional_data));
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                // class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
+            {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
