@@ -827,6 +827,20 @@ class ListElements {
 
         // TODO? MAYBE here is better to include the lock in the quantity???
 
+        let genesis_description_element;
+        if (issuance_event_row.description.length > TOOLONG_CHECK) {
+            genesis_description_element = (
+                <>
+                    {issuance_event_row.description.slice(0, TOOLONG_TRIM)}
+                    {' '}
+                    <Link to={`/tx/${issuance_event_row.tx_hash}`}>... see full description</Link>
+                </>
+            );
+        }
+        else {
+            genesis_description_element = issuance_event_row.description;
+        }
+
         let description_orwith_lock_element;
         if (issuance_event_row.locked) {
             if (issuance_event_row.display_lock_with_description) {
@@ -895,7 +909,10 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}>{genesis_description_element}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td> */}
+
             </tr>
         );
     }
