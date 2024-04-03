@@ -119,8 +119,17 @@ function createNonLinkElement(json_stringified) {
     for (const obj of entries) {
         const key = obj[0];
         const value = obj[1];
-        bindings[key] = (<>{`${value}`}</>);
-        // bindings[key] = (<>{value}</>);
+
+        if (key === 'status') {
+            bindings.status = ((typeof value === 'string') && value !== 'valid') ?
+                (<strong>{value}</strong>) : (<>{`${value}`}</>);
+        }
+        else {
+            bindings[key] = (<>{`${value}`}</>);
+        }
+
+        // bindings[key] = (<>{`${value}`}</>);
+        // // bindings[key] = (<>{value}</>);
     }
 
     return bindings;
