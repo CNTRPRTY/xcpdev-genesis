@@ -530,6 +530,8 @@ class ListElements {
         const additional_data = {
             // TODO anything missing?
 
+            status: broadcast_row.status,
+
             timestamp: timestamp_iso,
 
             value: broadcast_row.value,
