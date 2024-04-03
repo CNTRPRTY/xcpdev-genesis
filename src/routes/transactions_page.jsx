@@ -145,9 +145,17 @@ class Transactionspage extends React.Component {
             </>
         );
 
-        let content_element = (<p>loading...</p>);
+        let content_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.rows_loading_error) {
-            content_element = (<p>{`${this.state.rows_loading_error}`}</p>);
+            content_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.rows_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.rows_loading) {
 
@@ -160,7 +168,7 @@ class Transactionspage extends React.Component {
                     (
                         <>
                             <div class="py-1 my-1">
-                                <p>
+                                <p class="dark:text-slate-100">
                                     Transactions from tx index {this.state.from_index} to {this.state.to_index}:
                                 </p>
                             </div>
@@ -186,7 +194,11 @@ class Transactionspage extends React.Component {
                             </div>
                         </>
                     )
-                    : (<p>no rows found...</p>);
+                    : (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            no rows found...
+                        </p>
+                    );
         }
 
         const route_element = (
@@ -195,13 +207,16 @@ class Transactionspage extends React.Component {
                     Transactions:
                 </h2>
                 <div class="py-1 my-1">
-                    <p>All CNTRPRTY Bitcoin transactions in ascending order.</p>
+                    <p class="dark:text-slate-100">
+                        All CNTRPRTY Bitcoin transactions in ascending order.
+                    </p>
                     <p><Link to={`/messages`}>All transaction and state messages</Link></p>
                 </div>
                 <div class="py-1 my-1">
                     {jump_year_element}
                 </div>
-                <div class="pt-1 mt-1">
+                <div class="pt-1 mt-1 ml-4 overflow-auto">
+                    {/* <div class="pt-1 mt-1"> */}
                     {/* <div class="py-1 my-1"> */}
                     {content_element}
                 </div>

@@ -578,10 +578,10 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                
+
                 <td style={{ padding: "0 1rem 0 0" }}>{broadcast_text_element}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td> */}
-                
+
                 {show_additional_data ?
                     (<td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>)
                     : null
@@ -1330,7 +1330,7 @@ class ListElements {
 
         return (
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 {firstTwo}
@@ -1384,7 +1384,7 @@ class ListElements {
         return (
             <tr
                 key={index}
-                class="whitespace-nowrap" // going into the rows, this one can be all tr because all values lengths are expected
+                class="whitespace-nowrap dark:text-slate-100" // going into the rows, this one can be all tr because all values lengths are expected
                 style={{ padding: "0.25rem" }}
             >
 
@@ -1413,7 +1413,7 @@ class ListElements {
     static getTableRowMessagesHeader() {
         return (
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
@@ -1433,7 +1433,7 @@ class ListElements {
         return (
             <tr
                 key={index}
-                class="whitespace-nowrap"
+                class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.message_index}</td>
