@@ -13,6 +13,9 @@ import Search from './search';
 //     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
 // }
 
+const TOOLONG_CHECK = 256;
+const TOOLONG_TRIM = 200;
+
 function createLinkElementBindings(bindings_json_stringified) {
     const bindingsPRE = JSON.parse(bindings_json_stringified);
     const entries = Object.entries(bindingsPRE);
@@ -546,13 +549,13 @@ class ListElements {
 
         ////////
         let broadcast_text_element;
-        if (broadcast_row.text.length > 256) {
+        if (broadcast_row.text.length > TOOLONG_CHECK) {
             // different numbers on purpose (make it "worth it", avoiding only a couple of characters extra for moving to another page)
             broadcast_text_element = (
                 <>
                     {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>[full]</Link>
                     {' '} */}
-                    {broadcast_row.text.slice(0, 200)}
+                    {broadcast_row.text.slice(0, TOOLONG_TRIM)}
                     {' '}
                     <Link to={`/tx/${broadcast_row.tx_hash}`}>... see full text</Link>
                     {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>... [see full text]</Link> */}
