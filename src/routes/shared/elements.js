@@ -270,7 +270,7 @@ class ListElements {
     static getTableRowMessageTxHeader() {
         return (
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
@@ -305,7 +305,12 @@ class ListElements {
         //////////////
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
+            {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
 
                 {/* special non-header case */}
                 <td

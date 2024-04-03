@@ -123,9 +123,17 @@ class Transaction extends React.Component {
     render() {
         let header_transaction_element = null;
 
-        let transaction_element_contents = (<p>loading...</p>);
+        let transaction_element_contents = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.transaction_loading_error) {
-            transaction_element_contents = (<p>{`${this.state.transaction_loading_error}`}</p>);
+            transaction_element_contents = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.transaction_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.transaction_loading) {
 
@@ -134,7 +142,7 @@ class Transaction extends React.Component {
             if (this.state.cntrprty_error) {
                 cntrprty_element_list = (
                     <>
-                        <p>
+                        <p class="text-gray-600 dark:text-gray-400">
                             unable to decode this transaction:
                             <br />
                             {`${this.state.cntrprty_error}`}
@@ -145,26 +153,66 @@ class Transaction extends React.Component {
             else if (this.state.cntrprty_decoded) {
                 cntrprty_element_list = (
                     <>
-                        <ul class="list-disc list-inside">
+                        <ul>
+                        {/* <ul class="list-disc list-inside"> */}
 
-                            <li>hex: {this.state.cntrprty_hex}</li>
-                            <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">hex:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.cntrprty_hex}</span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">type:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</span>
+                            </li>
+
+                            {/* <li>hex: {this.state.cntrprty_hex}</li>
+                            <li>type: {this.state.cntrprty_decoded.msg_type} (id: {this.state.cntrprty_decoded.id})</li> */}
 
                             {Object.keys(this.state.cntrprty_decoded.msg_decoded).length ?
                                 (
-                                    <li>decoded:
+
+                                    <li>
+                                        {/* adding some space */}
+                                        <div class="pt-1 my-1">
+
+                                        <span class="text-gray-600 dark:text-gray-400">decoded:</span>
+                                        {/* <div class="pt-1 mt-1 ml-4 whitespace-nowrap overflow-auto"> */}
                                         <div class="pt-1 mt-1 ml-4">
                                             {/* <div class="py-1 my-1 ml-4"> */}
-                                            <ul class="list-disc list-inside">
+                                            <ul>
+                                            {/* <ul class="list-disc list-inside"> */}
                                                 {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
                                                     const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
                                                     return (
-                                                        <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
+                                                        <li key={list_index}>
+                                                            <span class="text-gray-600 dark:text-gray-400">{msg_decoded_key}:</span>
+                                                            {' '}
+                                                            <span class="dark:text-slate-100">{msg_decoded_value}</span>
+                                                        </li>
+                                                        // <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
                                                     );
                                                 })}
                                             </ul>
                                         </div>
+
+                                        </div>
                                     </li>
+
+                                    // <li>decoded:
+                                    //     <div class="pt-1 mt-1 ml-4">
+                                    //         // <div class="py-1 my-1 ml-4">
+                                    //         <ul class="list-disc list-inside">
+                                    //             {Object.keys(this.state.cntrprty_decoded.msg_decoded).map((msg_decoded_key, list_index) => {
+                                    //                 const msg_decoded_value = this.state.cntrprty_decoded.msg_decoded[msg_decoded_key];
+                                    //                 return (
+                                    //                     <li key={list_index}>{msg_decoded_key}: {msg_decoded_value}</li>
+                                    //                 );
+                                    //             })}
+                                    //         </ul>
+                                    //     </div>
+                                    // </li>
                                 )
                                 : null
                             }
@@ -178,9 +226,13 @@ class Transaction extends React.Component {
                     <>
                         <ul class="list-disc list-inside">
                             <li>
-                                <strong>Data:</strong>
+                                <span class="font-bold dark:text-slate-100">
+                                    Data:
+                                </span>
+                                {/* <strong>Data:</strong> */}
                                 {/* <h4>Data:</h4> */}
-                                <div class="pt-1 mt-1 ml-4">
+                                <div class="pt-1 mt-1 ml-4 whitespace-nowrap overflow-auto">
+                                {/* <div class="pt-1 mt-1 ml-4"> */}
                                     {/* <div class="py-1 my-1 ml-4"> */}
                                     {cntrprty_element_list}
                                 </div>
@@ -191,9 +243,17 @@ class Transaction extends React.Component {
             }
 
 
-            let messages_element_content = (<p>loading...</p>);
+            let messages_element_content = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    loading...
+                </p>
+            );
             if (this.state.messages_loading_error) {
-                messages_element_content = (<p>{`${this.state.messages_loading_error}`}</p>);
+                messages_element_content = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        {`${this.state.messages_loading_error}`}
+                    </p>
+                );
             }
             else if (!this.state.messages_loading) {
                 messages_element_content = this.state.messages.length ?
@@ -209,7 +269,11 @@ class Transaction extends React.Component {
                             </table>
                         </>
                     )
-                    : (<p>no messages?</p>);
+                    : (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        no messages?
+                    </p>
+                    );
             }
             const messages_element = (
                 <>
@@ -218,7 +282,8 @@ class Transaction extends React.Component {
                             Messages:
                         </h4>
                     </div>
-                    <div class="pt-1 mt-1">
+                    <div class="pt-1 mt-1 ml-4 overflow-auto">
+                    {/* <div class="pt-1 mt-1"> */}
                         {messages_element_content}
                     </div>
                 </>
@@ -259,17 +324,41 @@ class Transaction extends React.Component {
                             <ul class="list-disc list-inside">
                                 <li>
                                     {/* <div class="py-1 my-1"> */}
-                                    <strong>CNTRPRTY:</strong>
+                                    <span class="font-bold dark:text-slate-100">
+                                        CNTRPRTY:
+                                    </span>
+                                    {/* <strong>CNTRPRTY:</strong> */}
                                     {/* <h3 class="font-bold">
                                         CNTRPRTY:
                                     </h3> */}
-                                    <div class="py-1 my-1 ml-4">
-                                        <ul class="list-disc list-inside">
-                                            <li>tx index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                                    <div class="py-1 my-1 ml-4 whitespace-nowrap overflow-auto">
+                                    {/* <div class="py-1 my-1 ml-4"> */}
+                                        <ul>
+                                        {/* <ul class="list-disc list-inside"> */}
+
+                                            <li>
+                                                <span class="text-gray-600 dark:text-gray-400">tx index:</span>
+                                                {' '}
+                                                <span class="dark:text-slate-100">{this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</span>
+                                            </li>
+                                            <li>
+                                                <span class="text-gray-600 dark:text-gray-400">source:</span>
+                                                {' '}
+                                                <span class="dark:text-slate-100"><Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></span>
+                                            </li>
+                                            {this.state.transaction.destination ? (
+                                                <li>
+                                                    <span class="text-gray-600 dark:text-gray-400">destination:</span>
+                                                    {' '}
+                                                    <span class="dark:text-slate-100"><Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></span>
+                                                </li>
+                                            ) : null}
+
+                                            {/* <li>tx index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
                                             <li>source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
                                             {this.state.transaction.destination ? (
                                                 <li>destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
-                                            ) : null}
+                                            ) : null} */}
                                         </ul>
                                     </div>
                                     <div class="py-1 my-1 ml-4">
@@ -288,12 +377,33 @@ class Transaction extends React.Component {
 
             transaction_element_contents = (
                 <>
-                    <ul class="list-disc list-inside">
-                        <li>tx hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
-                        {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
+                    <div class="whitespace-nowrap overflow-auto">
+                    <ul>
+                    {/* <ul class="list-disc list-inside"> */}
+
+                        <li>
+                            {/* TODO correct icon */}
+                            <span class="text-gray-600 dark:text-gray-400">tx hash:</span>
+                            {' '}
+                            <span class="dark:text-slate-100">{this.state.transaction.tx_hash}</span>
+                        </li>
+                        <li>
+                            <span class="text-gray-600 dark:text-gray-400">block index:</span>
+                            {' '}
+                            <span class="dark:text-slate-100"><Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></span>
+                        </li>
+                        <li>
+                            <span class="text-gray-600 dark:text-gray-400">block time:</span>
+                            {' '}
+                            <span class="dark:text-slate-100">{timeIsoFormat(this.state.transaction.block_time)}</span>
+                        </li>
+
+                        {/* <li>tx hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
+                        // https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac
                         <li>block index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
-                        <li>block time: {timeIsoFormat(this.state.transaction.block_time)}</li>
+                        <li>block time: {timeIsoFormat(this.state.transaction.block_time)}</li> */}
                     </ul>
+                    </div>
                     {transaction_cntrprty_element}
                 </>
             );
@@ -304,10 +414,18 @@ class Transaction extends React.Component {
 
                 {header_transaction_element}
 
-                <h2 class="font-bold text-xl mb-1">
-                    Transaction: {this.state.tx_hash}
+                <h2 class="font-bold text-xl mb-1 overflow-auto">
+                    Transaction:
+                    {' '}
+                    <span class="whitespace-nowrap">
+                        {this.state.tx_hash}
+                    </span>
                 </h2>
-                <div class="pt-1 mt-1">
+                {/* <h2 class="font-bold text-xl mb-1">
+                    Transaction: {this.state.tx_hash}
+                </h2> */}
+                <div class="pt-1 mt-1 ml-4">
+                {/* <div class="pt-1 mt-1"> */}
                     {/* <div class="py-1 my-1"> */}
                     {transaction_element_contents}
                 </div>
