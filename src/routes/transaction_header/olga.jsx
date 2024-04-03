@@ -55,20 +55,22 @@ class Olga extends React.Component {
 
         const olga_element = (
             <>
-                <div class="pb-1 mb-1">
+                <div class="pb-1 mb-1 font-bold dark:text-slate-100">
+                    {/* <div class="pb-1 mb-1"> */}
                     {/* <div class="py-1 my-1"> */}
                     <strong>
                         Honoring <Link to={`/asset/OLGA`}>OLGA</Link>
                     </strong>
                 </div>
-                <div class="py-1 my-1">
+                <div class="py-1 my-1 ml-4">
+                    {/* <div class="py-1 my-1"> */}
                     <img
                         style={{ width: "220px" }}
                         src={data_url_chain_fixed}
                     />
                 </div>
                 <div class="py-1 my-1">
-                    <p>
+                    <p class="dark:text-slate-100">
                         Image
                         *<a href={`https://github.com/CNTRPRTY/xcpdev-genesis/commit/c7e1abd5bfc2a595bc70f86e14f7abdd91d787a6#r98710211`} target="_blank">written</a>*
                         {/* *written* */}

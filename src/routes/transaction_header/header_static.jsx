@@ -31,10 +31,24 @@ class TransactionStatic extends React.Component {
                         BTC pay:
                     </h3>
                     {/* <h3>BTC pay:</h3> */}
-                    <div class="py-1 my-1">
-                        <ul class="list-disc list-inside">
-                            <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
-                            <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
+                    <div class="py-1 my-1 ml-4">
+                        {/* <div class="py-1 my-1"> */}
+                        <ul>
+                            {/* <ul class="list-disc list-inside"> */}
+
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">tx0:</span>
+                                {' '}
+                                <span class="dark:text-slate-100"><Link to={`/tx/${order_0}`}>{order_0}</Link></span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">tx1:</span>
+                                {' '}
+                                <span class="dark:text-slate-100"><Link to={`/tx/${order_1}`}>{order_1}</Link></span>
+                            </li>
+
+                            {/* <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
+                            <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li> */}
                         </ul>
                     </div>
                 </>
@@ -68,7 +82,8 @@ class TransactionStatic extends React.Component {
                         Broadcast:
                     </h3>
                     {/* <h3>Broadcast:</h3> */}
-                    <div class="py-1 my-1">
+                    <div class="py-1 my-1 ml-4">
+                        {/* <div class="py-1 my-1"> */}
                         <textarea
                             class="border-solid border-2 border-gray-300"
                             rows="2"
