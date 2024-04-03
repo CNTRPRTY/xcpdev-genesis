@@ -265,8 +265,6 @@ class Address extends React.Component {
         }
 
 
-        const issuer_page = true;
-
         let issuer_genesis_element = (
             <p class="text-gray-600 dark:text-gray-400">
                 loading...
@@ -286,9 +284,11 @@ class Address extends React.Component {
                         <>
                             <table>
                                 <tbody>
-                                    {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)}
+                                    {ListElements.getTableRowIssuanceEventsAssetHeader_addressPage()}
+                                    {/* {ListElements.getTableRowIssuanceEventsAssetHeader(issuer_page)} */}
                                     {issuer_genesis_issuances.sort((a, b) => a.tx_index - b.tx_index).map((issuances_row, index) => {
-                                        return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
+                                        return ListElements.getTableRowIssuanceEventsIssuanceAsset_addressPage(issuances_row, index, issuances_row.divisible);
+                                        // return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuances_row, index, issuances_row.divisible, issuer_page);
                                     })}
                                 </tbody>
                             </table>

@@ -802,6 +802,101 @@ class ListElements {
         );
     }
 
+    static getTableRowIssuanceEventsAssetHeader_addressPage() {
+        return (
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>description</td>
+            </tr>
+        );
+    }
+    static getTableRowIssuanceEventsIssuanceAsset_addressPage(issuance_event_row, index, divisible) {
+        const mainname = issuance_event_row.asset_longname ? issuance_event_row.asset_longname : issuance_event_row.asset;
+        const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(issuance_event_row.quantity_text));
+        const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
+
+        // TODO? MAYBE here is better to include the lock in the quantity???
+
+        let description_orwith_lock_element;
+        if (issuance_event_row.locked) {
+            if (issuance_event_row.display_lock_with_description) {
+                description_orwith_lock_element = (
+                    <>
+                        <strong>[LOCK]</strong>
+                        {' '}
+                        {issuance_event_row.description}
+                    </>
+                );
+            }
+            else {
+                description_orwith_lock_element = (<><strong>LOCK</strong></>);
+            }
+        }
+        else {
+            description_orwith_lock_element = (<>{issuance_event_row.description}</>);
+        }
+
+        // surfacing the invalid (YES! invalid (and reset) genesis are interesting finds)
+        let invalid_tx_notice = null;
+        if (issuance_event_row.status !== 'valid') {
+            invalid_tx_notice = (<>{' '}<strong>{issuance_event_row.status}</strong></>);
+        }
+        else { // status valid, but is a v9.60 reset
+            if (issuance_event_row.reset === 1) {
+                invalid_tx_notice = (<>{' '}<strong>RESET to {issuance_event_row.divisible ? 'satoshi' : 'wholeNumber'}</strong></>);
+            }
+        }
+
+        // not doing this here...
+        // // COMMENT: issuer + transfer is "convenient" (specially for service providers), but it breaks assumptions! SO, for now, will not show genesis transfer sources in the ISSUER page
+        // const issuer_transfer = (issuance_event_row.status === 'valid' && (issuance_event_row.source !== issuance_event_row.issuer))
+        // let issuer_element;
+        // if (issuer_transfer) {
+        //     let from_element = null;
+        //     if (issuance_event_row.display_source) {
+        //         from_element = (<> from: <Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></>);
+        //     }
+        //     issuer_element = (<>issuer transfer{from_element} to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
+        //     // issuer_element = (<>issuer transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
+        // }
+        // else {
+        //     issuer_element = (<><Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
+        // }
+
+        return (
+            <tr
+                key={index}
+
+                // /////
+                // general row nowrap fine here??? MAYBE also add link to tx?
+                class="whitespace-nowrap dark:text-slate-100"
+                // /////
+
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
+                {/* {issuer_page ?
+                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
+                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+                } */}
+
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
+            </tr>
+        );
+    }
+
     // subassets
     static getTableRowSubassetsHeader() {
         return (
