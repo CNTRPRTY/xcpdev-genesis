@@ -506,53 +506,17 @@ class ListElements {
                 class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
-                {/* <tr style={{ padding: "0.25rem" }}> */}
-
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>rooow</td> */}
             </tr>
         );
     }
     static getTableRowBroadcastAddress(broadcast_row, index) {
         const block_time_iso = timeIsoFormat(broadcast_row.block_time);
         const timestamp_iso = timeIsoFormat(broadcast_row.timestamp);
-
-        // // surfacing the invalid
-        // let invalid_tx_notice = null;
-        // if (broadcast_row.status !== 'valid') {
-
-        //     // invalid_tx_notice = (
-        //     //     <>
-        //     //         {' '}
-        //     //         {/* https://ben.page/tailwind-tooltip */}
-        //     //         <span class="group relative w-max">
-        //     //             {/* <div class="group relative w-max"> */}
-        //     //             {/* <button> */}
-        //     //             <span class="font-bold border-dotted border-b-4">
-        //     //                 invalid
-        //     //                 {/* Click me! */}
-        //     //             </span>
-        //     //             {/* </button> */}
-        //     //             {/* <button>Click me!</button> */}
-        //     //             <span
-        //     //                 class="pointer-events-none absolute -top-7 left-0 w-max opacity-0 transition-opacity group-hover:opacity-100 p-1 bg-clip-padding bg-slate-50 dark:bg-slate-800 border-dotted border-4"
-        //     //                 // class="pointer-events-none absolute -top-7 left-0 w-max opacity-0 transition-opacity group-hover:opacity-100 p-1 bg-clip-padding bg-white border-dotted border-4"
-        //     //             >
-        //     //                 {broadcast_row.status}
-        //     //                 {/* This is a button. */}
-        //     //             </span>
-        //     //             {/* </div> */}
-        //     //         </span>
-        //     //     </>
-        //     // );
-
-        //     // invalid_tx_notice = (<>{' '}<strong>{broadcast_row.status}</strong></>);
-        // }
 
         const additional_data = {
             // TODO anything missing?
@@ -572,24 +536,17 @@ class ListElements {
                 // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-            {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
-
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td> */}
-
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(broadcast_row)}</td> */}
             </tr>
         );
     }
 
     // asset issuances/destructions
-    /// address page, for now
+    /// address page only, for now
     static getTableRowIssuanceTransferHeader() {
         return (
             <tr
