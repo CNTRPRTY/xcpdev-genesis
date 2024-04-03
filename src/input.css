@@ -23,7 +23,7 @@ code {
     @apply underline text-blue-700 dark:text-blue-400;
   }
 
-  input {
+  input, textarea {
     @apply bg-slate-50;
   }
 
