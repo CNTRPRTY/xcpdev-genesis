@@ -508,9 +508,9 @@ class ListElements {
     }
 
     // address broadcasts
-    static getTableRowBroadcastAddressHeader() {
+    static getTableRowBroadcastAddressHeader(show_additional_data) {
+        // static getTableRowBroadcastAddressHeader() {
         return (
-
             <tr
                 class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
@@ -519,11 +519,15 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
+                {show_additional_data ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>)
+                    : null
+                }
             </tr>
         );
     }
-    static getTableRowBroadcastAddress(broadcast_row, index) {
+    static getTableRowBroadcastAddress(broadcast_row, index, show_additional_data) {
+        // static getTableRowBroadcastAddress(broadcast_row, index) {
         const block_time_iso = timeIsoFormat(broadcast_row.block_time);
         const timestamp_iso = timeIsoFormat(broadcast_row.timestamp);
 
@@ -575,7 +579,10 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{broadcast_text_element}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td> */}
                 
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
+                {show_additional_data ?
+                    (<td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>)
+                    : null
+                }
             </tr>
         );
     }

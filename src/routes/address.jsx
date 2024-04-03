@@ -20,6 +20,8 @@ function baseState(address) {
         broadcasts_loading_error: null,
         broadcasts: [],
 
+        broadcasts_show_additional_data: false,
+
         issuances_loading: true,
         issuances_loading_error: null,
         issuances: [],
@@ -190,11 +192,24 @@ class Address extends React.Component {
                 this.state.broadcasts && this.state.broadcasts.length ?
                     (
                         <>
+
+                            <label>
+                                <input type="checkbox" onClick={() => {
+                                    this.setState((prevState, props) => ({
+                                        broadcasts_show_additional_data: !prevState.broadcasts_show_additional_data
+                                    }));
+                                }} />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">show additional data</span>
+                            </label>
+
                             <table>
                                 <tbody>
-                                    {ListElements.getTableRowBroadcastAddressHeader()}
+                                    {ListElements.getTableRowBroadcastAddressHeader(this.state.broadcasts_show_additional_data)}
+                                    {/* {ListElements.getTableRowBroadcastAddressHeader()} */}
                                     {this.state.broadcasts.map((broadcast_row, index) => {
-                                        return ListElements.getTableRowBroadcastAddress(broadcast_row, index);
+                                        return ListElements.getTableRowBroadcastAddress(broadcast_row, index, this.state.broadcasts_show_additional_data);
+                                        // return ListElements.getTableRowBroadcastAddress(broadcast_row, index);
                                     })}
                                 </tbody>
                             </table>
