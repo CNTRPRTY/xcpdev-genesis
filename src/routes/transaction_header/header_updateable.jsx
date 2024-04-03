@@ -64,9 +64,17 @@ class TransactionUpdateable extends React.Component {
             transaction_state_element_header = 'id error';
         }
 
-        let transaction_state_element = (<p>loading...</p>);
+        let transaction_state_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.transaction_state_loading_error) {
-            transaction_state_element = (<p>{`${this.state.transaction_state_loading_error}`}</p>);
+            transaction_state_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.transaction_state_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.transaction_state_loading) {
 
@@ -103,19 +111,39 @@ class TransactionUpdateable extends React.Component {
                         {/* <h3>Dispenser:</h3> */}
                         <div class="pb-1 mb-1">
                             {/* <div class="py-1 my-1"> */}
-                            <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
+                            <p class="dark:text-slate-100">
+                                State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})
+                            </p>
+                            {/* <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p> */}
                         </div>
 
                         <div class="py-1 my-1">
-                            <ul class="list-disc list-inside">
-                                <li>status: {dispenser_status}</li>
+                            <ul>
+                                {/* <ul class="list-disc list-inside"> */}
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">status:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{dispenser_status}</span>
+                                </li>
+                                {/* <li>status: {dispenser_status}</li> */}
                             </ul>
                         </div>
 
                         <div class="py-1 my-1">
-                            <ul class="list-disc list-inside">
-                                <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
-                                <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li>
+                            <ul>
+                                {/* <ul class="list-disc list-inside"> */}
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">asset:{tell_multiple ? ':' : ''}</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100"><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</span>
+                                </li>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">address:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100"><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></span>
+                                </li>
+                                {/* <li>asset:{tell_multiple ? ':' : ''} <Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link>{asset_issuance.asset_longname ? ` (${asset_issuance.asset_longname})` : ''}</li>
+                                <li>address: <Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></li> */}
                             </ul>
                         </div>
 
@@ -123,20 +151,34 @@ class TransactionUpdateable extends React.Component {
                             (
                                 <>
                                     <div class="py-1 my-1">
-                                        <ul class="list-disc list-inside">
+                                        <ul>
+                                            {/* <ul class="list-disc list-inside"> */}
                                             <li>
-                                                {`${BigInt(dispensers_row.satoshirate_text)}`}
-                                                {' sats for '}
-                                                {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}
-                                                {' ('}
-                                                {formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}
-                                                {' sats / unit)'}
+                                                <span class="text-gray-600 dark:text-gray-400">
+                                                    rate:
+                                                </span>
+                                                {' '}
+                                                <span class="dark:text-slate-100">
+                                                    {`${BigInt(dispensers_row.satoshirate_text)}`}
+                                                    {' sats for '}
+                                                    {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_quantity_text))}
+                                                    {' ('}
+                                                    {formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}
+                                                    {' sats / unit)'}
+                                                </span>
                                             </li>
                                             <li>
-                                                {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))}
-                                                {' of '}
-                                                {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))}
-                                                {' remaining'}
+                                                <span class="text-gray-600 dark:text-gray-400">
+                                                    remaining:
+                                                    {/* supply: */}
+                                                </span>
+                                                {' '}
+                                                <span class="dark:text-slate-100">
+                                                    {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.give_remaining_text))}
+                                                    {' of '}
+                                                    {quantityWithDivisibility(asset_issuance.divisible, BigInt(dispensers_row.escrow_quantity_text))}
+                                                    {/* {' remaining'} */}
+                                                </span>
                                             </li>
                                         </ul>
                                     </div>
@@ -145,7 +187,12 @@ class TransactionUpdateable extends React.Component {
                             :
                             (
                                 <ul class="list-disc list-inside">
-                                    <li>v9.60 RESET ASSET</li>
+                                    <li>
+                                        <span class="dark:text-slate-100">
+                                            v9.60 RESET ASSET
+                                        </span>
+                                    </li>
+                                    {/* <li>v9.60 RESET ASSET</li> */}
                                 </ul>
                             )
                         }
@@ -155,10 +202,11 @@ class TransactionUpdateable extends React.Component {
                                 <>
                                     <div class="pt-1 mt-1">
                                         {/* <div class="py-1 my-1"> */}
-                                        <p class="font-bold">
+                                        <p class="font-bold dark:text-slate-100">
                                             Dispenses:
                                         </p>
-                                        <div class="pt-1 mt-1">
+                                        <div class="pt-1 mt-1 ml-4">
+                                            {/* <div class="pt-1 mt-1"> */}
                                             {/* <div class="py-1 my-1"> */}
                                             <table>
                                                 <tbody>
@@ -200,46 +248,110 @@ class TransactionUpdateable extends React.Component {
 
                 const orders_row = this.state.transaction_state.orders_row;
 
-                const expire_block_message = (orders_row.expire_index > tip_blocks_row.block_index) ?
-                    `expire block: ${orders_row.expire_index} (in ${orders_row.expire_index - tip_blocks_row.block_index} blocks)`
+                const expire_block_message_key = (orders_row.expire_index > tip_blocks_row.block_index) ?
+                    `expire block:`
                     :
-                    `expired in block: ${orders_row.expire_index}`;
+                    `expired in block:`;
+                const expire_block_message_value = (orders_row.expire_index > tip_blocks_row.block_index) ?
+                    `${orders_row.expire_index} (in ${orders_row.expire_index - tip_blocks_row.block_index} blocks)`
+                    :
+                    `${orders_row.expire_index}`;
+                // const expire_block_message = (orders_row.expire_index > tip_blocks_row.block_index) ?
+                //     `expire block: ${orders_row.expire_index} (in ${orders_row.expire_index - tip_blocks_row.block_index} blocks)`
+                //     :
+                //     `expired in block: ${orders_row.expire_index}`;
 
                 const order_matches_rows = this.state.transaction_state.order_matches_rows;
                 const order_matches_btcpays_rows = this.state.transaction_state.btcpays_rows;
 
                 const btc_is_promise = give_issuance.asset === 'BTC' ? 'promise' : 'escrowed';
-                
+
                 transaction_state_element = (
                     <>
                         {/* <h3>Order:</h3> */}
                         <div class="pb-1 mb-1">
                             {/* <div class="py-1 my-1"> */}
-                            <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
+                            <p class="dark:text-slate-100">
+                                State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})
+                            </p>
+                            {/* <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p> */}
                         </div>
 
                         <div class="py-1 my-1">
-                            <ul class="list-disc list-inside">
-                                <li>status: {orders_row.status}</li>
+                            <ul>
+                                {/* <ul class="list-disc list-inside"> */}
+
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">status:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{orders_row.status}</span>
+                                </li>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">{expire_block_message_key}</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{expire_block_message_value}</span>
+                                </li>
+                                {orders_row.fee_required ?
+                                    (
+                                        <li>
+                                            <span class="text-gray-600 dark:text-gray-400">fee_required_remaining:</span>
+                                            {' '}
+                                            <span class="dark:text-slate-100">{orders_row.fee_required_remaining} (of {orders_row.fee_required})</span>
+                                        </li>
+                                    )
+                                    : null
+                                }
+
+                                {/* <li>status: {orders_row.status}</li>
                                 <li>{expire_block_message}</li>
                                 {orders_row.fee_required ?
                                     (
                                         <li>fee_required_remaining: {orders_row.fee_required_remaining} (of {orders_row.fee_required})</li>
                                     )
                                     : null
-                                }
+                                } */}
                             </ul>
                         </div>
 
                         <div class="py-1 my-1">
+                            {/* keeping this here */}
                             <ul class="list-disc list-inside">
-                                <li>give ({btc_is_promise}):
-                                {/* <li>give asset ({btc_is_promise}): */}
-                                {/* <li>give (asset escrowed): */}
+                                <li>
+                                    <span class="dark:text-slate-100">
+                                        give ({btc_is_promise}):
+                                    </span>
+                                    {/* <li>give ({btc_is_promise}): */}
+                                    {/* <li>give asset ({btc_is_promise}): */}
+                                    {/* <li>give (asset escrowed): */}
                                     <div class="pb-1 mb-1 ml-4">
                                         {/* <div class="py-1 my-1 ml-4"> */}
-                                        <ul class="list-disc list-inside">
-                                            <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
+                                        <ul>
+                                            {/* <ul class="list-disc list-inside"> */}
+
+                                            <li>
+                                                <span class="text-gray-600 dark:text-gray-400">asset:</span>
+                                                {' '}
+                                                <span class="dark:text-slate-100"><Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</span>
+                                            </li>
+                                            {!give_tell_reset ?
+                                                (
+                                                    <li>
+                                                        <span class="dark:text-slate-100">{quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_remaining_text))} of {quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_quantity_text))} remaining</span>
+                                                    </li>
+                                                )
+                                                :
+                                                (
+                                                    // <ul>
+                                                    <li>
+                                                        <span class="dark:text-slate-100">
+                                                            v9.60 RESET ASSET
+                                                        </span>
+                                                    </li>
+                                                    // </ul>
+                                                )
+                                            }
+
+                                            {/* <li>asset: <Link to={`/asset/${give_issuance.asset}`}>{give_issuance.asset}</Link>{give_issuance.asset_longname ? ` (${give_issuance.asset_longname})` : ''}</li>
                                             {!give_tell_reset ?
                                                 (
                                                     <li>{quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_remaining_text))} of {quantityWithDivisibility(give_issuance.divisible, BigInt(orders_row.give_quantity_text))} remaining</li>
@@ -250,7 +362,8 @@ class TransactionUpdateable extends React.Component {
                                                     <li>v9.60 RESET ASSET</li>
                                                     // </ul>
                                                 )
-                                            }
+                                            } */}
+
                                         </ul>
                                     </div>
                                 </li>
@@ -258,14 +371,44 @@ class TransactionUpdateable extends React.Component {
                         </div>
 
                         <div class="py-1 my-1">
+                            {/* keeping this here */}
                             <ul class="list-disc list-inside">
-                                <li>get (requested in exchange):
-                                {/* <li>get asset (requested in exchange): */}
-                                {/* <li>get (asset requested in exchange): */}
+                                <li>
+                                    <span class="dark:text-slate-100">
+                                        get (requested in exchange):
+                                    </span>
+                                    {/* <li>get (requested in exchange): */}
+                                    {/* <li>get asset (requested in exchange): */}
+                                    {/* <li>get (asset requested in exchange): */}
                                     <div class="pb-1 mb-1 ml-4">
                                         {/* <div class="py-1 my-1 ml-4"> */}
-                                        <ul class="list-disc list-inside">
-                                            <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
+                                        <ul>
+                                            {/* <ul class="list-disc list-inside"> */}
+
+                                            <li>
+                                                <span class="text-gray-600 dark:text-gray-400">asset:</span>
+                                                {' '}
+                                                <span class="dark:text-slate-100"><Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</span>
+                                            </li>
+                                            {!get_tell_reset ?
+                                                (
+                                                    <li>
+                                                        <span class="dark:text-slate-100">{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</span>
+                                                    </li>
+                                                )
+                                                :
+                                                (
+                                                    // <ul>
+                                                    <li>
+                                                        <span class="dark:text-slate-100">
+                                                            v9.60 RESET ASSET
+                                                        </span>
+                                                    </li>
+                                                    // </ul>
+                                                )
+                                            }
+
+                                            {/* <li>asset: <Link to={`/asset/${get_issuance.asset}`}>{get_issuance.asset}</Link>{get_issuance.asset_longname ? ` (${get_issuance.asset_longname})` : ''}</li>
                                             {!get_tell_reset ?
                                                 (
                                                     <li>{quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_remaining_text))} (of {quantityWithDivisibility(get_issuance.divisible, BigInt(orders_row.get_quantity_text))} total requested)</li>
@@ -276,7 +419,7 @@ class TransactionUpdateable extends React.Component {
                                                     <li>v9.60 RESET ASSET</li>
                                                     // </ul>
                                                 )
-                                            }
+                                            } */}
                                         </ul>
                                     </div>
                                 </li>
@@ -288,10 +431,11 @@ class TransactionUpdateable extends React.Component {
                                 <>
                                     <div class="pt-1 mt-1">
                                         {/* <div class="py-1 my-1"> */}
-                                        <p class="font-bold">
+                                        <p class="font-bold dark:text-slate-100">
                                             Order matches:
                                         </p>
-                                        <div class="pt-1 mt-1">
+                                        <div class="pt-1 mt-1 ml-4">
+                                            {/* <div class="pt-1 mt-1"> */}
                                             {/* <div class="py-1 my-1"> */}
                                             <table>
                                                 <tbody>
@@ -315,10 +459,11 @@ class TransactionUpdateable extends React.Component {
                                                 <div class="pt-1 mt-2">
                                                     {/* <div class="pt-1 mt-1"> */}
                                                     {/* <div class="py-1 my-1"> */}
-                                                    <p class="font-bold">
+                                                    <p class="font-bold dark:text-slate-100">
                                                         BTC pays:
                                                     </p>
-                                                    <div class="pt-1 mt-1">
+                                                    <div class="pt-1 mt-1 ml-4">
+                                                        {/* <div class="pt-1 mt-1"> */}
                                                         {/* <div class="py-1 my-1"> */}
                                                         <table>
                                                             <tbody>
@@ -351,8 +496,7 @@ class TransactionUpdateable extends React.Component {
                 <h3 class="font-bold text-xl mb-1">
                     {transaction_state_element_header}:
                 </h3>
-                {/* indent only for updatable */}
-                <div class="py-1 my-1 ml-4">
+                <div class="py-1 my-1 ml-4 whitespace-nowrap overflow-auto">
                     {/* <div class="py-1 my-1"> */}
                     {transaction_state_element}
                 </div>

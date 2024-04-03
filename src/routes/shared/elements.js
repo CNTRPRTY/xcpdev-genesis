@@ -1088,7 +1088,11 @@ class ListElements {
     // dispenses
     static getTableRowDispensesHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
+                {/* <tr style={{ padding: "0.25rem" }}> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
@@ -1100,7 +1104,12 @@ class ListElements {
     }
     static getTableRowDispenses(dispenses_row, index, asset_metadata) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
+                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispenses_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(asset_metadata.divisible, BigInt(dispenses_row.dispense_quantity_text))}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispenses_row.destination}`}>{dispenses_row.destination}</Link></td>
@@ -1242,7 +1251,10 @@ class ListElements {
     // order matches
     static getTableRowOrderMatchesHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
@@ -1265,7 +1277,11 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 {(order_metadata.tx_hash === order_matches_row.tx0_hash) ?
                     (<td style={{ padding: "0 1rem 0 0" }}>tx0</td>)
                     :
@@ -1300,7 +1316,10 @@ class ListElements {
     // order matches btcpays
     static getTableRowOrderMatchesBtcpaysHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC</td>
@@ -1312,7 +1331,11 @@ class ListElements {
     }
     static getTableRowOrderMatchesBtcpays(btcpays_row, index) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{btcpays_row.status}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(true, BigInt(btcpays_row.btc_amount_text))}</td>
