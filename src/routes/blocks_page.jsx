@@ -101,9 +101,17 @@ class Blockspage extends React.Component {
             </>
         );
 
-        let content_element = (<p>loading...</p>);
+        let content_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
         if (this.state.rows_loading_error) {
-            content_element = (<p>{`${this.state.rows_loading_error}`}</p>);
+            content_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.rows_loading_error}`}
+                </p>
+            );
         }
         else if (!this.state.rows_loading) {
 
@@ -116,7 +124,7 @@ class Blockspage extends React.Component {
                     (
                         <>
                             <div class="py-1 my-1">
-                                <p>
+                                <p class="dark:text-slate-100">
                                     From block index {this.state.from_index} to {this.state.to_index}:
                                 </p>
                             </div>
@@ -137,12 +145,16 @@ class Blockspage extends React.Component {
                             </div>
 
                             <div class="pt-1 mt-1">
-                            {/* <div class="py-1 my-1"> */}
+                                {/* <div class="py-1 my-1"> */}
                                 {change_pages_element}
                             </div>
                         </>
                     )
-                    : (<p>no rows found...</p>);
+                    : (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            no rows found...
+                        </p>
+                    );
         }
 
         const route_element = (
@@ -151,13 +163,16 @@ class Blockspage extends React.Component {
                     Blocks:
                 </h2>
                 <div class="py-1 my-1">
-                    <p>All Bitcoin blocks since CNTRPRTY <Link to={`/transactions`}>started</Link>, in ascending order.</p>
+                    <p class="dark:text-slate-100">
+                        All Bitcoin blocks since CNTRPRTY <Link to={`/transactions`}>started</Link>, in ascending order.
+                    </p>
                 </div>
                 <div class="py-1 my-1">
                     {jump_year_element}
                 </div>
-                <div class="pt-1 mt-1">
-                {/* <div class="py-1 my-1"> */}
+                <div class="pt-1 mt-1 ml-4 overflow-auto">
+                    {/* <div class="pt-1 mt-1"> */}
+                    {/* <div class="py-1 my-1"> */}
                     {content_element}
                 </div>
             </div>

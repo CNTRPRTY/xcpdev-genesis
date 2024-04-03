@@ -1451,7 +1451,7 @@ class ListElements {
     static getTableRowBlocksHeader() {
         return (
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
@@ -1468,7 +1468,7 @@ class ListElements {
         return (
             <tr
                 key={index}
-                class="whitespace-nowrap"
+                class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
