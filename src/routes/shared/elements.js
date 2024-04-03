@@ -540,6 +540,27 @@ class ListElements {
         };
         const nonlinkElements = createNonLinkElement(JSON.stringify(additional_data));
 
+        ////////
+        let broadcast_text_element;
+        if (broadcast_row.text.length > 256) {
+            // different numbers on purpose (make it "worth it", avoiding only a couple of characters extra for moving to another page)
+            broadcast_text_element = (
+                <>
+                    {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>[full]</Link>
+                    {' '} */}
+                    {broadcast_row.text.slice(0, 200)}
+                    {' '}
+                    <Link to={`/tx/${broadcast_row.tx_hash}`}>... see full text</Link>
+                    {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>... [see full text]</Link> */}
+                </>
+            );
+            // broadcast_row_text = broadcast_row.text.slice(0, 200);
+        }
+        else {
+            broadcast_text_element = broadcast_row.text;
+        }
+        ////////
+
         return (
             <tr
                 key={index}
@@ -550,7 +571,10 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
+                
+                <td style={{ padding: "0 1rem 0 0" }}>{broadcast_text_element}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td> */}
+                
                 <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
             </tr>
         );
