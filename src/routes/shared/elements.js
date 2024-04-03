@@ -878,7 +878,7 @@ class ListElements {
     static getTableRowDispensersHeader_addressPage() {
         return (
             <tr
-                class="whitespace-nowrap"
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
@@ -892,7 +892,13 @@ class ListElements {
     }
     static getTableRowDispensers_addressPage(dispensers_row, index) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                // general row nowrap fine here
+                class="whitespace-nowrap dark:text-slate-100"
+                // class="dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>
 
