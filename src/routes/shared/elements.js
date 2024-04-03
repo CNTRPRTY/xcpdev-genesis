@@ -609,7 +609,9 @@ class ListElements {
         return (
             <tr
                 key={index}
-                class="dark:text-slate-100"
+                // general row nowrap fine here
+                class="whitespace-nowrap dark:text-slate-100"
+                // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
