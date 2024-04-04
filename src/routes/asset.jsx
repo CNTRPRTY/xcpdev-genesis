@@ -465,70 +465,70 @@ class Asset extends React.Component {
 
                         <div class="py-1 my-1">
 
-                        <h3 class="font-bold">
-                            {protocol_base} asset: {this.state.asset_name}
-                        </h3>
-                        {/* <h3>{protocol_base} asset: {this.state.asset_name}</h3> */}
-                        
-                        <ul>
-                            <li>
-                                <span class="text-gray-600 dark:text-gray-400">asset id:</span>
-                                {' '}
-                                <span class="dark:text-slate-100">{this.state.asset_row.asset_id}</span>
-                            </li>
-                            <li>
-                                <span class="text-gray-600 dark:text-gray-400">divisible:</span>
-                                {' '}
-                                <span class="dark:text-slate-100">true (satoshi)</span>
-                            </li>
-                            {/* <li>asset id: {this.state.asset_row.asset_id}</li>
+                            <h3 class="font-bold">
+                                {protocol_base} asset: {this.state.asset_name}
+                            </h3>
+                            {/* <h3>{protocol_base} asset: {this.state.asset_name}</h3> */}
+
+                            <ul>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">asset id:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{this.state.asset_row.asset_id}</span>
+                                </li>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">divisible:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">true (satoshi)</span>
+                                </li>
+                                {/* <li>asset id: {this.state.asset_row.asset_id}</li>
                             <li>divisible: true (satoshi)</li> */}
-                        </ul>
+                            </ul>
 
                         </div>
 
 
                         <div class="py-1 my-1">
 
-                        <h3 class="font-bold">
-                            Market:
-                        </h3>
-                        {/* <h3>Market:</h3> */}
+                            <h3 class="font-bold">
+                                Market:
+                            </h3>
+                            {/* <h3>Market:</h3> */}
 
-                        {dispensers_element}
+                            {dispensers_element}
 
-                        <div class="py-1 my-1">
+                            <div class="py-1 my-1">
 
-                        <h4 class="font-bold">
-                            Open exchange orders:
-                        </h4>
-                        {/* <h4>Open exchange orders:</h4> */}
+                                <h4 class="font-bold">
+                                    Open exchange orders:
+                                </h4>
+                                {/* <h4>Open exchange orders:</h4> */}
 
-                        <div class="py-1 my-1">
-                        <p class="font-bold dark:text-slate-100">
-                            Asset in escrow:
-                        </p>
-                        {/* <p><strong>Asset in escrow:</strong></p> */}
-                        {/* <p>Asset in escrow:</p> */}
-                        <div class="py-1 my-1 ml-4 overflow-auto">
-                            {orders_give_element}
-                        </div>
-                        {/* {orders_give_element} */}
-                        </div>
+                                <div class="py-1 my-1">
+                                    <p class="font-bold dark:text-slate-100">
+                                        Asset in escrow:
+                                    </p>
+                                    {/* <p><strong>Asset in escrow:</strong></p> */}
+                                    {/* <p>Asset in escrow:</p> */}
+                                    <div class="py-1 my-1 ml-4 overflow-auto">
+                                        {orders_give_element}
+                                    </div>
+                                    {/* {orders_give_element} */}
+                                </div>
 
-                        <div class="py-1 my-1">
-                        <p class="font-bold dark:text-slate-100">
-                            Asset requested:
-                        </p>
-                        {/* <p><strong>Asset requested:</strong></p> */}
-                        {/* <p>Asset requested:</p> */}
-                        <div class="py-1 my-1 ml-4 overflow-auto">
-                            {orders_get_element}
-                        </div>
-                        {/* {orders_get_element} */}
-                        </div>
+                                <div class="py-1 my-1">
+                                    <p class="font-bold dark:text-slate-100">
+                                        Asset requested:
+                                    </p>
+                                    {/* <p><strong>Asset requested:</strong></p> */}
+                                    {/* <p>Asset requested:</p> */}
+                                    <div class="py-1 my-1 ml-4 overflow-auto">
+                                        {orders_get_element}
+                                    </div>
+                                    {/* {orders_get_element} */}
+                                </div>
 
-                        </div>
+                            </div>
 
                         </div>
 
@@ -763,7 +763,7 @@ class Asset extends React.Component {
                     );
                 }
                 else if (
-                // if (
+                    // if (
                     !this.state.issuances_loading &&
                     !this.state.destructions_loading &&
 
@@ -946,7 +946,7 @@ class Asset extends React.Component {
                     Asset: {this.state.asset_name}
                 </h2>
                 <div class="pt-1 mt-1 ml-4">
-                {/* <div class="pt-1 mt-1"> */}
+                    {/* <div class="pt-1 mt-1"> */}
                     {/* <div class="py-1 my-1"> */}
                     {asset_page_element}
                 </div>
