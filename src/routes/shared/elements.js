@@ -968,7 +968,10 @@ class ListElements {
         // static getTableRowDispensersHeader(divisible, asset_page = false) {
         // static getTableRowDispenseAssetHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
 
                 {/* {asset_page ?
@@ -1013,7 +1016,11 @@ class ListElements {
         const status = dispensers_row.status ? 'closed' : 'open'; // 10 = closed, 0 = open
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
 
                 {asset_page ?

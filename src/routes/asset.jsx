@@ -8,6 +8,57 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from 'react-router-dom';
 import { timeIsoFormat, quantityWithDivisibility } from '../utils';
 
+// avoiding duplicate code
+function renderMarketSection(dispensers_element, orders_give_element, orders_get_element) {
+    return (
+        <>
+            {/* <div class="py-1 my-1"> */}
+
+            <h3 class="font-bold">
+                Market:
+            </h3>
+            {/* <h3>Market:</h3> */}
+
+            {dispensers_element}
+
+            <div class="py-1 my-1">
+
+                <h4 class="font-bold">
+                    Open exchange orders:
+                </h4>
+                {/* <h4>Open exchange orders:</h4> */}
+
+                <div class="py-1 my-1">
+                    <p class="font-bold dark:text-slate-100">
+                        Asset in escrow:
+                    </p>
+                    {/* <p><strong>Asset in escrow:</strong></p> */}
+                    {/* <p>Asset in escrow:</p> */}
+                    <div class="py-1 my-1 ml-4 overflow-auto">
+                        {orders_give_element}
+                    </div>
+                    {/* {orders_give_element} */}
+                </div>
+
+                <div class="py-1 my-1">
+                    <p class="font-bold dark:text-slate-100">
+                        Asset requested:
+                    </p>
+                    {/* <p><strong>Asset requested:</strong></p> */}
+                    {/* <p>Asset requested:</p> */}
+                    <div class="py-1 my-1 ml-4 overflow-auto">
+                        {orders_get_element}
+                    </div>
+                    {/* {orders_get_element} */}
+                </div>
+
+            </div>
+
+            {/* </div> */}
+        </>
+    );
+}
+
 function baseState(asset_name) {
     return {
         asset_name,
@@ -424,11 +475,15 @@ class Asset extends React.Component {
                         this.state.dispensers.length ?
                             (
                                 <>
-                                    {/* <h4>Open dispensers:</h4> */}
-                                    {ListElements.getTableRowDispensersHeader(asset_metadata)}
-                                    {this.state.dispensers.map((dispensers_row, index) => {
-                                        return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
-                                    })}
+                                    <table>
+                                        <tbody>
+                                            {/* <h4>Open dispensers:</h4> */}
+                                            {ListElements.getTableRowDispensersHeader(asset_metadata)}
+                                            {this.state.dispensers.map((dispensers_row, index) => {
+                                                return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
+                                            })}
+                                        </tbody>
+                                    </table>
                                 </>
                             )
                             : (
@@ -439,8 +494,18 @@ class Asset extends React.Component {
                 }
                 dispensers_element = (
                     <>
-                        <h4>Open dispensers:</h4>
-                        {dispensers_element_contents}
+                        <div class="py-1 my-1">
+                            <h4 class="font-bold">
+                                Open dispensers:
+                            </h4>
+                            <div class="py-1 my-1">
+                                <div class="py-1 my-1 ml-4 overflow-auto">
+                                    {dispensers_element_contents}
+                                </div>
+                            </div>
+                        </div>
+                        {/* <h4>Open dispensers:</h4>
+                        {dispensers_element_contents} */}
                     </>
                 );
             }
@@ -487,49 +552,8 @@ class Asset extends React.Component {
 
                         </div>
 
-
                         <div class="py-1 my-1">
-
-                            <h3 class="font-bold">
-                                Market:
-                            </h3>
-                            {/* <h3>Market:</h3> */}
-
-                            {dispensers_element}
-
-                            <div class="py-1 my-1">
-
-                                <h4 class="font-bold">
-                                    Open exchange orders:
-                                </h4>
-                                {/* <h4>Open exchange orders:</h4> */}
-
-                                <div class="py-1 my-1">
-                                    <p class="font-bold dark:text-slate-100">
-                                        Asset in escrow:
-                                    </p>
-                                    {/* <p><strong>Asset in escrow:</strong></p> */}
-                                    {/* <p>Asset in escrow:</p> */}
-                                    <div class="py-1 my-1 ml-4 overflow-auto">
-                                        {orders_give_element}
-                                    </div>
-                                    {/* {orders_give_element} */}
-                                </div>
-
-                                <div class="py-1 my-1">
-                                    <p class="font-bold dark:text-slate-100">
-                                        Asset requested:
-                                    </p>
-                                    {/* <p><strong>Asset requested:</strong></p> */}
-                                    {/* <p>Asset requested:</p> */}
-                                    <div class="py-1 my-1 ml-4 overflow-auto">
-                                        {orders_get_element}
-                                    </div>
-                                    {/* {orders_get_element} */}
-                                </div>
-
-                            </div>
-
+                            {renderMarketSection(dispensers_element, orders_give_element, orders_get_element)}
                         </div>
 
                     </>
@@ -899,21 +923,9 @@ class Asset extends React.Component {
                         {!reset_issuance ?
                             (
                                 <>
-                                    <h3>Market:</h3>
-
-                                    {dispensers_element}
-
-                                    <h4>Open exchange orders:</h4>
-
-                                    <p><strong>Asset in escrow:</strong></p>
-                                    {/* <p>Asset in escrow:</p> */}
-                                    {orders_give_element}
-
-                                    <p><strong>Asset requested:</strong></p>
-                                    {/* <p>Asset requested:</p> */}
-                                    {orders_get_element}
-
-                                    {/* {markets_element} */}
+                                    <div class="py-1 my-1">
+                                        {renderMarketSection(dispensers_element, orders_give_element, orders_get_element)}
+                                    </div>
                                 </>
                             )
                             : null
