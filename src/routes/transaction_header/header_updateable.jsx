@@ -117,6 +117,8 @@ class TransactionUpdateable extends React.Component {
                             {/* <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p> */}
                         </div>
 
+                        <div class="ml-4">
+
                         <div class="py-1 my-1">
                             <ul>
                                 {/* <ul class="list-disc list-inside"> */}
@@ -197,6 +199,8 @@ class TransactionUpdateable extends React.Component {
                             )
                         }
 
+                        </div>
+
                         {dispenses_rows.length ?
                             (
                                 <>
@@ -276,6 +280,8 @@ class TransactionUpdateable extends React.Component {
                             </p>
                             {/* <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p> */}
                         </div>
+
+                        <div class="ml-4">
 
                         <div class="py-1 my-1">
                             <ul>
@@ -424,6 +430,8 @@ class TransactionUpdateable extends React.Component {
                                     </div>
                                 </li>
                             </ul>
+                        </div>
+
                         </div>
 
                         {order_matches_rows.length ?
