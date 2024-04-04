@@ -310,7 +310,7 @@ class ListElements {
                 class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-            {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
+                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
 
                 {/* special non-header case */}
                 <td
@@ -468,7 +468,10 @@ class ListElements {
     static getTableRowBalanceAddressHeader(asset_page = false) {
         // static getTableRowBalanceAddressHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
 
                 {asset_page ?
                     (<td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>)
@@ -494,7 +497,11 @@ class ListElements {
         const is_reset = balance_row.resets && true;
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
 
                 {asset_page ?
                     (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></td>)
@@ -938,7 +945,10 @@ class ListElements {
     // subassets
     static getTableRowSubassetsHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>asset longname</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>asset name</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>longname</td>
@@ -952,7 +962,11 @@ class ListElements {
     static getTableRowSubassets(assets_row, index) {
         const block_time_iso = timeIsoFormat(assets_row.block_time);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}>{assets_row.asset_longname}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${assets_row.asset_name}`}>{assets_row.asset_name}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${assets_row.block_index}`}>{assets_row.block_index}</Link></td>

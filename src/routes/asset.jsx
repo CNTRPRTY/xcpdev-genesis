@@ -19,7 +19,9 @@ function renderMarketSection(dispensers_element, orders_give_element, orders_get
             </h3>
             {/* <h3>Market:</h3> */}
 
-            {dispensers_element}
+            <div class="py-1 my-1">
+                {dispensers_element}
+            </div>
 
             <div class="py-1 my-1">
 
@@ -494,16 +496,16 @@ class Asset extends React.Component {
                 }
                 dispensers_element = (
                     <>
+                        {/* <div class="py-1 my-1"> */}
+                        <h4 class="font-bold">
+                            Open dispensers:
+                        </h4>
                         <div class="py-1 my-1">
-                            <h4 class="font-bold">
-                                Open dispensers:
-                            </h4>
-                            <div class="py-1 my-1">
-                                <div class="py-1 my-1 ml-4 overflow-auto">
-                                    {dispensers_element_contents}
-                                </div>
+                            <div class="py-1 my-1 ml-4 overflow-auto">
+                                {dispensers_element_contents}
                             </div>
                         </div>
+                        {/* </div> */}
                         {/* <h4>Open dispensers:</h4>
                         {dispensers_element_contents} */}
                     </>
@@ -581,13 +583,17 @@ class Asset extends React.Component {
                 let verify_quantity_with_divisibility = null;
 
                 let issuances_destructions_element = null;
-                let issuances_destructions_element_contents = (<p>loading...</p>);
+                let issuances_destructions_element_contents = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        loading...
+                    </p>
+                );
                 if (
                     this.state.issuances_loading_error ||
                     this.state.destructions_loading_error
                 ) {
                     issuances_destructions_element_contents = (
-                        <p>
+                        <p class="text-gray-600 dark:text-gray-400">
                             {`${this.state.issuances_loading_error ? this.state.issuances_loading_error : ''}${this.state.destructions_loading_error ? this.state.destructions_loading_error : ''}`}
                         </p>
                     );
@@ -702,8 +708,16 @@ class Asset extends React.Component {
 
                     issuances_destructions_element = (
                         <>
-                            <h3>{issuance_events_message}</h3>
-                            {issuances_destructions_element_contents}
+                            <h3 class="font-bold">
+                                {issuance_events_message}
+                            </h3>
+                            <div class="py-1 my-1">
+                                <div class="py-1 my-1 ml-4 overflow-auto">
+                                    {issuances_destructions_element_contents}
+                                </div>
+                            </div>
+                            {/* <h3>{issuance_events_message}</h3>
+                            {issuances_destructions_element_contents} */}
                         </>
                     );
 
@@ -713,9 +727,17 @@ class Asset extends React.Component {
 
                 let balances_element = null;
 
-                let balances_element_contents = (<p>loading...</p>);
+                let balances_element_contents = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        loading...
+                    </p>
+                );
                 if (this.state.balances_loading_error) {
-                    balances_element_contents = (<p>{`${this.state.balances_loading_error}`}</p>);
+                    balances_element_contents = (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            {`${this.state.balances_loading_error}`}
+                        </p>
+                    );
                 }
                 else if (!this.state.balances_loading) {
                     function balancesSortAddress(a, b) {
@@ -738,20 +760,36 @@ class Asset extends React.Component {
                         this.state.balances.length ?
                             (
                                 <>
-                                    {/* <h3>Balances (asset holders):</h3> */}
-                                    {ListElements.getTableRowBalanceAddressHeader(asset_page)}
-                                    {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
-                                        return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
-                                    })}
+                                    <table>
+                                        <tbody>
+                                            {/* <h3>Balances (asset holders):</h3> */}
+                                            {ListElements.getTableRowBalanceAddressHeader(asset_page)}
+                                            {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
+                                                return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
+                                            })}
+                                        </tbody>
+                                    </table>
                                 </>
                             )
-                            : (<p>no asset holders</p>);
+                            : (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    no asset holders
+                                </p>
+                            );
                 }
 
                 balances_element = (
                     <>
-                        <h3>Balances (asset holders):</h3>
-                        {balances_element_contents}
+                        <h3 class="font-bold">
+                            Balances (asset holders):
+                        </h3>
+                        <div class="py-1 my-1">
+                            <div class="py-1 my-1 ml-4 overflow-auto">
+                                {balances_element_contents}
+                            </div>
+                        </div>
+                        {/* <h3>Balances (asset holders):</h3>
+                        {balances_element_contents} */}
                     </>
                 );
 
@@ -835,30 +873,49 @@ class Asset extends React.Component {
 
                 // subassets
 
+                let subassets_element_contents = null;
                 let subassets_element = null; // only show if applies
-                // let subassets_element = (<p>loading...</p>);
                 if (this.state.subassets_loading_error) {
                     // error must be surfaced with header to make sense...
-                    subassets_element = (
-                        <>
-                            <h3>Subassets:</h3>
-                            <p>{`${this.state.subassets_loading_error}`}</p>
-                        </>
+                    subassets_element_contents = (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            {`${this.state.subassets_loading_error}`}
+                        </p>
                     );
-                    // subassets_element = (<p>{`${this.state.subassets_loading_error}`}</p>);
                 }
                 else if (
                     !this.state.subassets_loading &&
                     this.state.subassets.length
                 ) {
+                    subassets_element_contents =
+                        (
+                            <>
+                                <table>
+                                    <tbody>
+                                        {/* <h3>Subassets:</h3> */}
+                                        {ListElements.getTableRowSubassetsHeader()}
+                                        {this.state.subassets.map((assets_row, index) => {
+                                            return ListElements.getTableRowSubassets(assets_row, index);
+                                        })}
+                                    </tbody>
+                                </table>
+                            </>
+                        );
+                }
+                if (subassets_element_contents) {
                     subassets_element =
                         (
                             <>
-                                <h3>Subassets:</h3>
-                                {ListElements.getTableRowSubassetsHeader()}
-                                {this.state.subassets.map((assets_row, index) => {
-                                    return ListElements.getTableRowSubassets(assets_row, index);
-                                })}
+                                <h3 class="font-bold">
+                                    Subassets:
+                                </h3>
+                                <div class="py-1 my-1">
+                                    <div class="py-1 my-1 ml-4 overflow-auto">
+                                        {subassets_element_contents}
+                                    </div>
+                                </div>
+                                {/* <h3>Subassets:</h3>
+                            {subassets_element_contents} */}
                             </>
                         );
                 }
@@ -918,7 +975,9 @@ class Asset extends React.Component {
                             </li>
                         </ul>
 
-                        {subassets_element}
+                        <div class="py-1 my-1">
+                            {subassets_element}
+                        </div>
 
                         {!reset_issuance ?
                             (
@@ -931,12 +990,16 @@ class Asset extends React.Component {
                             : null
                         }
 
-                        {issuances_destructions_element}
+                        <div class="py-1 my-1">
+                            {issuances_destructions_element}
+                        </div>
 
                         {!reset_issuance ?
                             (
                                 <>
-                                    {balances_element}
+                                    <div class="py-1 my-1">
+                                        {balances_element}
+                                    </div>
                                 </>
                             )
                             : null
