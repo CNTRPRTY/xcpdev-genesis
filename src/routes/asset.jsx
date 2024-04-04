@@ -281,10 +281,9 @@ class Asset extends React.Component {
         // TODO tip mismatch check at top? (only after all loaded, if one fails a refresh will be needed anyway...)
 
         let asset_page_element = (
-            <>
-                <h2>Asset: {this.state.asset_name}</h2>
-                <p>loading...</p>
-            </>
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
         );
         // let asset_body_contents = (<p>loading...</p>);
         if (this.state.asset_row_loading_error) {
@@ -298,10 +297,9 @@ class Asset extends React.Component {
                 to_print = `${this.state.asset_row_loading_error}`;
             }
             asset_page_element = (
-                <>
-                    <h2>Asset: {this.state.asset_name}</h2>
-                    <p>{to_print}</p>
-                </>
+                <p class="text-gray-600 dark:text-gray-400">
+                    {to_print}
+                </p>
             );
 
         }
@@ -334,42 +332,74 @@ class Asset extends React.Component {
 
             // market (all assets) (except reset, which will not be rendered)
 
-            let orders_get_element = (<p>loading...</p>);
+            let orders_get_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    loading...
+                </p>
+            );
             if (this.state.orders_get_loading_error) {
-                orders_get_element = (<p>{`${this.state.orders_get_loading_error}`}</p>);
+                orders_get_element = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        {`${this.state.orders_get_loading_error}`}
+                    </p>
+                );
             }
             else if (!this.state.orders_get_loading) {
                 orders_get_element =
                     this.state.orders_get.length ?
                         (
                             <>
-                                {/* <p>Asset requested:</p> */}
-                                {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
-                                {this.state.orders_get.map((orders_row, index) => {
-                                    return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
-                                })}
+                                <table>
+                                    <tbody>
+                                        {/* <p>Asset requested:</p> */}
+                                        {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
+                                        {this.state.orders_get.map((orders_row, index) => {
+                                            return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
+                                        })}
+                                    </tbody>
+                                </table>
                             </>
                         )
-                        : (<p>no open requested orders</p>);
+                        : (
+                            <p class="text-gray-600 dark:text-gray-400">
+                                no open requested orders
+                            </p>
+                        );
             }
 
-            let orders_give_element = (<p>loading...</p>);
+            let orders_give_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    loading...
+                </p>
+            );
             if (this.state.orders_give_loading_error) {
-                orders_give_element = (<p>{`${this.state.orders_give_loading_error}`}</p>);
+                orders_give_element = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        {`${this.state.orders_give_loading_error}`}
+                    </p>
+                );
             }
             else if (!this.state.orders_give_loading) {
                 orders_give_element =
                     this.state.orders_give.length ?
                         (
                             <>
-                                {/* <p>Asset in escrow:</p> */}
-                                {ListElements.getTableRowOrdersHeader(asset_metadata)}
-                                {this.state.orders_give.map((orders_row, index) => {
-                                    return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
-                                })}
+                                <table>
+                                    <tbody>
+                                        {/* <p>Asset in escrow:</p> */}
+                                        {ListElements.getTableRowOrdersHeader(asset_metadata)}
+                                        {this.state.orders_give.map((orders_row, index) => {
+                                            return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
+                                        })}
+                                    </tbody>
+                                </table>
                             </>
                         )
-                        : (<p>no open escrow orders</p>);
+                        : (
+                            <p class="text-gray-600 dark:text-gray-400">
+                                no open escrow orders
+                            </p>
+                        );
             }
 
             // market (BTC does not have dispensers)
@@ -377,9 +407,17 @@ class Asset extends React.Component {
             let dispensers_element = null;
 
             if (!['BTC'].includes(this.state.asset_name)) {
-                let dispensers_element_contents = (<p>loading...</p>);
+                let dispensers_element_contents = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        loading...
+                    </p>
+                );
                 if (this.state.dispensers_loading_error) {
-                    dispensers_element_contents = (<p>{`${this.state.dispensers_loading_error}`}</p>);
+                    dispensers_element_contents = (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            {`${this.state.dispensers_loading_error}`}
+                        </p>
+                    );
                 }
                 else if (!this.state.dispensers_loading) {
                     dispensers_element_contents =
@@ -393,7 +431,11 @@ class Asset extends React.Component {
                                     })}
                                 </>
                             )
-                            : (<p>no open dispensers</p>);
+                            : (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    no open dispensers
+                                </p>
+                            );
                 }
                 dispensers_element = (
                     <>
@@ -419,26 +461,77 @@ class Asset extends React.Component {
 
                 asset_page_element = (
                     <>
-                        <h2>Asset: {this.state.asset_name}</h2>
-                        <h3>{protocol_base} asset: {this.state.asset_name}</h3>
+                        {/* <h2>Asset: {this.state.asset_name}</h2> */}
+
+                        <div class="py-1 my-1">
+
+                        <h3 class="font-bold">
+                            {protocol_base} asset: {this.state.asset_name}
+                        </h3>
+                        {/* <h3>{protocol_base} asset: {this.state.asset_name}</h3> */}
+                        
                         <ul>
-                            <li>asset id: {this.state.asset_row.asset_id}</li>
-                            <li>divisible: true (satoshi)</li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">asset id:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">{this.state.asset_row.asset_id}</span>
+                            </li>
+                            <li>
+                                <span class="text-gray-600 dark:text-gray-400">divisible:</span>
+                                {' '}
+                                <span class="dark:text-slate-100">true (satoshi)</span>
+                            </li>
+                            {/* <li>asset id: {this.state.asset_row.asset_id}</li>
+                            <li>divisible: true (satoshi)</li> */}
                         </ul>
 
-                        <h3>Market:</h3>
+                        </div>
+
+
+                        <div class="py-1 my-1">
+
+                        <h3 class="font-bold">
+                            Market:
+                        </h3>
+                        {/* <h3>Market:</h3> */}
 
                         {dispensers_element}
 
-                        <h4>Open exchange orders:</h4>
+                        <div class="py-1 my-1">
 
-                        <p><strong>Asset in escrow:</strong></p>
+                        <h4 class="font-bold">
+                            Open exchange orders:
+                        </h4>
+                        {/* <h4>Open exchange orders:</h4> */}
+
+                        <div class="py-1 my-1">
+                        <p class="font-bold dark:text-slate-100">
+                            Asset in escrow:
+                        </p>
+                        {/* <p><strong>Asset in escrow:</strong></p> */}
                         {/* <p>Asset in escrow:</p> */}
-                        {orders_give_element}
+                        <div class="py-1 my-1 ml-4 overflow-auto">
+                            {orders_give_element}
+                        </div>
+                        {/* {orders_give_element} */}
+                        </div>
 
-                        <p><strong>Asset requested:</strong></p>
+                        <div class="py-1 my-1">
+                        <p class="font-bold dark:text-slate-100">
+                            Asset requested:
+                        </p>
+                        {/* <p><strong>Asset requested:</strong></p> */}
                         {/* <p>Asset requested:</p> */}
-                        {orders_get_element}
+                        <div class="py-1 my-1 ml-4 overflow-auto">
+                            {orders_get_element}
+                        </div>
+                        {/* {orders_get_element} */}
+                        </div>
+
+                        </div>
+
+                        </div>
+
                     </>
                 );
 
@@ -749,7 +842,7 @@ class Asset extends React.Component {
                 asset_page_element = (
                     <>
 
-                        <h2>Asset: {this.state.asset_name}</h2>
+                        {/* <h2>Asset: {this.state.asset_name}</h2> */}
                         <ul>
                             <li><strong>Genesis:</strong>
                                 <br />
@@ -847,8 +940,22 @@ class Asset extends React.Component {
 
         }
 
-        return <OneElements route_element={asset_page_element} />;
-        // return OneElements.getFullPageForRouteElement(asset_page_element);
+        const route_element = (
+            <div class="py-2 my-2">
+                <h2 class="font-bold text-xl mb-1">
+                    Asset: {this.state.asset_name}
+                </h2>
+                <div class="pt-1 mt-1 ml-4">
+                {/* <div class="pt-1 mt-1"> */}
+                    {/* <div class="py-1 my-1"> */}
+                    {asset_page_element}
+                </div>
+            </div>
+        );
+
+        return <OneElements route_element={route_element} />;
+        // return <OneElements route_element={asset_page_element} />;
+        // // return OneElements.getFullPageForRouteElement(asset_page_element);
 
     }
 

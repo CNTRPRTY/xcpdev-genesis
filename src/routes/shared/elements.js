@@ -1124,7 +1124,10 @@ class ListElements {
     static getTableRowOrdersHeader(give_asset_metadata) {
         // static getTableRowOrdersHeader(divisible, asset_page = false) {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
 
                 {/* {asset_page ?
@@ -1171,7 +1174,11 @@ class ListElements {
         // const quantity_with_divisibility = quantityWithDivisibility(divisible, orders_row.give_remaining);
         const block_time_iso = timeIsoFormat(orders_row.block_time);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
 
                 {asset_page ?
@@ -1218,7 +1225,10 @@ class ListElements {
     // orders exchanges / get asset (asset_page only for now)
     static getTableRowOrdersHeader_get(get_asset_metadata) {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>give remaining units (escrowed)</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>{get_asset_metadata.asset} requested</td>
@@ -1231,7 +1241,11 @@ class ListElements {
     }
     static getTableRowOrders_get(orders_row, index, get_divisible) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>
                     <>
