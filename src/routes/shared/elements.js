@@ -816,7 +816,12 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <tr
+                key={index}
+                // general row nowrap NOT SURE IF fine here
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
