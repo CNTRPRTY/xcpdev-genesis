@@ -528,13 +528,16 @@ class Asset extends React.Component {
 
                 asset_page_element = (
                     <>
-                        {/* <h2>Asset: {this.state.asset_name}</h2> */}
+
+                        <h3 class="font-bold">
+                            {protocol_base} asset: {this.state.asset_name}
+                        </h3>
 
                         <div class="py-1 my-1">
 
-                            <h3 class="font-bold">
+                            {/* <h3 class="font-bold">
                                 {protocol_base} asset: {this.state.asset_name}
-                            </h3>
+                            </h3> */}
                             {/* <h3>{protocol_base} asset: {this.state.asset_name}</h3> */}
 
                             <ul>
@@ -805,7 +808,11 @@ class Asset extends React.Component {
                 // doing what is left now that all required info is loaded
 
                 ////////////
-                let asset_state_element = (<p>loading...</p>);
+                let asset_state_element_contents = (
+                    <p class="text-gray-600 dark:text-gray-400">
+                        loading...
+                    </p>
+                );
                 if (
                     this.state.issuances_loading_error ||
                     this.state.destructions_loading_error ||
@@ -814,13 +821,33 @@ class Asset extends React.Component {
                     this.state.dispensers_loading_error ||
                     this.state.balances_loading_error
                 ) {
-                    asset_state_element = (
+                    asset_state_element_contents = (
                         <>
-                            {this.state.issuances_loading_error ? (<p>issuances_loading_error: {`${this.state.issuances_loading_error}`}</p>) : null}
-                            {this.state.destructions_loading_error ? (<p>destructions_loading_error: {`${this.state.destructions_loading_error}`}</p>) : null}
-                            {this.state.orders_give_loading_error ? (<p>orders_give_loading_error: {`${this.state.orders_give_loading_error}`}</p>) : null}
-                            {this.state.dispensers_loading_error ? (<p>dispensers_loading_error: {`${this.state.dispensers_loading_error}`}</p>) : null}
-                            {this.state.balances_loading_error ? (<p>balances_loading_error: {`${this.state.balances_loading_error}`}</p>) : null}
+                            {this.state.issuances_loading_error ? (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    issuances_loading_error: {`${this.state.issuances_loading_error}`}
+                                </p>
+                            ) : null}
+                            {this.state.destructions_loading_error ? (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    destructions_loading_error: {`${this.state.destructions_loading_error}`}
+                                </p>
+                            ) : null}
+                            {this.state.orders_give_loading_error ? (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    orders_give_loading_error: {`${this.state.orders_give_loading_error}`}
+                                </p>
+                            ) : null}
+                            {this.state.dispensers_loading_error ? (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    dispensers_loading_error: {`${this.state.dispensers_loading_error}`}
+                                </p>
+                            ) : null}
+                            {this.state.balances_loading_error ? (
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    balances_loading_error: {`${this.state.balances_loading_error}`}
+                                </p>
+                            ) : null}
                         </>
                     );
                 }
@@ -833,39 +860,85 @@ class Asset extends React.Component {
                     !this.state.dispensers_loading &&
                     !this.state.balances_loading
                 ) {
-                    asset_state_element = (
+                    asset_state_element_contents = (
                         <>
-                            <ul>
-                                <li>issuance events: {this.state.issuances.length} issuances{hastransfers_element}, {this.state.destructions.length} destructions</li>
-                                {/* <li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li> */}
-                                <li>holders: {this.state.balances.filter(row => row.quantity !== 0).length} (lifetime: {this.state.balances.length})</li>
-                                {/* <li>holders (lifetime): {this.state.balances.filter(row => row.quantity !== 0).length} ({this.state.balances.length})</li> */}
-                            </ul>
-                            <br />
+                            <div class="py-1 my-1">
+                                <ul>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">issuance events:</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.issuances.length} issuances{hastransfers_element}, {this.state.destructions.length} destructions</span>
+                                    </li>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">holders:</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.balances.filter(row => row.quantity !== 0).length} (lifetime: {this.state.balances.length})</span>
+                                    </li>
 
-                            <ul>
-                                <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
+                                    {/* <li>issuance events: {this.state.issuances.length} issuances{hastransfers_element}, {this.state.destructions.length} destructions</li>
+                                    //<li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li>
+                                    <li>holders: {this.state.balances.filter(row => row.quantity !== 0).length} (lifetime: {this.state.balances.length})</li>
+                                    //<li>holders (lifetime): {this.state.balances.filter(row => row.quantity !== 0).length} ({this.state.balances.length})</li> */}
+                                </ul>
+                            </div>
 
-                                {reset_issuance ?
-                                    (<>{<li>v9.60 RESET ASSET</li>}</>)
-                                    :
-                                    (
-                                        <>
-                                            <li>current supply: <strong>{total_quantity_with_divisibility}</strong></li>
+                            <div class="py-1 my-1">
+                                <ul>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">locked supply:</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{lock_issuance ? 'true' : 'false'}</span>
+                                    </li>
+                                    {/* <li>locked supply: {lock_issuance ? 'true' : 'false'}</li> */}
+
+                                    {reset_issuance ?
+                                        (
                                             <li>
-                                                verify (
-                                                {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
-                                                {' '}
-                                                {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} in open orders +
-                                                {' '}
-                                                {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers):
-                                                {' '}
-                                                {verify_quantity_with_divisibility}
+                                                <span class="dark:text-slate-100">
+                                                    v9.60 RESET ASSET
+                                                </span>
                                             </li>
-                                        </>
-                                    )
-                                }
-                            </ul>
+                                            // <>{<li>v9.60 RESET ASSET</li>}</>
+                                        )
+                                        :
+                                        (
+                                            <>
+
+                                                <li>
+                                                    <span class="text-gray-600 dark:text-gray-400">current supply:</span>
+                                                    {' '}
+                                                    <span class="dark:text-slate-100"><strong>{total_quantity_with_divisibility}</strong></span>
+                                                </li>
+                                                <li>
+                                                    <span class="text-gray-600 dark:text-gray-400">verify:</span>
+                                                    {' '}
+                                                    <span class="dark:text-slate-100">
+                                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
+                                                        {' '}
+                                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} in open orders +
+                                                        {' '}
+                                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers =
+                                                        {' '}
+                                                        {verify_quantity_with_divisibility}
+                                                    </span>
+                                                </li>
+
+                                                {/* <li>current supply: <strong>{total_quantity_with_divisibility}</strong></li>
+                                                <li>
+                                                    verify (
+                                                    {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
+                                                    {' '}
+                                                    {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} in open orders +
+                                                    {' '}
+                                                    {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers):
+                                                    {' '}
+                                                    {verify_quantity_with_divisibility}
+                                                </li> */}
+                                            </>
+                                        )
+                                    }
+                                </ul>
+                            </div>
                         </>
                     );
                 }
@@ -920,60 +993,122 @@ class Asset extends React.Component {
                         );
                 }
 
+                const asset_genesis_element = (
+                    <>
+                        {this.state.asset_row.asset_longname ?
+                            (
+                                <div class="py-1 my-1">
+                                    <ul>
+                                        <li>
+                                            <span class="text-gray-600 dark:text-gray-400">superasset:</span>
+                                            {' '}
+                                            <span class="dark:text-slate-100"><Link to={`/asset/${superasset}`}>{superasset}</Link></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )
+                            : null
+                        }
+
+                        <div class="py-1 my-1">
+                            <ul>
+                                {this.state.asset_row.asset_longname ?
+                                    (
+                                        <li>
+                                            <span class="text-gray-600 dark:text-gray-400">asset longname:</span>
+                                            {' '}
+                                            <span class="dark:text-slate-100">{this.state.asset_row.asset_longname}</span>
+                                        </li>
+                                    )
+                                    : null
+                                }
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">asset name:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{this.state.asset_row.asset_name}</span>
+                                </li>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">asset id:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{this.state.asset_row.asset_id}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="py-1 my-1">
+                            <ul>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">block:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100"><Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></span>
+                                </li>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">block time:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{timeIsoFormat(genesis_issuance.block_time)}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="py-1 my-1">
+                            <ul>
+                                <li>
+                                    <span class="text-gray-600 dark:text-gray-400">divisible:</span>
+                                    {' '}
+                                    <span class="dark:text-slate-100">{genesis_issuance.divisible ? 'true (satoshi)' : 'false'}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </>
+                );
+
+                const asset_state_element = (
+                    <>
+                        <p class="dark:text-slate-100">
+                            State as of block {this.state.issuances_tip_blocks_row.block_index} ({timeIsoFormat(this.state.issuances_tip_blocks_row.block_time)})
+                        </p>
+                        <div class="py-1 my-1 ml-4">
+                            {/* <div class="py-1 my-1"> */}
+                            {asset_state_element_contents}
+                        </div>
+                        {/* // TODO!!! tip_blocks_row
+                        <li><strong>Issuances state:</strong> as of block {this.state.issuances_tip_blocks_row.block_index} ({timeIsoFormat(this.state.issuances_tip_blocks_row.block_time)})
+                            {asset_state_element}
+                        </li> */}
+                    </>
+                );
+
                 asset_page_element = (
                     <>
 
-                        {/* <h2>Asset: {this.state.asset_name}</h2> */}
-                        <ul>
-                            <li><strong>Genesis:</strong>
-                                <br />
-                                <br />
+                        <h3 class="font-bold">
+                            Genesis:
+                        </h3>
 
-                                {this.state.asset_row.asset_longname ?
-                                    (
-                                        <ul>
-                                            <li>superasset: <Link to={`/asset/${superasset}`}>{superasset}</Link></li>
-                                        </ul>
-                                    )
-                                    : (null)
-                                }
+                        <div class="py-1 my-1 whitespace-nowrap overflow-auto">
+                            {/* <div class="py-1 my-1"> */}
+                            {asset_genesis_element}
+                        </div>
 
-                                <ul>
-                                    {this.state.asset_row.asset_longname ?
-                                        (<li>asset longname: {this.state.asset_row.asset_longname}</li>)
-                                        : (null)
-                                    }
-                                    <li>asset name: {this.state.asset_row.asset_name}</li>
-                                    <li>asset id: {this.state.asset_row.asset_id}</li>
-                                </ul>
-                                <ul>
-                                    <li>block: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li>
-                                    <li>block time: {timeIsoFormat(genesis_issuance.block_time)}</li>
-                                </ul>
-                                <ul>
-                                    <li>divisible: {genesis_issuance.divisible ? 'true (satoshi)' : 'false'}</li>
-                                </ul>
+                        <div class="py-1 my-1 whitespace-nowrap overflow-auto">
+                            {/* <div class="py-1 my-1 overflow-auto"> */}
+                            {/* <div class="py-1 my-1"> */}
+                            {asset_state_element}
+                        </div>
 
-                            </li>
-                        </ul>
-
-                        <ul>
-                            {/* TODO!!! tip_blocks_row */}
-                            <li><strong>Issuances state:</strong> as of block {this.state.issuances_tip_blocks_row.block_index} ({timeIsoFormat(this.state.issuances_tip_blocks_row.block_time)})
-                                {/* <li><strong>Issuances state:</strong> as of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)}) */}
-                                <br />
-                                <br />
-                                {asset_state_element}
-                                {/* {issuances_summary_element} */}
-                            </li>
-                        </ul>
-
-                        <ul>
-                            <li>
+                        <div class="py-1 my-1 whitespace-nowrap overflow-auto">
+                            {/* <div class="py-1 my-1"> */}
+                            <p class="dark:text-slate-100">
                                 For <strong>[m]</strong>edia visit <strong>bitSTART</strong>:{' '}
                                 <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
-                            </li>
-                        </ul>
+                            </p>
+                            {/* <ul>
+                                <li>
+                                    For <strong>[m]</strong>edia visit <strong>bitSTART</strong>:{' '}
+                                    <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
+                                </li>
+                            </ul> */}
+                        </div>
 
                         <div class="py-1 my-1">
                             {subassets_element}
@@ -1017,8 +1152,14 @@ class Asset extends React.Component {
 
         const route_element = (
             <div class="py-2 my-2">
-                <h2 class="font-bold text-xl mb-1">
-                    Asset: {this.state.asset_name}
+                <h2 class="font-bold text-xl mb-1 overflow-auto">
+                    {/* <h2 class="font-bold text-xl mb-1"> */}
+                    Asset:
+                    {' '}
+                    <span class="whitespace-nowrap">
+                        {this.state.asset_name}
+                    </span>
+                    {/* Asset: {this.state.asset_name} */}
                 </h2>
                 <div class="pt-1 mt-1 ml-4">
                     {/* <div class="pt-1 mt-1"> */}
