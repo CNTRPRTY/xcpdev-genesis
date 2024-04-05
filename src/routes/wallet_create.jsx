@@ -169,7 +169,6 @@ class WalletCreate extends React.Component {
         return (
             <>
                 {/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method */}
-                {/* <dialog open> */}
 
                 <table style={{
                     border: "1px solid black",
@@ -196,7 +195,8 @@ class WalletCreate extends React.Component {
                                         {request}
                                     </>
                                 ) :
-                                null}
+                                null
+                            }
 
                             {this.state.open_dialog_obj.dialog_state !== 'loading' ?
                                 (<button onClick={this.handleDialogCloseSubmit}>ok</button>)

@@ -82,4 +82,3 @@ class WalletBalances extends React.Component {
 }
 
 export default withRouter(WalletBalances);
-// export default withRouter(Wallet);

@@ -56,11 +56,6 @@ class WalletCreateBroadcast extends WalletCreate {
     render() {
         return (
             <>
-                {/* {this.state.open_dialog_obj ?
-                    // {this.state.open_dialog_message ?
-                    (this.renderDialogObj())
-                    :
-                    null} */}
                 <form onSubmit={this.handleSubmit}>
                     <p>Params:</p>
                     <table>
@@ -106,13 +101,12 @@ class WalletCreateBroadcast extends WalletCreate {
                     <br />
 
                     {this.state.open_dialog_obj ?
-                    // {this.state.open_dialog_message ?
-                    (this.renderDialogObj())
-                    :
-                    null}
+                        (this.renderDialogObj())
+                        :
+                        null
+                    }
 
                     <input type="submit" value="submit" disabled={this.state.open_dialog_obj !== null} />
-                    {/* <input type="submit" value="submit" disabled={this.state.in_post} /> */}
                 </form>
             </>
 
