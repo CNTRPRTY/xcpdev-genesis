@@ -66,24 +66,53 @@ class WalletCreateSelect extends React.Component {
     }
 
     render() {
-        let wallet_element_contents = null;
-        wallet_element_contents = (
+
+        const wallet_method_element = (
             <>
-                <h3>Create unsigned transactions, to then sign and broadcast with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>:</h3>
-                {/* <h3>Create unsigned transactions, to then sign and broadcast with a <a href={`https://bitst.art/`} target="_blank">wallet</a>:</h3> */}
-                <p>Method:</p>
-                <select value={this.state.selected_method} onChange={this.handleSelectMethod}>
-                    {/* <select value="create_broadcast"> */}
-                    {this.renderMethodOptions()}
-                </select>
-                {this.renderMethodForm()}
+                <p class="text-gray-600 dark:text-gray-400">
+                    {/* <p class="dark:text-slate-100"> */}
+                    Method:
+                </p>
+                <div class="py-1 my-1">
+
+                    <div class="ml-4">
+                    <select
+                        class="border-solid border-2 border-gray-300"
+                        // class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                        value={this.state.selected_method}
+                        onChange={this.handleSelectMethod}
+                    >
+                        {this.renderMethodOptions()}
+                    </select>
+                    </div>
+
+                    <div class="py-1 my-1">
+                        {this.renderMethodForm()}
+                    </div>
+
+                </div>
             </>
         );
+
+        const wallet_element_contents = (
+            <>
+                <div class="whitespace-nowrap overflow-auto">
+                    <h3>
+                        Create unsigned transactions, to then sign and broadcast with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>:
+                    </h3>
+                    <div class="py-1 my-1">
+                        {wallet_method_element}
+                    </div>
+                </div>
+            </>
+        );
+
         return (
             <>
                 {wallet_element_contents}
             </>
         );
+
     }
 
 }
