@@ -2,13 +2,10 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements } from './shared/elements';
-// import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
-// import { Outlet, Link } from "react-router-dom";
 
 import WalletBalances from './wallet_balances';
 import WalletCreateSelect from './wallet_create_select';
-// import WalletCreate from './wallet_create';
 
 class Wallet extends React.Component {
     constructor(props) {
@@ -19,12 +16,6 @@ class Wallet extends React.Component {
         if (props.router.params.address) {
             address_if_specified = props.router.params.address;
         }
-
-        // let address_if_specified = undefined;
-        // if (props.router.location.hash.length) {
-        //     const page_number_string = props.router.location.hash.replace('#', '');
-        //     address_if_specified = page_number_string;
-        // }
 
         let is_create = false;
         if (
@@ -43,7 +34,6 @@ class Wallet extends React.Component {
             loading: false,
             address: address_if_specified,
             balances: null,
-            // balances: [],
             is_create,
         };
 
@@ -58,9 +48,7 @@ class Wallet extends React.Component {
     handleSearchSubmit(event) {
         event.preventDefault();
         const to_navigate = this.state.address;
-        // this.setState({ address: '' });
         this.props.router.navigate(`/wallet/${to_navigate}`);
-        // this.props.router.navigate(`/wallet#${to_navigate}`);
     }
 
     async fetchData(address) {
@@ -68,7 +56,6 @@ class Wallet extends React.Component {
         this.setState({ loading: true });
 
         let balances_response;
-        // let balances_response = {};
         try {
 
             // tried fixing in express but is not obvious/simple, so doing this check here instead
@@ -80,7 +67,6 @@ class Wallet extends React.Component {
         }
         catch (e) {
             console.log(`error loading balances`);
-            // balances_response.balances = [];
         }
 
         if (!balances_response) {
@@ -91,7 +77,6 @@ class Wallet extends React.Component {
             });
         }
         else {
-            // if (balances_response.balances.length) {
 
             // removing all zero balances here
             const nonzero_balances = balances_response.balances.filter(balances_row => balances_row.quantity > 0);
@@ -100,23 +85,8 @@ class Wallet extends React.Component {
                 loading: false,
                 address,
                 balances: nonzero_balances,
-                // balances: balances_response.balances,
             });
-            // }
         }
-
-        // // if (balances_response.balances.length) {
-
-        // // removing all zero balances here
-        // const nonzero_balances = balances_response.balances.filter(balances_row => balances_row.quantity > 0);
-
-        // this.setState({
-        //     loading: false,
-        //     address,
-        //     balances: nonzero_balances,
-        //     // balances: balances_response.balances,
-        // });
-        // // }
 
     }
 
@@ -165,34 +135,14 @@ class Wallet extends React.Component {
             }
         }
 
-        // const updatedHash = this.props.router.location.hash;
-        // const prevHash = prevProps.router.location.hash;
-        // if (updatedHash !== prevHash) {
-        //     const address = updatedHash.replace('#', '');
-        //     if (address.length) {
-        //         await this.fetchData(address);
-        //     }
-        //     else {
-        //         this.setState({
-        //             address: '',
-        //             balances: null,
-        //         });
-        //     }
-        //     // await this.fetchData(address);
-        // }
-
     }
 
     render() {
 
         let show_button = null;
         const button_value = "go";
-        // const button_value = "get";
-        // const button_value = "get balances";
         if (this.state.address && this.state.address.length) {
-            // if (this.state.address.length) {
             show_button = (<span> <input type="submit" value={button_value} disabled={this.state.loading} /></span>);
-            // show_button = (<span> <input type="submit" value={button_value} /></span>);
         }
         const placeholder = "address";
         const address_bar = (
@@ -200,7 +150,6 @@ class Wallet extends React.Component {
                 <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
                     <form onSubmit={this.handleSearchSubmit}>
                         <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} disabled={this.state.loading} />
-                        {/* <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} /> */}
                         {show_button}
                     </form>
                 </div>
@@ -215,8 +164,6 @@ class Wallet extends React.Component {
         let wallet_element_contents = (
             <>
                 <p>Enter your address (or start <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">here</a> if you don't have one):</p>
-                {/* <p>Enter your address (or start with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>):</p> */}
-                {/* <p>Enter your address (or start with a <a href={`https://bitst.art/`} target="_blank">wallet</a>):</p> */}
                 {address_bar}
                 {loading_element}
             </>
@@ -229,61 +176,18 @@ class Wallet extends React.Component {
                 </>
             );
         }
-        // else if (this.state.balances && !this.state.balances.length) {
-        //     wallet_element_contents = (
-        //         <>
-        //             <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
-        //         </>
-        //     );
-        // }
         else if (this.state.balances) {
-            // else if (this.state.balances && this.state.balances.length) {
-            // if (this.state.balances && this.state.balances.length) {
-            // if (this.state.balances.length) {
-            // if (this.state.balances) {
-
-            // function balancesSort(a, b) {
-            //     if (b.quantity === a.quantity) {
-            //         const mainname_a = a.asset_longname ? a.asset_longname : a.asset;
-            //         const mainname_b = b.asset_longname ? b.asset_longname : b.asset;
-            //         if (mainname_a < mainname_b) {
-            //             return -1;
-            //         }
-            //         if (mainname_a > mainname_b) {
-            //             return 1;
-            //         }
-            //         return 0;
-            //     }
-            //     else {
-            //         return b.quantity - a.quantity;
-            //     }
-            // };
-
-            // const address_balances_element = (
-            //     <>
-            //         <table>
-            //             <tbody>
-            //                 {ListElements.getTableRowBalanceAddressHeader()}
-            //                 {this.state.balances.sort(balancesSort).map((balances_row, index) => {
-            //                     return ListElements.getTableRowBalanceAddress(balances_row, index);
-            //                 })}
-            //             </tbody>
-            //         </table>
-            //     </>
-            // );
 
             const wallet_balances_element = (
                 <>
                     <nav
                         style={{
-                            // borderBottom: "solid 1px",
                             paddingBottom: "1rem",
                         }}
                     >
                         <strong>Balances</strong> |{" "}
                         <Link to={`/wallet/${this.state.address}?method=create`}>Create</Link>
                     </nav>
-                    {/* <Outlet /> */}
 
                     <WalletBalances address={this.state.address} balances={this.state.balances} />
                 </>
@@ -301,7 +205,6 @@ class Wallet extends React.Component {
                     </nav>
 
                     <WalletCreateSelect address={this.state.address} />
-                    {/* <WalletCreate address={this.state.address} /> */}
                 </>
             );
 
@@ -316,22 +219,6 @@ class Wallet extends React.Component {
                     }
                 </>
             );
-            // wallet_element_contents = (
-            //     <>
-            //         <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
-
-            //         <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
-            //         {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
-
-            //         {/* <p>
-            //             For [m]edia visit bitSTART:{' '}
-            //             <a href={`https://bitst.art/_collector/${this.state.address}`} target="_blank">/_collector/{this.state.address}</a>
-            //             // <a href={`https://bitst.art/_/${this.state.address}`} target="_blank">/_/{this.state.address}</a>
-            //         </p> */}
-
-            //         {address_balances_element}
-            //     </>
-            // );
 
         }
 
@@ -343,7 +230,6 @@ class Wallet extends React.Component {
         );
 
         return <OneElements route_element={route_element} />;
-        // return OneElements.getFullPageForRouteElement(wallet_element);
     }
 
 }
