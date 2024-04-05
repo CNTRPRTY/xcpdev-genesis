@@ -30,7 +30,8 @@ class Apidoc extends React.Component {
 
         const latest_element = (
             <>
-                <ul class="list-disc list-inside">
+                <ul class="list-disc list-inside space-y-3">
+                    {/* <ul class="list-disc list-inside"> */}
                     <li>
                         <span class="dark:text-slate-100">mempool:</span>
                         <br />
@@ -60,8 +61,9 @@ class Apidoc extends React.Component {
 
             <>
                 <div>
-                    {/* <ul class="list-disc list-outside"> */}
-                    <ul class="list-disc list-inside">
+                    <ul class="list-disc list-inside space-y-3">
+                        {/* <ul class="list-disc list-outside"> */}
+                        {/* <ul class="list-disc list-inside"> */}
                         <li>
                             <span class="dark:text-slate-100">transaction:</span>
                             <br />
@@ -185,7 +187,8 @@ class Apidoc extends React.Component {
                     <div class="py-1 my-1 ml-4 overflow-auto">
                         {api_resource_element}
                     </div>
-                    <div class="py-1 my-1">
+                    <div class="py-1 my-1 mt-2">
+                        {/* <div class="py-1 my-1"> */}
                         <p class="dark:text-slate-100">
                             <strong>*limited</strong>: Result is temporarily cached before becoming available in a response. <a href={`https://github.com/CNTRPRTY/xcpdev-genesis/blob/13f9cd3bb8568cff292b1645259c7ee9838f5def/src/api.js#L21`} target="_blank">Just</a> repeat the request while the response is 'Accepted'.
                         </p>
