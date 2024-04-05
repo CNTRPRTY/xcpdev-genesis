@@ -15,7 +15,6 @@ class Apidoc extends React.Component {
         const url_latest_transactions = `${API_HOST}/transactions`;
         const url_latest_blocks = `${API_HOST}/blocks`;
 
-
         const url_transaction = `${API_HOST}/tx/685623401c3f5e9d2eaaf0657a50454e56a270ee7630d409e98d3bc257560098`;
         const url_block = `${API_HOST}/block/800000`;
         const url_block_messages = `${API_HOST}/block/800000/messages`;
@@ -33,13 +32,25 @@ class Apidoc extends React.Component {
             <>
                 <ul class="list-disc list-inside">
                     <li>
-                        mempool: <a href={url_latest_mempool} target="_blank">{url_latest_mempool}</a>
+                        <span class="dark:text-slate-100">mempool:</span>
+                        <br />
+                        <span class="ml-4 whitespace-nowrap">
+                            <a href={url_latest_mempool} target="_blank">{url_latest_mempool}</a>
+                        </span>
                     </li>
                     <li>
-                        transactions: <a href={url_latest_transactions} target="_blank">{url_latest_transactions}</a>
+                        <span class="dark:text-slate-100">transactions:</span>
+                        <br />
+                        <span class="ml-4 whitespace-nowrap">
+                            <a href={url_latest_transactions} target="_blank">{url_latest_transactions}</a>
+                        </span>
                     </li>
                     <li>
-                        blocks: <a href={url_latest_blocks} target="_blank">{url_latest_blocks}</a>
+                        <span class="dark:text-slate-100">blocks:</span>
+                        <br />
+                        <span class="ml-4 whitespace-nowrap">
+                            <a href={url_latest_blocks} target="_blank">{url_latest_blocks}</a>
+                        </span>
                     </li>
                 </ul>
             </>
@@ -49,50 +60,99 @@ class Apidoc extends React.Component {
 
             <>
                 <div>
+                    {/* <ul class="list-disc list-outside"> */}
                     <ul class="list-disc list-inside">
                         <li>
-                            transaction: <a href={url_transaction} target="_blank">{url_transaction}</a>
+                            <span class="dark:text-slate-100">transaction:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_transaction} target="_blank">{url_transaction}</a>
+                            </span>
                         </li>
 
                         <li>
-                            block: <a href={url_block} target="_blank">{url_block}</a>
+                            <span class="dark:text-slate-100">block:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_block} target="_blank">{url_block}</a>
+                            </span>
                         </li>
 
                         <li>
-                            block messages: <a href={url_block_messages} target="_blank">{url_block_messages}</a>
+                            <span class="dark:text-slate-100">block messages:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_block_messages} target="_blank">{url_block_messages}</a>
+                            </span>
                         </li>
 
                         <li>
-                            address balances: <a href={url_address_balances} target="_blank">{url_address_balances}</a>
+                            <span class="dark:text-slate-100">address balances:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_address_balances} target="_blank">{url_address_balances}</a>
+                            </span>
                         </li>
 
                         <li>
-                            address broadcasts: <a href={url_address_broadcasts} target="_blank">{url_address_broadcasts}</a>
+                            <span class="dark:text-slate-100">address broadcasts:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_address_broadcasts} target="_blank">{url_address_broadcasts}</a>
+                            </span>
                         </li>
 
                         <li>
-                            asset genesis: <a href={url_asset} target="_blank">{url_asset}</a>
+                            <span class="dark:text-slate-100">asset genesis:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_asset} target="_blank">{url_asset}</a>
+                            </span>
                         </li>
                         <li>
-                            asset genesis (longname): <a href={url_subasset} target="_blank">{url_subasset}</a>
+                            <span class="dark:text-slate-100">asset genesis (longname):</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_subasset} target="_blank">{url_subasset}</a>
+                            </span>
                         </li>
 
                         <li>
-                            asset issuances: <a href={url_asset_issuances} target="_blank">{url_asset_issuances}</a>
+                            <span class="dark:text-slate-100">asset issuances:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_asset_issuances} target="_blank">{url_asset_issuances}</a>
+                            </span>
                         </li>
                         <li>
-                            asset destructions: <a href={url_asset_destructions} target="_blank">{url_asset_destructions}</a>
+                            <span class="dark:text-slate-100">asset destructions:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_asset_destructions} target="_blank">{url_asset_destructions}</a>
+                            </span>
                         </li>
                         <li>
-                            asset holders: <a href={url_asset_balances} target="_blank">{url_asset_balances}</a>
+                            <span class="dark:text-slate-100">asset holders:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_asset_balances} target="_blank">{url_asset_balances}</a>
+                            </span>
                         </li>
                         <li>
-                            market: open asset dispensers: <a href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a>
+                            <span class="dark:text-slate-100">market: open asset dispensers:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a>
+                            </span>
                             {/* market open: asset dispensers: <a href={url_asset_market_escrows_dispensers} target="_blank">{url_asset_market_escrows_dispensers}</a> */}
                         </li>
 
                         <li>
-                            market: dispenser info: <a href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a>
+                            <span class="dark:text-slate-100">market: dispenser info:</span>
+                            <br />
+                            <span class="ml-4 whitespace-nowrap">
+                                <a href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a>
+                            </span>
                             {/* market transaction: dispenser: <a href={url_market_tx_dispenser} target="_blank">{url_market_tx_dispenser}</a> */}
                         </li>
 
@@ -103,33 +163,53 @@ class Apidoc extends React.Component {
         );
 
         const route_element = (
-            <>					
-                <h2>xcp.dev API examples:</h2>
-                {/* <h2>xcp.dev api (Open Beta):</h2> */}
+            <div class="py-2 my-2">
+
+                <h2 class="font-bold text-xl mb-1 overflow-auto">
+                    xcp.dev API examples:
+                </h2>
 
                 <div class="py-1 my-1">
-                    <p class="font-bold mb-1">
+                    <h3 class="font-bold">
                         Latest data - Free OPEN GET access:
-                    </p>
-                    {latest_element}
+                    </h3>
+                    <div class="py-1 my-1 ml-4 overflow-auto">
+                        {latest_element}
+                    </div>
                 </div>
 
                 <div class="py-1 my-1">
-                    <p class="font-bold mb-1">
+                    <h3 class="font-bold">
                         Resource data - Free *limited GET access:
-                    </p>
-                    {api_resource_element}
+                    </h3>
+                    <div class="py-1 my-1 ml-4 overflow-auto">
+                        {api_resource_element}
+                    </div>
+                    <div class="py-1 my-1">
+                        <p class="dark:text-slate-100">
+                            <strong>*limited</strong>: Result is temporarily cached before becoming available in a response. <a href={`https://github.com/CNTRPRTY/xcpdev-genesis/blob/13f9cd3bb8568cff292b1645259c7ee9838f5def/src/api.js#L21`} target="_blank">Just</a> repeat the request while the response is 'Accepted'.
+                        </p>
+                    </div>
                 </div>
 
-                <p><strong>*limited</strong>: Result is temporarily cached before becoming available in a response. <a href={`https://github.com/CNTRPRTY/xcpdev-genesis/blob/13f9cd3bb8568cff292b1645259c7ee9838f5def/src/api.js#L21`} target="_blank">Just</a> repeat the request while the response is 'Accepted'.</p>
-                <br />
-                <p>Thank you for participating in the xcp.dev API open beta testing, which is (for now) being offered for free without any guarantee. This is a work-in-progress.</p>
-                {/* <p>Thank you for participating in the xcp.dev API open beta testing, which is (for now) being offered for free without any guarantee.</p> */}
-            </>
+                <div class="py-1 my-1">
+                    {/* <div class="py-1 my-1">
+                        <p class="dark:text-slate-100">
+                            <strong>*limited</strong>: Result is temporarily cached before becoming available in a response. <a href={`https://github.com/CNTRPRTY/xcpdev-genesis/blob/13f9cd3bb8568cff292b1645259c7ee9838f5def/src/api.js#L21`} target="_blank">Just</a> repeat the request while the response is 'Accepted'.
+                        </p>
+                    </div> */}
+                    {/* <br /> */}
+                    <div class="py-1 my-1">
+                        <p class="dark:text-slate-100">
+                            Thank you for participating in the xcp.dev API open beta testing, which is (for now) being offered for free without any guarantee. This is a work-in-progress.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
         );
 
         return <OneElements route_element={route_element} />;
-        // return OneElements.getFullPageForRouteElement(page_element);
 
     }
 }
