@@ -17,9 +17,9 @@ class WalletBalances extends React.Component {
 
         if (this.state.balances && !this.state.balances.length) {
             wallet_element_contents = (
-                <>
-                    <p>no balances for address</p>
-                </>
+                <p class="text-gray-600 dark:text-gray-400">
+                    no balances for address
+                </p>
             );
         }
 
@@ -58,8 +58,14 @@ class WalletBalances extends React.Component {
 
             wallet_element_contents = (
                 <>
-                    <h3>Assets balance (sorted by most units on top, then alphabetically):</h3>
-                    {address_balances_element}
+                    <div class="whitespace-nowrap overflow-auto">
+                        <h3>
+                            Assets balance (sorted by most units on top, then alphabetically):
+                        </h3>
+                        <div class="py-1 my-1">
+                            {address_balances_element}
+                        </div>
+                    </div>
                 </>
             );
 
@@ -70,7 +76,7 @@ class WalletBalances extends React.Component {
                 {wallet_element_contents}
             </>
         );
-    
+
     }
 
 }

@@ -139,41 +139,75 @@ class Wallet extends React.Component {
 
     render() {
 
-        let show_button = null;
-        const button_value = "go";
-        if (this.state.address && this.state.address.length) {
-            show_button = (<span> <input type="submit" value={button_value} disabled={this.state.loading} /></span>);
-        }
+        // let show_button = null;
+        // const button_value = "go";
+        // if (this.state.address && this.state.address.length) {
+        //     show_button = (<span> <input type="submit" value={button_value} disabled={this.state.loading} /></span>);
+        // }
         const placeholder = "address";
         const address_bar = (
-            <span>
-                <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
-                    <form onSubmit={this.handleSearchSubmit}>
+            <>
+                {/* <div style={{ padding: "1.1rem 0 0.5rem 0" }}> */}
+
+                {/*  */}
+                <form onSubmit={this.handleSearchSubmit}>
+                    <input
+                        class="border-r-0 border-solid border-2 border-gray-300"
+                        // class="border-solid border-2 border-gray-300"
+                        type="text"
+                        value={this.state.address}
+                        onChange={this.handleSearchChange}
+                        placeholder={placeholder}
+                        disabled={this.state.loading}
+                    // size={placeholder_size}
+                    />
+                    <input
+                        class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                        // class="px-1 border-solid border-2 border-gray-400"
+                        type="submit"
+                        value={"go"}
+                        disabled={this.state.loading}
+                    />
+                </form>
+                {/*  */}
+
+                {/* <form onSubmit={this.handleSearchSubmit}>
                         <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} disabled={this.state.loading} />
                         {show_button}
-                    </form>
-                </div>
-            </span>
+                    </form> */}
+
+                {/* </div> */}
+            </>
         );
 
         let loading_element = null;
         if (this.state.loading) {
-            loading_element = (<p>loading...</p>)
+            loading_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    loading...
+                </p>
+            );
         }
 
         let wallet_element_contents = (
             <>
-                <p>Enter your address (or start <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">here</a> if you don't have one):</p>
-                {address_bar}
-                {loading_element}
+                <p class="dark:text-slate-100">
+                    Enter your address (or start <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">here</a> if you don't have one):
+                </p>
+                <div class="py-1 my-1">
+                    {address_bar}
+                </div>
+                <div class="py-1 my-1">
+                    {loading_element}
+                </div>
             </>
         );
 
         if (this.state.error_loading) {
             wallet_element_contents = (
-                <>
-                    <p>these was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
-                </>
+                <p class="text-gray-600 dark:text-gray-400">
+                    these was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link>
+                </p>
             );
         }
         else if (this.state.balances) {
@@ -185,11 +219,17 @@ class Wallet extends React.Component {
                             paddingBottom: "1rem",
                         }}
                     >
-                        <strong>Balances</strong> |{" "}
+                        <span class="font-bold dark:text-slate-100">
+                            Balances
+                        </span>
+                        {/* <strong>Balances</strong> */}
+                        {' '}|{' '}
                         <Link to={`/wallet/${this.state.address}?method=create`}>Create</Link>
                     </nav>
 
-                    <WalletBalances address={this.state.address} balances={this.state.balances} />
+                    <div class="ml-4">
+                        <WalletBalances address={this.state.address} balances={this.state.balances} />
+                    </div>
                 </>
             );
 
@@ -200,33 +240,53 @@ class Wallet extends React.Component {
                             paddingBottom: "1rem",
                         }}
                     >
-                        <Link to={`/wallet/${this.state.address}`}>Balances</Link> |{" "}
-                        <strong>Create</strong>
+                        <Link to={`/wallet/${this.state.address}`}>Balances</Link>
+                        {' '}|{' '}
+                        <span class="font-bold dark:text-slate-100">
+                            Create
+                        </span>
+                        {/* <strong>Create</strong> */}
                     </nav>
 
-                    <WalletCreateSelect address={this.state.address} />
+                    <div class="ml-4">
+                        <WalletCreateSelect address={this.state.address} />
+                    </div>
                 </>
             );
 
             wallet_element_contents = (
                 <>
-                    <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                    <h3 class="font-bold overflow-auto">
+                        {/* <h3 class="font-bold"> */}
+                        Address:
+                        {' '}
+                        <span class="whitespace-nowrap">
+                            <Link to={`/address/${this.state.address}`}>{this.state.address}</Link>
+                        </span>
+                    </h3>
+                    {/* <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p> */}
 
-                    {this.state.is_create ?
-                        (<>{wallet_create_element}</>)
-                        :
-                        (<>{wallet_balances_element}</>)
-                    }
+                    <div class="py-1 my-1">
+                        {this.state.is_create ?
+                            (<>{wallet_create_element}</>)
+                            :
+                            (<>{wallet_balances_element}</>)
+                        }
+                    </div>
                 </>
             );
 
         }
 
         const route_element = (
-            <>
-                <h2>Wallet tools:</h2>
-                {wallet_element_contents}
-            </>
+            <div class="py-2 my-2">
+                <h2 class="font-bold text-xl mb-1">
+                    Wallet tools:
+                </h2>
+                <div class="pt-1 mt-1 ml-4">
+                    {wallet_element_contents}
+                </div>
+            </div>
         );
 
         return <OneElements route_element={route_element} />;
