@@ -14,9 +14,6 @@ class WalletCreateSend extends WalletCreate {
             destination: '',
             asset: '',
             quantity: 0,
-            // memo: '',
-            // memo_is_hex: false,
-            // use_enhanced_send: true,
 
             fee: 0,
             open_dialog_obj: null, // closed when null
@@ -64,10 +61,6 @@ class WalletCreateSend extends WalletCreate {
     render() {
         return (
             <>
-                {/* {this.state.open_dialog_obj ?
-                    (this.renderDialogObj())
-                    :
-                    null} */}
                 <form onSubmit={this.handleSubmit}>
                     <p>Params:</p>
                     <table>
@@ -119,9 +112,9 @@ class WalletCreateSend extends WalletCreate {
                     <br />
 
                     {this.state.open_dialog_obj ?
-                    (this.renderDialogObj())
-                    :
-                    null}
+                        (this.renderDialogObj())
+                        :
+                        null}
 
                     <input type="submit" value="submit" disabled={this.state.open_dialog_obj !== null} />
                 </form>
