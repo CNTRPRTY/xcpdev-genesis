@@ -74,7 +74,7 @@ class WalletCreateBroadcast extends WalletCreate {
                                             class="border-solid border-2 border-gray-300"
                                             value={this.state.source}
                                             size={this.state.source.length}
-                                            disabled={true}
+                                            disabled
                                         />
                                     </td>
                                 </tr>
@@ -119,7 +119,6 @@ class WalletCreateBroadcast extends WalletCreate {
                             </tbody>
                         </table>
                     </div>
-                    {/* <br /> */}
 
                     {this.state.open_dialog_obj ?
                         (this.renderDialogObj())

@@ -74,90 +74,137 @@ class WalletCreateIssuance extends WalletCreate {
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
-                    <p>Params:</p>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    source:
-                                </td>
-                                <td>
-                                    <input value={this.state.source} size={this.state.source.length} disabled />
-                                </td>
-                            </tr>
+                    <p class="text-gray-600 dark:text-gray-400">
+                        Params:
+                    </p>
+                    <div class="py-1 my-1 ml-4">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">source:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            value={this.state.source}
+                                            size={this.state.source.length}
+                                            disabled
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    asset:
-                                </td>
-                                <td>
-                                    <input type="text" size="16" value={this.state.asset} onChange={this.handleAssetChange} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    quantity:
-                                </td>
-                                <td>
-                                    <input type="text" size="8" value={this.state.quantity} onChange={this.handleQuantityChange} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    divisible:
-                                </td>
-                                <td>
-                                    <select value={this.state.divisible} onChange={this.handleDivisibleChange}>
-                                        <option value={false}>false</option>
-                                        <option value={true}>true (satoshi)</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    description:
-                                </td>
-                                <td>
-                                    {/* TODO styling with css file */}
-                                    <textarea rows="2" cols="55" style={{
-                                        // https://stackoverflow.com/a/658197
-                                        'whiteSpace': "nowrap",
-                                        'overflow': "scroll",
-                                        'overflowY': "hidden",
-                                        'overflowX': "scroll",
-                                        'overflow': "-moz-scrollbars-horizontal",
-                                        // https://stackoverflow.com/a/5271803
-                                        'resize': 'horizontal',
-                                    }} onChange={this.handleDescriptionChange}></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    transfer_destination:
-                                </td>
-                                <td>
-                                    <input type="text" size="32" value={this.state.transfer_destination} onChange={this.handleTransferDestinationChange} />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">asset:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="16"
+                                            value={this.state.asset}
+                                            onChange={this.handleAssetChange}
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">quantity:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="8"
+                                            value={this.state.quantity}
+                                            onChange={this.handleQuantityChange}
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">divisible:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <select
+                                            class="border-solid border-2 border-gray-300"
+                                            value={this.state.divisible}
+                                            onChange={this.handleDivisibleChange}
+                                        >
+                                            <option value={false}>false</option>
+                                            <option value={true}>true (satoshi)</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">description:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <textarea
+                                            class="border-solid border-2 border-gray-300"
+                                            rows="2"
+                                            cols="55"
+                                            style={{
+                                                // https://stackoverflow.com/a/658197
+                                                'whiteSpace': "nowrap",
+                                                'overflow': "scroll",
+                                                'overflowY': "hidden",
+                                                'overflowX': "scroll",
+                                                'overflow': "-moz-scrollbars-horizontal",
+                                                // https://stackoverflow.com/a/5271803
+                                                'resize': 'horizontal',
+                                            }} onChange={this.handleDescriptionChange}></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">transfer_destination:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="32"
+                                            value={this.state.transfer_destination}
+                                            onChange={this.handleTransferDestinationChange}
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    fee:
-                                </td>
-                                <td>
-                                    <input type="text" size="8" value={this.state.fee} onChange={this.handleFeeChange} />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br />
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">fee:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="8"
+                                            value={this.state.fee}
+                                            onChange={this.handleFeeChange}
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     {this.state.open_dialog_obj ?
                         (this.renderDialogObj())
                         :
-                        null}
+                        null
+                    }
 
-                    <input type="submit" value="submit" disabled={this.state.open_dialog_obj !== null} />
+                    <div class="py-1 my-1">
+                        <input
+                            class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                            type="submit"
+                            value="submit"
+                            disabled={this.state.open_dialog_obj !== null}
+                        />
+                    </div>
                 </form>
             </>
         );
