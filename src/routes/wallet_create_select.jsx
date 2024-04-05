@@ -76,14 +76,14 @@ class WalletCreateSelect extends React.Component {
                 <div class="py-1 my-1">
 
                     <div class="ml-4">
-                    <select
-                        class="border-solid border-2 border-gray-300"
-                        // class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
-                        value={this.state.selected_method}
-                        onChange={this.handleSelectMethod}
-                    >
-                        {this.renderMethodOptions()}
-                    </select>
+                        <select
+                            class="border-solid border-2 border-gray-300"
+                            // class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                            value={this.state.selected_method}
+                            onChange={this.handleSelectMethod}
+                        >
+                            {this.renderMethodOptions()}
+                        </select>
                     </div>
 
                     <div class="py-1 my-1">
