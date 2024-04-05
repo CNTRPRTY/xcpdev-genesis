@@ -23,8 +23,8 @@ code {
     @apply underline text-blue-700 dark:text-blue-400;
   }
 
-  input, textarea {
-    @apply bg-slate-50;
+  input, textarea, select {
+    @apply bg-slate-50 disabled:text-gray-500;
   }
 
   h1, h2, h3, h4 {
