@@ -161,6 +161,10 @@ class Asset extends React.Component {
                         ///////////////
                         // issuances ux adjustments
                         ///////////////
+
+                        // -1 if none
+                        const validlock_first_issuance_index = issuances_response.issuances.findIndex((obj) => obj.status === 'valid' && obj.locked);
+
                         let last_description = issuances_response.issuances[0].description;
                         for (let i = 0; i < issuances_response.issuances.length; i++) {
                             const issuance = issuances_response.issuances[i];
@@ -176,10 +180,15 @@ class Asset extends React.Component {
                                 if (issuance.source !== issuance.issuer) issuance.display_source = true;
                             }
 
-                            issuance.display_lock_with_description = true; // (ONLY USE IF LOCKED) only display if is first or different
+                            issuance.validlock_first_issuance_index = validlock_first_issuance_index;
+                            issuance.hide_repeated_description = false;
                             if (i) {
-                                if (issuance.description === last_description) issuance.display_lock_with_description = false;
+                                if (issuance.description === last_description) issuance.hide_repeated_description = true;
                             }
+                            // issuance.display_lock_with_description = true; // (ONLY USE IF LOCKED) only display if is first or different
+                            // if (i) {
+                            //     if (issuance.description === last_description) issuance.display_lock_with_description = false;
+                            // }
 
                             last_description = issuance.description;
                         }

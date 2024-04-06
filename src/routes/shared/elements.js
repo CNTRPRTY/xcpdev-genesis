@@ -698,24 +698,29 @@ class ListElements {
         //     // (<>transfer to: <Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>) :
         //     (<><Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
 
-        let description_orwith_lock_element;
-        if (issuance_event_row.locked) {
-            if (issuance_event_row.display_lock_with_description) {
-                description_orwith_lock_element = (
-                    <>
-                        <strong>[LOCK]</strong>
-                        {' '}
-                        {issuance_event_row.description}
-                    </>
-                );
-            }
-            else {
-                description_orwith_lock_element = (<><strong>LOCK</strong></>);
-            }
+        // much simpler approach of only adding it to the first valid lock
+        let addlocktag = false;
+        if (index === issuance_event_row.validlock_first_issuance_index) {
+            addlocktag = true;
         }
-        else {
-            description_orwith_lock_element = (<>{issuance_event_row.description}</>);
-        }
+        // let description_orwith_lock_element;
+        // if (issuance_event_row.locked) {
+        //     if (issuance_event_row.display_lock_with_description) {
+        //         description_orwith_lock_element = (
+        //             <>
+        //                 <strong>[LOCK]</strong>
+        //                 {' '}
+        //                 {issuance_event_row.description}
+        //             </>
+        //         );
+        //     }
+        //     else {
+        //         description_orwith_lock_element = (<><strong>LOCK</strong></>);
+        //     }
+        // }
+        // else {
+        //     description_orwith_lock_element = (<>{issuance_event_row.description}</>);
+        // }
 
         // const description_or_lock = issuance_event_row.locked ?
         //     (<><strong>LOCK</strong></>) :
@@ -749,6 +754,45 @@ class ListElements {
             issuer_element = (<><Link to={`/address/${issuance_event_row.issuer}`}>{issuance_event_row.issuer}</Link></>);
         }
 
+        /////////
+        // similar in getTableRowIssuanceEventsIssuanceAsset_addressPage
+        const see_full = '... see full description';
+        let description_element;
+
+        const issuance_event_row_description = issuance_event_row.hide_repeated_description ? '' : issuance_event_row.description;
+
+        if (issuance_event_row_description.length > TOOLONG_CHECK) {
+            // if (issuance_event_row.description.length > TOOLONG_CHECK) {
+            description_element = (
+                <>
+                    {addlocktag ?
+                        (<><strong>[LOCK]</strong>{' '}</>)
+                        : null
+                    }
+                    {issuance_event_row_description.slice(0, TOOLONG_TRIM - see_full.length)}
+                    {/* {issuance_event_row.description.slice(0, TOOLONG_TRIM - see_full.length)} */}
+                    {/* {issuance_event_row.description.slice(0, TOOLONG_TRIM)} */}
+                    {' '}
+                    <Link to={`/tx/${issuance_event_row.tx_hash}`}>{see_full}</Link>
+                    {/* <Link to={`/tx/${issuance_event_row.tx_hash}`}>... see full description</Link> */}
+                </>
+            );
+        }
+        else {
+            description_element = (
+                <>
+                    {addlocktag ?
+                        (<><strong>[LOCK]</strong>{' '}</>)
+                        : null
+                    }
+                    {issuance_event_row_description}
+                    {/* {issuance_event_row.description} */}
+                </>
+            );
+            // genesis_description_element = issuance_event_row.description;
+        }
+        /////////
+
         return (
             <tr
                 key={index}
@@ -757,32 +801,61 @@ class ListElements {
                 // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></code></td>
 
                 {issuer_page ?
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+                    <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></code></td>
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td> */}
 
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{description_element}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{description_orwith_lock_element}</code></td> */}
 
                 {issuer_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuer_element}</td>)
-                    // : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code>{issuer_element}</code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td> */}
-
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
             </tr>
         );
+
+        // return (
+        //     <tr
+        //         key={index}
+        //         /// general row nowrap NOT SURE IF fine here
+        //         class="whitespace-nowrap dark:text-slate-100"
+        //         // class="dark:text-slate-100"
+        //         style={{ padding: "0.25rem" }}
+        //     >
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+
+        //         {issuer_page ?
+        //             <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
+        //             : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
+
+        //         {issuer_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}>{issuer_element}</td>)
+        //             // : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
+        //     </tr>
+        // );
     }
     static getTableRowIssuanceEventsDestroyAsset(issuance_event_row, index, divisible) {
         const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(issuance_event_row.quantity_text));
