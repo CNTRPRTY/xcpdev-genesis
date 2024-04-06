@@ -200,14 +200,17 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{mempool_row_plus.cntrprty_decoded.msg_type}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{mempool_row_plus.tx_hash}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
+                // <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
             </tr>
         );
-
-
 
         // const category = mempool_row.category;
         // const command = mempool_row.command;
@@ -443,31 +446,53 @@ class ListElements {
         return (
             <tr
                 key={index}
-                class="dark:text-slate-100"
+
+                class="whitespace-nowrap dark:text-slate-100"
+                // class="dark:text-slate-100"
+
                 style={{ padding: "0.25rem" }}
             >
-                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{
-                    // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
+                <td style={{ padding: "0 1rem 0 0" }}><code>{
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
-                }</td>
-                {/* }{invalid_tx_notice}{nonsert_tx_notice}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{command}</td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
-
-                <td style={{ padding: "0 1rem 0 0" }}>{incolumn}</td>
-
+                }</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_index}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{category}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{incolumn}</code></td>
                 {show_bindings ?
-                    (<td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>)
+                    (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElement(bindingsElements, index)}</code></td>)
                     : null
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td> */}
-
             </tr>
         );
+
+        // return (
+        //     <tr
+        //         key={index}
+        //         class="dark:text-slate-100"
+        //         style={{ padding: "0.25rem" }}
+        //     >
+        //         {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{
+        //             // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
+        //             txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
+        //         }</td>
+        //         {/* }{invalid_tx_notice}{nonsert_tx_notice}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{category}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td> */}
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{command}</td> */}
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
+
+        //         <td style={{ padding: "0 1rem 0 0" }}>{incolumn}</td>
+
+        //         {show_bindings ?
+        //             (<td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>)
+        //             : null
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td> */}
+
+        //     </tr>
+        // );
     }
 
     ///////////////
@@ -511,8 +536,11 @@ class ListElements {
             >
 
                 {asset_page ?
-                    (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></td>)
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>)
+                    (<td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></code></td>)
+                    // (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></td>)
+                    :
+                    (<td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></code></td>)
+                    // (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td> */}
 
@@ -521,7 +549,8 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
 
                 {is_reset ?
-                    (<td style={{ padding: "0 1rem 0 0" }}>RESET</td>)
+                    (<td style={{ padding: "0 1rem 0 0" }}><code>RESET</code></td>)
+                    // (<td style={{ padding: "0 1rem 0 0" }}>RESET</td>)
                     :
                     (<td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>)
                     // (<td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>)
@@ -604,17 +633,30 @@ class ListElements {
                 // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{broadcast_text_element}</code></td>
+
+                {show_additional_data ?
+                    (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElement(nonlinkElements, index)}</code></td>)
+                    : null
+                }
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
 
                 <td style={{ padding: "0 1rem 0 0" }}>{broadcast_text_element}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td> */}
+                // <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
 
                 {show_additional_data ?
                     (<td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>)
                     : null
-                }
+                } */}
+
             </tr>
         );
     }
@@ -646,11 +688,18 @@ class ListElements {
                 // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
             </tr>
         );
     }
@@ -905,17 +954,35 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</code></td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{tag}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{tag}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></code></td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
             </tr>
         );
+        // return (
+        //     <tr
+        //         key={index}
+        //         /// general row nowrap NOT SURE IF fine here
+        //         class="whitespace-nowrap dark:text-slate-100"
+        //         style={{ padding: "0.25rem" }}
+        //     >
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{tag}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
+        //     </tr>
+        // );
     }
 
     static getTableRowIssuanceEventsAssetHeader_addressPage() {
@@ -1007,20 +1074,31 @@ class ListElements {
 
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility_withlock_element}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td> */}
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{genesis_description_element}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
 
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
-                {/* {issuer_page ?
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
-                } */}
+                // {issuer_page ?
+                //     <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
+                //     : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+                // }
 
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
 
                 <td style={{ padding: "0 1rem 0 0" }}>{genesis_description_element}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td> */}
+                // <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td> */}
 
             </tr>
         );
@@ -1051,11 +1129,16 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}>{assets_row.asset_longname}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{assets_row.asset_longname}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${assets_row.asset_name}`}>{assets_row.asset_name}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${assets_row.block_index}`}>{assets_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{assets_row.asset_longname}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${assets_row.asset_name}`}>{assets_row.asset_name}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${assets_row.block_index}`}>{assets_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(assets_row)}</td> */}
+                //<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(assets_row)}</td> */}
             </tr>
         );
     }
@@ -1119,38 +1202,69 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></code></td>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code>{`${status}${oracle_notice}`}</code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td> */}
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate / dispensers_row.give_quantity}`}</td> */}
-
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code>{JSON.stringify(dispensers_row)}</code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
             </tr>
         );
+
+        // return (
+        //     <tr
+        //         key={index}
+        //         class="whitespace-nowrap dark:text-slate-100"
+        //         style={{ padding: "0.25rem" }}
+        //     >
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
+
+        //         {asset_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td> */}
+
+        //         {asset_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
+
+        //         <td style={{ padding: "0 1rem 0 0" }}>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate / dispensers_row.give_quantity}`}</td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td> */}
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+
+        //         {asset_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
+        //     </tr>
+        // );
     }
 
     static getTableRowDispensersHeader_addressPage() {
@@ -1177,15 +1291,22 @@ class ListElements {
                 // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(dispensers_row.block_time)}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>
 
                 <td style={{ padding: "0 1rem 0 0" }}>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate / dispensers_row.give_quantity}`}</td> */}
+                // <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate / dispensers_row.give_quantity}`}</td>
 
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(dispensers_row.block_time)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
+                // <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
             </tr>
         );
     }
@@ -1278,53 +1399,93 @@ class ListElements {
         const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(orders_row.give_remaining_text));
         // const quantity_with_divisibility = quantityWithDivisibility(divisible, orders_row.give_remaining);
         const block_time_iso = timeIsoFormat(orders_row.block_time);
+
         return (
             <tr
                 key={index}
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></code></td>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code>{orders_row.status}</code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td> */}
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td> */}
 
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
-
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>
 
                 <td style={{ padding: "0 1rem 0 0" }}>
-                    <>
+                    <code>
                         <Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link>
                         {` ${BigInt(orders_row.get_remaining_text)}`}
-                    </>
+                    </code>
                 </td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></code></td>
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td>)
+                    : (<td style={{ padding: "0 1rem 0 0" }}><code>{JSON.stringify(orders_row)}</code></td>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
             </tr>
         );
+
+        // return (
+        //     <tr
+        //         key={index}
+        //         class="whitespace-nowrap dark:text-slate-100"
+        //         style={{ padding: "0.25rem" }}
+        //     >
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
+
+        //         {asset_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td> */}
+
+        //         {asset_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
+
+        //         <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+
+        //         <td style={{ padding: "0 1rem 0 0" }}>
+        //             <>
+        //                 <Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link>
+        //                 {` ${BigInt(orders_row.get_remaining_text)}`}
+        //             </>
+        //         </td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
+
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
+
+        //         <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
+        //         <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+
+        //         {asset_page ?
+        //             null
+        //             : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td>)
+        //         }
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
+        //     </tr>
+        // );
     }
 
     // orders exchanges / get asset (asset_page only for now)
@@ -1351,7 +1512,19 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}>
+                    <code>
+                        <Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link>
+                        {` ${BigInt(orders_row.give_remaining_text)}`}
+                    </code>
+                </td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{quantityWithDivisibility(get_divisible, BigInt(orders_row.get_remaining_text))}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(orders_row.block_time)}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>
                     <>
                         <Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link>
@@ -1362,7 +1535,7 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(orders_row.block_time)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
+                // <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
             </tr>
         );
     }
@@ -1522,24 +1695,24 @@ class ListElements {
         // const burned_quantity_with_divisibility = quantityWithDivisibility(divisible, burn_row.burned);
         // const earned_quantity_with_divisibility = quantityWithDivisibility(divisible, burn_row.earned);
 
-        let firstTwo;
-        if (is_home_page) {
-            firstTwo = (
-                <>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
-                </>
-            );
-        }
-        else {
-            firstTwo = (
-                <>
-                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
-                    {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
-                </>
-            );
-        }
+        // let firstTwo;
+        // if (is_home_page) {
+        //     firstTwo = (
+        //         <>
+        //             <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+        //             <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
+        //         </>
+        //     );
+        // }
+        // else {
+        //     firstTwo = (
+        //         <>
+        //             <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
+        //             <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+        //             {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
+        //         </>
+        //     );
+        // }
 
         return (
             <tr
@@ -1548,7 +1721,30 @@ class ListElements {
                 style={{ padding: "0.25rem" }}
             >
 
-                {firstTwo}
+                {is_home_page ?
+                    (
+                        <>
+                            <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></code></td>
+                            <td style={{ padding: "0 1rem 0 0" }}><code>{transaction_row.tx_index}</code></td>
+                        </>
+                    )
+                    :
+                    (
+                        <>
+                            <td style={{ padding: "0 1rem 0 0" }}><code>{transaction_row.tx_index}</code></td>
+                            <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></code></td>
+                            {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
+                        </>
+                    )
+                }
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{transaction_row.fee}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></code></td>
+
+                {/* {firstTwo} */}
 
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>tx</Link></td> */}
@@ -1557,14 +1753,15 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.fee}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
+
             </tr>
         );
     }
@@ -1596,13 +1793,22 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}>{message_row.message_index}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.message_index}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.category}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.command}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{linksElement(bindingsElements, index)}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{timestamp_iso}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_row.message_index}</td>
                 <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.category}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{message_row.command}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td> */}
             </tr>
         );
     }
@@ -1631,12 +1837,19 @@ class ListElements {
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_row.block_hash}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_row.ledger_hash}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_row.txlist_hash}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{block_row.messages_hash}</code></td>
+
+                {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.block_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.ledger_hash}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_row.txlist_hash}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_row.messages_hash}</td>
+                <td style={{ padding: "0 1rem 0 0" }}>{block_row.messages_hash}</td> */}
             </tr>
         );
     }
