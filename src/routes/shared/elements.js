@@ -13,8 +13,8 @@ import Search from './search';
 //     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
 // }
 
-const TOOLONG_CHECK = 256;
-const TOOLONG_TRIM = 200;
+const TOOLONG_CHECK = 128; // 256;
+const TOOLONG_TRIM = 100; // 200;
 
 function createLinkElementBindings(bindings_json_stringified) {
     const bindingsPRE = JSON.parse(bindings_json_stringified);
@@ -574,6 +574,7 @@ class ListElements {
         const nonlinkElements = createNonLinkElement(JSON.stringify(additional_data));
 
         ////////
+        const see_full = '... see full text';
         let broadcast_text_element;
         if (broadcast_row.text.length > TOOLONG_CHECK) {
             // different numbers on purpose (make it "worth it", avoiding only a couple of characters extra for moving to another page)
@@ -581,9 +582,11 @@ class ListElements {
                 <>
                     {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>[full]</Link>
                     {' '} */}
-                    {broadcast_row.text.slice(0, TOOLONG_TRIM)}
+                    {broadcast_row.text.slice(0, TOOLONG_CHECK - see_full.length)}
+                    {/* {broadcast_row.text.slice(0, TOOLONG_TRIM)} */}
                     {' '}
-                    <Link to={`/tx/${broadcast_row.tx_hash}`}>... see full text</Link>
+                    <Link to={`/tx/${broadcast_row.tx_hash}`}>{see_full}</Link>
+                    {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>... see full text</Link> */}
                     {/* <Link to={`/tx/${broadcast_row.tx_hash}`}>... [see full text]</Link> */}
                 </>
             );
