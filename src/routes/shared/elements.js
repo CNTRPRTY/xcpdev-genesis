@@ -138,7 +138,8 @@ function createNonLinkElement(json_stringified) {
     return bindings;
 }
 
-function linksElement(link_element_bindings, index) {
+function linksElement(link_element_bindings, index, whitespace_nowrap_bool = true) {
+    // function linksElement(link_element_bindings, index) {
     const bindings_entries = Object.entries(link_element_bindings);
     return (
         <table>
@@ -148,7 +149,8 @@ function linksElement(link_element_bindings, index) {
                 */}
                 <tr
                     key={index}
-                    class="whitespace-nowrap"
+                    class={whitespace_nowrap_bool ? "whitespace-nowrap" : ""}
+                    // class="whitespace-nowrap"
                     style={{ padding: "0.25rem" }}
                 >
                     {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
@@ -304,6 +306,8 @@ class ListElements {
         }
         //////////////
 
+        const links_element_whitespace_nowrap_bool = false;
+
         return (
             <tr
                 key={index}
@@ -325,7 +329,10 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+
+                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index, links_element_whitespace_nowrap_bool)}</td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </tr>
         );
