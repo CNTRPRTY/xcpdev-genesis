@@ -67,14 +67,33 @@ class Home extends React.Component {
                             {this.state.blocks.map((block_row, index) => {
                                 return (
                                     <td key={index} style={{ padding: "0 1rem 0 0" }}>
-                                        <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
+
+                                        <div class="p2-4 mr-4">
+
+                                            <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link>
+
+                                            <div class="pb-1 mb-1">
+                                                {/* <div class="py-1 my-1"> */}
+                                                {timeSince(new Date(block_row.block_time * 1000))}
+                                            </div>
+                                            <div class="py-1 my-1 mb-3">
+                                                {block_row.messages_count} messages
+                                            </div>
+
+                                            <code>L: {hashSlice(block_row.ledger_hash)}</code><br />
+                                            <code>TX:{hashSlice(block_row.txlist_hash)}</code><br />
+                                            <code>M: {hashSlice(block_row.messages_hash)}</code><br />
+
+                                        </div>
+
+                                        {/* <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
                                         {timeSince(new Date(block_row.block_time * 1000))}<br />
                                         <br />
                                         {block_row.messages_count} messages<br />
                                         <br />
                                         L:{hashSlice(block_row.ledger_hash)}<br />
                                         TX:{hashSlice(block_row.txlist_hash)}<br />
-                                        M:{hashSlice(block_row.messages_hash)}<br />
+                                        M:{hashSlice(block_row.messages_hash)}<br /> */}
                                     </td>
                                 );
                             })}
