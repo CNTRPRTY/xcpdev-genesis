@@ -938,40 +938,36 @@ class ListElements {
         const quantity_with_divisibility = quantityWithDivisibility(divisible, BigInt(issuance_event_row.quantity_text));
         const block_time_iso = timeIsoFormat(issuance_event_row.block_time);
 
-        // TODO? MAYBE here is better to include the lock in the quantity???
+        // lock in quantity in genesis issuance
+        const quantity_with_divisibility_withlock_element = (
+            <>
+                {issuance_event_row.locked ?
+                    (<><strong>[LOCK]</strong>{' '}</>)
+                    : null
+                }
+                {quantity_with_divisibility}
+            </>
+        );
 
+        /////////
+        // similar in getTableRowIssuanceEventsIssuanceAsset
+        const see_full = '... see full description';
         let genesis_description_element;
         if (issuance_event_row.description.length > TOOLONG_CHECK) {
             genesis_description_element = (
                 <>
-                    {issuance_event_row.description.slice(0, TOOLONG_TRIM)}
+                    {issuance_event_row.description.slice(0, TOOLONG_TRIM - see_full.length)}
+                    {/* {issuance_event_row.description.slice(0, TOOLONG_TRIM)} */}
                     {' '}
-                    <Link to={`/tx/${issuance_event_row.tx_hash}`}>... see full description</Link>
+                    <Link to={`/tx/${issuance_event_row.tx_hash}`}>{see_full}</Link>
+                    {/* <Link to={`/tx/${issuance_event_row.tx_hash}`}>... see full description</Link> */}
                 </>
             );
         }
         else {
             genesis_description_element = issuance_event_row.description;
         }
-
-        let description_orwith_lock_element;
-        if (issuance_event_row.locked) {
-            if (issuance_event_row.display_lock_with_description) {
-                description_orwith_lock_element = (
-                    <>
-                        <strong>[LOCK]</strong>
-                        {' '}
-                        {issuance_event_row.description}
-                    </>
-                );
-            }
-            else {
-                description_orwith_lock_element = (<><strong>LOCK</strong></>);
-            }
-        }
-        else {
-            description_orwith_lock_element = (<>{issuance_event_row.description}</>);
-        }
+        /////////
 
         // surfacing the invalid (YES! invalid (and reset) genesis are interesting finds)
         let invalid_tx_notice = null;
