@@ -89,6 +89,8 @@ function baseState(asset_name) {
         balances_tip_blocks_row: null,
         balances: [], // "holders"
 
+        balances_hide_no_balance: true,
+
         // escrows //
         dispensers_loading: true,
         dispensers_loading_error: null,
@@ -763,11 +765,33 @@ class Asset extends React.Component {
                         this.state.balances.length ?
                             (
                                 <>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            onClick={() => {
+                                                this.setState((prevState, props) => ({
+                                                    balances_hide_no_balance: !prevState.balances_hide_no_balance
+                                                }));
+                                            }}
+                                            checked={this.state.balances_hide_no_balance}
+                                        />
+                                        {' '}
+                                        <span class="text-gray-600 dark:text-gray-400">hide no balance</span>
+                                    </label>
+
                                     <table>
                                         <tbody>
                                             {/* <h3>Balances (asset holders):</h3> */}
                                             {ListElements.getTableRowBalanceAddressHeader(asset_page)}
-                                            {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
+
+                                            {/* filter only in display */}
+                                            {this.state.balances.filter(row => {
+                                                if (this.state.balances_hide_no_balance) return row.quantity > 0;
+                                                else return true;
+                                            }).sort(balancesSortAddress).map((balances_row, index) => {
+                                                // {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
+
                                                 return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
                                             })}
                                         </tbody>
