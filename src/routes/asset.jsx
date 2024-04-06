@@ -535,7 +535,8 @@ class Asset extends React.Component {
                             {protocol_base} asset: {this.state.asset_name}
                         </h3>
 
-                        <div class="py-1 my-1">
+                        <div class="py-1 my-1 ml-4">
+                            {/* <div class="py-1 my-1"> */}
 
                             {/* <h3 class="font-bold">
                                 {protocol_base} asset: {this.state.asset_name}
@@ -1109,7 +1110,8 @@ class Asset extends React.Component {
                             Genesis:
                         </h3>
 
-                        <div class="py-1 my-1 whitespace-nowrap overflow-auto">
+                        <div class="py-1 my-1 ml-4 whitespace-nowrap overflow-auto">
+                            {/* <div class="py-1 my-1 whitespace-nowrap overflow-auto"> */}
                             {/* <div class="py-1 my-1"> */}
                             {asset_genesis_element}
                         </div>
