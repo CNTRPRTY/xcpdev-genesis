@@ -109,7 +109,10 @@ class WalletCreate extends React.Component {
                     <p>Copy the following hex, sign it, and then broadcast it.</p>
                     <h3>hex:</h3>
                     {/* TODO reuse css */}
-                    <textarea rows="2" cols="55"
+                    <textarea
+                        rows="2"
+                        cols="30"
+                        // cols="55"
                         style={{
                             // https://stackoverflow.com/a/658197
                             'whiteSpace': "nowrap",
@@ -134,7 +137,10 @@ class WalletCreate extends React.Component {
                     <p>
                         response:
                         <br />
-                        <textarea rows="10" cols="55"
+                        <textarea
+                            rows="10"
+                            cols="30"
+                            // cols="55"
                             value={JSON.stringify(this.state.open_dialog_obj.response, null, " ")}
                             readOnly
                         />
@@ -158,7 +164,10 @@ class WalletCreate extends React.Component {
                 <p>
                     request:
                     <br />
-                    <textarea rows="10" cols="55"
+                    <textarea
+                        rows="10"
+                        cols="30"
+                        // cols="55"
                         value={JSON.stringify(this.state.open_dialog_obj.request, null, " ")}
                         readOnly
                     />

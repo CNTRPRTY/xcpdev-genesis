@@ -89,7 +89,8 @@ class TransactionStatic extends React.Component {
                         <textarea
                             class="border-solid border-2 border-gray-300"
                             rows="2"
-                            cols="55"
+                            cols="30"
+                            // cols="55"
                             style={{
                                 // https://stackoverflow.com/a/658197
                                 'whiteSpace': "nowrap",
