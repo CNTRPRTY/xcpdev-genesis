@@ -533,6 +533,7 @@ class ListElements {
             <tr
                 key={index}
 
+                // at this point, is about which ones NOT to wrap
                 class="whitespace-nowrap dark:text-slate-100"
                 // class="dark:text-slate-100"
 
@@ -770,9 +771,7 @@ class ListElements {
         return (
             <tr
                 key={index}
-                // general row nowrap fine here
                 class="whitespace-nowrap dark:text-slate-100"
-                // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
 
@@ -942,7 +941,6 @@ class ListElements {
         return (
             <tr
                 key={index}
-                // general row nowrap NOT SURE IF fine here
                 class="whitespace-nowrap dark:text-slate-100"
                 // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
@@ -1037,7 +1035,6 @@ class ListElements {
         return (
             <tr
                 key={index}
-                // general row nowrap NOT SURE IF fine here
                 class="whitespace-nowrap dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
@@ -1153,12 +1150,7 @@ class ListElements {
         return (
             <tr
                 key={index}
-
-                // /////
-                // general row nowrap fine here??? MAYBE also add link to tx?
                 class="whitespace-nowrap dark:text-slate-100"
-                // /////
-
                 style={{ padding: "0.25rem" }}
             >
 
@@ -1373,9 +1365,7 @@ class ListElements {
         return (
             <tr
                 key={index}
-                // general row nowrap fine here
                 class="whitespace-nowrap dark:text-slate-100"
-                // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
 
