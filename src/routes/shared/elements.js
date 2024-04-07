@@ -2038,7 +2038,8 @@ class OneElements extends React.Component {
                                 paddingBottom: "1rem",
                             }}
                         >
-                            <Link to="/">Data</Link> |{" "}
+                            <Link to="/">Home</Link> |{" "}
+                            <Link to="/messages">Messages</Link> |{" "}
                             <Link to="/wallet">Wallet</Link>
 
                             <div class="my-1">
