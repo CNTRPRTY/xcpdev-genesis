@@ -20,8 +20,7 @@ function baseState(block) {
         messages_loading_error: null,
         messages: [],
 
-        // hiding it, kind of prefer to always show now...
-        messages_show_bindings: true, // false,
+        messages_show_bindings: false,
     };
 }
 
@@ -264,7 +263,7 @@ class Block extends React.Component {
                     (
                         <>
 
-                            {/* <label>
+                            <label>
                                 <input type="checkbox" onClick={() => {
                                     this.setState((prevState, props) => ({
                                         messages_show_bindings: !prevState.messages_show_bindings
@@ -272,7 +271,7 @@ class Block extends React.Component {
                                 }} />
                                 {' '}
                                 <span class="text-gray-600 dark:text-gray-400">show bindings</span>
-                            </label> */}
+                            </label>
 
                             <table>
                                 <tbody>
