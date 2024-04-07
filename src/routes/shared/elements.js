@@ -464,6 +464,36 @@ class ListElements {
             if (bindings.status === 10) invalid_tx_notice = 'closed';
         }
 
+        ////////
+        // the expected inserts don't need to be surfaced
+        ////////
+        if (
+            category === 'orders' &&
+            command === 'insert' &&
+            (bindings.status && bindings.status === 'open')
+        ) {
+            invalid_tx_notice = null;
+        }
+        if (
+            category === 'order_matches' &&
+            command === 'insert' &&
+            (bindings.status && bindings.status === 'completed')
+        ) {
+            invalid_tx_notice = null;
+        }
+
+        // for this case, not hiding because is HELPFUL to have 'open' specified somewhere!
+        // if (
+        //     category === 'dispensers' &&
+        //     command === 'insert' &&
+        //     (bindings.status === 0)
+        // ) {
+        //     invalid_tx_notice = null;
+        // }
+
+        ////////
+        ////////
+
         // surfacing non-inserts, updates (or anything else?)
         let nonsert_tx_notice = null;
         if (command !== 'insert') {
