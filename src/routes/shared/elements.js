@@ -98,12 +98,11 @@ function createLinkElementBindings(bindings_json_stringified) {
             bindings.tx1_block_index = (<Link to={`/block/${value}`}>{value}</Link>);
         }
 
-        // maybe this is wanted in some places still?... then becomes an input param
-        // else if (key === 'status') {
-        //     bindings.status = ((typeof value === 'string') && value !== 'valid') ?
-        //     // bindings.status = ((typeof value === 'string') && value.startsWith('invalid')) ?
-        //         (<strong>{value}</strong>) : (<>{value}</>);
-        // }
+        // bold anything invalid
+        else if (key === 'status') {
+            bindings.status = ((typeof value === 'string') && value.startsWith('invalid')) ?
+                (<strong>{value}</strong>) : (<>{`${value}`}</>);
+        }
 
         else {
             bindings[key] = (<>{`${value}`}</>);
@@ -123,16 +122,14 @@ function createNonLinkElement(json_stringified) {
         const key = obj[0];
         const value = obj[1];
 
+        // bold anything invalid
         if (key === 'status') {
-            bindings.status = ((typeof value === 'string') && value !== 'valid') ?
+            bindings.status = ((typeof value === 'string') && value.startsWith('invalid')) ?
                 (<strong>{value}</strong>) : (<>{`${value}`}</>);
         }
         else {
             bindings[key] = (<>{`${value}`}</>);
         }
-
-        // bindings[key] = (<>{`${value}`}</>);
-        // // bindings[key] = (<>{value}</>);
     }
 
     return bindings;
@@ -330,17 +327,12 @@ class ListElements {
         const bindings = JSON.parse(message_row.bindings);
         const bindingsElements = createLinkElementBindings(message_row.bindings);
 
-        //////////////
-        // surfacing the invalid
+        // surfacing the invalid (without details here)
         const status = bindings.status;
         let invalid_tx_notice = null;
-        if (status && (typeof status === 'string') && status !== 'valid') {
-            // if (status && (typeof status === 'string') && status.startsWith('invalid')) {
+        if (status && (typeof status === 'string') && status.startsWith('invalid')) {
             invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
-            // invalid_tx_notice = (<>{` invalid`}</>);
-            // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
         }
-        //////////////
 
         const links_element_whitespace_nowrap_bool = false;
 
@@ -444,7 +436,7 @@ class ListElements {
             txhash_or_event = bindings.event.split('_')[1];
         }
 
-        // surfacing the invalid
+        // surfacing the not-valid (different than surfacing invalid)
         const status = bindings.status;
         let invalid_tx_notice = null;
         if (status && (typeof status === 'string') && status !== 'valid') {
@@ -489,7 +481,7 @@ class ListElements {
         ////////
         ////////
 
-        // surfacing non-inserts, updates (or anything else?)
+        // surfacing non-inserts, the updates
         let nonsert_tx_notice = null;
         if (command !== 'insert') {
             nonsert_tx_notice = command;
@@ -855,7 +847,7 @@ class ListElements {
         //     (<><strong>LOCK</strong></>) :
         //     (issuance_event_row.description);
 
-        // surfacing the invalid
+        // surfacing the not-valid issuances
         let invalid_tx_notice = null;
         if (issuance_event_row.status !== 'valid') {
             invalid_tx_notice = (<>{' '}<strong>{issuance_event_row.status}</strong></>);
@@ -1010,7 +1002,7 @@ class ListElements {
             // tag = JSON.stringify(issuance_event_row.tag);
         }
 
-        // surfacing the invalid
+        // surfacing the not-valid destroys
         let invalid_tx_notice = null;
         if (issuance_event_row.status !== 'valid') {
             invalid_tx_notice = (<>{' '}<strong>{issuance_event_row.status}</strong></>);
@@ -1104,7 +1096,7 @@ class ListElements {
         }
         /////////
 
-        // surfacing the invalid (YES! invalid (and reset) genesis are interesting finds)
+        // surfacing the the not-valid issuances (YES! invalid (and reset) genesis are interesting finds)
         let invalid_tx_notice = null;
         if (issuance_event_row.status !== 'valid') {
             invalid_tx_notice = (<>{' '}<strong>{issuance_event_row.status}</strong></>);
