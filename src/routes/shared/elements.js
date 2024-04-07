@@ -1858,6 +1858,8 @@ class ListElements {
 }
 
 
+const DEFAULT_THEME = "dark";
+
 function getThemedElement() {
 
     // const elem = document.documentElement;
@@ -1883,6 +1885,12 @@ class OneElements extends React.Component {
 
     constructor(props) {
         super(props);
+
+        if (localStorage.theme === 'undefined') {
+            // "odd" first visit (no big deal vs increased complexity (TODO fix if simple solution is found))
+            localStorage.setItem("theme", DEFAULT_THEME);
+        }
+
         this.state = {
             theme: localStorage.theme,
         };
@@ -1962,19 +1970,18 @@ class OneElements extends React.Component {
                     <div class="py-1 my-1">
                         <p>
 
-                            {/*  */}
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    onClick={this.handleDarkModeToggle}
-                                    checked={this.state.theme === "dark"}
-                                />
-                                {' '}
-                                <span class="text-gray-600 dark:text-gray-400">dark mode</span>
-                                {/* <span class="dark:text-slate-100">dark mode</span> */}
-                            </label>
-                            <br />
-                            {/*  */}
+                            <div class="mb-1">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        onClick={this.handleDarkModeToggle}
+                                        checked={this.state.theme === "dark"}
+                                    />
+                                    {' '}
+                                    <span class="text-gray-600 dark:text-gray-400">dark mode</span>
+                                    {/* <span class="dark:text-slate-100">dark mode</span> */}
+                                </label>
+                            </div>
 
                             {'[ '}
                             <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.6</a>
