@@ -2014,12 +2014,10 @@ class OneElements extends React.Component {
             <span // appropriate for styling purposes: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
                 id="main-content"
             >
-                {/* <main style={{ padding: "1rem" }}> */}
 
                 <div
                     // fixes 'tailwind background color full screen' https://stackoverflow.com/a/66028460
                     class="min-h-screen bg-slate-50 dark:bg-slate-800"
-                    // class="min-h-screen bg-white dark:bg-black"
                     // class="bg-white dark:bg-black"
                     style={{ padding: "1rem" }}
                 >
@@ -2049,9 +2047,6 @@ class OneElements extends React.Component {
                     </div>
 
                     <div class="py-1 my-1 ml-4">
-                        {/* <div class="py-1 m-1"> */}
-                        {/* <div class="py-1 my-1"> */}
-                        {/* <div style={{ padding: "1rem" }}> */}
                         {this.props.route_element}
                     </div>
 
@@ -2067,7 +2062,6 @@ class OneElements extends React.Component {
                                     />
                                     {' '}
                                     <span class="text-gray-600 dark:text-gray-400">dark mode</span>
-                                    {/* <span class="dark:text-slate-100">dark mode</span> */}
                                 </label>
                             </div>
 
@@ -2076,9 +2070,6 @@ class OneElements extends React.Component {
                             {' '}|{' '}
                             <Link to="/api">API</Link>
                             {' ]'}
-                            {/* [<a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.5</a>]
-                        {' '}|{' '}
-                        <Link to="/api">API</Link> */}
 
                             <br />
                             [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
@@ -2086,16 +2077,11 @@ class OneElements extends React.Component {
                             <br />
                             [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
 
-                            {/* <br />
-                        [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
-                        <br />
-                        [Bitcoin Core v{BITCOIN_VERSION}] */}
                         </p>
                     </div>
 
                 </div>
 
-                {/* </main> */}
             </span>
         );
     }
