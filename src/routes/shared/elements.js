@@ -347,31 +347,46 @@ class ListElements {
         return (
             <tr
                 key={index}
-                class="dark:text-slate-100"
+                class="whitespace-nowrap dark:text-slate-100"
+                // class="dark:text-slate-100"
                 style={{ padding: "0.25rem" }}
             >
-                {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
-
-                {/* special non-header case */}
-                <td
-                    class="whitespace-nowrap"
-                    style={{ padding: "0 1rem 0 0" }}
-                >{message_row.main_message ? 'main message' : ''}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td> */}
-
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index, links_element_whitespace_nowrap_bool)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td> */}
-
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.main_message ? 'main message' : ''}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{category}{invalid_tx_notice}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{command}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_index}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{linksElementTd(bindingsElements, index, links_element_whitespace_nowrap_bool)}</code></td>
             </tr>
         );
+
+        // return (
+        //     <tr
+        //         key={index}
+        //         class="dark:text-slate-100"
+        //         style={{ padding: "0.25rem" }}
+        //     >
+        //         {/* <tr key={index} style={{ padding: "0.25rem" }}> */}
+
+        //         {/* special non-header case */}
+        //         <td
+        //             class="whitespace-nowrap"
+        //             style={{ padding: "0 1rem 0 0" }}
+        //         >{message_row.main_message ? 'main message' : ''}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
+        //         <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
+
+        //         <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index, links_element_whitespace_nowrap_bool)}</td>
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td> */}
+
+        //         {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
+        //     </tr>
+        // );
     }
 
     static getTableRowMessageBlockHeader(show_bindings) {
@@ -492,7 +507,8 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><code>{category}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{incolumn}</code></td>
                 {show_bindings ?
-                    (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElement(bindingsElements, index)}</code></td>)
+                    (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElementTd(bindingsElements, index)}</code></td>)
+                    // (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElement(bindingsElements, index)}</code></td>)
                     : null
                 }
             </tr>
