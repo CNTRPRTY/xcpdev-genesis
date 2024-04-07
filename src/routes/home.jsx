@@ -36,7 +36,8 @@ class Home extends React.Component {
     async fetchDataTransactions() {
         const transactions_response = await getCntrprty(`/transactions`);
         this.setState({
-            transactions: transactions_response.transactions_latest, // TODO consistency
+            transactions: transactions_response.transactions,
+            // transactions: transactions_response.transactions_latest, // TODO consistency
         });
     }
 

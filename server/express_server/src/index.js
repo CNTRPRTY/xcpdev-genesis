@@ -331,7 +331,8 @@ app.get('/subasset/:assetLongname', async (req, res) => {
 app.get('/transactions', async (req, res) => {
     res.status(200).json({
         // btc_transactions_latest: cached_transactions,
-        transactions_latest: cached_transactions,
+        transactions_latest: cached_transactions, // remove with more changes and announcement
+        transactions: cached_transactions, // just to be consistent with the other latest
     });
 });
 
