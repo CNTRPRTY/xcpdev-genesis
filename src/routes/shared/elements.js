@@ -438,17 +438,18 @@ class ListElements {
 
         // surfacing the not-valid (different than surfacing invalid)
         const status = bindings.status;
-        let invalid_tx_notice = null;
+        let notvalid_tx_notice = null;
+        // let invalid_tx_notice = null;
         if (status && (typeof status === 'string') && status !== 'valid') {
-            invalid_tx_notice = status;
+            notvalid_tx_notice = status;
         }
 
         // non-string status
         if (category === 'dispensers') {
             // 0 (open) or 10 (closed) ...
-            invalid_tx_notice = `${bindings.status}`; // discover if other
-            if (bindings.status === 0) invalid_tx_notice = 'open';
-            if (bindings.status === 10) invalid_tx_notice = 'closed';
+            notvalid_tx_notice = `${bindings.status}`; // discover if other
+            if (bindings.status === 0) notvalid_tx_notice = 'open';
+            if (bindings.status === 10) notvalid_tx_notice = 'closed';
         }
 
         ////////
@@ -459,14 +460,14 @@ class ListElements {
             command === 'insert' &&
             (bindings.status && bindings.status === 'open')
         ) {
-            invalid_tx_notice = null;
+            notvalid_tx_notice = null;
         }
         if (
             category === 'order_matches' &&
             command === 'insert' &&
             (bindings.status && bindings.status === 'completed')
         ) {
-            invalid_tx_notice = null;
+            notvalid_tx_notice = null;
         }
 
         // for this case, not hiding because is HELPFUL to have 'open' specified somewhere!
@@ -475,7 +476,7 @@ class ListElements {
         //     command === 'insert' &&
         //     (bindings.status === 0)
         // ) {
-        //     invalid_tx_notice = null;
+        //     notvalid_tx_notice = null;
         // }
 
         ////////
@@ -491,14 +492,14 @@ class ListElements {
         let incolumn = 'insert'; // valid implicit (non valids surfaced)
         // let incolumn = 'valid'; // insert implicit
         // let incolumn = 'valid insert';
-        if (invalid_tx_notice || nonsert_tx_notice) {
+        if (notvalid_tx_notice || nonsert_tx_notice) {
 
             // dont show invalid details here
-            if (invalid_tx_notice && invalid_tx_notice.startsWith('invalid')) {
-                invalid_tx_notice = 'invalid';
+            if (notvalid_tx_notice && notvalid_tx_notice.startsWith('invalid')) {
+                notvalid_tx_notice = 'invalid';
             }
 
-            const addvalid = invalid_tx_notice ? invalid_tx_notice : ''; // valid implicit (non valids surfaced)
+            const addvalid = notvalid_tx_notice ? notvalid_tx_notice : ''; // valid implicit (non valids surfaced)
             const addspace = (addvalid !== '') ? ' ' : '';
             const addinsert = nonsert_tx_notice ? nonsert_tx_notice : 'insert';
 
