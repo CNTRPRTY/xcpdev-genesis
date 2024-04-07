@@ -152,7 +152,8 @@ class Wallet extends React.Component {
                 {/*  */}
                 <form onSubmit={this.handleSearchSubmit}>
                     <input
-                        class="border-r-0 border-solid border-2 border-gray-300"
+                        class="mr-1 border-solid border-2 border-gray-300"
+                        // class="border-r-0 border-solid border-2 border-gray-300"
                         // class="border-solid border-2 border-gray-300"
                         type="text"
                         value={this.state.address}
