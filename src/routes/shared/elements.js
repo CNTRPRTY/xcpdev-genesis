@@ -448,12 +448,7 @@ class ListElements {
         const status = bindings.status;
         let invalid_tx_notice = null;
         if (status && (typeof status === 'string') && status !== 'valid') {
-            // if (status && (typeof status === 'string') && status.startsWith('invalid')) {
             invalid_tx_notice = status;
-            // invalid_tx_notice = (<>{' '}<strong>{status}</strong></>);
-            // invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
-            // invalid_tx_notice = (<>{` invalid`}</>);
-            // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
         }
 
         // non-string status
@@ -498,9 +493,6 @@ class ListElements {
         let nonsert_tx_notice = null;
         if (command !== 'insert') {
             nonsert_tx_notice = command;
-            // const addspace = invalid_tx_notice ? ' ' : '';
-            // nonsert_tx_notice = `${addspace}${command}`;
-            // nonsert_tx_notice = (<>{' '}<strong>{command}</strong></>);
         }
 
         // surfacing in column
@@ -515,18 +507,10 @@ class ListElements {
             }
 
             const addvalid = invalid_tx_notice ? invalid_tx_notice : ''; // valid implicit (non valids surfaced)
-            // // const addvalid = invalid_tx_notice ? 'invalid' : 'valid';
-            // const addvalid = invalid_tx_notice ? invalid_tx_notice : 'valid';
-
             const addspace = (addvalid !== '') ? ' ' : '';
-
             const addinsert = nonsert_tx_notice ? nonsert_tx_notice : 'insert';
-            // // const addinsert = nonsert_tx_notice ? `/ ${nonsert_tx_notice}` : '/ insert';
-            // const addinsert = nonsert_tx_notice ? ` ${nonsert_tx_notice}` : ' insert';
 
             incolumn = `${addvalid}${addspace}${addinsert}`;
-            // incolumn = `${addvalid}${addinsert}`;
-            // incolumn = `${invalid_tx_notice ? invalid_tx_notice : ''}${nonsert_tx_notice ? nonsert_tx_notice : ''}`;
         }
 
         return (
