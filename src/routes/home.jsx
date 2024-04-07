@@ -71,13 +71,17 @@ class Home extends React.Component {
                                         <div class="p2-4 mr-4">
 
                                             <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link>
+                                            <br />
+                                            {timeSince(new Date(block_row.block_time * 1000))}
 
-                                            <div class="pb-1 mb-1">
-                                                {/* <div class="py-1 my-1"> */}
+                                            {/* <div class="pb-1 mb-1">
+                                                // <div class="py-1 my-1">
                                                 {timeSince(new Date(block_row.block_time * 1000))}
-                                            </div>
-                                            <div class="py-1 my-1 mb-3">
-                                                {block_row.messages_count} messages
+                                            </div> */}
+                                            <div class="py-1 my-1">
+                                            {/* <div class="py-1 my-1 mb-3"> */}
+                                                <code>{block_row.messages_count} messages</code>
+                                                {/* {block_row.messages_count} messages */}
                                             </div>
 
                                             <code>L: {hashSlice(block_row.ledger_hash)}</code><br />
