@@ -138,6 +138,39 @@ function createNonLinkElement(json_stringified) {
     return bindings;
 }
 
+function linksElementTd(link_element_bindings, index, whitespace_nowrap_bool = true) {
+    const bindings_entries = Object.entries(link_element_bindings);
+    return (
+        // <table class="my-2 border border-slate-500">
+        <table class="my-3">
+        {/* <table> */}
+            <tbody>
+                {bindings_entries.map((obj, index2) => {
+                    const key = obj[0];
+                    const element_value = obj[1];
+                    return (
+
+                        <tr
+                            key={index}
+                            class={whitespace_nowrap_bool ? "whitespace-nowrap" : ""}
+                            // style={{ padding: "0.25rem" }}
+                        >
+                            <td
+                                key={index2}
+                                // style={{ padding: "0 1rem 0 0" }}
+                            >
+                                {key}:{element_value}
+                            </td>
+
+                        </tr>
+
+                    );
+                })}
+            </tbody>
+        </table>
+    );
+}
+
 function linksElement(link_element_bindings, index, whitespace_nowrap_bool = true) {
     // function linksElement(link_element_bindings, index) {
     const bindings_entries = Object.entries(link_element_bindings);
