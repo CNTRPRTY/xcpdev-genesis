@@ -31,7 +31,8 @@ class TransactionStatic extends React.Component {
                         BTC pay:
                     </h3>
                     {/* <h3>BTC pay:</h3> */}
-                    <div class="py-1 my-1 ml-4">
+                    <div class="py-1 my-1 ml-4 whitespace-nowrap overflow-auto">
+                        {/* <div class="py-1 my-1 ml-4"> */}
                         {/* <div class="py-1 my-1"> */}
                         <ul>
                             {/* <ul class="list-disc list-inside"> */}
@@ -82,7 +83,8 @@ class TransactionStatic extends React.Component {
                         Broadcast:
                     </h3>
                     {/* <h3>Broadcast:</h3> */}
-                    <div class="py-1 my-1 ml-4">
+                    <div class="py-1 my-1 ml-4 whitespace-nowrap overflow-auto">
+                        {/* <div class="py-1 my-1 ml-4"> */}
                         {/* <div class="py-1 my-1"> */}
                         <textarea
                             class="border-solid border-2 border-gray-300"
