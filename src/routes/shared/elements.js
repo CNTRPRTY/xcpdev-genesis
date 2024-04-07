@@ -143,7 +143,7 @@ function linksElementTd(link_element_bindings, index, whitespace_nowrap_bool = t
     return (
         // <table class="my-2 border border-slate-500">
         <table class="my-3">
-        {/* <table> */}
+            {/* <table> */}
             <tbody>
                 {bindings_entries.map((obj, index2) => {
                     const key = obj[0];
@@ -153,11 +153,11 @@ function linksElementTd(link_element_bindings, index, whitespace_nowrap_bool = t
                         <tr
                             key={index}
                             class={whitespace_nowrap_bool ? "whitespace-nowrap" : ""}
-                            // style={{ padding: "0.25rem" }}
+                        // style={{ padding: "0.25rem" }}
                         >
                             <td
                                 key={index2}
-                                // style={{ padding: "0 1rem 0 0" }}
+                            // style={{ padding: "0 1rem 0 0" }}
                             >
                                 {key}:{element_value}
                             </td>
@@ -2051,33 +2051,31 @@ class OneElements extends React.Component {
                     </div>
 
                     <div class="py-1 my-1">
-                        <p>
 
-                            <div class="mb-1">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        onClick={this.handleDarkModeToggle}
-                                        checked={this.state.theme === "dark"}
-                                    />
-                                    {' '}
-                                    <span class="text-gray-600 dark:text-gray-400">dark mode</span>
-                                </label>
-                            </div>
+                        <div class="mb-1">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onClick={this.handleDarkModeToggle}
+                                    checked={this.state.theme === "dark"}
+                                />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">dark mode</span>
+                            </label>
+                        </div>
 
-                            {'[ '}
-                            <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.6</a>
-                            {' '}|{' '}
-                            <Link to="/api">API</Link>
-                            {' ]'}
+                        {'[ '}
+                        <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.6</a>
+                        {' '}|{' '}
+                        <Link to="/api">API</Link>
+                        {' ]'}
 
-                            <br />
-                            [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
-                            [ <a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a> ]
-                            <br />
-                            [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
+                        <br />
+                        [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
+                        [ <a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a> ]
+                        <br />
+                        [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
 
-                        </p>
                     </div>
 
                 </div>
