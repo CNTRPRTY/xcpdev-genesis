@@ -456,6 +456,14 @@ class ListElements {
             // invalid_tx_notice = (<>{'('}<strong>invalid</strong>{')'}</>);
         }
 
+        // non-string status
+        if (category === 'dispensers') {
+            // 0 (open) or 10 (closed) ...
+            invalid_tx_notice = `${bindings.status}`; // discover if other
+            if (bindings.status === 0) invalid_tx_notice = 'open';
+            if (bindings.status === 10) invalid_tx_notice = 'closed';
+        }
+
         // surfacing non-inserts, updates (or anything else?)
         let nonsert_tx_notice = null;
         if (command !== 'insert') {
