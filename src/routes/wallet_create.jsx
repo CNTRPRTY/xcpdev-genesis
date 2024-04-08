@@ -110,28 +110,28 @@ class WalletCreate extends React.Component {
                         Copy the following hex, sign it, and then broadcast it.
                     </p>
                     <div class="py-1 my-1">
-                    <h3 class="font-bold">
-                        hex:
-                    </h3>
-                    <textarea
-                        class="border-solid border-2 border-gray-300"
-                        rows="2"
-                        cols="30"
-                        // cols="55"
-                        style={{
-                            // https://stackoverflow.com/a/658197
-                            'whiteSpace': "nowrap",
-                            'overflow': "scroll",
-                            'overflowY': "hidden",
-                            'overflowX': "scroll",
-                            'overflow': "-moz-scrollbars-horizontal",
-                            // https://stackoverflow.com/a/5271803
-                            'resize': 'horizontal',
-                        }}
-                        value={this.state.open_dialog_obj.response.data.lib_response.result}
-                        readOnly
-                        disabled
-                    />
+                        <h3 class="font-bold">
+                            hex:
+                        </h3>
+                        <textarea
+                            class="border-solid border-2 border-gray-300"
+                            rows="2"
+                            cols="30"
+                            // cols="55"
+                            style={{
+                                // https://stackoverflow.com/a/658197
+                                'whiteSpace': "nowrap",
+                                'overflow': "scroll",
+                                'overflowY': "hidden",
+                                'overflowX': "scroll",
+                                'overflow': "-moz-scrollbars-horizontal",
+                                // https://stackoverflow.com/a/5271803
+                                'resize': 'horizontal',
+                            }}
+                            value={this.state.open_dialog_obj.response.data.lib_response.result}
+                            readOnly
+                            disabled
+                        />
                     </div>
                 </>
             )
@@ -142,7 +142,7 @@ class WalletCreate extends React.Component {
             response = (
                 <>
                     <p>
-                    <span class="dark:text-slate-100">response:</span>
+                        <span class="dark:text-slate-100">response:</span>
                         {/* <span class="text-gray-600 dark:text-gray-400">response:</span> */}
                         <br />
                         <textarea
@@ -190,60 +190,60 @@ class WalletCreate extends React.Component {
 
         return (
             <div class="p-4 border-solid border-l-2 border-gray-400 dark:text-slate-100">
-            {/* <div class="p-4 border-solid border-l-2 border-gray-400 dark:text-slate-100 whitespace-nowrap overflow-auto"> */}
-            {/* <div class="p-4 border-solid border-2 border-gray-400 dark:text-slate-100 whitespace-nowrap overflow-auto"> */}
-            {/* <div class="p-4 border-solid border-2 border-gray-400 dark:text-slate-100"> */}
+                {/* <div class="p-4 border-solid border-l-2 border-gray-400 dark:text-slate-100 whitespace-nowrap overflow-auto"> */}
+                {/* <div class="p-4 border-solid border-2 border-gray-400 dark:text-slate-100 whitespace-nowrap overflow-auto"> */}
+                {/* <div class="p-4 border-solid border-2 border-gray-400 dark:text-slate-100"> */}
                 {/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method */}
 
-                            <>
-                                <h2 class="font-bold text-xl mb-1">
-                                    {this.state.open_dialog_obj.dialog_state}
-                                </h2>
-                                {this.state.open_dialog_obj.dialog_state === 'loading' ?
-                                    (
-                                        <div class="py-1 my-1 ml-4">
-                                        {/* <div class="py-1 my-1"> */}
-                                        <p class="dark:text-slate-100">
-                                            please wait, it can take up to 10 seconds
-                                        </p>
-                                        </div>
-                                    ) : null
-                                }
-                            </>
-
-                            <div class="py-1 my-1">
-                            {success}
+                <>
+                    <h2 class="font-bold text-xl mb-1">
+                        {this.state.open_dialog_obj.dialog_state}
+                    </h2>
+                    {this.state.open_dialog_obj.dialog_state === 'loading' ?
+                        (
+                            <div class="py-1 my-1 ml-4">
+                                {/* <div class="py-1 my-1"> */}
+                                <p class="dark:text-slate-100">
+                                    please wait, it can take up to 10 seconds
+                                </p>
                             </div>
+                        ) : null
+                    }
+                </>
 
-                            {/* nested terniary! (TODO magic string) */}
-                            {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                                (
-                                    <>
-                                        <div class="py-1 my-1 ml-4">
-                                        {/* <div class="py-1 my-1"> */}
-                                            {response}
-                                        </div>
-                                        <div class="py-1 my-1 ml-4">
-                                            {request}
-                                        </div>
-                                    </>
-                                ) : null
-                            }
+                <div class="py-1 my-1">
+                    {success}
+                </div>
 
-                            {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                                (
-                                    // <div class="py-1 my-1 ml-4">
-                                    <div class="py-1 my-1">
-                                        <button
-                                            class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
-                                            onClick={this.handleDialogCloseSubmit}
-                                        >
-                                            ok
-                                        </button>
-                                    </div>
-                                )
-                                : null
-                            }
+                {/* nested terniary! (TODO magic string) */}
+                {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+                    (
+                        <>
+                            <div class="py-1 my-1 ml-4">
+                                {/* <div class="py-1 my-1"> */}
+                                {response}
+                            </div>
+                            <div class="py-1 my-1 ml-4">
+                                {request}
+                            </div>
+                        </>
+                    ) : null
+                }
+
+                {this.state.open_dialog_obj.dialog_state !== 'loading' ?
+                    (
+                        // <div class="py-1 my-1 ml-4">
+                        <div class="py-1 my-1">
+                            <button
+                                class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                                onClick={this.handleDialogCloseSubmit}
+                            >
+                                ok
+                            </button>
+                        </div>
+                    )
+                    : null
+                }
 
             </div>
         );
