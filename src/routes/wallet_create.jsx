@@ -106,10 +106,15 @@ class WalletCreate extends React.Component {
         if (this.state.open_dialog_obj.dialog_state === 'success') {
             success = (
                 <>
-                    <p>Copy the following hex, sign it, and then broadcast it.</p>
-                    <h3>hex:</h3>
-                    {/* TODO reuse css */}
+                    <p class="dark:text-slate-100">
+                        Copy the following hex, sign it, and then broadcast it.
+                    </p>
+                    <div class="py-1 my-1">
+                    <h3 class="font-bold">
+                        hex:
+                    </h3>
                     <textarea
+                        class="border-solid border-2 border-gray-300"
                         rows="2"
                         cols="30"
                         // cols="55"
@@ -125,7 +130,9 @@ class WalletCreate extends React.Component {
                         }}
                         value={this.state.open_dialog_obj.response.data.lib_response.result}
                         readOnly
+                        disabled
                     />
+                    </div>
                 </>
             )
         }
@@ -135,14 +142,17 @@ class WalletCreate extends React.Component {
             response = (
                 <>
                     <p>
-                        response:
+                    <span class="dark:text-slate-100">response:</span>
+                        {/* <span class="text-gray-600 dark:text-gray-400">response:</span> */}
                         <br />
                         <textarea
+                            class="border-solid border-2 border-gray-300"
                             rows="10"
                             cols="30"
                             // cols="55"
                             value={JSON.stringify(this.state.open_dialog_obj.response, null, " ")}
                             readOnly
+                            disabled
                         />
                     </p>
                 </>
@@ -151,7 +161,7 @@ class WalletCreate extends React.Component {
         else { // === error (or loading)
             response = (
                 <>
-                    <p>
+                    <p class="text-gray-600 dark:text-gray-400">
                         {this.state.open_dialog_obj.error_message}
                     </p>
                 </>
@@ -162,63 +172,80 @@ class WalletCreate extends React.Component {
         const request = (
             <>
                 <p>
-                    request:
+                    <span class="dark:text-slate-100">request:</span>
+                    {/* <span class="text-gray-600 dark:text-gray-400">request:</span> */}
                     <br />
                     <textarea
+                        class="border-solid border-2 border-gray-300"
                         rows="10"
                         cols="30"
                         // cols="55"
                         value={JSON.stringify(this.state.open_dialog_obj.request, null, " ")}
                         readOnly
+                        disabled
                     />
                 </p>
             </>
         );
 
         return (
-            <>
+            <div class="p-4 border-solid border-l-2 border-gray-400 dark:text-slate-100">
+            {/* <div class="p-4 border-solid border-l-2 border-gray-400 dark:text-slate-100 whitespace-nowrap overflow-auto"> */}
+            {/* <div class="p-4 border-solid border-2 border-gray-400 dark:text-slate-100 whitespace-nowrap overflow-auto"> */}
+            {/* <div class="p-4 border-solid border-2 border-gray-400 dark:text-slate-100"> */}
                 {/* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#method */}
 
-                <table style={{
-                    border: "1px solid black",
-                    padding: "1rem 1rem",
-                }}>
-                    <tr>
-                        <td>
-
                             <>
-                                <h2>{this.state.open_dialog_obj.dialog_state}</h2>
+                                <h2 class="font-bold text-xl mb-1">
+                                    {this.state.open_dialog_obj.dialog_state}
+                                </h2>
                                 {this.state.open_dialog_obj.dialog_state === 'loading' ?
                                     (
-                                        <p>please wait, it can take up to 10 seconds</p>
+                                        <div class="py-1 my-1 ml-4">
+                                        {/* <div class="py-1 my-1"> */}
+                                        <p class="dark:text-slate-100">
+                                            please wait, it can take up to 10 seconds
+                                        </p>
+                                        </div>
                                     ) : null
                                 }
                             </>
 
+                            <div class="py-1 my-1">
                             {success}
+                            </div>
+
                             {/* nested terniary! (TODO magic string) */}
                             {this.state.open_dialog_obj.dialog_state !== 'loading' ?
                                 (
                                     <>
-                                        {response}
-                                        {request}
+                                        <div class="py-1 my-1 ml-4">
+                                        {/* <div class="py-1 my-1"> */}
+                                            {response}
+                                        </div>
+                                        <div class="py-1 my-1 ml-4">
+                                            {request}
+                                        </div>
                                     </>
-                                ) :
-                                null
+                                ) : null
                             }
 
                             {this.state.open_dialog_obj.dialog_state !== 'loading' ?
-                                (<button onClick={this.handleDialogCloseSubmit}>ok</button>)
-                                :
-                                null
+                                (
+                                    // <div class="py-1 my-1 ml-4">
+                                    <div class="py-1 my-1">
+                                        <button
+                                            class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                                            onClick={this.handleDialogCloseSubmit}
+                                        >
+                                            ok
+                                        </button>
+                                    </div>
+                                )
+                                : null
                             }
 
-                        </td>
-                    </tr>
-                </table>
-                <br />
-
-            </>
+            </div>
         );
     }
 
