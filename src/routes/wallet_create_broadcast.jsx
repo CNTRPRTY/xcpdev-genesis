@@ -127,7 +127,8 @@ class WalletCreateBroadcast extends WalletCreate {
                         null
                     }
 
-                    <div class="py-1 my-1">
+                    <div class="py-1 my-1 mt-3">
+                        {/* <div class="py-1 my-1"> */}
                         <input
                             class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
                             type="submit"
@@ -137,7 +138,6 @@ class WalletCreateBroadcast extends WalletCreate {
                     </div>
                 </form>
             </>
-
         );
     }
 
