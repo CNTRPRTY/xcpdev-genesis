@@ -39,7 +39,8 @@ async function getCntrprty(path) {
 
             // first tries faster
             if (thetry <= Math.ceil(tries_max / 2)) {
-                await sleep(thetry * 500);
+                await sleep(thetry * 200);
+                // await sleep(thetry * 500);
             }
             else {
                 await sleep(thetry * 1000);
