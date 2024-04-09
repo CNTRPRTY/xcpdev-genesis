@@ -1,4 +1,7 @@
 
+// in this case, alt becomes the current
+const COUNTERPARTY_VERSION_PREVIEW = false;
+
 const COUNTERPARTY_VERSION_ALT = "9.60.3";
 const COUNTERPARTY_VERSION_ALT_URL = "https://960.xcp.dev";
 
@@ -192,6 +195,8 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
 }
 
 export {
+    COUNTERPARTY_VERSION_PREVIEW,
+
     COUNTERPARTY_VERSION_ALT,
     COUNTERPARTY_VERSION_ALT_URL,
 

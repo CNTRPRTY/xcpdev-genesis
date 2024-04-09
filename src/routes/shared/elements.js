@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
 import { timeIsoFormat, hashSlice, quantityWithDivisibility, formatDivision } from '../../utils';
-import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
+import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL, COUNTERPARTY_VERSION_PREVIEW } from '../../api';
 
 import Search from './search';
 
@@ -2002,7 +2002,14 @@ class OneElements extends React.Component {
                         {' ]'}
 
                         <br />
-                        [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ]
+                        {'[ '}
+                        <span class="dark:text-slate-100">
+                            counterparty-lib v{COUNTERPARTY_VERSION}
+                            {' '}
+                            {COUNTERPARTY_VERSION_PREVIEW ? 'PREVIEW ' : ''}
+                        </span>
+                        {' ] '}
+                        {/* [ <span class="dark:text-slate-100">counterparty-lib v{COUNTERPARTY_VERSION}</span> ] */}
                         [ <a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a> ]
                         <br />
                         [ <span class="dark:text-slate-100">Bitcoin Core v{BITCOIN_VERSION}</span> ]
