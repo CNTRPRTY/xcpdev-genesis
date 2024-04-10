@@ -6,7 +6,7 @@ const COUNTERPARTY_VERSION_ALT = "9.60.3";
 const COUNTERPARTY_VERSION_ALT_URL = "https://960.xcp.dev";
 
 const BITCOIN_VERSION = "24.0.1";
-const COUNTERPARTY_VERSION = "9.61.1";
+const COUNTERPARTY_VERSION = "9.61.3";
 const API_HOST = "https://api.xcp.dev/v9_61";
 
 
