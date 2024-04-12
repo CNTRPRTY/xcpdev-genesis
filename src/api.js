@@ -35,7 +35,10 @@ async function getCntrprty(path) {
             }
             else {
                 const data = await response.json();
+
                 return data.data;
+                // return data; // direct to express_server api
+
             }
         }
         else { // is 202
@@ -92,7 +95,10 @@ async function getCntrprty(path) {
 
 async function postLibApiProxyFetch(method, params) {
     // async function postLibApiProxy(method, params) {
-    const path = "/lib_api_proxy";
+
+    const path = "/proxy";
+    // const path = "/lib_api_proxy"; // direct to express_server api
+    
     const options = {
         method: "POST",
         body: JSON.stringify({
