@@ -2,9 +2,19 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
-import { timeIsoFormat, hashSlice, quantityWithDivisibility, formatDivision } from '../../utils';
-import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL, COUNTERPARTY_VERSION_PREVIEW } from '../../api';
+import {
+    timeIsoFormat,
+    hashSlice,
+    quantityWithDivisibility,
+    formatDivision
+} from '../../utils';
+import {
+    BITCOIN_VERSION,
+    COUNTERPARTY_VERSION,
+    COUNTERPARTY_VERSION_ALT,
+    COUNTERPARTY_VERSION_ALT_URL,
+    COUNTERPARTY_VERSION_PREVIEW
+} from '../../api';
 
 import Search from './search';
 
