@@ -13,7 +13,8 @@ import {
     COUNTERPARTY_VERSION,
     COUNTERPARTY_VERSION_ALT,
     COUNTERPARTY_VERSION_ALT_URL,
-    COUNTERPARTY_VERSION_PREVIEW
+    COUNTERPARTY_VERSION_PREVIEW,
+    getDispenserStatusText
 } from '../../api';
 
 import Search from './search';
@@ -456,10 +457,11 @@ class ListElements {
 
         // non-string status
         if (category === 'dispensers') {
-            // 0 (open) or 10 (closed) ...
-            notvalid_tx_notice = `${bindings.status}`; // discover if other
-            if (bindings.status === 0) notvalid_tx_notice = 'open';
-            if (bindings.status === 10) notvalid_tx_notice = 'closed';
+            notvalid_tx_notice = getDispenserStatusText(bindings.status);
+            // // 0 (open) or 10 (closed) ...
+            // notvalid_tx_notice = `${bindings.status}`; // discover if other
+            // if (bindings.status === 0) notvalid_tx_notice = 'open';
+            // if (bindings.status === 10) notvalid_tx_notice = 'closed';
         }
 
         ////////
@@ -1260,7 +1262,9 @@ class ListElements {
 
         // surfacing the oracle
         const oracle_notice = dispensers_row.oracle_address ? (<>{' '}<strong>oracle</strong></>) : '';
-        const status = dispensers_row.status ? 'closed' : 'open'; // 10 = closed, 0 = open
+
+        const status = getDispenserStatusText(dispensers_row.status);
+        // const status = dispensers_row.status ? 'closed' : 'open'; // 10 = closed, 0 = open
 
         return (
             <tr

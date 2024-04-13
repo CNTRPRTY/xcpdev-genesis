@@ -146,6 +146,23 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
     return messages;
 }
 
+
+// dispensers have number status, different from the rest
+function getDispenserStatusText(status_number) {
+    // STATUS_OPEN = 0
+    // STATUS_OPEN_EMPTY_ADDRESS = 1
+    // STATUS_CLOSED = 10
+    // STATUS_CLOSING = 11
+    let text = `${status_number}`; // discover if other
+    if (status_number === 0) text = 'open';
+    if (status_number === 1) text = 'open*'; // surface it subtly as is not super relevant to the user
+    // if (bindings.status === 1) notvalid_tx_notice = 'open (empty address)';
+    if (status_number === 10) text = 'closed';
+    if (status_number === 11) text = 'closing';
+    return text;
+}
+
+
 export {
     COUNTERPARTY_VERSION_PREVIEW,
     COUNTERPARTY_VERSION_ALT,
@@ -156,4 +173,5 @@ export {
     getCntrprty,
     postLibApiProxyFetch,
     selectTransactionMessagesFromAll,
+    getDispenserStatusText,
 };

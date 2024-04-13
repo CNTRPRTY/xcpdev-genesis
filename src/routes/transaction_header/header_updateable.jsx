@@ -1,7 +1,7 @@
 /* global BigInt */
 
 import React from 'react';
-import { getCntrprty } from '../../api';
+import { getCntrprty, getDispenserStatusText } from '../../api';
 import { ListElements } from '../shared/elements';
 import { Link } from "react-router-dom";
 import { timeIsoFormat, quantityWithDivisibility, formatDivision } from '../../utils';
@@ -93,16 +93,17 @@ class TransactionUpdateable extends React.Component {
                 const dispensers_row = this.state.transaction_state.dispensers_row;
 
                 // status (integer): The state of the dispenser. 0 for open, 1 for open using open_address, 10 for closed.
-                let dispenser_status;
-                if (dispensers_row.status === 0) {
-                    dispenser_status = 'open';
-                }
-                else if (dispensers_row.status === 1) {
-                    dispenser_status = 'open_address';
-                }
-                else if (dispensers_row.status === 10) {
-                    dispenser_status = 'closed';
-                }
+                const dispenser_status = getDispenserStatusText(dispensers_row.status);
+                // let dispenser_status;
+                // if (dispensers_row.status === 0) {
+                //     dispenser_status = 'open';
+                // }
+                // else if (dispensers_row.status === 1) {
+                //     dispenser_status = 'open_address';
+                // }
+                // else if (dispensers_row.status === 10) {
+                //     dispenser_status = 'closed';
+                // }
 
                 const dispenses_rows = this.state.transaction_state.dispenses_rows;
 
