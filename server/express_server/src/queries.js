@@ -744,7 +744,12 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
     static async getDispensersRowsByAssetName(db, asset_name) {
-        const status = 0; // 0:open 10:closed
+        // STATUS_OPEN = 0
+        // STATUS_OPEN_EMPTY_ADDRESS = 1
+        // STATUS_CLOSED = 10
+        // STATUS_CLOSING = 11
+        // trying new approach, return the ones not closed
+        const status_isnot = 10;
         const sql = `
             SELECT
                 d.*,
@@ -756,18 +761,42 @@ class Queries {
             JOIN blocks b
                 ON d.block_index = b.block_index
             WHERE d.asset = $asset_name
-            AND d.status = $status
+            AND d.status != $status
             ORDER BY d.tx_index ASC;
         `;
         const params_obj = {
             asset_name,
-            status,
+            status: status_isnot,
         };
+
+        // const status = 0; // 0:open 10:closed
+        // const sql = `
+        //     SELECT
+        //         d.*,
+        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+        //         CAST(d.give_remaining AS TEXT) AS give_remaining_text,
+        //         b.block_time
+        //     FROM dispensers d
+        //     JOIN blocks b
+        //         ON d.block_index = b.block_index
+        //     WHERE d.asset = $asset_name
+        //     AND d.status = $status
+        //     ORDER BY d.tx_index ASC;
+        // `;
+        // const params_obj = {
+        //     asset_name,
+        //     status,
+        // };
         return queryDBRows(db, sql, params_obj);
     }
     static async getOpenDispensersRowsByAddress(db, address) {
-        // TODO test query with status 1
-        const status = 0; // 0:open 10:closed
+        // STATUS_OPEN = 0
+        // STATUS_OPEN_EMPTY_ADDRESS = 1
+        // STATUS_CLOSED = 10
+        // STATUS_CLOSING = 11
+        // trying new approach, return the ones not closed
+        const status_isnot = 10;
         const sql = `
             SELECT
                 d.*,
@@ -778,18 +807,35 @@ class Queries {
             JOIN blocks b
                 ON d.block_index = b.block_index
             WHERE d.source = $address
-            AND d.status = $status
+            AND d.status != $status
             ORDER BY d.tx_index ASC;
         `;
         const params_obj = {
             address,
-            status,
+            status: status_isnot,
         };
+        // const status = 0; // 0:open 10:closed
+        // const sql = `
+        //     SELECT
+        //         d.*,
+        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+        //         b.block_time
+        //     FROM dispensers d
+        //     JOIN blocks b
+        //         ON d.block_index = b.block_index
+        //     WHERE d.source = $address
+        //     AND d.status = $status
+        //     ORDER BY d.tx_index ASC;
+        // `;
+        // const params_obj = {
+        //     address,
+        //     status,
+        // };
         return queryDBRows(db, sql, params_obj);
     }
     static async getClosedDispensersRowsByAddress(db, address) {
-        // TODO test query with status 1
-        const status = 10; // 0:open 10:closed
+        const status = 10; // 10:closed (while the rest are not-closed)
         const sql = `
             SELECT
                 d.*,
