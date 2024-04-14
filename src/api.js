@@ -155,10 +155,10 @@ function getDispenserStatusText(status_number) {
     // STATUS_CLOSING = 11
     let text = `${status_number}`; // discover if other
     if (status_number === 0) text = 'open';
-    if (status_number === 1) text = 'open*'; // surface it subtly as is not super relevant to the user
+    else if (status_number === 1) text = 'open*'; // surface it subtly as is not super relevant to the user
     // if (bindings.status === 1) notvalid_tx_notice = 'open (empty address)';
-    if (status_number === 10) text = 'closed';
-    if (status_number === 11) text = 'closing';
+    else if (status_number === 10) text = 'closed';
+    else if (status_number === 11) text = 'closing';
     return text;
 }
 
