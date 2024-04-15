@@ -14,6 +14,9 @@ class WalletCreateSend extends WalletCreate {
             destination: '',
             asset: '',
             quantity: 0,
+            memo: '',
+            memo_is_hex: 'false',
+            use_enhanced_send: 'true',
 
             fee: 0,
             open_dialog_obj: null, // closed when null
@@ -23,6 +26,9 @@ class WalletCreateSend extends WalletCreate {
         this.handleDestinationChange = this.handleDestinationChange.bind(this);
         this.handleAssetChange = this.handleAssetChange.bind(this);
         this.handleQuantityChange = this.handleQuantityChange.bind(this);
+        this.handleMemoChange = this.handleMemoChange.bind(this);
+        this.handleMemoIsHexChange = this.handleMemoIsHexChange.bind(this);
+        this.handleUseEnhancedSendChange = this.handleUseEnhancedSendChange.bind(this);
     }
 
     async handleSubmit(event) {
@@ -35,6 +41,9 @@ class WalletCreateSend extends WalletCreate {
             "destination": this.state.destination,
             "asset": this.state.asset,
             "quantity": Number(this.state.quantity),
+            "memo": this.state.memo,
+            "memo_is_hex": this.state.memo_is_hex === 'true',
+            "use_enhanced_send": this.state.use_enhanced_send === 'true',
 
             "fee": Number(this.state.fee),
             "encoding": "opreturn",
@@ -55,6 +64,18 @@ class WalletCreateSend extends WalletCreate {
 
     handleQuantityChange(event) {
         this.setState({ quantity: event.target.value });
+    }
+
+    handleMemoChange(event) {
+        this.setState({ memo: event.target.value });
+    }
+
+    handleMemoIsHexChange(event) {
+        this.setState({ memo_is_hex: event.target.value });
+    }
+
+    handleUseEnhancedSendChange(event) {
+        this.setState({ use_enhanced_send: event.target.value });
     }
 
 
@@ -122,6 +143,46 @@ class WalletCreateSend extends WalletCreate {
                                             value={this.state.quantity}
                                             onChange={this.handleQuantityChange}
                                         />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">memo:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="16"
+                                            value={this.state.memo}
+                                            onChange={this.handleMemoChange}
+                                        />
+                                        {' '}
+                                        <span class="dark:text-slate-100">is hex:</span>
+                                        {' '}
+                                        <select
+                                            class="border-solid border-2 border-gray-300"
+                                            value={this.state.memo_is_hex}
+                                            onChange={this.handleMemoIsHexChange}
+                                        >
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">use enhanced send:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <select
+                                            class="border-solid border-2 border-gray-300"
+                                            value={this.state.use_enhanced_send}
+                                            onChange={this.handleUseEnhancedSendChange}
+                                        >
+                                            <option value="false">false</option>
+                                            <option value="true">true</option>
+                                        </select>
                                     </td>
                                 </tr>
 
