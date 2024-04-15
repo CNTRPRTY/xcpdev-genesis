@@ -8,6 +8,8 @@ class WalletCreateIssuance extends WalletCreate {
     constructor(props) {
         super(props);
         this.state = {
+            ...WalletCreate.ADVANCED_PARAMETERS_DEFAULTS,
+            
             selected_method: 'create_issuance',
             source: props.address,
 
@@ -18,7 +20,6 @@ class WalletCreateIssuance extends WalletCreate {
             description: '',
             transfer_destination: '', // protocol default is null (but empty string seems to be equivalent)
 
-            fee: 0,
             open_dialog_obj: null, // closed when null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,7 +35,7 @@ class WalletCreateIssuance extends WalletCreate {
         event.preventDefault();
 
         const method = this.state.selected_method;
-        const params = {
+        let params = {
             "source": this.state.source,
 
             "asset": this.state.asset,
@@ -43,11 +44,9 @@ class WalletCreateIssuance extends WalletCreate {
             // "divisible": this.state.divisible,
             "description": this.state.description,
             "transfer_destination": this.state.transfer_destination,
-
-            "fee": Number(this.state.fee),
-            "encoding": "opreturn",
-            "allow_unconfirmed_inputs": true,
         };
+
+        params = this.addAdvancedParams(params);
 
         await this.handleSubmitSetState(method, params);
     }
@@ -76,6 +75,9 @@ class WalletCreateIssuance extends WalletCreate {
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
+
+                    {this.renderAdvancedParameters()}
+
                     <p class="text-gray-600 dark:text-gray-400">
                         Params:
                     </p>
@@ -165,7 +167,7 @@ class WalletCreateIssuance extends WalletCreate {
                                 </tr>
                                 <tr>
                                     <td class="pr-1 py-1">
-                                        <span class="dark:text-slate-100">transfer_destination:</span>
+                                        <span class="dark:text-slate-100">transfer destination:</span>
                                     </td>
                                     <td class="py-1">
                                         <input
@@ -178,7 +180,7 @@ class WalletCreateIssuance extends WalletCreate {
                                     </td>
                                 </tr>
 
-                                <tr>
+                                {/* <tr>
                                     <td class="pr-1 py-1">
                                         <span class="dark:text-slate-100">fee:</span>
                                     </td>
@@ -191,7 +193,8 @@ class WalletCreateIssuance extends WalletCreate {
                                             onChange={this.handleFeeChange}
                                         />
                                     </td>
-                                </tr>
+                                </tr> */}
+
                             </tbody>
                         </table>
                     </div>

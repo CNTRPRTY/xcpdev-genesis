@@ -8,6 +8,8 @@ class WalletCreateSend extends WalletCreate {
     constructor(props) {
         super(props);
         this.state = {
+            ...WalletCreate.ADVANCED_PARAMETERS_DEFAULTS,
+            
             selected_method: 'create_send',
             source: props.address,
 
@@ -18,7 +20,6 @@ class WalletCreateSend extends WalletCreate {
             memo_is_hex: 'false',
             use_enhanced_send: 'true',
 
-            fee: 0,
             open_dialog_obj: null, // closed when null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +36,7 @@ class WalletCreateSend extends WalletCreate {
         event.preventDefault();
 
         const method = this.state.selected_method;
-        const params = {
+        let params = {
             "source": this.state.source,
 
             "destination": this.state.destination,
@@ -44,11 +45,9 @@ class WalletCreateSend extends WalletCreate {
             "memo": this.state.memo,
             "memo_is_hex": this.state.memo_is_hex === 'true',
             "use_enhanced_send": this.state.use_enhanced_send === 'true',
-
-            "fee": Number(this.state.fee),
-            "encoding": "opreturn",
-            "allow_unconfirmed_inputs": true,
         };
+
+        params = this.addAdvancedParams(params);
 
         await this.handleSubmitSetState(method, params);
     }
@@ -83,6 +82,9 @@ class WalletCreateSend extends WalletCreate {
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
+
+                    {this.renderAdvancedParameters()}
+
                     <p class="text-gray-600 dark:text-gray-400">
                         Params:
                     </p>
@@ -186,7 +188,7 @@ class WalletCreateSend extends WalletCreate {
                                     </td>
                                 </tr>
 
-                                <tr>
+                                {/* <tr>
                                     <td class="pr-1 py-1">
                                         <span class="dark:text-slate-100">fee:</span>
                                     </td>
@@ -199,7 +201,8 @@ class WalletCreateSend extends WalletCreate {
                                             onChange={this.handleFeeChange}
                                         />
                                     </td>
-                                </tr>
+                                </tr> */}
+
                             </tbody>
                         </table>
                     </div>
