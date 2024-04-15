@@ -3,6 +3,23 @@ import { withRouter } from './shared/classhooks';
 
 import WalletCreate from './wallet_create';
 
+//////
+// TODO move to utils if reused
+// https://stackoverflow.com/a/44233123
+function checkFloat(value) {
+    const parsed = Number.parseFloat(value);
+    return (!Number.isNaN(parsed)) && (!Number.isInteger(parsed));
+}
+function isZeroOrFloat(value) {
+    if (Number.parseFloat(value) === 0) return true;
+    return checkFloat(value);
+}
+
+function nowEpochSeconds() {
+    return Math.floor((new Date()).getTime() / 1000);
+}
+//////
+
 class WalletCreateBroadcast extends WalletCreate {
 
     constructor(props) {
@@ -11,32 +28,39 @@ class WalletCreateBroadcast extends WalletCreate {
             selected_method: 'create_broadcast',
             source: props.address,
 
+            fee_fraction: '0.0',
             text: '',
+            timestamp: nowEpochSeconds(),
+            value: '0.0',
 
             fee: 0,
             open_dialog_obj: null, // closed when null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
 
+        this.handleFeeFractionChange = this.handleFeeFractionChange.bind(this);
         this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleTimestampChange = this.handleTimestampChange.bind(this);
+        this.handleValueChange = this.handleValueChange.bind(this);
     }
 
     async handleSubmit(event) {
         event.preventDefault();
 
-        // if (this.state.text.length > 54) {
-        //     alert(`54 chars max for opreturn`);
-        //     return;
-        // }
+        if (!isZeroOrFloat(this.state.fee_fraction)) alert(`fee_fraction:${this.state.fee_fraction} is not a float`);
+        const float_fee_fraction = Number.parseFloat(this.state.fee_fraction);
+
+        if (!isZeroOrFloat(this.state.value)) alert(`value:${this.state.value} is not a float`);
+        const float_value = Number.parseFloat(this.state.value);
 
         const method = this.state.selected_method;
         const params = {
             "source": this.state.source,
 
-            "fee_fraction": 0.0,
+            "fee_fraction": float_fee_fraction,
             "text": this.state.text,
-            "timestamp": Math.floor((new Date()).getTime() / 1000),
-            "value": 0.0,
+            "timestamp": this.state.timestamp,
+            "value": float_value,
 
             "fee": Number(this.state.fee),
             "encoding": "opreturn",
@@ -48,8 +72,20 @@ class WalletCreateBroadcast extends WalletCreate {
     }
 
 
+    handleFeeFractionChange(event) {
+        this.setState({ fee_fraction: event.target.value });
+    }
+
     handleTextChange(event) {
         this.setState({ text: event.target.value });
+    }
+
+    handleTimestampChange(event) {
+        this.setState({ timestamp: event.target.value });
+    }
+
+    handleValueChange(event) {
+        this.setState({ value: event.target.value });
     }
 
 
@@ -81,6 +117,21 @@ class WalletCreateBroadcast extends WalletCreate {
 
                                 <tr>
                                     <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">fee fraction:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="8"
+                                            value={this.state.fee_fraction}
+                                            onChange={this.handleFeeFractionChange}
+                                        />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="pr-1 py-1">
                                         <span class="dark:text-slate-100">text:</span>
                                     </td>
                                     <td class="py-1">
@@ -100,6 +151,46 @@ class WalletCreateBroadcast extends WalletCreate {
                                                 // https://stackoverflow.com/a/5271803
                                                 'resize': 'horizontal',
                                             }} onChange={this.handleTextChange}></textarea>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">timestamp:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="8"
+                                            value={this.state.timestamp}
+                                            onChange={this.handleTimestampChange}
+                                        />
+                                        {' '}
+                                        <button
+                                            class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                                            onClick={(event) => {
+                                                event.preventDefault();
+                                                this.setState({ timestamp: nowEpochSeconds() });
+                                            }}
+                                        >
+                                            now
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="pr-1 py-1">
+                                        <span class="dark:text-slate-100">value:</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <input
+                                            class="border-solid border-2 border-gray-300"
+                                            type="text"
+                                            size="8"
+                                            value={this.state.value}
+                                            onChange={this.handleValueChange}
+                                        />
                                     </td>
                                 </tr>
 
