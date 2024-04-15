@@ -47,10 +47,16 @@ class WalletCreateBroadcast extends WalletCreate {
     async handleSubmit(event) {
         event.preventDefault();
 
-        if (!isZeroOrFloat(this.state.fee_fraction)) alert(`fee_fraction:${this.state.fee_fraction} is not a float`);
+        if (!isZeroOrFloat(this.state.fee_fraction)) {
+            alert(`fee_fraction:${this.state.fee_fraction} is not a float`);
+            return;
+        };
         const float_fee_fraction = Number.parseFloat(this.state.fee_fraction);
 
-        if (!isZeroOrFloat(this.state.value)) alert(`value:${this.state.value} is not a float`);
+        if (!isZeroOrFloat(this.state.value)) {
+            alert(`value:${this.state.value} is not a float`);
+            return;
+        }
         const float_value = Number.parseFloat(this.state.value);
 
         const method = this.state.selected_method;
