@@ -5,9 +5,59 @@ class WalletCreate extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.handleSelectAdvancedParameterEncoding = this.handleSelectAdvancedParameterEncoding.bind(this);
+        this.handleSelectAdvancedParameterPubkey = this.handleSelectAdvancedParameterPubkey.bind(this);
+        this.handleSelectAdvancedParameterAllowUnconfirmedInputs = this.handleSelectAdvancedParameterAllowUnconfirmedInputs.bind(this);
+        this.handleSelectAdvancedParameterFee = this.handleSelectAdvancedParameterFee.bind(this);
+
         this.handleDialogCloseSubmit = this.handleDialogCloseSubmit.bind(this);
-        this.handleFeeChange = this.handleFeeChange.bind(this);
+        // this.handleFeeChange = this.handleFeeChange.bind(this);
     }
+
+
+    handleSelectAdvancedParameterEncoding(event) {
+        this.setState({ ap_encoding: event.target.value });
+    }
+
+    handleSelectAdvancedParameterPubkey(event) {
+        this.setState({ ap_pubkey: event.target.value });
+    }
+
+    handleSelectAdvancedParameterAllowUnconfirmedInputs(event) {
+        this.setState({ ap_allow_unconfirmed_inputs: event.target.value });
+    }
+
+    handleSelectAdvancedParameterFee(event) {
+        this.setState({ ap_fee: event.target.value });
+    }
+
+
+    // only adds if different from defaults
+    addAdvancedParams(params) {
+        const new_params = { ...params };
+
+        // first deal with the "client" defaults (always include)
+        new_params.allow_unconfirmed_inputs = (this.state.ap_allow_unconfirmed_inputs === 'true');
+
+        if (this.state.ap_encoding !== ADVANCED_PARAMETERS_DEFAULTS.ap_encoding) {
+            new_params.encoding = this.state.ap_encoding;
+        }
+
+        if (this.state.ap_pubkey !== ADVANCED_PARAMETERS_DEFAULTS.ap_pubkey) {
+            // TODO string/list
+            new_params.pubkey = this.state.ap_pubkey;
+        }
+
+        // allow_unconfirmed_inputs dealt above
+
+        if (this.state.ap_fee !== ADVANCED_PARAMETERS_DEFAULTS.ap_fee) {
+            new_params.fee = Number(this.state.ap_fee);
+        }
+
+        return new_params;
+    }
+
 
     async handleSubmitSetState(method, params) {
 
@@ -97,8 +147,90 @@ class WalletCreate extends React.Component {
     }
 
 
-    handleFeeChange(event) {
-        this.setState({ fee: event.target.value });
+    // handleFeeChange(event) {
+    //     this.setState({ fee: event.target.value });
+    // }
+
+    renderAdvancedParameters() {
+        return (
+            <>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Advanced parameters:
+                </p>
+                <div class="py-1 my-1 ml-4">
+                    <table>
+                        <tbody>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">encoding:</span>
+                                </td>
+                                <td class="py-1">
+                                    <select
+                                        class="border-solid border-2 border-gray-300"
+                                        value={this.state.ap_encoding}
+                                        onChange={this.handleSelectAdvancedParameterEncoding}
+                                    >
+                                        <option value="auto">auto</option>
+                                        <option value="opreturn">opreturn</option>
+                                        <option value="multisig">multisig</option>
+                                        <option value="pubkeyhash">pubkeyhash</option>
+                                        <option value="P2SH">p2sh</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">pubkey:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_pubkey}
+                                        onChange={this.handleSelectAdvancedParameterPubkey}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">allow unconfirmed inputs:</span>
+                                </td>
+                                <td class="py-1">
+                                    <select
+                                        class="border-solid border-2 border-gray-300"
+                                        value={this.state.ap_allow_unconfirmed_inputs}
+                                        onChange={this.handleSelectAdvancedParameterAllowUnconfirmedInputs}
+                                    >
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">fee:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_fee}
+                                        onChange={this.handleSelectAdvancedParameterFee}
+                                    />
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </>
+        );
     }
 
     renderDialogObj() {
@@ -250,5 +382,33 @@ class WalletCreate extends React.Component {
     }
 
 }
+
+const ADVANCED_PARAMETERS_DEFAULTS = {
+    ap_encoding: 'auto',
+    ap_pubkey: '', // string/list
+
+    ap_allow_unconfirmed_inputs: 'true', // friendlier client default
+    // allow_unconfirmed_inputs: 'false',
+
+    ap_fee: '', // TODO have been asking for this one always...
+    ap_fee_per_kb: '',
+    ap_fee_provided: '',
+
+    ap_custom_inputs: '', // list
+    ap_unspent_tx_hash: '',
+
+    // TODO some of these defaults might have changed...
+    ap_regular_dust_size: 5430, // integer
+    ap_multisig_dust_size: 7800, // integer
+
+    ap_dust_return_pubkey: '',
+    ap_disable_utxo_locks: 'false',
+
+    ap_op_return_value: 0, // integer
+
+    ap_extended_tx_info: 'false',
+    ap_p2sh_pretx_txid: '', // string
+}
+WalletCreate.ADVANCED_PARAMETERS_DEFAULTS = ADVANCED_PARAMETERS_DEFAULTS;
 
 export default WalletCreate;

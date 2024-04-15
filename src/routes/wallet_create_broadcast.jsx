@@ -25,6 +25,8 @@ class WalletCreateBroadcast extends WalletCreate {
     constructor(props) {
         super(props);
         this.state = {
+            ...WalletCreate.ADVANCED_PARAMETERS_DEFAULTS,
+
             selected_method: 'create_broadcast',
             source: props.address,
 
@@ -33,7 +35,7 @@ class WalletCreateBroadcast extends WalletCreate {
             timestamp: nowEpochSeconds(),
             value: '0.0',
 
-            fee: 0,
+            // fee: 0,
             open_dialog_obj: null, // closed when null
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,7 +62,8 @@ class WalletCreateBroadcast extends WalletCreate {
         const float_value = Number.parseFloat(this.state.value);
 
         const method = this.state.selected_method;
-        const params = {
+        let params = {
+            // const params = {
             "source": this.state.source,
 
             "fee_fraction": float_fee_fraction,
@@ -68,11 +71,13 @@ class WalletCreateBroadcast extends WalletCreate {
             "timestamp": this.state.timestamp,
             "value": float_value,
 
-            "fee": Number(this.state.fee),
-            "encoding": "opreturn",
-            "allow_unconfirmed_inputs": true,
+            // "fee": Number(this.state.fee),
+            // "encoding": "opreturn",
+            // "allow_unconfirmed_inputs": true,
             // "extended_tx_info": true
         };
+
+        params = this.addAdvancedParams(params);
 
         await this.handleSubmitSetState(method, params);
     }
@@ -99,6 +104,9 @@ class WalletCreateBroadcast extends WalletCreate {
         return (
             <>
                 <form onSubmit={this.handleSubmit}>
+
+                    {this.renderAdvancedParameters()}
+
                     <p class="text-gray-600 dark:text-gray-400">
                         Params:
                     </p>
@@ -200,7 +208,7 @@ class WalletCreateBroadcast extends WalletCreate {
                                     </td>
                                 </tr>
 
-                                <tr>
+                                {/* <tr>
                                     <td class="pr-1 py-1">
                                         <span class="dark:text-slate-100">fee:</span>
                                     </td>
@@ -213,7 +221,8 @@ class WalletCreateBroadcast extends WalletCreate {
                                             onChange={this.handleFeeChange}
                                         />
                                     </td>
-                                </tr>
+                                </tr> */}
+
                             </tbody>
                         </table>
                     </div>
