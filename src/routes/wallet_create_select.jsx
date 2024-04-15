@@ -43,9 +43,12 @@ class WalletCreateSelect extends React.Component {
     renderMethodOptions() {
         return (
             <>
-                <option value="create_broadcast">create_broadcast (opreturn)</option>
+                <option value="create_broadcast">create_broadcast</option>
+                <option value="create_issuance">create_issuance</option>
+                <option value="create_send">create_send</option>
+                {/* <option value="create_broadcast">create_broadcast (opreturn)</option>
                 <option value="create_issuance">create_issuance (opreturn)</option>
-                <option value="create_send">create_send (opreturn)</option>
+                <option value="create_send">create_send (opreturn)</option> */}
             </>
         );
     }

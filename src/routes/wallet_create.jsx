@@ -239,6 +239,8 @@ class WalletCreate extends React.Component {
             success = (
                 <>
                     <p class="dark:text-slate-100">
+                        (This is alpha software, verify the request was done correctly below.)
+                        <br />
                         Copy the following hex, sign it, and then broadcast it.
                     </p>
                     <div class="py-1 my-1">
