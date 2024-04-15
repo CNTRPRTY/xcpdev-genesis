@@ -13,7 +13,8 @@ class WalletCreateIssuance extends WalletCreate {
 
             asset: '',
             quantity: 0,
-            divisible: false, // protocol default is true
+            divisible: 'false', // protocol default is true
+            // divisible: false, // protocol default is true
             description: '',
             transfer_destination: '', // protocol default is null (but empty string seems to be equivalent)
 
@@ -38,7 +39,8 @@ class WalletCreateIssuance extends WalletCreate {
 
             "asset": this.state.asset,
             "quantity": Number(this.state.quantity),
-            "divisible": this.state.divisible,
+            "divisible": this.state.divisible === 'true',
+            // "divisible": this.state.divisible,
             "description": this.state.description,
             "transfer_destination": this.state.transfer_destination,
 
@@ -132,8 +134,10 @@ class WalletCreateIssuance extends WalletCreate {
                                             value={this.state.divisible}
                                             onChange={this.handleDivisibleChange}
                                         >
-                                            <option value={false}>false</option>
-                                            <option value={true}>true (satoshi)</option>
+                                            <option value="false">false</option>
+                                            <option value="true">true (satoshi)</option>
+                                            {/* <option value={false}>false</option>
+                                            <option value={true}>true (satoshi)</option> */}
                                         </select>
                                     </td>
                                 </tr>
