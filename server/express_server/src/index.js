@@ -553,7 +553,7 @@ async function libApiRequest(method, params = null) {
 }
 app.post('/lib_api_proxy', async (req, res) => {
     try {
-        // TODO? some validation?
+        // no validation/sanitization, forwarding all this responsibility to counterparty-lib
         const method = req.body.method;
         const params = req.body.params;
         const lib_response = await libApiRequest(method, params);

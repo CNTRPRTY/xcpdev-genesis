@@ -7,6 +7,7 @@ async function queryDBRows(db, sql, params_obj_nodollarsign) {
     return all;
 }
 
+// read-only and using native named parameter binding, safe from sql-injection
 class Queries {
 
     // static async getMempoolRows(db) {
