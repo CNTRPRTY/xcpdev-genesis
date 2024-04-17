@@ -1918,13 +1918,14 @@ class OneElements extends React.Component {
     constructor(props) {
         super(props);
 
-        if (localStorage.theme === 'undefined') {
-            // "odd" first visit (no big deal vs increased complexity (TODO fix if simple solution is found))
+        let _theme = localStorage.theme;
+        if (typeof localStorage.theme === 'undefined') {
             localStorage.setItem("theme", DEFAULT_THEME);
+            _theme = DEFAULT_THEME;
         }
 
         this.state = {
-            theme: localStorage.theme,
+            theme: _theme,
         };
         this.handleDarkModeToggle = this.handleDarkModeToggle.bind(this);
     }
