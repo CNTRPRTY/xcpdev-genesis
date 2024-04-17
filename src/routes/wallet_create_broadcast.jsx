@@ -25,6 +25,7 @@ class WalletCreateBroadcast extends WalletCreate {
     constructor(props) {
         super(props);
         this.state = {
+            advanced_parameters_show: false, // ONLY PRESENTATION! whatever chosen stays
             ...WalletCreate.ADVANCED_PARAMETERS_DEFAULTS,
 
             selected_method: 'create_broadcast',

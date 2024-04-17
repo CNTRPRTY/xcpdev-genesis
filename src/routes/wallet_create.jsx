@@ -154,6 +154,27 @@ class WalletCreate extends React.Component {
     renderAdvancedParameters() {
         return (
             <>
+
+                <div class="py-1 my-1">
+                <label>
+                    <input
+                        type="checkbox"
+                        onClick={() => {
+                            this.setState((prevState, props) => ({
+                                advanced_parameters_show: !prevState.advanced_parameters_show
+                            }));
+                        }}
+                        checked={this.state.advanced_parameters_show}
+                    />
+                    {' '}
+                    <span class="text-gray-600 dark:text-gray-400">show advanced</span>
+                </label>
+                </div>
+
+                {this.state.advanced_parameters_show ?
+                    (
+
+                <>
                 <p class="text-gray-600 dark:text-gray-400">
                     Advanced parameters:
                 </p>
@@ -229,6 +250,12 @@ class WalletCreate extends React.Component {
                         </tbody>
                     </table>
                 </div>
+                </>
+
+                    )
+                    : null
+                }
+
             </>
         );
     }
