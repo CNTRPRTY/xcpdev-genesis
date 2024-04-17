@@ -5,6 +5,7 @@ import WalletCreateBroadcast from './wallet_create_broadcast';
 import WalletCreateIssuance from './wallet_create_issuance';
 import WalletCreateSend from './wallet_create_send';
 import WalletCreateDispenser from './wallet_create_dispenser';
+import WalletCreateOrder from './wallet_create_order';
 
 class WalletCreateSelect extends React.Component {
 
@@ -23,7 +24,8 @@ class WalletCreateSelect extends React.Component {
                 paramsGetMethod === 'create_broadcast' ||
                 paramsGetMethod === 'create_issuance' ||
                 paramsGetMethod === 'create_send' ||
-                paramsGetMethod === 'create_dispenser'
+                paramsGetMethod === 'create_dispenser' ||
+                paramsGetMethod === 'create_order'
             ) {
                 selected_method = paramsGetMethod;
             }
@@ -49,6 +51,7 @@ class WalletCreateSelect extends React.Component {
                 <option value="create_issuance">create_issuance</option>
                 <option value="create_send">create_send</option>
                 <option value="create_dispenser">create_dispenser</option>
+                <option value="create_order">create_order</option>
             </>
         );
     }
@@ -65,6 +68,9 @@ class WalletCreateSelect extends React.Component {
         }
         else if (this.state.selected_method === 'create_dispenser') {
             return (<WalletCreateDispenser address={this.state.address} />);
+        }
+        else if (this.state.selected_method === 'create_order') {
+            return (<WalletCreateOrder address={this.state.address} />);
         }
         else {
             return null;
