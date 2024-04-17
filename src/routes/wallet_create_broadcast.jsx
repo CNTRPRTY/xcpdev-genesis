@@ -141,6 +141,8 @@ class WalletCreateBroadcast extends WalletCreate {
                                             value={this.state.fee_fraction}
                                             onChange={this.handleFeeFractionChange}
                                         />
+                                        {' '}
+                                        <span class="text-gray-600 dark:text-gray-400">(optional)</span>
                                     </td>
                                 </tr>
 
@@ -205,6 +207,8 @@ class WalletCreateBroadcast extends WalletCreate {
                                             value={this.state.value}
                                             onChange={this.handleValueChange}
                                         />
+                                        {' '}
+                                        <span class="text-gray-600 dark:text-gray-400">(optional)</span>
                                     </td>
                                 </tr>
 
