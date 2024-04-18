@@ -7,6 +7,9 @@ import WalletCreateSend from './wallet_create_send';
 import WalletCreateDispenser from './wallet_create_dispenser';
 import WalletCreateOrder from './wallet_create_order';
 import WalletCreateSweep from './wallet_create_sweep';
+import WalletCreateDestroy from './wallet_create_destroy';
+import WalletCreateBtcpay from './wallet_create_btcpay';
+import WalletCreateCancel from './wallet_create_cancel';
 
 class WalletCreateSelect extends React.Component {
 
@@ -27,7 +30,10 @@ class WalletCreateSelect extends React.Component {
                 paramsGetMethod === 'create_send' ||
                 paramsGetMethod === 'create_dispenser' ||
                 paramsGetMethod === 'create_order' ||
-                paramsGetMethod === 'create_sweep'
+                paramsGetMethod === 'create_sweep' ||
+                paramsGetMethod === 'create_destroy' ||
+                paramsGetMethod === 'create_btcpay' ||
+                paramsGetMethod === 'create_cancel'
             ) {
                 selected_method = paramsGetMethod;
             }
@@ -55,6 +61,9 @@ class WalletCreateSelect extends React.Component {
                 <option value="create_dispenser">create_dispenser</option>
                 <option value="create_order">create_order</option>
                 <option value="create_sweep">create_sweep</option>
+                <option value="create_destroy">create_destroy</option>
+                <option value="create_btcpay">create_btcpay</option>
+                <option value="create_cancel">create_cancel</option>
             </>
         );
     }
@@ -77,6 +86,15 @@ class WalletCreateSelect extends React.Component {
         }
         else if (this.state.selected_method === 'create_sweep') {
             return (<WalletCreateSweep address={this.state.address} />);
+        }
+        else if (this.state.selected_method === 'create_destroy') {
+            return (<WalletCreateDestroy address={this.state.address} />);
+        }
+        else if (this.state.selected_method === 'create_btcpay') {
+            return (<WalletCreateBtcpay address={this.state.address} />);
+        }
+        else if (this.state.selected_method === 'create_cancel') {
+            return (<WalletCreateCancel address={this.state.address} />);
         }
         else {
             return null;
