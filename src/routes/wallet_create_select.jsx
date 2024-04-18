@@ -60,10 +60,12 @@ class WalletCreateSelect extends React.Component {
                 <option value="create_send">create_send</option>
                 <option value="create_dispenser">create_dispenser</option>
                 <option value="create_order">create_order</option>
-                <option value="create_sweep">create_sweep</option>
-                <option value="create_destroy">create_destroy</option>
                 <option value="create_btcpay">create_btcpay</option>
+                <option value="create_sweep">create_sweep</option>
+                {/* <option value="create_destroy">create_destroy</option> */}
+                {/* <option value="create_btcpay">create_btcpay</option> */}
                 <option value="create_cancel">create_cancel</option>
+                <option value="create_destroy">create_destroy</option>
             </>
         );
     }
