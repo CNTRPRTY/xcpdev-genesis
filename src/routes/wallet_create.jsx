@@ -10,7 +10,18 @@ class WalletCreate extends React.Component {
         this.handleSelectAdvancedParameterPubkey = this.handleSelectAdvancedParameterPubkey.bind(this);
         this.handleSelectAdvancedParameterAllowUnconfirmedInputs = this.handleSelectAdvancedParameterAllowUnconfirmedInputs.bind(this);
         this.handleSelectAdvancedParameterFee = this.handleSelectAdvancedParameterFee.bind(this);
-
+        this.handleSelectAdvancedParameterFeePerKb = this.handleSelectAdvancedParameterFeePerKb.bind(this);
+        this.handleSelectAdvancedParameterFeeProvided = this.handleSelectAdvancedParameterFeeProvided.bind(this);
+        this.handleSelectAdvancedParameterCustomInputs = this.handleSelectAdvancedParameterCustomInputs.bind(this);
+        this.handleSelectAdvancedParameterUnspentTxHash = this.handleSelectAdvancedParameterUnspentTxHash.bind(this);
+        this.handleSelectAdvancedParameterRegularDustSize = this.handleSelectAdvancedParameterRegularDustSize.bind(this);
+        this.handleSelectAdvancedParameterMultisigDustSize = this.handleSelectAdvancedParameterMultisigDustSize.bind(this);
+        this.handleSelectAdvancedParameterDustReturnPubkey = this.handleSelectAdvancedParameterDustReturnPubkey.bind(this);
+        this.handleSelectAdvancedParameterDisableUtxoLocks = this.handleSelectAdvancedParameterDisableUtxoLocks.bind(this);
+        this.handleSelectAdvancedParameterOpReturnValue = this.handleSelectAdvancedParameterOpReturnValue.bind(this);
+        this.handleSelectAdvancedParameterExtendedTxInfo = this.handleSelectAdvancedParameterExtendedTxInfo.bind(this);
+        this.handleSelectAdvancedParameterP2shPretxTxid = this.handleSelectAdvancedParameterP2shPretxTxid.bind(this);
+        
         this.handleDialogCloseSubmit = this.handleDialogCloseSubmit.bind(this);
         // this.handleFeeChange = this.handleFeeChange.bind(this);
     }
@@ -32,6 +43,50 @@ class WalletCreate extends React.Component {
         this.setState({ ap_fee: event.target.value });
     }
 
+    handleSelectAdvancedParameterFeePerKb(event) {
+        this.setState({ ap_fee_per_kb: event.target.value });
+    }
+
+    handleSelectAdvancedParameterFeeProvided(event) {
+        this.setState({ ap_fee_provided: event.target.value });
+    }
+
+    handleSelectAdvancedParameterCustomInputs(event) {
+        this.setState({ ap_custom_inputs: event.target.value });
+    }
+
+    handleSelectAdvancedParameterUnspentTxHash(event) {
+        this.setState({ ap_unspent_tx_hash: event.target.value });
+    }
+
+    handleSelectAdvancedParameterRegularDustSize(event) {
+        this.setState({ ap_regular_dust_size: event.target.value });
+    }
+
+    handleSelectAdvancedParameterMultisigDustSize(event) {
+        this.setState({ ap_multisig_dust_size: event.target.value });
+    }
+
+    handleSelectAdvancedParameterDustReturnPubkey(event) {
+        this.setState({ ap_dust_return_pubkey: event.target.value });
+    }
+
+    handleSelectAdvancedParameterDisableUtxoLocks(event) {
+        this.setState({ ap_disable_utxo_locks: event.target.value });
+    }
+
+    handleSelectAdvancedParameterOpReturnValue(event) {
+        this.setState({ ap_op_return_value: event.target.value });
+    }
+
+    handleSelectAdvancedParameterExtendedTxInfo(event) {
+        this.setState({ ap_extended_tx_info: event.target.value });
+    }
+
+    handleSelectAdvancedParameterP2shPretxTxid(event) {
+        this.setState({ ap_p2sh_pretx_txid: event.target.value });
+    }
+
 
     // only adds if different from defaults
     addAdvancedParams(params) {
@@ -45,14 +100,71 @@ class WalletCreate extends React.Component {
         }
 
         if (this.state.ap_pubkey !== ADVANCED_PARAMETERS_DEFAULTS.ap_pubkey) {
-            // TODO string/list
-            new_params.pubkey = this.state.ap_pubkey;
+            // string/list:
+            try {
+                // list
+                new_params.pubkey = JSON.parse(this.state.ap_pubkey);
+            }
+            catch (err) {
+                // string
+                new_params.pubkey = this.state.ap_pubkey;
+            }
         }
 
         // allow_unconfirmed_inputs dealt above
 
         if (this.state.ap_fee !== ADVANCED_PARAMETERS_DEFAULTS.ap_fee) {
             new_params.fee = Number(this.state.ap_fee);
+        }
+
+        if (this.state.ap_fee_per_kb !== ADVANCED_PARAMETERS_DEFAULTS.ap_fee_per_kb) {
+            new_params.fee_per_kb = Number(this.state.ap_fee_per_kb);
+        }
+
+        if (this.state.ap_fee_provided !== ADVANCED_PARAMETERS_DEFAULTS.ap_fee_provided) {
+            new_params.fee_provided = Number(this.state.ap_fee_provided);
+        }
+
+        if (this.state.ap_custom_inputs !== ADVANCED_PARAMETERS_DEFAULTS.ap_custom_inputs) {
+            try {
+                new_params.custom_inputs = JSON.parse(this.state.ap_custom_inputs);
+            }
+            catch (err) {
+                alert(`custom_inputs:${this.state.ap_custom_inputs} is not a JSON object`);
+                return;
+            }
+        }
+
+        if (this.state.ap_unspent_tx_hash !== ADVANCED_PARAMETERS_DEFAULTS.ap_unspent_tx_hash) {
+            new_params.unspent_tx_hash = this.state.ap_unspent_tx_hash;
+        }
+
+        if (this.state.ap_regular_dust_size !== ADVANCED_PARAMETERS_DEFAULTS.ap_regular_dust_size) {
+            new_params.regular_dust_size = Number(this.state.ap_regular_dust_size);
+        }
+
+        if (this.state.ap_multisig_dust_size !== ADVANCED_PARAMETERS_DEFAULTS.ap_multisig_dust_size) {
+            new_params.multisig_dust_size = Number(this.state.ap_multisig_dust_size);
+        }
+
+        if (this.state.ap_dust_return_pubkey !== ADVANCED_PARAMETERS_DEFAULTS.ap_dust_return_pubkey) {
+            new_params.dust_return_pubkey = this.state.ap_dust_return_pubkey;
+        }
+
+        if (this.state.ap_disable_utxo_locks !== ADVANCED_PARAMETERS_DEFAULTS.ap_disable_utxo_locks) {
+            new_params.disable_utxo_locks = (this.state.ap_disable_utxo_locks === 'true');
+        }
+
+        if (this.state.ap_op_return_value !== ADVANCED_PARAMETERS_DEFAULTS.ap_op_return_value) {
+            new_params.op_return_value = Number(this.state.ap_op_return_value);
+        }
+
+        if (this.state.ap_extended_tx_info !== ADVANCED_PARAMETERS_DEFAULTS.ap_extended_tx_info) {
+            new_params.extended_tx_info = (this.state.ap_extended_tx_info === 'true');
+        }
+
+        if (this.state.ap_p2sh_pretx_txid !== ADVANCED_PARAMETERS_DEFAULTS.ap_p2sh_pretx_txid) {
+            new_params.p2sh_pretx_txid = this.state.ap_p2sh_pretx_txid;
         }
 
         return new_params;
@@ -209,7 +321,7 @@ class WalletCreate extends React.Component {
                                     <input
                                         class="border-solid border-2 border-gray-300"
                                         type="text"
-                                        size="8"
+                                        size="32"
                                         value={this.state.ap_pubkey}
                                         onChange={this.handleSelectAdvancedParameterPubkey}
                                     />
@@ -247,6 +359,173 @@ class WalletCreate extends React.Component {
                                 </td>
                             </tr>
 
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">fee per kb:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_fee_per_kb}
+                                        onChange={this.handleSelectAdvancedParameterFeePerKb}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">fee provided:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_fee_provided}
+                                        onChange={this.handleSelectAdvancedParameterFeeProvided}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">custom inputs:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="32"
+                                        value={this.state.ap_custom_inputs}
+                                        onChange={this.handleSelectAdvancedParameterCustomInputs}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">unspent tx hash:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="32"
+                                        value={this.state.ap_unspent_tx_hash}
+                                        onChange={this.handleSelectAdvancedParameterUnspentTxHash}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">regular dust size:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_regular_dust_size}
+                                        onChange={this.handleSelectAdvancedParameterRegularDustSize}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">multisig dust size:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_multisig_dust_size}
+                                        onChange={this.handleSelectAdvancedParameterMultisigDustSize}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">dust return pubkey:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="32"
+                                        value={this.state.ap_dust_return_pubkey}
+                                        onChange={this.handleSelectAdvancedParameterDustReturnPubkey}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">disable utxo locks:</span>
+                                </td>
+                                <td class="py-1">
+                                    <select
+                                        class="border-solid border-2 border-gray-300"
+                                        value={this.state.ap_disable_utxo_locks}
+                                        onChange={this.handleSelectAdvancedParameterDisableUtxoLocks}
+                                    >
+                                        <option value="false">false</option>
+                                        <option value="true">true</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">op return value:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="8"
+                                        value={this.state.ap_op_return_value}
+                                        onChange={this.handleSelectAdvancedParameterOpReturnValue}
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">extended tx info:</span>
+                                </td>
+                                <td class="py-1">
+                                    <select
+                                        class="border-solid border-2 border-gray-300"
+                                        value={this.state.ap_extended_tx_info}
+                                        onChange={this.handleSelectAdvancedParameterExtendedTxInfo}
+                                    >
+                                        <option value="false">false</option>
+                                        <option value="true">true</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="pr-1 py-1">
+                                    <span class="dark:text-slate-100">p2sh pretx txid:</span>
+                                </td>
+                                <td class="py-1">
+                                    <input
+                                        class="border-solid border-2 border-gray-300"
+                                        type="text"
+                                        size="32"
+                                        value={this.state.ap_p2sh_pretx_txid}
+                                        onChange={this.handleSelectAdvancedParameterP2shPretxTxid}
+                                    />
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -263,6 +542,11 @@ class WalletCreate extends React.Component {
     renderDialogObj() {
         let success = null;
         if (this.state.open_dialog_obj.dialog_state === 'success') {
+
+            // hex position varies based on extended_tx_info
+            let hex = this.state.open_dialog_obj.response.data.lib_response.result;
+            if (typeof hex === 'object') hex = hex.tx_hex;
+
             success = (
                 <>
                     <p class="dark:text-slate-100">
@@ -289,7 +573,8 @@ class WalletCreate extends React.Component {
                                 // https://stackoverflow.com/a/5271803
                                 'resize': 'horizontal',
                             }}
-                            value={this.state.open_dialog_obj.response.data.lib_response.result}
+                            value={hex}
+                            // value={this.state.open_dialog_obj.response.data.lib_response.result}
                             readOnly
                             disabled
                         />
@@ -413,29 +698,30 @@ class WalletCreate extends React.Component {
 }
 
 const ADVANCED_PARAMETERS_DEFAULTS = {
-    ap_encoding: 'auto',
+    ap_encoding: 'auto', // string
     ap_pubkey: '', // string/list
 
-    ap_allow_unconfirmed_inputs: 'true', // friendlier client default
-    // allow_unconfirmed_inputs: 'false',
-
-    ap_fee: '', // TODO have been asking for this one always...
-    ap_fee_per_kb: '',
-    ap_fee_provided: '',
+    // friendlier client default
+    ap_allow_unconfirmed_inputs: 'true', // bool
+    // ap_allow_unconfirmed_inputs: 'false', // bool
+    
+    ap_fee: '', // int
+    ap_fee_per_kb: '', // int
+    ap_fee_provided: '', // int
 
     ap_custom_inputs: '', // list
-    ap_unspent_tx_hash: '',
+    ap_unspent_tx_hash: '', // string
 
-    // TODO some of these defaults might have changed...
-    ap_regular_dust_size: 5430, // integer
-    ap_multisig_dust_size: 7800, // integer
+    ap_regular_dust_size: 546, // 5430, // integer
+    // Note: 1000 is the new default, but may be considered too low for future redeem
+    ap_multisig_dust_size: 1000, // 7800, // integer
 
-    ap_dust_return_pubkey: '',
-    ap_disable_utxo_locks: 'false',
+    ap_dust_return_pubkey: '', // string
+    ap_disable_utxo_locks: 'false', // bool
 
     ap_op_return_value: 0, // integer
 
-    ap_extended_tx_info: 'false',
+    ap_extended_tx_info: 'false', // bool
     ap_p2sh_pretx_txid: '', // string
 }
 WalletCreate.ADVANCED_PARAMETERS_DEFAULTS = ADVANCED_PARAMETERS_DEFAULTS;

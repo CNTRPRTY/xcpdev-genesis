@@ -41,7 +41,8 @@ class WalletCreateSweep extends WalletCreate {
 
         params = this.addAdvancedParams(params);
 
-        await this.handleSubmitSetState(method, params);
+        if (params) await this.handleSubmitSetState(method, params);
+        // await this.handleSubmitSetState(method, params);
     }
 
 
