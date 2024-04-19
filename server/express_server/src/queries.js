@@ -695,75 +695,75 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getIssuanceMetadataByAssetNameOG(db, asset_name, COUNTERPARTY_VERSION) {
+    // static async getIssuanceMetadataByAssetName(db, asset_name, COUNTERPARTY_VERSION) {
 
-        // genesis (could be multiple with same block)
-        const sql1 = `
-            SELECT i.asset, i.asset_longname, i.divisible
-            FROM assets a
-            JOIN issuances i ON (
-                a.asset_name = i.asset AND
-                a.block_index = i.block_index AND
-                i.status = 'valid'
-            )
-            WHERE a.asset_name = $asset_name
-        `;
-        const params_obj1 = {
-            asset_name,
-        };
-        // return queryDBRows(db, sql, params_obj);
-        let rows1 = await queryDBRows(db, sql1, params_obj1);
+    //     // genesis (could be multiple with same block)
+    //     const sql1 = `
+    //         SELECT i.asset, i.asset_longname, i.divisible
+    //         FROM assets a
+    //         JOIN issuances i ON (
+    //             a.asset_name = i.asset AND
+    //             a.block_index = i.block_index AND
+    //             i.status = 'valid'
+    //         )
+    //         WHERE a.asset_name = $asset_name
+    //     `;
+    //     const params_obj1 = {
+    //         asset_name,
+    //     };
+    //     // return queryDBRows(db, sql, params_obj);
+    //     let rows1 = await queryDBRows(db, sql1, params_obj1);
 
-        if (asset_name === 'XCP') {
-            rows1 = [{
-                asset: 'XCP',
-                asset_longname: null,
-                divisible: true,
-            }];
-        }
-        else if (asset_name === 'BTC') {
-            rows1 = [{
-                asset: 'BTC',
-                asset_longname: null,
-                divisible: true,
-            }];
-        }
+    //     if (asset_name === 'XCP') {
+    //         rows1 = [{
+    //             asset: 'XCP',
+    //             asset_longname: null,
+    //             divisible: true,
+    //         }];
+    //     }
+    //     else if (asset_name === 'BTC') {
+    //         rows1 = [{
+    //             asset: 'BTC',
+    //             asset_longname: null,
+    //             divisible: true,
+    //         }];
+    //     }
 
-        //////////////////////////////////////
-        //////////////////////////////////////
-        // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
-        if (
-            asset_name !== 'XCP' &&
-            asset_name !== 'BTC' &&
-            !COUNTERPARTY_VERSION.startsWith('9.59')
-        ) {
+    //     //////////////////////////////////////
+    //     //////////////////////////////////////
+    //     // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
+    //     if (
+    //         asset_name !== 'XCP' &&
+    //         asset_name !== 'BTC' &&
+    //         !COUNTERPARTY_VERSION.startsWith('9.59')
+    //     ) {
 
-            const sql2 = `
-                SELECT DISTINCT block_index, divisible
-                FROM issuances
-                WHERE asset = $asset_name
-                AND status = 'valid'
-                AND reset = true;
-            `;
-            const params_obj2 = {
-                asset_name,
-            };
-            const rows2 = await queryDBRows(db, sql2, params_obj2);
+    //         const sql2 = `
+    //             SELECT DISTINCT block_index, divisible
+    //             FROM issuances
+    //             WHERE asset = $asset_name
+    //             AND status = 'valid'
+    //             AND reset = true;
+    //         `;
+    //         const params_obj2 = {
+    //             asset_name,
+    //         };
+    //         const rows2 = await queryDBRows(db, sql2, params_obj2);
 
-            if (rows2.length) {
-                // NOTICE NO OTHER QUERY needs to do something like this!
-                rows1 = rows1.map(row => {
-                    row.resets = rows2;
-                    return row;
-                });
-            }
-        }
-        //////////////////////////////////////
-        //////////////////////////////////////
+    //         if (rows2.length) {
+    //             // NOTICE NO OTHER QUERY needs to do something like this!
+    //             rows1 = rows1.map(row => {
+    //                 row.resets = rows2;
+    //                 return row;
+    //             });
+    //         }
+    //     }
+    //     //////////////////////////////////////
+    //     //////////////////////////////////////
 
-        return rows1;
+    //     return rows1;
 
-    }
+    // }
     static async getIssuanceMetadataByAssetName(db, asset_name) {
         // genesis (could be multiple issuances in same block, but should only be a single asset entry)
         const sql1 = `

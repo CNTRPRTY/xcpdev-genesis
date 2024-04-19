@@ -468,14 +468,21 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     else {
 
         // second one depending on COUNTERPARTY_VERSION
-        const issuances_row = await Queries.getIssuanceMetadataByAssetNameOG(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+        const asset_metadata_obj = await getAssetMetadataMaybeQuery(db, dispensers_row.asset);
         // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+        
         const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
 
         res.status(200).json({
             tip_blocks_row,
             dispensers_row,
-            issuances_row,
+
+            // TODO:
+            // - should be renamed BTC/XCP are not issuances...
+            // - row/rows needs to be consistent!
+            issuances_row: [asset_metadata_obj.asset_metadata],
+            // issuances_row,
+
             dispenses_rows,
         });
     }
@@ -487,8 +494,8 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
     const orders_row = await Queries.getOrdersRow(db, tx_hash);
 
     // third oneS depending on COUNTERPARTY_VERSION
-    const get_issuances_row = await Queries.getIssuanceMetadataByAssetNameOG(db, orders_row.get_asset, COUNTERPARTY_VERSION);
-    const give_issuances_row = await Queries.getIssuanceMetadataByAssetNameOG(db, orders_row.give_asset, COUNTERPARTY_VERSION);
+    const get_asset_metadata_obj = await getAssetMetadataMaybeQuery(db, orders_row.get_asset);
+    const give_asset_metadata_obj = await getAssetMetadataMaybeQuery(db, orders_row.give_asset);
     // const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
     // const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
 
@@ -509,8 +516,15 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
         res.status(200).json({
             tip_blocks_row,
             orders_row,
-            get_issuances_row,
-            give_issuances_row,
+
+            // TODO:
+            // - should be renamed BTC/XCP are not issuances...
+            // - row/rows needs to be consistent!
+            get_issuances_row: [get_asset_metadata_obj.asset_metadata],
+            give_issuances_row: [give_asset_metadata_obj.asset_metadata],
+            // get_issuances_row,
+            // give_issuances_row,
+
             order_matches_rows,
             btcpays_rows,
         });
