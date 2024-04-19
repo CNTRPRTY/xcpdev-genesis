@@ -32,6 +32,39 @@ let cached_mempool = [];
 let cached_blocks = [];
 let cached_transactions = [];
 
+// DRY util
+async function getAssetMetadataMaybeQuery(db, asset_name) {
+    let row1;
+    if (asset_name === 'BTC') {
+        row1 = {
+            asset: 'BTC',
+            asset_longname: null,
+            divisible: true,
+        };
+    }
+    else if (asset_name === 'XCP') {
+        row1 = {
+            asset: 'XCP',
+            asset_longname: null,
+            divisible: true,
+        };
+    }
+    else {
+        row1 = await Queries.getIssuanceMetadataByAssetName(db, asset_name);
+        // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
+        if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
+            const rows2 = await Queries.getIssuanceMetadataResetsCheck(db, asset_name);
+            if (rows2.length) {
+                row1.resets = rows2;
+            }
+        }
+    }
+
+    return {
+        asset_metadata: row1,
+    };
+}
+
 
 app.get('/', async (req, res) => {
     res.status(200).json({
@@ -435,7 +468,8 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     else {
 
         // second one depending on COUNTERPARTY_VERSION
-        const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+        const issuances_row = await Queries.getIssuanceMetadataByAssetNameOG(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+        // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
         const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
 
         res.status(200).json({
@@ -453,8 +487,10 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
     const orders_row = await Queries.getOrdersRow(db, tx_hash);
 
     // third oneS depending on COUNTERPARTY_VERSION
-    const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
-    const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
+    const get_issuances_row = await Queries.getIssuanceMetadataByAssetNameOG(db, orders_row.get_asset, COUNTERPARTY_VERSION);
+    const give_issuances_row = await Queries.getIssuanceMetadataByAssetNameOG(db, orders_row.give_asset, COUNTERPARTY_VERSION);
+    // const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
+    // const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
 
     const order_matches_rows = await Queries.getOrderMatchesRows(db, tx_hash);
     let btcpays_rows = [];

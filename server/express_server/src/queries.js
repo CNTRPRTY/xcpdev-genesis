@@ -695,7 +695,7 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getIssuanceMetadataByAssetName(db, asset_name, COUNTERPARTY_VERSION) {
+    static async getIssuanceMetadataByAssetNameOG(db, asset_name, COUNTERPARTY_VERSION) {
 
         // genesis (could be multiple with same block)
         const sql1 = `
@@ -763,6 +763,42 @@ class Queries {
 
         return rows1;
 
+    }
+    static async getIssuanceMetadataByAssetName(db, asset_name) {
+        // genesis (could be multiple issuances in same block, but should only be a single asset entry)
+        const sql1 = `
+            SELECT i.asset, i.asset_longname, i.divisible
+            FROM assets a
+            JOIN issuances i ON (
+                a.asset_name = i.asset AND
+                a.block_index = i.block_index AND
+                i.status = 'valid'
+            )
+            WHERE a.asset_name = $asset_name
+        `;
+        const params_obj1 = {
+            asset_name,
+        };
+        // return queryDBRows(db, sql, params_obj);
+        const rows1 = await queryDBRows(db, sql1, params_obj1);
+        if (rows1.length > 1) throw Error(`unexpected getIssuanceMetadataByAssetName:${asset_name}`);
+        else if (rows1.length === 0) return null;
+        else { // rows.length === 1
+            return rows1[0];
+        }
+    }
+    static async getIssuanceMetadataResetsCheck(db, asset_name) {
+        const sql2 = `
+            SELECT DISTINCT block_index, divisible
+            FROM issuances
+            WHERE asset = $asset_name
+            AND status = 'valid'
+            AND reset = true;
+        `;
+        const params_obj2 = {
+            asset_name,
+        };
+        return queryDBRows(db, sql2, params_obj2);
     }
 
     static async getIssuancesRowsByAssetName(db, asset_name) {
