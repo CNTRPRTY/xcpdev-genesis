@@ -564,7 +564,7 @@ class Queries {
         return rows2;
     }
     // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
-    static async getBalancesResetCheck(db, address) {
+    static async getBalancesResetsCheck(db, address) {
         // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
         const sql3 = `
             SELECT DISTINCT i.asset, i.block_index, i.divisible

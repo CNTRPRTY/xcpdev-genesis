@@ -203,7 +203,7 @@ app.get('/address/:address/balances', async (req, res) => {
     // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
     // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
     if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
-        const rows3 = await Queries.getBalancesResetCheck(db, address);
+        const rows3 = await Queries.getBalancesResetsCheck(db, address);
 
         // making the above query already affects EVERYONE (in the latest COUNTERPARTY_VERSION), but the next only affects people that ACTUALLY have/had reset assets
         if (rows3.length) {
