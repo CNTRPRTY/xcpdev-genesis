@@ -34,34 +34,50 @@ let cached_transactions = [];
 
 // DRY util
 async function getAssetMetadataMaybeQuery(db, asset_name) {
-    let row1;
+    let start;
+    let end;
+    let query1;
+    let query1_timems = null;
+    let query2_timems = null;
     if (asset_name === 'BTC') {
-        row1 = {
+        query1 = {
             asset: 'BTC',
             asset_longname: null,
             divisible: true,
         };
     }
     else if (asset_name === 'XCP') {
-        row1 = {
+        query1 = {
             asset: 'XCP',
             asset_longname: null,
             divisible: true,
         };
     }
     else {
-        row1 = await Queries.getIssuanceMetadataByAssetName(db, asset_name);
+
+        start = new Date().getTime();
+        query1 = await Queries.getIssuanceMetadataByAssetName(db, asset_name);
+        end = new Date().getTime();
+        query1_timems = end - start;
+
         // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
         if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
-            const rows2 = await Queries.getIssuanceMetadataResetsCheck(db, asset_name);
-            if (rows2.length) {
-                row1.resets = rows2;
+
+            start = new Date().getTime();
+            const query2 = await Queries.getIssuanceMetadataResetsCheck(db, asset_name);
+            end = new Date().getTime();
+            query2_timems = end - start;
+            
+            if (query2.length) {
+                query1.resets = query2;
             }
         }
     }
 
     return {
-        asset_metadata: row1,
+        asset_metadata: query1,
+        query1_timems,
+        query2_timems,
     };
 }
 
