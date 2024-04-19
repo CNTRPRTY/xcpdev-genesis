@@ -192,13 +192,68 @@ app.get('/address/:address/issuances', async (req, res) => {
 
 app.get('/address/:address/balances', async (req, res) => {
     const address = req.params.address;
+    // // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+    // const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
+
+    let rows1 = await Queries.getBalancesRowsByAddressWithoutXcp(db, address);
+    const rows2 = await Queries.getBalancesRowsByAddressXcp(db, address);
+
+    //////////////////////////////////////
+    //////////////////////////////////////
     // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
-    const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
-    // const balances = await Queries.getBalancesRowsByAddress(db, address);
+    // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
+    if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
+        const rows3 = await Queries.getBalancesResetCheck(db, address);
+
+        // making the above query already affects EVERYONE (in the latest COUNTERPARTY_VERSION), but the next only affects people that ACTUALLY have/had reset assets
+        if (rows3.length) {
+            // NOTICE NO OTHER QUERY needs to do something like this!
+            const reset_dict = {};
+            for (const reset_row of rows3) {
+                if (reset_dict[reset_row.asset]) {
+                    reset_dict[reset_row.asset].push(reset_row);
+                }
+                else {
+                    reset_dict[reset_row.asset] = [reset_row];
+                }
+            }
+            rows1 = rows1.map(row => {
+                if (reset_dict[row.asset]) {
+                    row.resets = reset_dict[row.asset];
+                }
+                return row;
+            });
+        }
+    }
+    //////////////////////////////////////
+    //////////////////////////////////////
+
+    const balances = [
+        // return [
+        ...rows1,
+        ...rows2.map(row => {
+            return {
+                ...row,
+                asset_longname: null,
+                divisible: true,
+            }
+        }
+        ),
+    ];
+
     res.status(200).json({
         balances,
     });
 });
+// app.get('/address/:address/balances', async (req, res) => {
+//     const address = req.params.address;
+//     // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+//     const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
+//     // const balances = await Queries.getBalancesRowsByAddress(db, address);
+//     res.status(200).json({
+//         balances,
+//     });
+// });
 
 // TODO remove 'tables' from here... and tip_blocks_row
 app.get('/asset/:assetName', async (req, res) => {

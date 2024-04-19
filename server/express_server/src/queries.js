@@ -352,9 +352,142 @@ class Queries {
 
     }
 
-    // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
-    static async getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION) {
-        // static async getBalancesRowsByAddress(db, address) {
+    // // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+    // static async getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION) {
+    //     // static async getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION) {
+    //     // static async getBalancesRowsByAddress(db, address) {
+    //     // broken with CIP3 reset assets
+    //     const sql1 = `
+    //         SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
+    //         FROM balances b
+    //         JOIN (
+    //             SELECT DISTINCT a.*, i.divisible
+    //             FROM assets a
+    //             JOIN issuances i ON (
+    //                 a.asset_name = i.asset AND
+    //                 a.block_index = i.block_index AND
+    //                 i.status = 'valid'
+    //             )
+    //             WHERE a.asset_name IN (
+    //                 SELECT bi.asset
+    //                 FROM balances bi
+    //                 WHERE bi.address = $address
+    //             )
+    //         ) ad ON b.asset = ad.asset_name
+    //         WHERE b.address = $address;
+    //     `; // ad => asset with divisiblity
+    //     // const sql1 = `
+    //     //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
+    //     //     FROM balances b
+    //     //     JOIN (
+    //     //         SELECT DISTINCT a.*, i.divisible
+    //     //         FROM assets a
+    //     //         JOIN issuances i ON (
+    //     //             a.asset_name = i.asset AND
+    //     //             a.block_index = i.block_index AND
+    //     //             i.status = 'valid'
+    //     //         )
+    //     //     ) ad ON b.asset = ad.asset_name
+    //     //     WHERE b.address = $address;
+    //     // `; // ad => asset with divisiblity
+    //     // const sql1 = `
+    //     //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
+    //     //     FROM balances b
+    //     //     JOIN assets a ON b.asset = a.asset_name
+    //     //     JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
+    //     //     WHERE b.address = $address;
+    //     // `; // WRONG query: returns multiple results for multiple genesis issuances in the same block (AND was not filtering out invalid)
+    //     // const sql = `
+    //     //     SELECT b.*, a.asset_longname
+    //     //     FROM balances b
+    //     //     JOIN assets a
+    //     //     ON b.asset = a.asset_name
+    //     //     WHERE address = $address;
+    //     // `;
+    //     // const sql = `
+    //     //     SELECT *
+    //     //     FROM balances
+    //     //     WHERE address = $address;
+    //     // `;
+    //     const params_obj1 = {
+    //         address,
+    //     };
+    //     // return queryDBRows(db, sql, params_obj);
+    //     let rows1 = await queryDBRows(db, sql1, params_obj1);
+    //     // const rows1 = await queryDBRows(db, sql1, params_obj1);
+
+    //     // above query does not include XCP
+    //     const sql2 = `
+    //         SELECT *, CAST(quantity AS TEXT) AS quantity_text
+    //         FROM balances
+    //         WHERE address = $address
+    //         AND asset = $asset;
+    //     `;
+    //     const params_obj2 = {
+    //         address,
+    //         asset: 'XCP',
+    //     };
+    //     // return queryDBRows(db, sql, params_obj);
+    //     const rows2 = await queryDBRows(db, sql2, params_obj2);
+
+    //     //////////////////////////////////////
+    //     //////////////////////////////////////
+    //     // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
+    //     if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
+    //         const sql3 = `
+    //             SELECT DISTINCT i.asset, i.block_index, i.divisible
+    //             FROM issuances i
+    //             WHERE i.asset IN (
+    //                 SELECT b.asset
+    //                 FROM balances b
+    //                 WHERE b.address = $address
+    //             )
+    //             AND i.status = 'valid'
+    //             AND i.reset = true;
+    //         `;
+    //         const params_obj3 = {
+    //             address,
+    //         };
+    //         // return queryDBRows(db, sql, params_obj);
+    //         const rows3 = await queryDBRows(db, sql3, params_obj3);
+
+    //         // making the above query already affects EVERYONE (in the latest COUNTERPARTY_VERSION), but the next only affects people that ACTUALLY have/had reset assets
+    //         if (rows3.length) {
+    //             // NOTICE NO OTHER QUERY needs to do something like this!
+    //             const reset_dict = {};
+    //             for (const reset_row of rows3) {
+    //                 if (reset_dict[reset_row.asset]) {
+    //                     reset_dict[reset_row.asset].push(reset_row);
+    //                 }
+    //                 else {
+    //                     reset_dict[reset_row.asset] = [reset_row];
+    //                 }
+    //             }
+    //             rows1 = rows1.map(row => {
+    //                 if (reset_dict[row.asset]) {
+    //                     row.resets = reset_dict[row.asset];
+    //                 }
+    //                 return row;
+    //             });
+    //         }
+    //     }
+    //     //////////////////////////////////////
+    //     //////////////////////////////////////
+
+    //     return [
+    //         ...rows1,
+    //         ...rows2.map(row => {
+    //             return {
+    //                 ...row,
+    //                 asset_longname: null,
+    //                 divisible: true,
+    //             }
+    //         }
+    //         ),
+    //     ];
+
+    // }
+    static async getBalancesRowsByAddressWithoutXcp(db, address) {
         // broken with CIP3 reset assets
         const sql1 = `
             SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
@@ -412,10 +545,10 @@ class Queries {
             address,
         };
         // return queryDBRows(db, sql, params_obj);
-        let rows1 = await queryDBRows(db, sql1, params_obj1);
-        // const rows1 = await queryDBRows(db, sql1, params_obj1);
-
-        // above query does not include XCP
+        const rows1 = await queryDBRows(db, sql1, params_obj1);
+        return rows1;
+    }
+    static async getBalancesRowsByAddressXcp(db, address) {
         const sql2 = `
             SELECT *, CAST(quantity AS TEXT) AS quantity_text
             FROM balances
@@ -428,63 +561,28 @@ class Queries {
         };
         // return queryDBRows(db, sql, params_obj);
         const rows2 = await queryDBRows(db, sql2, params_obj2);
-
-        //////////////////////////////////////
-        //////////////////////////////////////
+        return rows2;
+    }
+    // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+    static async getBalancesResetCheck(db, address) {
         // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
-        if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
-            const sql3 = `
-                SELECT DISTINCT i.asset, i.block_index, i.divisible
-                FROM issuances i
-                WHERE i.asset IN (
-                    SELECT b.asset
-                    FROM balances b
-                    WHERE b.address = $address
-                )
-                AND i.status = 'valid'
-                AND i.reset = true;
-            `;
-            const params_obj3 = {
-                address,
-            };
-            // return queryDBRows(db, sql, params_obj);
-            const rows3 = await queryDBRows(db, sql3, params_obj3);
-
-            // making the above query already affects EVERYONE (in the latest COUNTERPARTY_VERSION), but the next only affects people that ACTUALLY have/had reset assets
-            if (rows3.length) {
-                // NOTICE NO OTHER QUERY needs to do something like this!
-                const reset_dict = {};
-                for (const reset_row of rows3) {
-                    if (reset_dict[reset_row.asset]) {
-                        reset_dict[reset_row.asset].push(reset_row);
-                    }
-                    else {
-                        reset_dict[reset_row.asset] = [reset_row];
-                    }
-                }
-                rows1 = rows1.map(row => {
-                    if (reset_dict[row.asset]) {
-                        row.resets = reset_dict[row.asset];
-                    }
-                    return row;
-                });
-            }
-        }
-        //////////////////////////////////////
-        //////////////////////////////////////
-
-        return [
-            ...rows1,
-            ...rows2.map(row => {
-                return {
-                    ...row,
-                    asset_longname: null,
-                    divisible: true,
-                }
-            }
-            ),
-        ];
-
+        const sql3 = `
+            SELECT DISTINCT i.asset, i.block_index, i.divisible
+            FROM issuances i
+            WHERE i.asset IN (
+                SELECT b.asset
+                FROM balances b
+                WHERE b.address = $address
+            )
+            AND i.status = 'valid'
+            AND i.reset = true;
+        `;
+        const params_obj3 = {
+            address,
+        };
+        // return queryDBRows(db, sql, params_obj);
+        const rows3 = await queryDBRows(db, sql3, params_obj3);
+        return rows3;
     }
 
     static async getBroadcastsRowsByAddress(db, address) {
