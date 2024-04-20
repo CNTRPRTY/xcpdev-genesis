@@ -64,6 +64,7 @@ async function getAssetMetadataMaybeQuery(db, asset_name) {
         end = new Date().getTime();
         query1_timems = end - start;
 
+        // depends on COUNTERPARTY_VERSION
         // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
         if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
 
@@ -637,14 +638,21 @@ app.get('/transactions/:txIndex', async (req, res) => {
 });
 
 app.get('/transactions/dispensers/:txHash', async (req, res) => {
+    let start;
+    let end;
+
     const tx_hash = req.params.txHash;
+
+    start = new Date().getTime();
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    end = new Date().getTime();
+    const tip_blocks_row_timems = end - start;
+
+    start = new Date().getTime();
     const dispensers_row = await Queries.getDispensersRow(db, tx_hash);
+    end = new Date().getTime();
+    const dispensers_row_timems = end - start;
 
-    // // second one depending on COUNTERPARTY_VERSION
-    // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
-
-    // const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
     if (!dispensers_row) {
         res.status(404).json({
             error: '404 Not Found'
@@ -652,45 +660,74 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
     }
     else {
 
-        // second one depending on COUNTERPARTY_VERSION
         const asset_metadata_obj = await getAssetMetadataMaybeQuery(db, dispensers_row.asset);
-        // const issuances_row = await Queries.getIssuanceMetadataByAssetName(db, dispensers_row.asset, COUNTERPARTY_VERSION);
+        const asset_metadata_obj_query1_timems = asset_metadata_obj.query1_timems;
+        const asset_metadata_obj_query2_timems = asset_metadata_obj.query2_timems;
         
+        start = new Date().getTime();
         const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
+        end = new Date().getTime();
+        const dispenses_rows_timems = end - start;
 
         res.status(200).json({
             tip_blocks_row,
+            query1_timems: tip_blocks_row_timems,
             dispensers_row,
+            query2_timems: dispensers_row_timems,
 
             // TODO:
             // - should be renamed BTC/XCP are not issuances...
             // - row/rows needs to be consistent!
             issuances_row: [asset_metadata_obj.asset_metadata],
+            query3_timems: asset_metadata_obj_query1_timems,
+            query4_timems: asset_metadata_obj_query2_timems,
             // issuances_row,
 
             dispenses_rows,
+            query5_timems: dispenses_rows_timems,
         });
     }
 });
 
 app.get('/transactions/orders/:txHash', async (req, res) => {
+    let start;
+    let end;
+
     const tx_hash = req.params.txHash;
+
+    start = new Date().getTime();
     const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    end = new Date().getTime();
+    const tip_blocks_row_timems = end - start;
+
+    start = new Date().getTime();
     const orders_row = await Queries.getOrdersRow(db, tx_hash);
+    end = new Date().getTime();
+    const orders_row_timems = end - start;
 
-    // third oneS depending on COUNTERPARTY_VERSION
     const get_asset_metadata_obj = await getAssetMetadataMaybeQuery(db, orders_row.get_asset);
-    const give_asset_metadata_obj = await getAssetMetadataMaybeQuery(db, orders_row.give_asset);
-    // const get_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.get_asset, COUNTERPARTY_VERSION);
-    // const give_issuances_row = await Queries.getIssuanceMetadataByAssetName(db, orders_row.give_asset, COUNTERPARTY_VERSION);
+    const get_asset_metadata_obj_query1_timems = get_asset_metadata_obj.query1_timems;
+    const get_asset_metadata_obj_query2_timems = get_asset_metadata_obj.query2_timems;
 
+    const give_asset_metadata_obj = await getAssetMetadataMaybeQuery(db, orders_row.give_asset);
+    const give_asset_metadata_obj_query1_timems = give_asset_metadata_obj.query1_timems;
+    const give_asset_metadata_obj_query2_timems = give_asset_metadata_obj.query2_timems;
+
+    start = new Date().getTime();
     const order_matches_rows = await Queries.getOrderMatchesRows(db, tx_hash);
+    end = new Date().getTime();
+    const order_matches_rows_timems = end - start;
+
     let btcpays_rows = [];
+    let btcpays_rows_timems = null;
     if (
         orders_row.get_asset === 'BTC' ||
         orders_row.give_asset === 'BTC'
     ) {
+        start = new Date().getTime();
         btcpays_rows = await Queries.getOrderMatchesBtcpaysRows(db, tx_hash);
+        end = new Date().getTime();
+        btcpays_rows_timems = end - start;
     }
     if (!orders_row) {
         res.status(404).json({
@@ -700,18 +737,26 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
     else {
         res.status(200).json({
             tip_blocks_row,
+            query1_timems: tip_blocks_row_timems,
             orders_row,
+            query2_timems: orders_row_timems,
 
             // TODO:
             // - should be renamed BTC/XCP are not issuances...
             // - row/rows needs to be consistent!
             get_issuances_row: [get_asset_metadata_obj.asset_metadata],
-            give_issuances_row: [give_asset_metadata_obj.asset_metadata],
+            query3_timems: get_asset_metadata_obj_query1_timems,
+            query4_timems: get_asset_metadata_obj_query2_timems,
             // get_issuances_row,
+            give_issuances_row: [give_asset_metadata_obj.asset_metadata],
+            query5_timems: give_asset_metadata_obj_query1_timems,
+            query6_timems: give_asset_metadata_obj_query2_timems,
             // give_issuances_row,
 
             order_matches_rows,
+            query7_timems: order_matches_rows_timems,
             btcpays_rows,
+            query8_timems: btcpays_rows_timems,
         });
     }
 });
