@@ -10,13 +10,13 @@ async function queryDBRows(db, sql, params_obj_nodollarsign) {
 // read-only and using native named parameter binding, safe from sql-injection
 class Queries {
 
-    // static async getMempoolRows(db) {
-    //     const sql = `
-    //         SELECT * FROM mempool;
-    //     `;
-    //     const params_obj = {};
-    //     return queryDBRows(db, sql, params_obj);
-    // }
+    static async getMempoolRows(db) {
+        const sql = `
+            SELECT * FROM mempool;
+        `;
+        const params_obj = {};
+        return queryDBRows(db, sql, params_obj);
+    }
 
     static async getMempoolRowsByTxHash(db, tx_hash) {
         const sql = `

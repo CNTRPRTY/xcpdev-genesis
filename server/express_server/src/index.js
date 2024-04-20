@@ -938,8 +938,11 @@ async function updateMempoolCache() {
     //     cached_mempool = lib_response.result;
     // }
 
+    // const start = new Date().getTime();
     // const mempool = await Queries.getMempoolRows(db);
+    // const end = new Date().getTime();
     // cached_mempool = mempool;
+    // cached_mempool_timems = end - start;
 }
 
 const updateBlocksCacheSeconds = 59;
