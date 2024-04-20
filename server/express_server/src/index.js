@@ -876,7 +876,8 @@ app.post('/lib_api_proxy', async (req, res) => {
                 COUNTERPARTY_VERSION,
             },
             lib_response,
-            lib_response_timems: end - start,
+            timems: end - start,
+            // lib_response_timems: end - start,
         });
     }
     catch (err) {
