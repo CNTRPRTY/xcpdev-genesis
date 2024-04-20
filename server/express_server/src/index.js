@@ -29,8 +29,12 @@ const db = sqlite3(DB_PATH, { readonly: true });
 
 // cache homepage
 let cached_mempool = [];
+let cached_mempool_timems = null;
 let cached_blocks = [];
+let cached_blocks_query1_timems = null;
+let cached_blocks_query2_timems = null;
 let cached_transactions = [];
+let cached_transactions_timems = null;
 
 // DRY util
 async function getAssetMetadataMaybeQuery(db, asset_name) {
@@ -105,12 +109,15 @@ app.get('/tip', async (req, res) => {
 app.get('/mempool', async (req, res) => {
     res.status(200).json({
         mempool: cached_mempool,
+        mempool_timems: cached_mempool_timems,
     });
 });
 
 app.get('/blocks', async (req, res) => {
     res.status(200).json({
         blocks: cached_blocks,
+        query1_timems: cached_blocks_query1_timems,
+        query2_timems: cached_blocks_query2_timems,
     });
 
 });
@@ -580,6 +587,7 @@ app.get('/transactions', async (req, res) => {
         // btc_transactions_latest: cached_transactions,
         transactions_latest: cached_transactions, // remove with more changes and announcement
         transactions: cached_transactions, // just to be consistent with the other latest
+        transactions_timems: cached_transactions_timems,
     });
 });
 
@@ -868,9 +876,12 @@ app.post('/lib_api_proxy', async (req, res) => {
 const updateMempoolCacheSeconds = 60;
 async function updateMempoolCache() {
 
+    const start = new Date().getTime();
     const lib_response = await libApiRequest('get_memmempool', {});
+    const end = new Date().getTime();
     if (lib_response.result) {
         cached_mempool = lib_response.result.cached_response;
+        cached_mempool_timems = end - start;
     }
 
     // const lib_response = await libApiRequest('sql', {
@@ -888,6 +899,8 @@ async function updateMempoolCache() {
 
 const updateBlocksCacheSeconds = 59;
 async function updateBlocksCache() {
+    let start;
+    let end;
 
     // // TODO non-ideal!
     // const limit = 30;
@@ -905,7 +918,11 @@ async function updateBlocksCache() {
     // if (lib_response_1.result) {
     //     blocks = lib_response_1.result;
     // }
+
+    start = new Date().getTime();
     const blocks = await Queries.getMessagesByBlockLatest(db);
+    end = new Date().getTime();
+    cached_blocks_query1_timems = end - start;
 
     const from_block_index = blocks.reduce(function (prev, curr) {
         // minimum
@@ -924,7 +941,11 @@ async function updateBlocksCache() {
     // if (lib_response_2.result) {
     //     blocks_all = lib_response_2.result;
     // }
+
+    start = new Date().getTime();
     let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
+    end = new Date().getTime();
+    cached_blocks_query2_timems = end - start;
 
     const block_messages_dict = {};
     for (const block of blocks) {
@@ -972,8 +993,12 @@ async function updateTransactionsCache() {
     //     cached_transactions = lib_response.result;
     // }
 
+    const start = new Date().getTime();
     const btc_transactions_latest = await Queries.getTransactionsLatest(db);
+    const end = new Date().getTime();
+
     cached_transactions = btc_transactions_latest;
+    cached_transactions_timems = end - start;
 }
 
 
