@@ -102,14 +102,16 @@ app.get('/tip', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         tip_blocks_row,
-        tip_blocks_row_timems: end - start,
+        query_timems: end - start,
+        // tip_blocks_row_timems: end - start,
     });
 });
 
 app.get('/mempool', async (req, res) => {
     res.status(200).json({
         mempool: cached_mempool,
-        mempool_timems: cached_mempool_timems,
+        query_timems: cached_mempool_timems,
+        // mempool_timems: cached_mempool_timems,
     });
 });
 
@@ -155,9 +157,11 @@ app.get('/tx/:txHash', async (req, res) => {
     else {
         res.status(200).json({
             transaction,
-            transaction_timems,
+            query1_timems: transaction_timems,
+            // transaction_timems,
             mempool,
-            mempool_timems,
+            query2_timems: mempool_timems,
+            // mempool_timems,
         });
     }
 });
@@ -186,7 +190,8 @@ app.get('/txindex/:txIndex', async (req, res) => {
     else {
         res.status(200).json({
             transaction_row,
-            transaction_row_timems: end - start,
+            query_timems: end - start,
+            // transaction_row_timems: end - start,
         });
     }
 });
@@ -204,7 +209,8 @@ app.get('/block/:blockIndex', async (req, res) => {
     else {
         res.status(200).json({
             block_row,
-            block_row_timems: end - start,
+            query_timems: end - start,
+            // block_row_timems: end - start,
         });
     }
 });
@@ -216,7 +222,8 @@ app.get('/block/:blockIndex/messages', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         messages,
-        messages_timems: end - start,
+        query_timems: end - start,
+        // messages_timems: end - start,
     });
 });
 
@@ -234,7 +241,8 @@ app.get('/blockhash/:blockHash', async (req, res) => {
     else {
         res.status(200).json({
             block_row,
-            block_row_timems: end - start,
+            query_timems: end - start,
+            // block_row_timems: end - start,
         });
     }
 });
@@ -247,7 +255,8 @@ app.get('/address/:address/dispensers/open', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         dispensers_open,
-        dispensers_open_timems: end - start,
+        query_timems: end - start,
+        // dispensers_open_timems: end - start,
     });
 });
 
@@ -258,7 +267,8 @@ app.get('/address/:address/dispensers/closed', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         dispensers_closed,
-        dispensers_closed_timems: end - start,
+        query_timems: end - start,
+        // dispensers_closed_timems: end - start,
     });
 });
 
@@ -269,7 +279,8 @@ app.get('/address/:address/broadcasts', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         broadcasts,
-        broadcasts_timems: end - start,
+        query_timems: end - start,
+        // broadcasts_timems: end - start,
     });
 });
 
@@ -280,7 +291,8 @@ app.get('/address/:address/issuances', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         issuances,
-        issuances_timems: end - start,
+        query_timems: end - start,
+        // issuances_timems: end - start,
     });
 });
 
@@ -383,7 +395,8 @@ app.get('/asset/:assetName', async (req, res) => {
     else {
         res.status(200).json({
             asset_row,
-            asset_row_timems: end - start,
+            query_timems: end - start,
+            // asset_row_timems: end - start,
         });
     }
 });
@@ -406,9 +419,11 @@ app.get('/asset/:assetName/issuances', async (req, res) => {
 
     res.status(200).json({
         tip_blocks_row, // included in all asset page calls for client side verification (but still not perfect)
-        tip_blocks_row_timems,
+        query1_timems: tip_blocks_row_timems,
+        // tip_blocks_row_timems,
         issuances,
-        issuances_timems,
+        query2_timems: issuances_timems,
+        // issuances_timems,
     });
 });
 
@@ -430,9 +445,11 @@ app.get('/asset/:assetName/destructions', async (req, res) => {
 
     res.status(200).json({
         tip_blocks_row,
-        tip_blocks_row_timems,
+        query1_timems: tip_blocks_row_timems,
+        // tip_blocks_row_timems,
         destructions,
-        destructions_timems,
+        query2_timems: destructions_timems,
+        // destructions_timems,
     });
 });
 
@@ -454,9 +471,11 @@ app.get('/asset/:assetName/balances', async (req, res) => {
 
     res.status(200).json({
         tip_blocks_row,
-        tip_blocks_row_timems,
+        query1_timems: tip_blocks_row_timems,
+        // tip_blocks_row_timems,
         balances,
-        balances_timems,
+        query2_timems: balances_timems,
+        // balances_timems,
     });
 });
 
@@ -480,9 +499,11 @@ app.get('/asset/:assetName/escrows/dispensers', async (req, res) => {
 
     res.status(200).json({
         tip_blocks_row,
-        tip_blocks_row_timems,
+        query1_timems: tip_blocks_row_timems,
+        // tip_blocks_row_timems,
         dispensers_open,
-        dispensers_open_timems,
+        query2_timems: dispensers_open_timems,
+        // dispensers_open_timems,
     });
 });
 
@@ -505,9 +526,11 @@ app.get('/asset/:assetName/escrows/orders', async (req, res) => {
 
     res.status(200).json({
         tip_blocks_row,
-        tip_blocks_row_timems,
+        query1_timems: tip_blocks_row_timems,
+        // tip_blocks_row_timems,
         orders_give_open,
-        orders_give_open_timems,
+        query2_timems: orders_give_open_timems,
+        // orders_give_open_timems,
     });
 });
 
@@ -530,9 +553,11 @@ app.get('/asset/:assetName/exchanges', async (req, res) => {
 
     res.status(200).json({
         tip_blocks_row,
-        tip_blocks_row_timems,
+        query1_timems: tip_blocks_row_timems,
+        // tip_blocks_row_timems,
         orders_get_open,
-        orders_get_open_timems,
+        query2_timems: orders_get_open_timems,
+        // orders_get_open_timems,
     });
 });
 
@@ -543,7 +568,8 @@ app.get('/asset/:assetName/subassets', async (req, res) => {
     const end = new Date().getTime();
     res.status(200).json({
         assets,
-        assets_timems: end - start,
+        query_timems: end - start,
+        // assets_timems: end - start,
     });
 });
 
@@ -561,7 +587,8 @@ app.get('/subasset/:assetLongname', async (req, res) => {
     else {
         res.status(200).json({
             asset_row,
-            asset_row_timems: end - start,
+            query_timems: end - start,
+            // asset_row_timems: end - start,
         });
     }
 });
@@ -573,7 +600,8 @@ app.get('/transactions', async (req, res) => {
         // btc_transactions_latest: cached_transactions,
         transactions_latest: cached_transactions, // remove with more changes and announcement
         transactions: cached_transactions, // just to be consistent with the other latest
-        transactions_timems: cached_transactions_timems,
+        query_timems: cached_transactions_timems,
+        // transactions_timems: cached_transactions_timems,
     });
 });
 
@@ -595,7 +623,8 @@ app.get('/transactions/:txIndex', async (req, res) => {
             from_index: tx_index,
             to_index,
             transactions,
-            transactions_timems: end - start,
+            query_timems: end - start,
+            // transactions_timems: end - start,
         });
     }
     catch (err) {
@@ -706,7 +735,8 @@ app.get('/messages/:messageIndex', async (req, res) => {
             from_index: message_index,
             to_index,
             messages,
-            messages_timems: end - start,
+            query_timems: end - start,
+            // messages_timems: end - start,
         });
     }
     catch (err) {
@@ -736,7 +766,8 @@ app.get('/blocks/:blockIndex', async (req, res) => {
             from_index: block_index,
             to_index,
             blocks,
-            blocks_timems: end - start,
+            query_timems: end - start,
+            // blocks_timems: end - start,
         });
     }
     catch (err) {
