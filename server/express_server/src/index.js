@@ -381,23 +381,9 @@ app.get('/asset/:assetName', async (req, res) => {
         });
     }
     else {
-        // const tip_blocks_row = await Queries.getBlocksRowTip(db);
-        // let issuances = [];
-        // let destructions = [];
-        // // TODO more! there are XCP destroys... and do something with the burns?
-        // if (!['BTC', 'XCP'].includes(asset_name)) {
-        //     issuances = await Queries.getIssuancesRowsByAssetName(db, asset_name);
-        //     destructions = await Queries.getDestructionsRowsByAssetName(db, asset_name);
-        // }
         res.status(200).json({
-            // tip_blocks_row,
             asset_row,
             asset_row_timems: end - start,
-            // // mixed is ok!
-            // tables: {
-            //     issuances,
-            //     destructions
-            // },
         });
     }
 });
