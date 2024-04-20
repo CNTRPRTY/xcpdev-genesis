@@ -305,8 +305,6 @@ app.get('/address/:address/balances', async (req, res) => {
     let query3_timems = null;
 
     const address = req.params.address;
-    // // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
-    // const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
 
     start = new Date().getTime();
     let query1 = await Queries.getBalancesRowsByAddressWithoutXcp(db, address);
@@ -318,9 +316,7 @@ app.get('/address/:address/balances', async (req, res) => {
     end = new Date().getTime();
     query2_timems = end - start;
 
-    //////////////////////////////////////
-    //////////////////////////////////////
-    // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
+    // depends on COUNTERPARTY_VERSION
     // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
     if (!COUNTERPARTY_VERSION.startsWith('9.59')) {
 
@@ -331,7 +327,6 @@ app.get('/address/:address/balances', async (req, res) => {
 
         // making the above query already affects EVERYONE (in the latest COUNTERPARTY_VERSION), but the next only affects people that ACTUALLY have/had reset assets
         if (query3.length) {
-            // NOTICE NO OTHER QUERY needs to do something like this!
             const reset_dict = {};
             for (const reset_row of query3) {
                 if (reset_dict[reset_row.asset]) {
@@ -349,11 +344,8 @@ app.get('/address/:address/balances', async (req, res) => {
             });
         }
     }
-    //////////////////////////////////////
-    //////////////////////////////////////
 
     const balances = [
-        // return [
         ...query1,
         ...query2.map(row => {
             return {
@@ -372,17 +364,7 @@ app.get('/address/:address/balances', async (req, res) => {
         query3_timems,
     });
 });
-// app.get('/address/:address/balances', async (req, res) => {
-//     const address = req.params.address;
-//     // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
-//     const balances = await Queries.getBalancesRowsByAddress(db, address, COUNTERPARTY_VERSION);
-//     // const balances = await Queries.getBalancesRowsByAddress(db, address);
-//     res.status(200).json({
-//         balances,
-//     });
-// });
 
-// TODO remove 'tables' from here... and tip_blocks_row
 app.get('/asset/:assetName', async (req, res) => {
     const asset_name = req.params.assetName;
     const start = new Date().getTime();
@@ -663,7 +645,7 @@ app.get('/transactions/dispensers/:txHash', async (req, res) => {
         const asset_metadata_obj = await getAssetMetadataMaybeQuery(db, dispensers_row.asset);
         const asset_metadata_obj_query1_timems = asset_metadata_obj.query1_timems;
         const asset_metadata_obj_query2_timems = asset_metadata_obj.query2_timems;
-        
+
         start = new Date().getTime();
         const dispenses_rows = await Queries.getDispensesRows(db, tx_hash);
         end = new Date().getTime();
