@@ -165,17 +165,7 @@ app.get('/tx/:txHash', async (req, res) => {
 
 app.get('/txindex/:txIndex', async (req, res) => {
     // will just return the transaction_row for a subsequent client /tx/:txHash request
-    let tx_index;
-    try {
-        tx_index = parseInt(req.params.txIndex);
-    }
-    catch (err) {
-        res.status(400).json({
-            error: '400 Bad Request',
-        });
-        return;
-    }
-    // else tx_index has an integer
+    const tx_index = req.params.txIndex;
     const start = new Date().getTime();
     const transaction_row = await Queries.getTransactionsRowByTxIndex(db, tx_index);
     const end = new Date().getTime();
