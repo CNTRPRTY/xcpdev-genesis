@@ -893,22 +893,18 @@ async function updateBlocksCache() {
     let end;
 
     start = new Date().getTime();
-    const blocks = await Queries.getMessagesByBlockLatest(db);
+    let blocks_all = await Queries.getBlocksLatest(db);
     end = new Date().getTime();
     cached_blocks_query1_timems = end - start;
 
-    const from_block_index = blocks.reduce(function (prev, curr) {
-        // minimum
-        return prev.block_index < curr.block_index ? prev : curr;
-    });
-
+    const from_block_index_row = blocks_all[blocks_all.length - 1];
     start = new Date().getTime();
-    let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
+    const messages_per_block = await Queries.getMessagesCountFromBlockToTip(db, from_block_index_row.block_index);
     end = new Date().getTime();
     cached_blocks_query2_timems = end - start;
 
     const block_messages_dict = {};
-    for (const block of blocks) {
+    for (const block of messages_per_block) {
         block_messages_dict[block.block_index] = block.messages;
     }
 
@@ -923,6 +919,41 @@ async function updateBlocksCache() {
 
     cached_blocks = blocks_all;
 }
+// async function updateBlocksCache() {
+//     let start;
+//     let end;
+
+//     start = new Date().getTime();
+//     const blocks = await Queries.getMessagesByBlockLatest(db);
+//     end = new Date().getTime();
+//     cached_blocks_query1_timems = end - start;
+
+//     const from_block_index = blocks.reduce(function (prev, curr) {
+//         // minimum
+//         return prev.block_index < curr.block_index ? prev : curr;
+//     });
+
+//     start = new Date().getTime();
+//     let blocks_all = await Queries.getBlocksLatest(db, from_block_index.block_index);
+//     end = new Date().getTime();
+//     cached_blocks_query2_timems = end - start;
+
+//     const block_messages_dict = {};
+//     for (const block of blocks) {
+//         block_messages_dict[block.block_index] = block.messages;
+//     }
+
+//     blocks_all = blocks_all.map((row) => {
+//         let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
+//         return {
+//             ...row,
+//             messages_count,
+//         };
+
+//     });
+
+//     cached_blocks = blocks_all;
+// }
 
 async function updateTransactionsCache() {
     const start = new Date().getTime();
