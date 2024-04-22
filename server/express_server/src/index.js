@@ -546,7 +546,18 @@ app.get('/transactions', async (req, res) => {
 });
 
 app.get('/transactions/:txIndex', async (req, res) => {
-    const tx_index = Number(req.params.txIndex);
+    let tx_index;
+    try {
+        tx_index = Number(req.params.txIndex);
+        if (Number.isNaN(tx_index) || tx_index < 0) throw Error();
+    }
+    catch (err) {
+        res.status(400).json({
+            error: '400 Bad Request',
+        });
+        return;
+    }
+    // const tx_index = Number(req.params.txIndex);
     // get the transactions including the tx and the next 100 transactions
     const to_index = Number(tx_index) + 99;
     // const to_index = Number(tx_index) + 999;
@@ -691,7 +702,18 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
 
 
 app.get('/messages/:messageIndex', async (req, res) => {
-    const message_index = Number(req.params.messageIndex);
+    let message_index;
+    try {
+        message_index = Number(req.params.messageIndex);
+        if (Number.isNaN(message_index) || message_index < 0) throw Error();
+    }
+    catch (err) {
+        res.status(400).json({
+            error: '400 Bad Request',
+        });
+        return;
+    }
+    // const message_index = Number(req.params.messageIndex);
     // get the messages including the tx and the next 100 transactions
     const to_index = Number(message_index) + 99;
     // const to_index = Number(message_index) + 999;
@@ -713,7 +735,18 @@ app.get('/messages/:messageIndex', async (req, res) => {
 
 app.get('/blocks/:blockIndex', async (req, res) => {
     // app.get('/blocks/:blockTime', async (req, res) => { // would be cool but is not indexed... (also good for clear difference to /block/blockIndex)
-    const block_index = Number(req.params.blockIndex);
+    let block_index;
+    try {
+        block_index = Number(req.params.blockIndex);
+        if (Number.isNaN(block_index) || block_index < 0) throw Error();
+    }
+    catch (err) {
+        res.status(400).json({
+            error: '400 Bad Request',
+        });
+        return;
+    }
+    // const block_index = Number(req.params.blockIndex);
     const to_index = Number(block_index) + 99;
     const start = new Date().getTime();
     const blocks = await Queries.getBlocksInRange(db, block_index, to_index);
