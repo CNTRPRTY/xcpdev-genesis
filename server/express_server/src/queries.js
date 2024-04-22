@@ -120,16 +120,25 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getMessagesByBlockLatest(db) {
-        const limit = 30;
+    static async getMessagesCountFromBlockToTip(db, from_block_index) {
+        // static async getMessagesByBlockLatest(db, from_block_index) {
+        // changed to ASC to be more consistent with the new name
         const sql = `
             SELECT m.block_index, b.block_time, COUNT(*) AS messages
             FROM messages m
             JOIN blocks b ON m.block_index = b.block_index
+            WHERE m.block_index >= $block_index
             GROUP BY m.block_index
-            ORDER BY m.block_index DESC
-            LIMIT $limit;
+            ORDER BY m.block_index ASC;
         `;
+        // const sql = `
+        //     SELECT m.block_index, b.block_time, COUNT(*) AS messages
+        //     FROM messages m
+        //     JOIN blocks b ON m.block_index = b.block_index
+        //     WHERE block_index >= $block_index
+        //     GROUP BY m.block_index
+        //     ORDER BY m.block_index DESC;
+        // `;
         // const sql = `
         //     SELECT block_index, COUNT(*) AS messages
         //     FROM messages
@@ -138,10 +147,32 @@ class Queries {
         //     LIMIT 100;
         // `;
         const params_obj = {
-            limit,
+            block_index: from_block_index,
         };
         return queryDBRows(db, sql, params_obj);
     }
+    // static async getMessagesByBlockLatest(db) {
+    //     const limit = 30;
+    //     const sql = `
+    //         SELECT m.block_index, b.block_time, COUNT(*) AS messages
+    //         FROM messages m
+    //         JOIN blocks b ON m.block_index = b.block_index
+    //         GROUP BY m.block_index
+    //         ORDER BY m.block_index DESC
+    //         LIMIT $limit;
+    //     `;
+    //     // const sql = `
+    //     //     SELECT block_index, COUNT(*) AS messages
+    //     //     FROM messages
+    //     //     GROUP BY block_index
+    //     //     ORDER BY block_index DESC
+    //     //     LIMIT 100;
+    //     // `;
+    //     const params_obj = {
+    //         limit,
+    //     };
+    //     return queryDBRows(db, sql, params_obj);
+    // }
 
     static async getBlocksLatest(db) {
         const limit = 30; // 10
