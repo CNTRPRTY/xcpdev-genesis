@@ -887,9 +887,7 @@ app.post('/lib_api_proxy', async (req, res) => {
 
 
 
-const updateMempoolCacheSeconds = 60;
 async function updateMempoolCache() {
-
     const start = new Date().getTime();
     const lib_response = await libApiRequest('get_memmempool', {});
     const end = new Date().getTime();
@@ -905,7 +903,6 @@ async function updateMempoolCache() {
     // cached_mempool_timems = end - start;
 }
 
-const updateBlocksCacheSeconds = 59;
 async function updateBlocksCache() {
     let start;
     let end;
@@ -942,7 +939,6 @@ async function updateBlocksCache() {
     cached_blocks = blocks_all;
 }
 
-const updateTransactionsCacheSeconds = 61;
 async function updateTransactionsCache() {
     const start = new Date().getTime();
     const btc_transactions_latest = await Queries.getTransactionsLatest(db);
@@ -952,22 +948,18 @@ async function updateTransactionsCache() {
 }
 
 
+const cacheUpdateSeconds = 60;
+async function doCacheUpdates() {
+    await updateMempoolCache();
+    await updateBlocksCache();
+    await updateTransactionsCache();
+}
+
+
 app.listen(port, () => {
-
     setInterval(
-        updateMempoolCache,
-        updateMempoolCacheSeconds * 1000
+        doCacheUpdates,
+        cacheUpdateSeconds * 1000
     );
-
-    setInterval(
-        updateBlocksCache,
-        updateBlocksCacheSeconds * 1000
-    );
-
-    setInterval(
-        updateTransactionsCache,
-        updateTransactionsCacheSeconds * 1000
-    );
-
     console.log(`Example app listening on port ${port}`);
 });
