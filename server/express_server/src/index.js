@@ -546,8 +546,6 @@ app.get('/transactions', async (req, res) => {
 });
 
 app.get('/transactions/:txIndex', async (req, res) => {
-    // TODO improve, starting with most basic validation
-    // try {
     const tx_index = Number(req.params.txIndex);
     // get the transactions including the tx and the next 100 transactions
     const to_index = Number(tx_index) + 99;
@@ -565,14 +563,6 @@ app.get('/transactions/:txIndex', async (req, res) => {
         transactions,
         query_timems: end - start,
     });
-    // }
-    // catch (err) {
-    //     console.log(`transactions/:txIndex error:`);
-    //     console.log(err);
-    //     res.status(500).json({
-    //         error: 'Maybe 500 error', // TODO!
-    //     });
-    // }
 });
 
 app.get('/transactions/dispensers/:txHash', async (req, res) => {
@@ -701,8 +691,6 @@ app.get('/transactions/orders/:txHash', async (req, res) => {
 
 
 app.get('/messages/:messageIndex', async (req, res) => {
-    // TODO improve, starting with most basic validation
-    // try {
     const message_index = Number(req.params.messageIndex);
     // get the messages including the tx and the next 100 transactions
     const to_index = Number(message_index) + 99;
@@ -720,21 +708,11 @@ app.get('/messages/:messageIndex', async (req, res) => {
         messages,
         query_timems: end - start,
     });
-    // }
-    // catch (err) {
-    //     console.log(`messages/:messageIndex error:`);
-    //     console.log(err);
-    //     res.status(500).json({
-    //         error: 'Maybe 500 error', // TODO!
-    //     });
-    // }
 });
 
 
 app.get('/blocks/:blockIndex', async (req, res) => {
     // app.get('/blocks/:blockTime', async (req, res) => { // would be cool but is not indexed... (also good for clear difference to /block/blockIndex)
-    // TODO improve, starting with most basic validation
-    // try {
     const block_index = Number(req.params.blockIndex);
     const to_index = Number(block_index) + 99;
     const start = new Date().getTime();
@@ -750,15 +728,6 @@ app.get('/blocks/:blockIndex', async (req, res) => {
         blocks,
         query_timems: end - start,
     });
-    // }
-    // catch (err) {
-    //     console.log(`blocks/:blockIndex error:`);
-    //     console.log(err);
-    //     res.status(500).json({
-    //         // TODO cleanup!
-    //         error: 'Maybe 500 error', // TODO!
-    //     });
-    // }
 });
 
 
