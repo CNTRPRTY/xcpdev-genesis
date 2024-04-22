@@ -164,7 +164,6 @@ app.get('/tx/:txHash', async (req, res) => {
 });
 
 app.get('/txindex/:txIndex', async (req, res) => {
-    // will just return the transaction_row for a subsequent client /tx/:txHash request
     const tx_index = req.params.txIndex;
     const start = new Date().getTime();
     const transaction_row = await Queries.getTransactionsRowByTxIndex(db, tx_index);
@@ -212,7 +211,6 @@ app.get('/block/:blockIndex/messages', async (req, res) => {
 });
 
 app.get('/blockhash/:blockHash', async (req, res) => {
-    // will just return the block_index for a subsequent client /block/:blockIndex request
     const block_hash = req.params.blockHash;
     const start = new Date().getTime();
     const block_row = await Queries.getBlocksRowByBlockHash(db, block_hash);
@@ -521,7 +519,6 @@ app.get('/asset/:assetName/subassets', async (req, res) => {
 });
 
 app.get('/subasset/:assetLongname', async (req, res) => {
-    // will just return the asset_row for a subsequent client /asset/:assetName/<> request
     const asset_longname = req.params.assetLongname;
     const start = new Date().getTime();
     const asset_row = await Queries.getAssetsRowByAssetLongname(db, asset_longname);
@@ -543,7 +540,6 @@ app.get('/subasset/:assetLongname', async (req, res) => {
 // only latest
 app.get('/transactions', async (req, res) => {
     res.status(200).json({
-        // btc_transactions_latest: cached_transactions,
         transactions_latest: cached_transactions, // remove with more changes and announcement
         transactions: cached_transactions, // just to be consistent with the other latest
         query_timems: cached_transactions_timems,
@@ -754,7 +750,6 @@ app.get('/blocks/:blockIndex', async (req, res) => {
             to_index,
             blocks,
             query_timems: end - start,
-            // blocks_timems: end - start,
         });
     }
     catch (err) {
@@ -851,7 +846,7 @@ async function libApiRequest(method, params = null) {
 }
 app.post('/lib_api_proxy', async (req, res) => {
     try {
-        // no validation/sanitization, forwarding all this responsibility to counterparty-lib
+        // no validation / sanitization, forwarding all this responsibility to counterparty-lib
         const method = req.body.method;
         const params = req.body.params;
         const start = new Date().getTime();
