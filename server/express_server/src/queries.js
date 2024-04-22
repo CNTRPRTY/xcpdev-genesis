@@ -143,20 +143,31 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    // TODO might be better to just ask for the last X...
-
-    static async getBlocksLatest(db, from_block_index) {
+    static async getBlocksLatest(db) {
+        const limit = 30; // 10
         const sql = `
             SELECT *
             FROM blocks
-            WHERE block_index >= $block_index
-            ORDER BY block_index DESC;
+            ORDER BY block_index DESC
+            LIMIT $limit;
         `;
         const params_obj = {
-            block_index: from_block_index,
+            limit,
         };
         return queryDBRows(db, sql, params_obj);
     }
+    // static async getBlocksLatest(db, from_block_index) {
+    //     const sql = `
+    //         SELECT *
+    //         FROM blocks
+    //         WHERE block_index >= $block_index
+    //         ORDER BY block_index DESC;
+    //     `;
+    //     const params_obj = {
+    //         block_index: from_block_index,
+    //     };
+    //     return queryDBRows(db, sql, params_obj);
+    // }
 
     static async getBlocksInRange(db, start_block_index, end_block_index) {
         const sql = `
