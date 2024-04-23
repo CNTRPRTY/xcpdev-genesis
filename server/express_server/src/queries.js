@@ -293,7 +293,7 @@ class Queries {
     static async getBalancesRowsByAssetName(db, asset_name) {
         // TODO?
         // broken with CIP3 reset assets...
-        const sql1 = `
+        const sql = `
             SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
             FROM balances b
             JOIN (
@@ -316,38 +316,10 @@ class Queries {
         // `; // WRONG query: returns multiple results for multiple genesis issuances in the same block (AND was not filtering out invalid)
         // https://stackoverflow.com/a/26820991
         // https://github.com/TryGhost/node-sqlite3/issues/922#issuecomment-1179480916
-        const params_obj1 = {
+        const params_obj = {
             asset_name,
         };
-        const rows1 = await queryDBRows(db, sql1, params_obj1);
-
-        // // above query does not include XCP
-        // const sql2 = `
-        //     SELECT *
-        //     FROM balances
-        //     WHERE address = $address
-        //     AND asset = $asset;
-        // `;
-        // const params_obj2 = {
-        //     $address: address,
-        //     $asset: 'XCP',
-        // };
-        // // return queryDBRows(db, sql, params_obj);
-        // const rows2 = await queryDBRows(db, sql2, params_obj2);
-
-        // return [
-        //     ...rows1,
-        //     ...rows2.map(row => {
-        //         return {
-        //             ...row,
-        //             asset_longname: null,
-        //             divisible: true,
-        //         }
-        //     }
-        //     ),
-        // ];
-
-        return rows1;
+        return queryDBRows(db, sql, params_obj);
 
     }
 
@@ -488,7 +460,7 @@ class Queries {
     // }
     static async getBalancesRowsByAddressWithoutXcp(db, address) {
         // broken with CIP3 reset assets
-        const sql1 = `
+        const sql = `
             SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
             FROM balances b
             JOIN (
@@ -540,32 +512,28 @@ class Queries {
         //     FROM balances
         //     WHERE address = $address;
         // `;
-        const params_obj1 = {
+        const params_obj = {
             address,
         };
-        // return queryDBRows(db, sql, params_obj);
-        const rows1 = await queryDBRows(db, sql1, params_obj1);
-        return rows1;
+        return queryDBRows(db, sql, params_obj);
     }
     static async getBalancesRowsByAddressXcp(db, address) {
-        const sql2 = `
+        const sql = `
             SELECT *, CAST(quantity AS TEXT) AS quantity_text
             FROM balances
             WHERE address = $address
             AND asset = $asset;
         `;
-        const params_obj2 = {
+        const params_obj = {
             address,
             asset: 'XCP',
         };
-        // return queryDBRows(db, sql, params_obj);
-        const rows2 = await queryDBRows(db, sql2, params_obj2);
-        return rows2;
+        return queryDBRows(db, sql, params_obj);
     }
     // NOTICE this is the first one that needs to do something like this (software started supporting v9.59.6)
     static async getBalancesResetsCheck(db, address) {
         // detecting reset assets (this project started from 9.59.6 and then 9.60 added reset)
-        const sql3 = `
+        const sql = `
             SELECT DISTINCT i.asset, i.block_index, i.divisible
             FROM issuances i
             WHERE i.asset IN (
@@ -576,12 +544,10 @@ class Queries {
             AND i.status = 'valid'
             AND i.reset = true;
         `;
-        const params_obj3 = {
+        const params_obj = {
             address,
         };
-        // return queryDBRows(db, sql, params_obj);
-        const rows3 = await queryDBRows(db, sql3, params_obj3);
-        return rows3;
+        return queryDBRows(db, sql, params_obj);
     }
 
     static async getBroadcastsRowsByAddress(db, address) {
@@ -787,17 +753,17 @@ class Queries {
         }
     }
     static async getIssuanceMetadataResetsCheck(db, asset_name) {
-        const sql2 = `
+        const sql = `
             SELECT DISTINCT block_index, divisible
             FROM issuances
             WHERE asset = $asset_name
             AND status = 'valid'
             AND reset = true;
         `;
-        const params_obj2 = {
+        const params_obj = {
             asset_name,
         };
-        return queryDBRows(db, sql2, params_obj2);
+        return queryDBRows(db, sql, params_obj);
     }
 
     static async getIssuancesRowsByAssetName(db, asset_name) {
@@ -884,6 +850,7 @@ class Queries {
         // STATUS_CLOSING = 11
         // trying new approach, return the ones not closed
         const status_isnot = 10;
+        // const status = 0; // 0:open 10:closed
         const sql = `
             SELECT
                 d.*,
@@ -902,26 +869,6 @@ class Queries {
             asset_name,
             status: status_isnot,
         };
-
-        // const status = 0; // 0:open 10:closed
-        // const sql = `
-        //     SELECT
-        //         d.*,
-        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
-        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
-        //         CAST(d.give_remaining AS TEXT) AS give_remaining_text,
-        //         b.block_time
-        //     FROM dispensers d
-        //     JOIN blocks b
-        //         ON d.block_index = b.block_index
-        //     WHERE d.asset = $asset_name
-        //     AND d.status = $status
-        //     ORDER BY d.tx_index ASC;
-        // `;
-        // const params_obj = {
-        //     asset_name,
-        //     status,
-        // };
         return queryDBRows(db, sql, params_obj);
     }
     static async getOpenDispensersRowsByAddress(db, address) {
@@ -931,6 +878,7 @@ class Queries {
         // STATUS_CLOSING = 11
         // trying new approach, return the ones not closed
         const status_isnot = 10;
+        // const status = 0; // 0:open 10:closed
         const sql = `
             SELECT
                 d.*,
@@ -948,28 +896,10 @@ class Queries {
             address,
             status: status_isnot,
         };
-        // const status = 0; // 0:open 10:closed
-        // const sql = `
-        //     SELECT
-        //         d.*,
-        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
-        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
-        //         b.block_time
-        //     FROM dispensers d
-        //     JOIN blocks b
-        //         ON d.block_index = b.block_index
-        //     WHERE d.source = $address
-        //     AND d.status = $status
-        //     ORDER BY d.tx_index ASC;
-        // `;
-        // const params_obj = {
-        //     address,
-        //     status,
-        // };
         return queryDBRows(db, sql, params_obj);
     }
     static async getClosedDispensersRowsByAddress(db, address) {
-        const status = 10; // 10:closed (while the rest are not-closed)
+        const status = 10; // 10:closed (while the rest, are, not-closed)
         const sql = `
             SELECT
                 d.*,
