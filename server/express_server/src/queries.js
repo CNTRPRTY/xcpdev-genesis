@@ -938,6 +938,8 @@ class Queries {
     // gets updated
 
     static async getDispensersRow(db, tx_hash) {
+
+        // v10
         const sql = `
             SELECT
                 d.*,
@@ -949,8 +951,26 @@ class Queries {
             FROM dispensers d
             JOIN blocks b
                 ON d.block_index = b.block_index
-            WHERE d.tx_hash = $tx_hash;
+            WHERE d.tx_hash = $tx_hash
+            ORDER BY d.rowid DESC
+            LIMIT 1;
         `;
+
+        // v9
+        // const sql = `
+        //     SELECT
+        //         d.*,
+        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+        //         CAST(d.give_remaining AS TEXT) AS give_remaining_text,
+        //         CAST(d.escrow_quantity AS TEXT) AS escrow_quantity_text,
+        //         b.block_time
+        //     FROM dispensers d
+        //     JOIN blocks b
+        //         ON d.block_index = b.block_index
+        //     WHERE d.tx_hash = $tx_hash;
+        // `;
+
         const params_obj = {
             tx_hash,
         };
@@ -981,6 +1001,8 @@ class Queries {
     }
 
     static async getOrdersRow(db, tx_hash) {
+
+        // v10
         const sql = `
             SELECT
                 o.*,
@@ -992,8 +1014,26 @@ class Queries {
             FROM orders o
             JOIN blocks b
                 ON o.block_index = b.block_index
-            WHERE o.tx_hash = $tx_hash;
+            WHERE o.tx_hash = $tx_hash
+            ORDER BY o.rowid DESC
+            LIMIT 1;
         `;
+
+        // v9
+        // const sql = `
+        //     SELECT
+        //         o.*,
+        //         CAST(o.give_remaining AS TEXT) AS give_remaining_text,
+        //         CAST(o.give_quantity AS TEXT) AS give_quantity_text,
+        //         CAST(o.get_remaining AS TEXT) AS get_remaining_text,
+        //         CAST(o.get_quantity AS TEXT) AS get_quantity_text,
+        //         b.block_time
+        //     FROM orders o
+        //     JOIN blocks b
+        //         ON o.block_index = b.block_index
+        //     WHERE o.tx_hash = $tx_hash;
+        // `;
+
         const params_obj = {
             tx_hash,
         };
