@@ -341,12 +341,19 @@ class Queries {
     }
 
     static async getBalancesRowsByAddressWithoutXcp(db, address) {
-        // broken with CIP3 reset assets
+        // broken with v9.61 reset assets
+
+        // v10
         const sql = `
-            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
+            SELECT
+                MAX(b.rowid) AS _rowid,
+                b.*,
+                CAST(b.quantity AS TEXT) AS quantity_text,
+                ad.asset_longname,
+                ad.divisible
             FROM balances b
             JOIN (
-                SELECT DISTINCT a.*, i.divisible
+                SELECT DISTINCT a.asset_name, a.asset_longname, i.divisible
                 FROM assets a
                 JOIN issuances i ON (
                     a.asset_name = i.asset AND
@@ -359,41 +366,31 @@ class Queries {
                     WHERE bi.address = $address
                 )
             ) ad ON b.asset = ad.asset_name
-            WHERE b.address = $address;
+            WHERE b.address = $address
+            GROUP BY b.asset;
         `; // ad => asset with divisiblity
-        // const sql1 = `
+
+        // v9
+        // const sql = `
         //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
         //     FROM balances b
         //     JOIN (
-        //         SELECT DISTINCT a.*, i.divisible
+        //         SELECT DISTINCT a.asset_name, a.asset_longname, i.divisible
         //         FROM assets a
         //         JOIN issuances i ON (
         //             a.asset_name = i.asset AND
         //             a.block_index = i.block_index AND
         //             i.status = 'valid'
         //         )
+        //         WHERE a.asset_name IN (
+        //             SELECT bi.asset
+        //             FROM balances bi
+        //             WHERE bi.address = $address
+        //         )
         //     ) ad ON b.asset = ad.asset_name
         //     WHERE b.address = $address;
         // `; // ad => asset with divisiblity
-        // const sql1 = `
-        //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
-        //     FROM balances b
-        //     JOIN assets a ON b.asset = a.asset_name
-        //     JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
-        //     WHERE b.address = $address;
-        // `; // WRONG query: returns multiple results for multiple genesis issuances in the same block (AND was not filtering out invalid)
-        // const sql = `
-        //     SELECT b.*, a.asset_longname
-        //     FROM balances b
-        //     JOIN assets a
-        //     ON b.asset = a.asset_name
-        //     WHERE address = $address;
-        // `;
-        // const sql = `
-        //     SELECT *
-        //     FROM balances
-        //     WHERE address = $address;
-        // `;
+
         const params_obj = {
             address,
         };
