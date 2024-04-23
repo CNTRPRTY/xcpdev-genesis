@@ -699,19 +699,42 @@ class Queries {
     // escrows
     static async getOrdersRowsGiveAssetByAssetName(db, asset_name) {
         const status = 'open';
+
+        // v10
         const sql = `
-            SELECT
-                o.*,
-                CAST(o.give_remaining AS TEXT) AS give_remaining_text,
-                CAST(o.get_remaining AS TEXT) AS get_remaining_text,
-                b.block_time
-            FROM orders o
-            JOIN blocks b
-                ON o.block_index = b.block_index
-            WHERE o.give_asset = $asset_name
-            AND o.status = $status
-            ORDER BY o.tx_index ASC;
-        `;
+            SELECT *
+            FROM (
+                SELECT
+                    MAX(o.rowid) AS _rowid,
+                    o.*,
+                    CAST(o.give_remaining AS TEXT) AS give_remaining_text,
+                    CAST(o.get_remaining AS TEXT) AS get_remaining_text,
+                    b.block_time
+                FROM orders o
+                JOIN blocks b
+                    ON o.block_index = b.block_index
+                WHERE o.give_asset = $asset_name
+                GROUP BY o.tx_hash
+            ) AS nup
+            WHERE status = $status
+            ORDER BY tx_index ASC;
+        `; // nup => no updates
+
+        // v9
+        // const sql = `
+        //     SELECT
+        //         o.*,
+        //         CAST(o.give_remaining AS TEXT) AS give_remaining_text,
+        //         CAST(o.get_remaining AS TEXT) AS get_remaining_text,
+        //         b.block_time
+        //     FROM orders o
+        //     JOIN blocks b
+        //         ON o.block_index = b.block_index
+        //     WHERE o.give_asset = $asset_name
+        //     AND o.status = $status
+        //     ORDER BY o.tx_index ASC;
+        // `;
+
         const params_obj = {
             asset_name,
             status,
