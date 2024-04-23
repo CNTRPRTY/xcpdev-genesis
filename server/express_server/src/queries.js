@@ -845,19 +845,42 @@ class Queries {
     }
     static async getClosedDispensersRowsByAddress(db, address) {
         const status = 10; // 10:closed (while the rest, are, not-closed)
+        
+        // v10
         const sql = `
-            SELECT
-                d.*,
-                CAST(d.satoshirate AS TEXT) AS satoshirate_text,
-                CAST(d.give_quantity AS TEXT) AS give_quantity_text,
-                b.block_time
-            FROM dispensers d
-            JOIN blocks b
-                ON d.block_index = b.block_index
-            WHERE d.source = $address
-            AND d.status = $status
-            ORDER BY d.tx_index ASC;
-        `;
+            SELECT *
+            FROM (
+                SELECT
+                    MAX(d.rowid) AS _rowid,
+                    d.*,
+                    CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+                    CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+                    b.block_time
+                FROM dispensers d
+                JOIN blocks b
+                    ON d.block_index = b.block_index
+                WHERE d.source = $address
+                GROUP BY d.tx_hash
+            ) AS nup
+            WHERE status = $status
+            ORDER BY tx_index ASC;
+        `; // nup => no updates
+
+        // v9
+        // const sql = `
+        //     SELECT
+        //         d.*,
+        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+        //         b.block_time
+        //     FROM dispensers d
+        //     JOIN blocks b
+        //         ON d.block_index = b.block_index
+        //     WHERE d.source = $address
+        //     AND d.status = $status
+        //     ORDER BY d.tx_index ASC;
+        // `;
+
         const params_obj = {
             address,
             status,
