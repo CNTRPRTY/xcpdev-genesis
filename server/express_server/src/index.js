@@ -39,18 +39,18 @@ let cached_transactions_timems = null;
 async function getAssetMetadataMaybeQuery(db, asset_name) {
     let start;
     let end;
-    let query1;
+    let asset_metadata;
     let query1_timems = null;
     let query2_timems = null;
     if (asset_name === 'BTC') {
-        query1 = {
+        asset_metadata = {
             asset: 'BTC',
             asset_longname: null,
             divisible: true,
         };
     }
     else if (asset_name === 'XCP') {
-        query1 = {
+        asset_metadata = {
             asset: 'XCP',
             asset_longname: null,
             divisible: true,
@@ -59,7 +59,7 @@ async function getAssetMetadataMaybeQuery(db, asset_name) {
     else {
 
         start = new Date().getTime();
-        query1 = await Queries.getIssuanceMetadataByAssetName(db, asset_name);
+        asset_metadata = await Queries.getIssuanceMetadataByAssetName(db, asset_name);
         end = new Date().getTime();
         query1_timems = end - start;
 
@@ -73,13 +73,13 @@ async function getAssetMetadataMaybeQuery(db, asset_name) {
             query2_timems = end - start;
 
             if (query2.length) {
-                query1.resets = query2;
+                asset_metadata.resets = query2;
             }
         }
     }
 
     return {
-        asset_metadata: query1,
+        asset_metadata,
         query1_timems,
         query2_timems,
     };
