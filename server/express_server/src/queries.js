@@ -296,11 +296,25 @@ class Queries {
 
     static async getBalancesRowsByAssetName(db, asset_name) {
         // join was unnecessary for a single asset
+
+        // v10
         const sql = `
-            SELECT *, CAST(quantity AS TEXT) AS quantity_text
+            SELECT
+                MAX(rowid) as _rowid,
+                *,
+                CAST(quantity AS TEXT) AS quantity_text
             FROM balances
-            WHERE asset = $asset_name;
+            WHERE asset = $asset_name
+            GROUP BY address;
         `;
+
+        // v9
+        // const sql = `
+        //     SELECT *, CAST(quantity AS TEXT) AS quantity_text
+        //     FROM balances
+        //     WHERE asset = $asset_name;
+        // `;
+
         const params_obj = {
             asset_name,
         };
@@ -309,13 +323,19 @@ class Queries {
     // TODO ignoring XCP for now
     static async getBalancesRowsByAssetNameOLD(db, asset_name) {
         // static async getBalancesRowsByAssetName(db, asset_name) {
-        // TODO?
-        // broken with CIP3 reset assets...
+        // broken with v9.61 reset assets...
+
+        // v10
         const sql = `
-            SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
+            SELECT
+                MAX(b.rowid) as _rowid,
+                b.*,
+                CAST(b.quantity AS TEXT) AS quantity_text,
+                ad.asset_longname,
+                ad.divisible
             FROM balances b
             JOIN (
-                SELECT DISTINCT a.*, i.divisible
+                SELECT DISTINCT a.asset_name, a.asset_longname, i.divisible
                 FROM assets a
                 JOIN issuances i ON (
                     a.asset_name = i.asset AND
@@ -323,15 +343,27 @@ class Queries {
                     i.status = 'valid'
                 )
                 WHERE a.asset_name = $asset_name
-            ) ad ON b.asset = ad.asset_name;
+            ) ad ON b.asset = ad.asset_name
+            GROUP BY b.address;
         `; // ad => asset with divisiblity
-        // const sql1 = `
-        //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, a.asset_longname, i.divisible
+
+        // v9
+        // const sql = `
+        //     SELECT b.*, CAST(b.quantity AS TEXT) AS quantity_text, ad.asset_longname, ad.divisible
         //     FROM balances b
-        //     JOIN assets a ON b.asset = a.asset_name
-        //     JOIN issuances i ON (a.asset_name = i.asset AND a.block_index = i.block_index)
-        //     WHERE b.asset = $asset_name;
-        // `; // WRONG query: returns multiple results for multiple genesis issuances in the same block (AND was not filtering out invalid)
+        //     JOIN (
+        //         SELECT DISTINCT a.asset_name, a.asset_longname, i.divisible
+        //         FROM assets a
+        //         JOIN issuances i ON (
+        //             a.asset_name = i.asset AND
+        //             a.block_index = i.block_index AND
+        //             i.status = 'valid'
+        //         )
+        //         WHERE a.asset_name = $asset_name
+        //     ) ad ON b.asset = ad.asset_name;
+        // `; // ad => asset with divisiblity
+
+        // 'AS TEXT' bigint handling references
         // https://stackoverflow.com/a/26820991
         // https://github.com/TryGhost/node-sqlite3/issues/922#issuecomment-1179480916
         const params_obj = {
