@@ -749,20 +749,44 @@ class Queries {
         // trying new approach, return the ones not closed
         const status_isnot = 10;
         // const status = 0; // 0:open 10:closed
+
+        // v10
         const sql = `
-            SELECT
-                d.*,
-                CAST(d.satoshirate AS TEXT) AS satoshirate_text,
-                CAST(d.give_quantity AS TEXT) AS give_quantity_text,
-                CAST(d.give_remaining AS TEXT) AS give_remaining_text,
-                b.block_time
-            FROM dispensers d
-            JOIN blocks b
-                ON d.block_index = b.block_index
-            WHERE d.asset = $asset_name
-            AND d.status != $status
-            ORDER BY d.tx_index ASC;
-        `;
+            SELECT *
+            FROM (
+                SELECT
+                    MAX(d.rowid) AS _rowid,
+                    d.*,
+                    CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+                    CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+                    CAST(d.give_remaining AS TEXT) AS give_remaining_text,
+                    b.block_time
+                FROM dispensers d
+                JOIN blocks b
+                    ON d.block_index = b.block_index
+                WHERE d.asset = $asset_name
+                GROUP BY d.tx_hash
+            ) AS nup
+            WHERE status != $status
+            ORDER BY tx_index ASC;
+        `; // nup => no updates
+
+        // v9
+        // const sql = `
+        //     SELECT
+        //         d.*,
+        //         CAST(d.satoshirate AS TEXT) AS satoshirate_text,
+        //         CAST(d.give_quantity AS TEXT) AS give_quantity_text,
+        //         CAST(d.give_remaining AS TEXT) AS give_remaining_text,
+        //         b.block_time
+        //     FROM dispensers d
+        //     JOIN blocks b
+        //         ON d.block_index = b.block_index
+        //     WHERE d.asset = $asset_name
+        //     AND d.status != $status
+        //     ORDER BY d.tx_index ASC;
+        // `;
+
         const params_obj = {
             asset_name,
             status: status_isnot,
