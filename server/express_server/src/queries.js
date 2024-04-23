@@ -400,12 +400,27 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
     static async getBalancesRowsByAddressXcp(db, address) {
+
+        // v10
         const sql = `
-            SELECT *, CAST(quantity AS TEXT) AS quantity_text
+            SELECT
+                MAX(rowid) AS _rowid,
+                *,
+                CAST(quantity AS TEXT) AS quantity_text
             FROM balances
             WHERE address = $address
-            AND asset = $asset;
+            AND asset = $asset
+            GROUP BY asset;
         `;
+
+        // v9
+        // const sql = `
+        //     SELECT *, CAST(quantity AS TEXT) AS quantity_text
+        //     FROM balances
+        //     WHERE address = $address
+        //     AND asset = $asset;
+        // `;
+
         const params_obj = {
             address,
             asset: 'XCP',
