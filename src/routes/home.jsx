@@ -5,8 +5,22 @@ import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { timeSince, hashSlice } from '../utils';
 
-import { decode_data } from '../decode_tx';
-import { Buffer } from 'buffer';
+// import { decode_data } from '../decode_tx';
+// import { Buffer } from 'buffer';
+
+// defaults to filtering
+function eventsFilter(message_row, show_all_events = false) {
+    if (show_all_events) return true;
+    else {
+        const new_messages = [
+            'transactions',
+            'transaction_outputs',
+            'assets',
+            'blocks',
+        ];
+        return !new_messages.includes(message_row.category);
+    }
+}
 
 class Home extends React.Component {
 
@@ -15,6 +29,7 @@ class Home extends React.Component {
         this.state = {
             blocks: null,
             mempool: null,
+            mempool_show_all_events: true, // to debug
             transactions: null,
             node_response: null,
         };
@@ -145,27 +160,82 @@ class Home extends React.Component {
         }
         else if (this.state.mempool && this.state.mempool.length) {
             mempool_element_contents = (
+                <>
+
+                {/* to debug */}
+                {' '}
+                <label>
+                    <input
+                        type="checkbox"
+                        onClick={() => {
+                            this.setState((prevState, props) => ({
+                                mempool_show_all_events: !prevState.mempool_show_all_events
+                            }));
+                        }}
+                        checked={this.state.mempool_show_all_events}
+                    />
+                    {' '}
+                    <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
+                </label>
+                {/*  */}
+
+                
                 <table>
                     <tbody>
                         {ListElements.getTableRowMempoolHomeHeader()}
-                        {this.state.mempool.map((mempool_row, index) => {
+                        {/* {this.state.mempool.map((mempool_row, index) => { */}
+                        {/* {this.state.mempool.flatMap((mempool_row, index) => { */}
+                        {this.state.mempool.filter((message_row) => {
+                            return eventsFilter(message_row, this.state.mempool_show_all_events);
+                        }).map((mempool_row, index) => {
 
-                            // cntrprty transaction
-                            let cntrprty_decoded = {};
-                            const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
-                            try {
-                                const current_version_past_block = 819000;
-                                cntrprty_decoded = decode_data(mempool_row.destination, current_version_past_block, cntrprty_hex);
-                            }
-                            catch (e) {
-                                console.error(`cntrprty_decoded error: ${e}`);
-                            }
-
+                            const bindings = JSON.parse(mempool_row.bindings);
+                            mempool_row.source = bindings.source;
+                            let cntrprty_decoded = {
+                                msg_type: mempool_row.category,
+                            };
                             mempool_row.cntrprty_decoded = cntrprty_decoded;
                             return ListElements.getTableRowMempoolHome(mempool_row, index);
+
+                            // const new_messages = [
+                            //     // 'transactions',
+                            //     // 'transaction_outputs',
+                            //     // 'assets',
+                            // ];
+
+                            // if (new_messages.includes(mempool_row.category)) {
+                            //     // flatMap: return empty to remove the item
+                            //     return [];
+                            // }
+                            // else {
+                            //     // flatMap: return a 1-element array to keep the item
+                            //     const bindings = JSON.parse(mempool_row.bindings);
+                            //     mempool_row.source = bindings.source;
+                            //     let cntrprty_decoded = {
+                            //         msg_type: mempool_row.category,
+                            //     };
+                            //     mempool_row.cntrprty_decoded = cntrprty_decoded;
+                            //     return [ListElements.getTableRowMempoolHome(mempool_row, index)];
+                            // }
+
+                            // // cntrprty transaction
+                            // let cntrprty_decoded = {};
+                            // const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                            // try {
+                            //     const current_version_past_block = 819000;
+                            //     cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                            // }
+                            // catch (e) {
+                            //     console.error(`cntrprty_decoded error: ${e}`);
+                            // }
+
+                            // mempool_row.cntrprty_decoded = cntrprty_decoded;
+                            // return ListElements.getTableRowMempoolHome(mempool_row, index);
+
                         })}
                     </tbody>
                 </table>
+                </>
             );
         }
         const mempool_element = (

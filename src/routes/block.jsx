@@ -29,7 +29,24 @@ function baseState(block) {
         messages: [],
 
         messages_show_bindings: false,
+
+        // to debug
+        show_all_events: true,
     };
+}
+
+// defaults to filtering
+function eventsFilter(message_row, show_all_events = false) {
+    if (show_all_events) return true;
+    else {
+        const new_messages = [
+            'transactions',
+            'transaction_outputs',
+            'assets',
+            'blocks',
+        ];
+        return !new_messages.includes(message_row.category);
+    }
 }
 
 class Block extends React.Component {
@@ -311,7 +328,12 @@ class Block extends React.Component {
             if (this.state.messages.length) {
                 block_messages_element_header = (
                     <h3 class="font-bold">
-                        Messages ({this.state.messages.length}):
+                        {/* separate non-message events */}
+                        Messages ({this.state.messages.filter((message_row) => {
+                            return eventsFilter(message_row);
+                        }).length}):
+                        {this.state.show_all_events ? ` (${this.state.messages.length} total events)` : ''}
+                        {/* Messages ({this.state.messages.length}): */}
                     </h3>
                 );
             }
@@ -331,13 +353,36 @@ class Block extends React.Component {
                                 <span class="text-gray-600 dark:text-gray-400">show bindings</span>
                             </label>
 
+                            {/* to debug */}
+                            {' '}
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onClick={() => {
+                                        this.setState((prevState, props) => ({
+                                            show_all_events: !prevState.show_all_events
+                                        }));
+                                    }}
+                                    checked={this.state.show_all_events}
+                                />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
+                            </label>
+                            {/*  */}
+
                             <table>
                                 <tbody>
                                     {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings)}
                                     {/* {ListElements.getTableRowMessageBlockHeader()} */}
-                                    {this.state.messages.map((message_row, index) => {
-                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings);
-                                        // return ListElements.getTableRowMessageBlock(message_row, index);
+
+                                    {/* filter only in display */}
+                                    {this.state.messages.filter((message_row) => {
+                                        return eventsFilter(message_row, this.state.show_all_events);
+                                    }).map((message_row, index) => {
+                                        // {this.state.messages.map((message_row, index) => {
+                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings, eventsFilter(message_row));
+                                        // return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings);
+                                        // // return ListElements.getTableRowMessageBlock(message_row, index);
                                     })}
                                 </tbody>
                             </table>

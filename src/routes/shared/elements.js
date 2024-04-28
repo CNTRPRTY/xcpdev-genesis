@@ -420,7 +420,8 @@ class ListElements {
             </tr>
         );
     }
-    static getTableRowMessageBlock(message_row, index, show_bindings) {
+    static getTableRowMessageBlock(message_row, index, show_bindings, message_event = true) {
+        // static getTableRowMessageBlock(message_row, index, show_bindings) {
         // static getTableRowMessageBlock(message_row, index) {
         // static getTableRowMessage(message_row, index) {
         // const page = 'tx';
@@ -502,7 +503,7 @@ class ListElements {
         ////////
         ////////
 
-        // surfacing non-inserts, the updates
+        // surfacing non-inserts, the updates (or anything else?!!!)
         let nonsert_tx_notice = null;
         if (command !== 'insert') {
             nonsert_tx_notice = command;
@@ -539,7 +540,11 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}><code>{
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
                 }</code></td> */}
-                <td style={{ padding: "0 1rem 0 0" }}><code>{message_index}</code></td>
+
+                {/* event_index could become the new primary key, while keeping message_index in v9 order... */}
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_event ? message_index : ''}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{message_index}</code></td> */}
+
                 <td style={{ padding: "0 1rem 0 0" }}><code>{category}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{incolumn}</code></td>
 
