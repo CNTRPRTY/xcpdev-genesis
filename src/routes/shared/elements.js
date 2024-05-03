@@ -1343,7 +1343,10 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0 0" }}><code>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></code></td>
-                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></code></td>
+                
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${dispensers_row.tx_index_block}`}>{dispensers_row.tx_index_block}</Link></code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></code></td> */}
+                
                 <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
 
                 {asset_page ?
@@ -1553,7 +1556,9 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></code></td>
 
-                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.tx_index_block}`}>{orders_row.tx_index_block}</Link></code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></code></td> */}
+                
                 <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
 
                 {asset_page ?
@@ -1645,7 +1650,10 @@ class ListElements {
                 </td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{quantityWithDivisibility(get_divisible, BigInt(orders_row.get_remaining_text))}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></code></td>
-                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></code></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.tx_index_block}`}>{orders_row.tx_index_block}</Link></code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></code></td> */}
+                
                 <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(orders_row.block_time)}</code></td>
 
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
