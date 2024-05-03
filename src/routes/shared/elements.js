@@ -428,7 +428,9 @@ class ListElements {
         const category = message_row.category;
         const command = message_row.command;
         // const block_time_iso = timeIsoFormat(message_row.timestamp); // repeated, better just use the block
-        const message_index = message_row.message_index;
+        
+        const message_index = message_row.mensaje_index;
+        // const message_index = message_row.message_index;
 
         const bindings = JSON.parse(message_row.bindings);
         const bindingsElements = createLinkElementBindings(message_row.bindings);
@@ -1880,7 +1882,9 @@ class ListElements {
                 style={{ padding: "0.25rem" }}
             >
 
-                <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.message_index}</code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.mensaje_index}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.message_index}</code></td> */}
+                
                 <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{block_time_iso}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.category}</code></td>
