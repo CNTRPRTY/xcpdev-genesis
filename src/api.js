@@ -1,13 +1,14 @@
 
 // in this case, alt becomes the current
-const COUNTERPARTY_VERSION_PREVIEW = false;
+const COUNTERPARTY_VERSION_PREVIEW = true;
 
-const COUNTERPARTY_VERSION_ALT = "9.60.3";
-const COUNTERPARTY_VERSION_ALT_URL = "https://960.xcp.dev";
+const COUNTERPARTY_VERSION_ALT = "9.61.3";
+const COUNTERPARTY_VERSION_ALT_URL = "https://xcp.dev";
 
-const BITCOIN_VERSION = "24.0.1";
-const COUNTERPARTY_VERSION = "9.61.3";
-const API_HOST = "https://api.xcp.dev/v9_61";
+const BITCOIN_VERSION = "0.21.1";
+const COUNTERPARTY_VERSION = "10.1.1.CNTRPRTY";
+const API_HOST = "/api";
+// const API_HOST = "https://api.xcp.dev/v9_61";
 const API_HOST_IS_PROD = false;
 
 
