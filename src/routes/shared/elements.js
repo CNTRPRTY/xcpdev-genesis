@@ -400,7 +400,7 @@ class ListElements {
                 // class="whitespace-nowrap text-gray-600"
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td> */}
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td> */}
@@ -408,6 +408,8 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>status / command</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>command / status</td> */}
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
 
                 {show_bindings ?
                     (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
@@ -528,12 +530,17 @@ class ListElements {
 
                 style={{ padding: "0.25rem" }}
             >
-                <td style={{ padding: "0 1rem 0 0" }}><code>{
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
-                }</code></td>
+                }</code></td> */}
                 <td style={{ padding: "0 1rem 0 0" }}><code>{message_index}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{category}</code></td>
                 <td style={{ padding: "0 1rem 0 0" }}><code>{incolumn}</code></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code>{
+                    txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
+                }</code></td>
+
                 {show_bindings ?
                     (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElementTd(bindingsElements, index)}</code></td>)
                     // (<td style={{ padding: "0 1rem 0 0" }}><code>{linksElement(bindingsElements, index)}</code></td>)
