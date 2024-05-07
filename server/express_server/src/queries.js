@@ -125,8 +125,7 @@ class Queries {
             SELECT m.block_index, b.block_time, COUNT(*) AS messages
             FROM messages m
             JOIN blocks b ON m.block_index = b.block_index
-            WHERE m.mensaje_index IS NOT NULL
-            AND m.block_index >= $start_block_index
+            WHERE m.block_index >= $start_block_index
             AND m.block_index <= $end_block_index
             GROUP BY m.block_index
             ORDER BY m.block_index ASC;
