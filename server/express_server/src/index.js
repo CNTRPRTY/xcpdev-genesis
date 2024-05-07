@@ -736,6 +736,9 @@ app.get('/messages/:messageIndex', async (req, res) => {
 
 app.get('/blocks/:blockIndex', async (req, res) => {
     // app.get('/blocks/:blockTime', async (req, res) => { // would be cool but is not indexed... (also good for clear difference to /block/blockIndex)
+    let start;
+    let end;
+    
     let block_index;
     try {
         block_index = Number(req.params.blockIndex);
@@ -749,9 +752,44 @@ app.get('/blocks/:blockIndex', async (req, res) => {
     }
     // const block_index = Number(req.params.blockIndex);
     const to_index = Number(block_index) + 99;
-    const start = new Date().getTime();
-    const blocks = await Queries.getBlocksInRange(db, block_index, to_index);
-    const end = new Date().getTime();
+    
+    start = new Date().getTime();
+    let blocks_all = await Queries.getBlocksInRange(db, block_index, to_index);
+    end = new Date().getTime();
+    const query1_timems = end - start;
+    
+    // get counts
+    start = new Date().getTime();
+    const transactions_per_block = await Queries.getTransactionsCountFromBlockRange(db, block_index, to_index);
+    end = new Date().getTime();
+    const query2_timems = end - start;
+
+    start = new Date().getTime();
+    const messages_per_block = await Queries.getMessagesCountFromBlockRange(db, block_index, to_index);
+    end = new Date().getTime();
+    const query3_timems = end - start;
+
+    const block_transactions_dict = {};
+    for (const block of transactions_per_block) {
+        block_transactions_dict[block.block_index] = block.transactions;
+    }
+    const block_messages_dict = {};
+    for (const block of messages_per_block) {
+        block_messages_dict[block.block_index] = block.messages;
+    }
+
+    blocks_all = blocks_all.map((row) => {
+        let transactions_count = block_transactions_dict[row.block_index] ? block_transactions_dict[row.block_index] : 0;
+        let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
+        return {
+            ...row,
+            transactions_count,
+            messages_count,
+        };
+
+    });
+
+    
     res.status(200).json({
         node: {
             BITCOIN_VERSION,
@@ -759,8 +797,10 @@ app.get('/blocks/:blockIndex', async (req, res) => {
         },
         from_index: block_index,
         to_index,
-        blocks,
-        query_timems: end - start,
+        blocks: blocks_all,
+        query1_timems,
+        query2_timems,
+        query3_timems,
     });
 });
 
