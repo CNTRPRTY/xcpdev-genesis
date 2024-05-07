@@ -442,6 +442,12 @@ class ListElements {
 
         // special cases found
         if (
+            category === 'order_matches' &&
+            command === 'insert'
+        ) {
+            txhash_or_event = bindings.tx1_hash;
+        }
+        else if (
             category === 'credits' &&
             command === 'insert' &&
             (bindings.action && bindings.action === 'order match')
