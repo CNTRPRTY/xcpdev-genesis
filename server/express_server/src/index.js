@@ -940,14 +940,17 @@ async function updateBlocksCache() {
     cached_blocks_query1_timems = end - start;
 
     const from_block_index_row = blocks_all[blocks_all.length - 1];
+    const to_block_index_row = blocks_all[0];
 
     start = new Date().getTime();
-    const transactions_per_block = await Queries.getTransactionsCountFromBlockToTip(db, from_block_index_row.block_index);
+    const transactions_per_block = await Queries.getTransactionsCountFromBlockRange(db, from_block_index_row.block_index, to_block_index_row.block_index);
+    // const transactions_per_block = await Queries.getTransactionsCountFromBlockToTip(db, from_block_index_row.block_index);
     end = new Date().getTime();
     cached_blocks_query2_timems = end - start;
 
     start = new Date().getTime();
-    const messages_per_block = await Queries.getMessagesCountFromBlockToTip(db, from_block_index_row.block_index);
+    const messages_per_block = await Queries.getMessagesCountFromBlockRange(db, from_block_index_row.block_index, to_block_index_row.block_index);
+    // const messages_per_block = await Queries.getMessagesCountFromBlockToTip(db, from_block_index_row.block_index);
     end = new Date().getTime();
     cached_blocks_query3_timems = end - start;
 

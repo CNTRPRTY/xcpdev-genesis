@@ -138,28 +138,28 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getMessagesCountFromBlockToTip(db, from_block_index) {
-        // changed to ASC to be more consistent with the new name
-        const sql = `
-            SELECT m.block_index, b.block_time, COUNT(*) AS messages
-            FROM messages m
-            JOIN blocks b ON m.block_index = b.block_index
-            WHERE m.block_index >= $block_index
-            GROUP BY m.block_index
-            ORDER BY m.block_index ASC;
-        `;
-        // const sql = `
-        //     SELECT block_index, COUNT(*) AS messages
-        //     FROM messages
-        //     GROUP BY block_index
-        //     ORDER BY block_index DESC
-        //     LIMIT 100;
-        // `;
-        const params_obj = {
-            block_index: from_block_index,
-        };
-        return queryDBRows(db, sql, params_obj);
-    }
+    // static async getMessagesCountFromBlockToTip(db, from_block_index) {
+    //     // changed to ASC to be more consistent with the new name
+    //     const sql = `
+    //         SELECT m.block_index, b.block_time, COUNT(*) AS messages
+    //         FROM messages m
+    //         JOIN blocks b ON m.block_index = b.block_index
+    //         WHERE m.block_index >= $block_index
+    //         GROUP BY m.block_index
+    //         ORDER BY m.block_index ASC;
+    //     `;
+    //     // const sql = `
+    //     //     SELECT block_index, COUNT(*) AS messages
+    //     //     FROM messages
+    //     //     GROUP BY block_index
+    //     //     ORDER BY block_index DESC
+    //     //     LIMIT 100;
+    //     // `;
+    //     const params_obj = {
+    //         block_index: from_block_index,
+    //     };
+    //     return queryDBRows(db, sql, params_obj);
+    // }
 
     static async getTransactionsCountFromBlockRange(db, start_block_index, end_block_index) {
         const sql = `
@@ -179,22 +179,22 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    static async getTransactionsCountFromBlockToTip(db, from_block_index) {
-        // changed to ASC to be more consistent with the new name
-        const sql = `
-            SELECT t.block_index, b.block_time, COUNT(*) AS transactions
-            FROM transactions t
-            JOIN blocks b ON t.block_index = b.block_index
-            WHERE t.supported
-            AND t.block_index >= $block_index
-            GROUP BY t.block_index
-            ORDER BY t.block_index ASC;
-        `;
-        const params_obj = {
-            block_index: from_block_index,
-        };
-        return queryDBRows(db, sql, params_obj);
-    }
+    // static async getTransactionsCountFromBlockToTip(db, from_block_index) {
+    //     // changed to ASC to be more consistent with the new name
+    //     const sql = `
+    //         SELECT t.block_index, b.block_time, COUNT(*) AS transactions
+    //         FROM transactions t
+    //         JOIN blocks b ON t.block_index = b.block_index
+    //         WHERE t.supported
+    //         AND t.block_index >= $block_index
+    //         GROUP BY t.block_index
+    //         ORDER BY t.block_index ASC;
+    //     `;
+    //     const params_obj = {
+    //         block_index: from_block_index,
+    //     };
+    //     return queryDBRows(db, sql, params_obj);
+    // }
 
     static async getBlocksLatest(db) {
         const limit = 30; // 10
