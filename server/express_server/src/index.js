@@ -199,6 +199,17 @@ app.get('/block/:blockIndex', async (req, res) => {
     }
 });
 
+app.get('/block/:blockIndex/transactions', async (req, res) => {
+    const block_index = req.params.blockIndex;
+    const start = new Date().getTime();
+    const transactions = await Queries.getTransactionsRowsByBlock(db, block_index);
+    const end = new Date().getTime();
+    res.status(200).json({
+        transactions,
+        query_timems: end - start,
+    });
+});
+
 app.get('/block/:blockIndex/messages', async (req, res) => {
     const block_index = req.params.blockIndex;
     const start = new Date().getTime();

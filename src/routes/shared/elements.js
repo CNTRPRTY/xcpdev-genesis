@@ -572,6 +572,42 @@ class ListElements {
         // );
     }
 
+    //////
+    static getTableRowBlockTransactionsHeader() {
+        // static getTableRowMessageBlockHeader() {
+        return (
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                // class="whitespace-nowrap text-gray-600"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx hash</td>    
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx</td>     */}
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx index</td>       
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
+            </tr>
+        );
+    }
+    static getTableRowBlockTransactions(transaction_row, index) {
+        const tx_hash = transaction_row.tx_hash;
+        const tx_index = transaction_row.tx_index;
+        const surface_unsupported = !transaction_row.supported ? 'void ': '';
+        return (
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0 0" }}><code>{surface_unsupported}<Link to={`/tx/${tx_hash}`}>{tx_hash}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${tx_index}`}>{tx_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{transaction_row.cntrprty_decoded.msg_type}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{JSON.stringify(transaction_row)}</code></td> */}
+            </tr>
+        );
+    }
+    //////
+
     ///////////////
     // address balance
     static getTableRowBalanceAddressHeader(asset_page = false) {

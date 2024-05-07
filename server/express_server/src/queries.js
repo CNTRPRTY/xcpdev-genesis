@@ -161,6 +161,19 @@ class Queries {
     //     return queryDBRows(db, sql, params_obj);
     // }
 
+    static async getTransactionsRowsByBlock(db, block_index) {
+        const sql = `
+            SELECT *
+            FROM transactions
+            WHERE block_index = $block_index
+            ORDER BY tx_index ASC;
+        `;
+        const params_obj = {
+            block_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getTransactionsCountFromBlockRange(db, start_block_index, end_block_index) {
         const sql = `
             SELECT t.block_index, b.block_time, COUNT(*) AS transactions

@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import { Buffer } from 'buffer';
+
 import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
-import { Link } from "react-router-dom";
+import { decode_data } from '../decode_tx';
 
 function baseState(block) {
     return {
@@ -14,6 +17,11 @@ function baseState(block) {
         block_row_loading: true,
         block_row_loading_error: null,
         block_row: null,
+
+        transactions_block: null, // for ux, to not show a different block's transactions in transitions
+        transactions_loading: true,
+        transactions_loading_error: null,
+        transactions: [],
 
         messages_block: null, // for ux, to not show a different block's messages in transitions
         messages_loading: true,
@@ -74,6 +82,21 @@ class Block extends React.Component {
                 });
             }
             else { // block_row
+
+                try {
+                    const transactions_response = await getCntrprty(`/block/${block}/transactions`);
+                    this.setState({
+                        transactions_block: block,
+                        transactions_loading: false,
+                        transactions: transactions_response.transactions,
+                    });
+                }
+                catch (err) {
+                    this.setState({
+                        transactions_loading_error: err,
+                    });
+                }
+                
                 try {
                     const messages_response = await getCntrprty(`/block/${block}/messages`);
                     this.setState({
@@ -87,6 +110,7 @@ class Block extends React.Component {
                         messages_loading_error: err,
                     });
                 }
+
             }
 
         }
@@ -223,6 +247,75 @@ class Block extends React.Component {
         }
 
 
+        let block_transactions_element_header = (
+            <h3 class="font-bold">
+                Transactions:
+            </h3>
+        );
+
+        let block_transactions_element = (
+            <p class="text-gray-600 dark:text-gray-400">
+                loading...
+            </p>
+        );
+        if (this.state.transactions_loading_error) {
+            block_transactions_element = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.transactions_loading_error}`}
+                </p>
+            );
+        }
+        else if (
+            !this.state.transactions_loading
+            &&
+            this.state.block === this.state.transactions_block
+        ) {
+
+            if (this.state.transactions.length) {
+                block_transactions_element_header = (
+                    <h3 class="font-bold">
+                        Transactions ({this.state.transactions.length}):
+                    </h3>
+                );
+            }
+
+            block_transactions_element =
+                this.state.transactions.length ?
+                    (
+                        <>
+                            <table>
+                                <tbody>
+                                    {ListElements.getTableRowBlockTransactionsHeader(this.state.messages_show_bindings)}
+                                    {this.state.transactions.map((transaction_row, index) => {
+
+                                        // cntrprty transaction
+                                        let cntrprty_decoded = {};
+                                        const cntrprty_hex = Buffer.from(transaction_row.data, 'hex').toString('hex');
+                                        try {
+                                            const current_version_past_block = 819000;
+                                            cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                                        }
+                                        catch (e) {
+                                            console.error(`cntrprty_decoded error: ${e}`);
+                                        }
+
+                                        transaction_row.cntrprty_decoded = cntrprty_decoded;
+                                        return ListElements.getTableRowBlockTransactions(transaction_row, index);
+                                    })}
+                                </tbody>
+                            </table>
+                        </>
+                    )
+                    : (
+                        <p class="text-gray-600 dark:text-gray-400">
+                            no Counterparty transactions in block
+                            {/* no cntrprty transactions in block */}
+                            {/* no transactions in block */}
+                        </p>
+                    );
+        }
+
+
         let block_messages_element_header = (
             <h3 class="font-bold">
                 Messages:
@@ -336,21 +429,23 @@ class Block extends React.Component {
                     {change_pages_element}
                 </div>
                 <div class="pt-1 mt-1 ml-4 whitespace-nowrap overflow-auto">
-                    {/* <div class="pt-1 mt-1 ml-4 whitespace-nowrap overflow-auto border-4"> */}
-                    {/* <div class="pt-1 mt-1"> */}
-                    {/* <div class="py-1 my-1"> */}
                     {block_metadata_element}
                 </div>
 
-                <div class="pt-1 mt-1">
-                    {/* <div class="py-1 my-1"> */}
+                <div class="py-1 my-1">
+                    <div class="py-1 my-1">
+                        {block_transactions_element_header}
+                    </div>
+                    <div class="pt-1 mt-1 ml-4 overflow-auto">
+                        {block_transactions_element}
+                    </div>
+                </div>
+
+                <div class="py-1 my-1">
                     <div class="py-1 my-1">
                         {block_messages_element_header}
                     </div>
                     <div class="pt-1 mt-1 ml-4 overflow-auto">
-                        {/* <div class="pt-1 mt-1 overflow-auto border-4"> */}
-                        {/* <div class="pt-1 mt-1"> */}
-                        {/* <div class="py-1 my-1"> */}
                         {block_messages_element}
                     </div>
                 </div>
