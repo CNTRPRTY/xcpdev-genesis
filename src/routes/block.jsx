@@ -449,6 +449,11 @@ class Block extends React.Component {
                         {block_messages_element}
                     </div>
                 </div>
+
+                <div class="py2 my-2">
+                    {change_pages_element}
+                </div>
+
             </div>
         );
 
