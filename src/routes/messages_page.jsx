@@ -198,6 +198,7 @@ class Messagespage extends React.Component {
                         All CNTRPRTY Bitcoin transaction and state messages in ascending order.
                     </p>
                     <p><Link to={`/transactions`}>All transactions</Link></p>
+                    <p><Link to={`/blocks`}>All blocks</Link></p>
                 </div>
                 <div class="py-1 my-1">
                     {jump_year_element}

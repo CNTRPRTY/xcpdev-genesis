@@ -211,6 +211,7 @@ class Transactionspage extends React.Component {
                         All CNTRPRTY Bitcoin transactions in ascending order.
                     </p>
                     <p><Link to={`/messages`}>All transaction and state messages</Link></p>
+                    <p><Link to={`/blocks`}>All blocks</Link></p>
                 </div>
                 <div class="py-1 my-1">
                     {jump_year_element}
