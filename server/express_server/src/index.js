@@ -32,6 +32,7 @@ let cached_mempool_timems = null;
 let cached_blocks = [];
 let cached_blocks_query1_timems = null;
 let cached_blocks_query2_timems = null;
+let cached_blocks_query3_timems = null;
 let cached_transactions = [];
 let cached_transactions_timems = null;
 
@@ -899,20 +900,32 @@ async function updateBlocksCache() {
     cached_blocks_query1_timems = end - start;
 
     const from_block_index_row = blocks_all[blocks_all.length - 1];
+
     start = new Date().getTime();
-    const messages_per_block = await Queries.getMessagesCountFromBlockToTip(db, from_block_index_row.block_index);
+    const transactions_per_block = await Queries.getTransactionsCountFromBlockToTip(db, from_block_index_row.block_index);
     end = new Date().getTime();
     cached_blocks_query2_timems = end - start;
 
+    start = new Date().getTime();
+    const messages_per_block = await Queries.getMessagesCountFromBlockToTip(db, from_block_index_row.block_index);
+    end = new Date().getTime();
+    cached_blocks_query3_timems = end - start;
+
+    const block_transactions_dict = {};
+    for (const block of transactions_per_block) {
+        block_transactions_dict[block.block_index] = block.transactions;
+    }
     const block_messages_dict = {};
     for (const block of messages_per_block) {
         block_messages_dict[block.block_index] = block.messages;
     }
 
     blocks_all = blocks_all.map((row) => {
+        let transactions_count = block_transactions_dict[row.block_index] ? block_transactions_dict[row.block_index] : 0;
         let messages_count = block_messages_dict[row.block_index] ? block_messages_dict[row.block_index] : 0;
         return {
             ...row,
+            transactions_count,
             messages_count,
         };
 

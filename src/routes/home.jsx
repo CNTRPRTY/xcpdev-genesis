@@ -75,14 +75,9 @@ class Home extends React.Component {
                                             <br />
                                             {timeSince(new Date(block_row.block_time * 1000))}
 
-                                            {/* <div class="pb-1 mb-1">
-                                                // <div class="py-1 my-1">
-                                                {timeSince(new Date(block_row.block_time * 1000))}
-                                            </div> */}
                                             <div class="py-1 my-1">
-                                            {/* <div class="py-1 my-1 mb-3"> */}
+                                                <code>{block_row.transactions_count} transaction{block_row.transactions_count === 1 ? '' : 's'}</code><br />
                                                 <code>{block_row.messages_count} messages</code>
-                                                {/* {block_row.messages_count} messages */}
                                             </div>
 
                                             <code>L: {hashSlice(block_row.ledger_hash)}</code><br />
@@ -91,14 +86,6 @@ class Home extends React.Component {
 
                                         </div>
 
-                                        {/* <Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link><br />
-                                        {timeSince(new Date(block_row.block_time * 1000))}<br />
-                                        <br />
-                                        {block_row.messages_count} messages<br />
-                                        <br />
-                                        L:{hashSlice(block_row.ledger_hash)}<br />
-                                        TX:{hashSlice(block_row.txlist_hash)}<br />
-                                        M:{hashSlice(block_row.messages_hash)}<br /> */}
                                     </td>
                                 );
                             })}

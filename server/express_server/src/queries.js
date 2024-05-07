@@ -143,6 +143,23 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getTransactionsCountFromBlockToTip(db, from_block_index) {
+        // changed to ASC to be more consistent with the new name
+        const sql = `
+            SELECT t.block_index, b.block_time, COUNT(*) AS transactions
+            FROM transactions t
+            JOIN blocks b ON t.block_index = b.block_index
+            WHERE t.supported
+            AND t.block_index >= $block_index
+            GROUP BY t.block_index
+            ORDER BY t.block_index ASC;
+        `;
+        const params_obj = {
+            block_index: from_block_index,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getBlocksLatest(db) {
         const limit = 30; // 10
         const sql = `
