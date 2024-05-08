@@ -103,17 +103,31 @@ class Queries {
 
     static async getMessagesRowsByBlock(db, block_index) {
         // this one is message_index instead of tx_index...
+
+        /// v10.CNTRPRTY mensaje_index
         const sql = `
-            SELECT *
+            SELECT
+                *,
+                message_index AS event_index,
+                mensaje_index AS message_index
             FROM messages
             WHERE block_index = $block_index
             ORDER BY message_index ASC;
         `;
+
+        // v9
         // const sql = `
         //     SELECT *
         //     FROM messages
-        //     WHERE block_index = $block_index;
+        //     WHERE block_index = $block_index
+        //     ORDER BY message_index ASC;
         // `;
+        // // const sql = `
+        // //     SELECT *
+        // //     FROM messages
+        // //     WHERE block_index = $block_index;
+        // // `;
+
         const params_obj = {
             block_index,
         };
