@@ -295,15 +295,29 @@ class Queries {
 
     static async getMessagesFromMessageIndexToMessageIndex(db, from_message_index, to_message_index) {
         
-        // v10.CNTRPRTY mensaje_index
+        /// v10.CNTRPRTY mensaje_index
         const sql = `
-            SELECT m.*, b.block_time
+            SELECT
+                m.*,
+                m.message_index AS event_index,
+                m.mensaje_index AS message_index,
+                b.block_time
             FROM messages m
             JOIN blocks b ON m.block_index = b.block_index
             WHERE m.mensaje_index >= $from_message_index
             AND m.mensaje_index <= $to_message_index
             ORDER BY m.message_index ASC;
         `;
+
+        // // v10.CNTRPRTY mensaje_index
+        // const sql = `
+        //     SELECT m.*, b.block_time
+        //     FROM messages m
+        //     JOIN blocks b ON m.block_index = b.block_index
+        //     WHERE m.mensaje_index >= $from_message_index
+        //     AND m.mensaje_index <= $to_message_index
+        //     ORDER BY m.message_index ASC;
+        // `;
         
         // const sql = `
         //     SELECT m.*, b.block_time
