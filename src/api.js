@@ -171,6 +171,26 @@ function getDispenserStatusText(status_number) {
 }
 
 
+// v10
+function eventsFilter(message_row, show_all_events = false) {
+    // using mensaje_index here, but message_index should have the same value
+    if (show_all_events) return true;
+    else if (message_row.mensaje_index === 0) return true;
+    else if (message_row.mensaje_index) return true;
+    else return false;
+    // if (show_all_events) return true;
+    // else {
+    //     const new_messages = [
+    //         'transactions',
+    //         'transaction_outputs',
+    //         'assets',
+    //         'blocks',
+    //     ];
+    //     return !new_messages.includes(message_row.category);
+    // }
+}
+
+
 export {
     COUNTERPARTY_VERSION_PREVIEW,
     COUNTERPARTY_VERSION_ALT,
@@ -183,4 +203,5 @@ export {
     postLibApiProxyFetch,
     selectTransactionMessagesFromAll,
     getDispenserStatusText,
+    eventsFilter, // v10
 };

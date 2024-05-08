@@ -1,26 +1,13 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { getCntrprty } from '../api';
+import { getCntrprty, eventsFilter } from '../api';
+// import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { timeSince, hashSlice } from '../utils';
 
 // import { decode_data } from '../decode_tx';
 // import { Buffer } from 'buffer';
-
-// defaults to filtering
-function eventsFilter(message_row, show_all_events = false) {
-    if (show_all_events) return true;
-    else {
-        const new_messages = [
-            'transactions',
-            'transaction_outputs',
-            'assets',
-            'blocks',
-        ];
-        return !new_messages.includes(message_row.category);
-    }
-}
 
 class Home extends React.Component {
 
