@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
-import { getCntrprty, selectTransactionMessagesFromAll } from '../api';
+import { getCntrprty, selectTransactionMessagesFromAll, eventsFilter } from '../api';
+// import { getCntrprty, selectTransactionMessagesFromAll } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
@@ -93,7 +94,15 @@ class Transaction extends React.Component {
 
             try {
                 const messages_response = await getCntrprty(`/block/${transaction.block_index}/messages`);
-                const messages = selectTransactionMessagesFromAll(tx_hash, messages_response.messages);
+                
+                // non-optional (react state level) filtering here
+                let messages = selectTransactionMessagesFromAll(tx_hash, messages_response.messages);
+                messages = messages.filter((message_row) => {
+                    return eventsFilter(message_row, false);
+                    // return eventsFilter(message_row, this.state.show_all_events);
+                });
+                // const messages = selectTransactionMessagesFromAll(tx_hash, messages_response.messages);
+                
                 this.setState({
                     messages_loading: false,
                     messages,
