@@ -30,7 +30,6 @@ function baseState(block) {
         messages: [],
 
         messages_show_bindings: false,
-
         // to debug
         show_all_events: true,
     };
@@ -359,7 +358,8 @@ class Block extends React.Component {
 
                             <table>
                                 <tbody>
-                                    {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings)}
+                                    {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings, this.state.show_all_events)}
+                                    {/* {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings)} */}
                                     {/* {ListElements.getTableRowMessageBlockHeader()} */}
 
                                     {/* filter only in display */}
@@ -367,7 +367,8 @@ class Block extends React.Component {
                                         return eventsFilter(message_row, this.state.show_all_events);
                                     }).map((message_row, index) => {
                                         // {this.state.messages.map((message_row, index) => {
-                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings, eventsFilter(message_row));
+                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings,  this.state.show_all_events);
+                                        // return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings, eventsFilter(message_row));
                                         // return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings);
                                         // // return ListElements.getTableRowMessageBlock(message_row, index);
                                     })}

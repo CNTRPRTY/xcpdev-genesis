@@ -392,7 +392,8 @@ class ListElements {
         // );
     }
 
-    static getTableRowMessageBlockHeader(show_bindings) {
+    static getTableRowMessageBlockHeader(show_bindings, show_all_events) {
+        // static getTableRowMessageBlockHeader(show_bindings) {
         // static getTableRowMessageBlockHeader() {
         return (
             <tr
@@ -401,6 +402,17 @@ class ListElements {
                 style={{ padding: "0.25rem" }}
             >
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td> */}
+
+                {show_all_events ?
+                    (
+                        <>
+                            <td style={{ padding: "0 1rem 0.25rem 0" }}>event index</td>
+                            <td style={{ padding: "0 1rem 0.25rem 0" }}>event</td>
+                        </>
+                    )
+                    : null
+                }
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>message index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td> */}
@@ -420,7 +432,8 @@ class ListElements {
             </tr>
         );
     }
-    static getTableRowMessageBlock(message_row, index, show_bindings, message_event = true) {
+    static getTableRowMessageBlock(message_row, index, show_bindings, show_all_events) {
+        // static getTableRowMessageBlock(message_row, index, show_bindings, message_event = true) {
         // static getTableRowMessageBlock(message_row, index, show_bindings) {
         // static getTableRowMessageBlock(message_row, index) {
         // static getTableRowMessage(message_row, index) {
@@ -541,6 +554,16 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}><code>{
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
                 }</code></td> */}
+
+                {show_all_events ?
+                    (
+                        <>
+                            <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.event_index}</code></td>
+                            <td style={{ padding: "0 1rem 0 0" }}><code>{message_row.event}</code></td>
+                        </>
+                    )
+                    : null
+                }
 
                 {/* event_index could become the new primary key, while keeping message_index in v9 order... */}
                 <td style={{ padding: "0 1rem 0 0" }}><code>{(
