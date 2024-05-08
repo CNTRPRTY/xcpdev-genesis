@@ -292,8 +292,7 @@ class Block extends React.Component {
                                         let cntrprty_decoded = {};
                                         const cntrprty_hex = Buffer.from(transaction_row.data, 'hex').toString('hex');
                                         try {
-                                            const current_version_past_block = 819000;
-                                            cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                                            cntrprty_decoded = decode_data(cntrprty_hex, this.state.block);
                                         }
                                         catch (e) {
                                             console.error(`cntrprty_decoded error: ${e}`);
