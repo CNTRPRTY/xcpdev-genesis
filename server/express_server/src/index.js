@@ -119,6 +119,7 @@ app.get('/blocks', async (req, res) => {
         blocks: cached_blocks,
         query1_timems: cached_blocks_query1_timems,
         query2_timems: cached_blocks_query2_timems,
+        query3_timems: cached_blocks_query3_timems,
     });
 
 });
