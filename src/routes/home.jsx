@@ -77,7 +77,7 @@ class Home extends React.Component {
 
                                             <div class="py-1 my-1">
                                                 <code>{block_row.transactions_count} transaction{block_row.transactions_count === 1 ? '' : 's'}</code><br />
-                                                <code>{block_row.messages_count} messages</code>
+                                                <code>{block_row.messages_count} message{block_row.messages_count === 1 ? '' : 's'}</code>
                                             </div>
 
                                             <code>L: {hashSlice(block_row.ledger_hash)}</code><br />
