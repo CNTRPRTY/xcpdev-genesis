@@ -1162,18 +1162,38 @@ class Queries {
     }
 
     static async getOrderMatchesRows(db, tx_hash) {
+
+        // v10.CNTRPRTY tx_index_block (tx1_index_block)
         const sql = `
             SELECT
+                MAX(om.rowid) AS _rowid,
                 om.*,
                 CAST(om.forward_quantity AS TEXT) AS forward_quantity_text,
                 CAST(om.backward_quantity AS TEXT) AS backward_quantity_text,
                 b.block_time
             FROM order_matches om
             JOIN blocks b
-                ON om.block_index = b.block_index
+                ON om.tx1_index_block = b.block_index
             WHERE om.tx0_hash = $tx_hash
-            OR om.tx1_hash = $tx_hash;
-        `;
+            OR om.tx1_hash = $tx_hash
+            GROUP BY om.id
+            ORDER BY tx1_index_block ASC;
+        `; // ? tx1_index ASC is not returning the correct order (3e51d963060c9a0f042653b44e3e59555162ed2b7acda32b8d6635643b6a93d1)
+
+        // v9
+        // const sql = `
+        //     SELECT
+        //         om.*,
+        //         CAST(om.forward_quantity AS TEXT) AS forward_quantity_text,
+        //         CAST(om.backward_quantity AS TEXT) AS backward_quantity_text,
+        //         b.block_time
+        //     FROM order_matches om
+        //     JOIN blocks b
+        //         ON om.block_index = b.block_index
+        //     WHERE om.tx0_hash = $tx_hash
+        //     OR om.tx1_hash = $tx_hash;
+        // `;
+
         const params_obj = {
             tx_hash,
         };

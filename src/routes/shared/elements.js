@@ -1756,8 +1756,12 @@ class ListElements {
                         {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.backward_asset], BigInt(order_matches_row.backward_quantity_text))}`}
                     </code>
                 </td>
-                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></code></td>
+
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.tx1_index_block}`}>{order_matches_row.tx1_index_block}</Link></code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></code></td> */}
+                
                 <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(order_matches_row.block_time)}</code></td>
+                
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(order_matches_row)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(order_metadata)}</td> */}
             </tr>
