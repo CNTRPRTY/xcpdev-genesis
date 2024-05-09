@@ -216,16 +216,7 @@ class Queries {
         const limit = 30; // 10
         const sql = `
             SELECT
-                t.tx_index,
-                t.tx_hash,
-                t.block_index,
-                t.block_hash,
-                t.block_time,
-                t.source,
-                t.destination,
-                t.btc_amount,
-                t.fee,
-                t.supported,
+                t.*,
                 b.block_time
             FROM transactions t
             JOIN blocks b ON t.block_index = b.block_index
@@ -248,16 +239,7 @@ class Queries {
     static async getTransactionsFromTxIndexToTxIndex(db, from_tx_index, to_tx_index) {
         const sql = `
             SELECT
-                t.tx_index,
-                t.tx_hash,
-                t.block_index,
-                t.block_hash,
-                t.block_time,
-                t.source,
-                t.destination,
-                t.btc_amount,
-                t.fee,
-                t.supported,
+                t.*,
                 b.block_time
             FROM transactions t
             JOIN blocks b ON t.block_index = b.block_index
