@@ -134,7 +134,8 @@ class Home extends React.Component {
                             const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
                             try {
                                 const current_version_past_block = 819000;
-                                cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                                cntrprty_decoded = decode_data(mempool_row.destination, cntrprty_hex, current_version_past_block);
+                                // cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
                             }
                             catch (e) {
                                 console.error(`cntrprty_decoded error: ${e}`);

@@ -4,6 +4,10 @@
 // copy of <script> from decode_tx.html of https://github.com/Jpja/Electrum-Counterparty/
 // version permalink: https://github.com/Jpja/Electrum-Counterparty/blob/cfdb65cf7fc6426a89595c5f7a70f6a81d205c80/decode_tx.html
 
+// burns
+const UNSPENDABLE_MAINNET = "1CounterpartyXXXXXXXXXXXXXXXUWLpVr";
+const BURN_START_MAINNET = 278310;
+const BURN_END_MAINNET = 283810;
 
 // using naming conventions from counterparty-lib/counterpartylib/lib/messages (messages/__init__.py)
 const MSG_TYPE = {
@@ -28,6 +32,8 @@ const MSG_TYPE = {
     30: 'broadcast',
     50: 'dividend',
 
+    60: 'burn',
+
     // TODO:
     // - after some research, don't see id:67 anywhere... so maybe the decoding itself is different at this time...
     // id:67 message 0 burn: https://www.xcp.dev/tx/685623401c3f5e9d2eaaf0657a50454e56a270ee7630d409e98d3bc257560098 
@@ -36,8 +42,27 @@ const MSG_TYPE = {
     110: 'destroy',
 }
 
+function decode_data(destination, data_hex, block_height) {
+    // handling burns first
+    if (destination === UNSPENDABLE_MAINNET) {
+        const json_out = {
+            id: 60,
+            msg_type: MSG_TYPE[60],
+        };
+        if (BURN_START_MAINNET <= block_height && block_height <= BURN_END_MAINNET) {
+            json_out.msg_decoded = { valid: 'true' };
+        }
+        else {
+            json_out.msg_decoded = { valid: 'false' };
+        }
+        return json_out;
+    }
+    return _decode_data(data_hex, block_height);
+}
+
 // block_height should not be needed, v9.60 changed a message format instead of making a new message type
-function decode_data(data_hex, block_height) {
+function _decode_data(data_hex, block_height) {
+    // function decode_data(data_hex, block_height) {
     let cp_msg = data_hex;
 
     let id_hex = cp_msg.substring(0, 2);
