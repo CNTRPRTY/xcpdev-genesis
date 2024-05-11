@@ -272,7 +272,8 @@ class Asset extends React.Component {
                         this.setState({
                             balances_loading: false,
                             balances_tip_blocks_row: balances_response.tip_blocks_row,
-                            balances: balances_response.balances,
+                            balances: balances_response.balances_rows,
+                            // balances: balances_response.balances,
                         });
                     }
                     catch (err) {
@@ -385,6 +386,7 @@ class Asset extends React.Component {
             if (['BTC', 'XCP'].includes(this.state.asset_name)) {
                 asset_metadata = {
                     asset: this.state.asset_name,
+                    asset_longname: null,
                     divisible: true,
                 };
             }
@@ -801,7 +803,8 @@ class Asset extends React.Component {
                                                 else return true;
                                             }).sort(balancesSortAddress).map((balances_row, index) => {
                                                 // {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
-
+                                                balances_row.asset_longname = asset_metadata.asset_longname;
+                                                balances_row.divisible = asset_metadata.divisible;
                                                 return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
                                             })}
                                         </tbody>

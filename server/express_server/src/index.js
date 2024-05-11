@@ -430,18 +430,63 @@ app.get('/asset/:assetName/balances', async (req, res) => {
     end = new Date().getTime();
     const tip_blocks_row_timems = end - start;
 
+    const asset_metadata_obj = await getAssetMetadataMaybeQuery(db, asset_name);
+    const asset_metadata_obj_query1_timems = asset_metadata_obj.query1_timems;
+    const asset_metadata_obj_query2_timems = asset_metadata_obj.query2_timems;
+
     start = new Date().getTime();
-    const balances = await Queries.getBalancesRowsByAssetName(db, asset_name);
+    const balances_rows = await Queries.getBalancesRowsByAssetName(db, asset_name);
+    end = new Date().getTime();
+    const balances_rows_timems = end - start;
+
+    ////
+    // temp for transition
+    start = new Date().getTime();
+    const balances = await Queries.getBalancesRowsByAssetNameOLD(db, asset_name);
     end = new Date().getTime();
     const balances_timems = end - start;
+    ////
 
     res.status(200).json({
         tip_blocks_row,
         query1_timems: tip_blocks_row_timems,
+        asset_metadata: asset_metadata_obj,
+        query2_timems: asset_metadata_obj_query1_timems,
+        query3_timems: asset_metadata_obj_query2_timems,
+        balances_rows,
+        query4_timems: balances_rows_timems,
+
+        ////
+        // temp for transition
         balances,
-        query2_timems: balances_timems,
+        query5_timems: balances_timems,
+        ////
+
     });
 });
+// app.get('/asset/:assetName/balances', async (req, res) => {
+//     let start;
+//     let end;
+
+//     const asset_name = req.params.assetName;
+
+//     start = new Date().getTime();
+//     const tip_blocks_row = await Queries.getBlocksRowTip(db);
+//     end = new Date().getTime();
+//     const tip_blocks_row_timems = end - start;
+
+//     start = new Date().getTime();
+//     const balances = await Queries.getBalancesRowsByAssetName(db, asset_name);
+//     end = new Date().getTime();
+//     const balances_timems = end - start;
+
+//     res.status(200).json({
+//         tip_blocks_row,
+//         query1_timems: tip_blocks_row_timems,
+//         balances,
+//         query2_timems: balances_timems,
+//     });
+// });
 
 
 // app.get('/asset/:assetName/dispensers/open', async (req, res) => {

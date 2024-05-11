@@ -216,8 +216,7 @@ class Queries {
         const limit = 30; // 10
         const sql = `
             SELECT
-                t.*,
-                b.block_time
+                t.*, b.block_time
             FROM transactions t
             JOIN blocks b ON t.block_index = b.block_index
             ORDER BY t.tx_index DESC
@@ -239,8 +238,7 @@ class Queries {
     static async getTransactionsFromTxIndexToTxIndex(db, from_tx_index, to_tx_index) {
         const sql = `
             SELECT
-                t.*,
-                b.block_time
+                t.*, b.block_time
             FROM transactions t
             JOIN blocks b ON t.block_index = b.block_index
             WHERE t.tx_index >= $from_tx_index
@@ -296,8 +294,21 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
-    // TODO ignoring XCP for now
     static async getBalancesRowsByAssetName(db, asset_name) {
+        // join was unnecessary for a single asset
+        const sql = `
+            SELECT *, CAST(quantity AS TEXT) AS quantity_text
+            FROM balances
+            WHERE asset = $asset_name;
+        `;
+        const params_obj = {
+            asset_name,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+    // TODO ignoring XCP for now
+    static async getBalancesRowsByAssetNameOLD(db, asset_name) {
+        // static async getBalancesRowsByAssetName(db, asset_name) {
         // TODO?
         // broken with CIP3 reset assets...
         const sql = `
@@ -327,7 +338,6 @@ class Queries {
             asset_name,
         };
         return queryDBRows(db, sql, params_obj);
-
     }
 
     static async getBalancesRowsByAddressWithoutXcp(db, address) {
