@@ -78,8 +78,7 @@ class Transaction extends React.Component {
             if (transaction.data) {
                 try {
                     const cntrprty_hex = Buffer.from(transaction.data, 'hex').toString('hex');
-                    const cntrprty_decoded = decode_data(transaction.destination, cntrprty_hex, transaction.block_index);
-                    // const cntrprty_decoded = decode_data(cntrprty_hex, transaction.block_index);
+                    const cntrprty_decoded = decode_data(transaction.destination, transaction.block_index, cntrprty_hex);
                     this.setState({
                         cntrprty_hex,
                         cntrprty_decoded,

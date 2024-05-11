@@ -42,7 +42,7 @@ const MSG_TYPE = {
     110: 'destroy',
 }
 
-function decode_data(destination, data_hex, block_height) {
+function decode_data(destination, block_height, data_hex) {
     // handling burns first
     if (destination === UNSPENDABLE_MAINNET) {
         const json_out = {
@@ -60,9 +60,8 @@ function decode_data(destination, data_hex, block_height) {
     return _decode_data(data_hex, block_height);
 }
 
-// block_height should not be needed, v9.60 changed a message format instead of making a new message type
 function _decode_data(data_hex, block_height) {
-    // function decode_data(data_hex, block_height) {
+    // block_height should not be needed here, v9.60 changed a message format instead of making a new message type
     let cp_msg = data_hex;
 
     let id_hex = cp_msg.substring(0, 2);
