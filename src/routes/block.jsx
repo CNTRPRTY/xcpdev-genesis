@@ -184,25 +184,30 @@ class Block extends React.Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="py-1 my-1">
-                        <ul>
-                            <li>
-                                <span class="text-gray-600 dark:text-gray-400">ledger hash (L):</span>
-                                {' '}
-                                <span class="dark:text-slate-100">{this.state.block_row.ledger_hash}</span>
-                            </li>
-                            <li>
-                                <span class="text-gray-600 dark:text-gray-400">txlist hash (TX):</span>
-                                {' '}
-                                <span class="dark:text-slate-100">{this.state.block_row.txlist_hash}</span>
-                            </li>
-                            <li>
-                                <span class="text-gray-600 dark:text-gray-400">messages hash (M):</span>
-                                {' '}
-                                <span class="dark:text-slate-100">{this.state.block_row.messages_hash}</span>
-                            </li>
-                        </ul>
-                    </div>
+                    {this.state.block_row.ledger_hash.length ?
+                        (
+                            <div class="py-1 my-1">
+                                <ul>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">ledger hash (L):</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.block_row.ledger_hash}</span>
+                                    </li>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">txlist hash (TX):</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.block_row.txlist_hash}</span>
+                                    </li>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">messages hash (M):</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.block_row.messages_hash}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                        : null
+                    }
                 </>
             );
         }
@@ -392,23 +397,39 @@ class Block extends React.Component {
                     {block_metadata_element}
                 </div>
 
-                <div class="py-1 my-1">
-                    <div class="py-1 my-1">
-                        {block_transactions_element_header}
-                    </div>
-                    <div class="pt-1 mt-1 ml-4 overflow-auto">
-                        {block_transactions_element}
-                    </div>
-                </div>
+                {this.state.block_row && this.state.block_row.ledger_hash.length ?
+                    (
+                        <>
+                            <div class="py-1 my-1">
+                                <div class="py-1 my-1">
+                                    {block_transactions_element_header}
+                                </div>
+                                <div class="pt-1 mt-1 ml-4 overflow-auto">
+                                    {block_transactions_element}
+                                </div>
+                            </div>
 
-                <div class="py-1 my-1">
-                    <div class="py-1 my-1">
-                        {block_messages_element_header}
-                    </div>
-                    <div class="pt-1 mt-1 ml-4 overflow-auto">
-                        {block_messages_element}
-                    </div>
-                </div>
+                            <div class="py-1 my-1">
+                                <div class="py-1 my-1">
+                                    {block_messages_element_header}
+                                </div>
+                                <div class="pt-1 mt-1 ml-4 overflow-auto">
+                                    {block_messages_element}
+                                </div>
+                            </div>
+                        </>
+                    )
+                    :
+                    (
+                        <div class="py-1 my-1">
+                            <div class="pt-1 mt-1 ml-4 overflow-auto">
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    the Counterparty protocol was not yet active by this block
+                                </p>
+                            </div>
+                        </div>
+                    )
+                }
 
                 <div class="py2 my-2">
                     {change_pages_element}
