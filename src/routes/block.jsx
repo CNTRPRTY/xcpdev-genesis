@@ -168,18 +168,6 @@ class Block extends React.Component {
                                 {' '}
                                 <span class="dark:text-slate-100">{(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</span>
                             </li>
-                            {/* does not show with overflow-auto */}
-                            {/* <ul class="list-disc list-outside"> */}
-                            {/* <li>
-                                <span class="text-gray-600">block index:</span>
-                                {' '}
-                                {this.state.block}
-                            </li>
-                            <li>
-                                <span class="text-gray-600">block time:</span>
-                                {' '}
-                                {(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}
-                            </li> */}
                         </ul>
                     </div>
                     <div class="py-1 my-1">
@@ -194,17 +182,6 @@ class Block extends React.Component {
                                 {' '}
                                 <span class="dark:text-slate-100">{this.state.block_row.previous_block_hash}</span>
                             </li>
-                            {/* <ul class="list-disc list-outside"> */}
-                            {/* <li>
-                                <span class="text-gray-600">block hash:</span>
-                                {' '}
-                                {this.state.block_row.block_hash}
-                            </li>
-                            <li>
-                                <span class="text-gray-600">previous block hash:</span>
-                                {' '}
-                                {this.state.block_row.previous_block_hash}
-                            </li> */}
                         </ul>
                     </div>
                     <div class="py-1 my-1">
@@ -224,22 +201,6 @@ class Block extends React.Component {
                                 {' '}
                                 <span class="dark:text-slate-100">{this.state.block_row.messages_hash}</span>
                             </li>
-                            {/* <ul class="list-disc list-outside"> */}
-                            {/* <li>
-                                <span class="text-gray-600">ledger hash (L):</span>
-                                {' '}
-                                {this.state.block_row.ledger_hash}
-                            </li>
-                            <li>
-                                <span class="text-gray-600">txlist hash (TX):</span>
-                                {' '}
-                                {this.state.block_row.txlist_hash}
-                            </li>
-                            <li>
-                                <span class="text-gray-600">messages hash (M):</span>
-                                {' '}
-                                {this.state.block_row.messages_hash}
-                            </li> */}
                         </ul>
                     </div>
                 </>
