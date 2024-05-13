@@ -16,7 +16,15 @@ class Home extends React.Component {
             blocks: null,
             mempool: null,
             transactions: null,
+            node_response: null,
         };
+    }
+
+    async fetchDataNode() {
+        const node_response = await getCntrprty('/');
+        this.setState({
+            node_response,
+        });
     }
 
     async fetchDataBlocks() {
@@ -37,12 +45,12 @@ class Home extends React.Component {
         const transactions_response = await getCntrprty(`/transactions`);
         this.setState({
             transactions: transactions_response.transactions,
-            // transactions: transactions_response.transactions_latest, // TODO consistency
         });
     }
 
     async componentDidMount() {
         // no await
+        this.fetchDataNode()
         this.fetchDataBlocks();
         this.fetchDataMempool();
         this.fetchDataTransactions();
@@ -116,9 +124,22 @@ class Home extends React.Component {
             </p>
         );
         if (this.state.mempool && !this.state.mempool.length) {
+
+            let tip_state_message = "Try refreshing the page in a couple of minutes...";
+            if (
+                this.state.node_response &&
+                this.state.blocks && this.state.blocks.length
+            ) {
+                const cp_latest_block = Number(this.state.blocks[0].block_index);
+                const bitcoin_tip = Number(this.state.node_response.node.bitcoind.getblockchaininfo.blocks);
+                if (cp_latest_block + 10 < bitcoin_tip) {
+                    tip_state_message = `Still syncing, more than ${bitcoin_tip - cp_latest_block} blocks left...`;
+                }
+            }
+
             mempool_element_contents = (
                 <p class="dark:text-slate-100">
-                    Try refreshing the page in a couple of minutes...
+                    {tip_state_message}
                 </p>
             );
         }
