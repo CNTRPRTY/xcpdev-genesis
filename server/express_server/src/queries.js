@@ -107,13 +107,13 @@ class Queries {
         /// v10.CNTRPRTY mensaje_index
         const sql = `
             SELECT
-                *,
-                message_index AS event_index,
-                mensaje_index AS message_index
-            FROM messages
-            WHERE block_index = $block_index
-            ORDER BY message_index ASC;
-        `;
+                m.*,
+                m.message_index AS event_index,
+                m.mensaje_index AS message_index
+            FROM messages m
+            WHERE m.block_index = $block_index
+            ORDER BY m.message_index ASC;
+        `; // event_index used
 
         // v9
         // const sql = `
@@ -320,7 +320,7 @@ class Queries {
             JOIN blocks b ON m.block_index = b.block_index
             WHERE m.mensaje_index >= $from_message_index
             AND m.mensaje_index <= $to_message_index
-            ORDER BY m.message_index ASC;
+            ORDER BY m.mensaje_index ASC;
         `;
 
         // // v10.CNTRPRTY mensaje_index
@@ -333,6 +333,7 @@ class Queries {
         //     ORDER BY m.message_index ASC;
         // `;
         
+        // v9
         // const sql = `
         //     SELECT m.*, b.block_time
         //     FROM messages m
