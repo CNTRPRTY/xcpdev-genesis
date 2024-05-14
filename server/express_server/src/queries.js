@@ -349,6 +349,32 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    static async getMessagesFromMessageIndexTable(db, from_message_index, table) {
+        const limit = 100; // 30; // 10
+
+        /// v10.CNTRPRTY mensaje_index
+        const sql = `
+            SELECT
+                m.*,
+                m.message_index AS event_index,
+                m.mensaje_index AS message_index,
+                b.block_time
+            FROM messages m
+            JOIN blocks b ON m.block_index = b.block_index
+            WHERE m.category = $category
+            AND m.mensaje_index >= $from_message_index
+            ORDER BY m.mensaje_index ASC
+            LIMIT $limit;
+        `;
+
+        const params_obj = {
+            from_message_index,
+            category: table,
+            limit,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     static async getBalancesRowsByAssetName(db, asset_name) {
         // join was unnecessary for a single asset
 

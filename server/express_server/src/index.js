@@ -801,12 +801,48 @@ app.get('/messages/:messageIndex', async (req, res) => {
         return;
     }
     // const message_index = Number(req.params.messageIndex);
+
+    // TODO centralize (getMessagesFromMessageIndexTable depends on this also)
     // get the messages including the tx and the next 100 transactions
     const to_index = Number(message_index) + 99;
     // const to_index = Number(message_index) + 999;
+    
     const start = new Date().getTime();
     const messages = await Queries.getMessagesFromMessageIndexToMessageIndex(db, message_index, to_index);
     const end = new Date().getTime();
+    res.status(200).json({
+        node: {
+            BITCOIN_VERSION,
+            COUNTERPARTY_VERSION,
+        },
+        from_index: message_index,
+        to_index,
+        messages,
+        query_timems: end - start,
+    });
+});
+
+app.get('/messages/:messageIndex/table/:tableName', async (req, res) => {
+    let message_index;
+    try {
+        message_index = Number(req.params.messageIndex);
+        if (Number.isNaN(message_index) || message_index < 0) throw Error();
+    }
+    catch (err) {
+        res.status(400).json({
+            error: '400 Bad Request',
+        });
+        return;
+    }
+
+    const table_name = req.params.tableName;
+
+    const start = new Date().getTime();
+    const messages = await Queries.getMessagesFromMessageIndexTable(db, message_index, table_name);
+    const end = new Date().getTime();
+
+    const to_index = messages[messages.length - 1].message_index;
+    
     res.status(200).json({
         node: {
             BITCOIN_VERSION,
