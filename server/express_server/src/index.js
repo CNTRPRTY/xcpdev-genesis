@@ -841,7 +841,8 @@ app.get('/messages/:messageIndex/table/:tableName', async (req, res) => {
     const messages = await Queries.getMessagesFromMessageIndexTable(db, message_index, table_name);
     const end = new Date().getTime();
 
-    const to_index = messages[messages.length - 1].message_index;
+    const to_index = messages.length ? messages[messages.length - 1].message_index : message_index;
+    // const to_index = messages[messages.length - 1].message_index;
     
     res.status(200).json({
         node: {
