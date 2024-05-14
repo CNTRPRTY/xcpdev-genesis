@@ -16,7 +16,7 @@ class Home extends React.Component {
         this.state = {
             blocks: null,
             mempool: null,
-            mempool_show_all_events: true, // to debug
+            mempool_show_all_events: false, // to debug
             transactions: null,
             node_response: null,
         };
@@ -149,8 +149,30 @@ class Home extends React.Component {
             mempool_element_contents = (
                 <>
 
+                {localStorage.debug_mode === "true" ?
+                    (
+                        <>
+                            {' '}
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onClick={() => {
+                                        this.setState((prevState, props) => ({
+                                            mempool_show_all_events: !prevState.mempool_show_all_events
+                                        }));
+                                    }}
+                                    checked={this.state.mempool_show_all_events}
+                                />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
+                            </label>
+                        </>
+                    )
+                    : null
+                }
+
                 {/* to debug */}
-                {' '}
+                {/* {' '}
                 <label>
                     <input
                         type="checkbox"
@@ -163,7 +185,7 @@ class Home extends React.Component {
                     />
                     {' '}
                     <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
-                </label>
+                </label> */}
                 {/*  */}
 
                 
