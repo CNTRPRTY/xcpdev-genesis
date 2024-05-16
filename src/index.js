@@ -38,7 +38,10 @@ root.render(
           <Route path="asset/:assetName" element={<Asset />} /> {/* for now only the asset_name, not the asset_longname */}
           <Route path="assets" element={<Assetspage />} />          
           <Route path="transactions" element={<Transactionspage />} />
+          
+          <Route path="messages/:table" element={<Messagespage />} />
           <Route path="messages" element={<Messagespage />} />
+          
           <Route path="blocks" element={<Blockspage />} />
           <Route path="api" element={<Apidoc />} />
           <Route path="wallet/:address" element={<Wallet />} />
