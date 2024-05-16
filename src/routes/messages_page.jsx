@@ -8,7 +8,6 @@ async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-//////
 // https://github.com/CounterpartyXCP/counterparty-core/blob/6378d81dcef9dc3646111e815ed427268b09e9a5/counterparty-core/counterpartycore/lib/blocks.py#L61
 const TABLES = [
     // "balances", // not included in messages... :P
@@ -44,7 +43,6 @@ const TABLES = [
     "dispenses",
     "dispenser_refills",
 ];
-//////
 
 class Messagespage extends React.Component {
     constructor(props) {
@@ -106,7 +104,7 @@ class Messagespage extends React.Component {
 
             const response = await getCntrprty(url);
             // const response = await getCntrprty(`/messages/${from_index}`);
-            
+
             this.setState({
                 from_index: response.from_index,
                 to_index: response.to_index,
@@ -203,34 +201,17 @@ class Messagespage extends React.Component {
                     <Link to={`/messages${add_table_if_applies}#${years['y2022']}`}>2022</Link>{' | '}
                     <Link to={`/messages${add_table_if_applies}#${years['y2023']}`}>2023</Link>{' | '}
                     <Link to={`/messages${add_table_if_applies}#${years['y2024']}`}>2024</Link>
-                    {/* <Link to={`/messages#${years['y2014']}`}>2014</Link>{' | '}
-                    <Link to={`/messages#${years['y2015']}`}>2015</Link>{' | '}
-                    <Link to={`/messages#${years['y2016']}`}>2016</Link>{' | '}
-                    <Link to={`/messages#${years['y2017']}`}>2017</Link>{' | '}
-                    <Link to={`/messages#${years['y2018']}`}>2018</Link>{' | '}
-                    <Link to={`/messages#${years['y2019']}`}>2019</Link>{' | '}
-                    <Link to={`/messages#${years['y2020']}`}>2020</Link>{' | '}
-                    <Link to={`/messages#${years['y2021']}`}>2021</Link>{' | '}
-                    <Link to={`/messages#${years['y2022']}`}>2022</Link>{' | '}
-                    <Link to={`/messages#${years['y2023']}`}>2023</Link>{' | '}
-                    <Link to={`/messages#${years['y2024']}`}>2024</Link> */}
                 </p>
             </>
         );
 
-        ////////
-        // trying table(s) selection here
         const table_select_element = (
             <div class="py-1 my-1">
-            {/* <div class="py-1 my-1 ml-4"> */}
                 <table>
                     <tbody>
                         <tr>
                             <td class="pr-1 py-1">
                                 <span class="dark:text-slate-100">Category:</span>
-                                {/* <span class="dark:text-slate-100">Table:</span> */}
-                                {/* <span class="dark:text-slate-100">Categories:</span> */}
-                                {/* <span class="dark:text-slate-100">Table(s):</span> */}
                             </td>
                             <td class="py-1">
                                 <select
@@ -249,7 +230,6 @@ class Messagespage extends React.Component {
                 </table>
             </div>
         );
-        ////////
 
         let content_element = (
             <p class="text-gray-600 dark:text-gray-400">
