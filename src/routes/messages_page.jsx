@@ -141,33 +141,33 @@ class Messagespage extends React.Component {
         // Doing this manually helps in verification...
         let years;
         if (COUNTERPARTY_VERSION.startsWith('9.59')) {
-            years = {
-                y2014: 0,
-                y2015: 505211,
-                y2016: 1350000,
-                y2017: 2582382,
-                y2018: 4186987,
-                y2019: 5228022,
-                y2020: 5558510,
-                y2021: 5855416,
-                y2022: 7055629,
-                y2023: 8460931,
-            };
+            years = [
+                ['2014', 0],
+                ['2015', 505211],
+                ['2016', 1350000],
+                ['2017', 2582382],
+                ['2018', 4186987],
+                ['2019', 5228022],
+                ['2020', 5558510],
+                ['2021', 5855416],
+                ['2022', 7055629],
+                ['2023', 8460931],
+            ];
         }
         else if (COUNTERPARTY_VERSION.startsWith('9.60')) {
-            years = {
-                y2014: 0,
-                y2015: 505211,
-                y2016: 1350000,
-                y2017: 2582382,
-                y2018: 4186987,
-                y2019: 5228022,
-                y2020: 5558173, // update was in 2022...
-                y2021: 5850483,
-                y2022: 7070644,
-                y2023: 8820356,
-                y2024: 10307726,
-            };
+            years = [
+                ['2014', 0],
+                ['2015', 505211],
+                ['2016', 1350000],
+                ['2017', 2582382],
+                ['2018', 4186987],
+                ['2019', 5228022],
+                ['2020', 5558173], // update was in 2022...
+                ['2021', 5850483],
+                ['2022', 7070644],
+                ['2023', 8820356],
+                ['2024', 10307726],
+            ];
         }
         else { // 9.61
             years = [
@@ -178,24 +178,11 @@ class Messagespage extends React.Component {
                 ['2018', 4186987],
                 ['2019', 5228022],
                 ['2020', 5558173],
-                ['2021', 5850490],
+                ['2021', 5850490], // update was in 2023...
                 ['2022', 7070697],
                 ['2023', 8820491],
                 ['2024', 10315836], // ??? 10315837 2023 block time?
             ];
-            // years = {
-            //     y2014: 0,
-            //     y2015: 505211,
-            //     y2016: 1350000,
-            //     y2017: 2582382,
-            //     y2018: 4186987,
-            //     y2019: 5228022,
-            //     y2020: 5558173,
-            //     y2021: 5850490, // update was in 2023...
-            //     y2022: 7070697,
-            //     y2023: 8820491,
-            //     y2024: 10315836, // ??? 10315837 2023 block time?
-            // };
         }
         const jump_year_element = (
             <>
@@ -215,17 +202,6 @@ class Messagespage extends React.Component {
                             </>
                         );
                     })}
-                    {/* <Link to={`/messages${add_table_if_applies}#${years['y2014']}`}>2014</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2015']}`}>2015</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2016']}`}>2016</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2017']}`}>2017</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2018']}`}>2018</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2019']}`}>2019</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2020']}`}>2020</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2021']}`}>2021</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2022']}`}>2022</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2023']}`}>2023</Link>{' | '}
-                    <Link to={`/messages${add_table_if_applies}#${years['y2024']}`}>2024</Link> */}
                 </p>
             </>
         );
