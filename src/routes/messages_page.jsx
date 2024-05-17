@@ -74,6 +74,8 @@ class Messagespage extends React.Component {
             rows_loading_error: null,
             rows: null,
 
+            years: [],
+
             table: table_if_specified,
         };
 
@@ -86,7 +88,8 @@ class Messagespage extends React.Component {
             this.setState({ table: event.target.value });
             await sleep(1);
             this.props.router.navigate(`/messages/${event.target.value}`);
-            await this.fetchData(this.state.from_index);
+            await this.fetchData(0);
+            // await this.fetchData(this.state.from_index);
         }
 
     }
@@ -96,7 +99,8 @@ class Messagespage extends React.Component {
 
             let url;
             if (this.state.table !== '') {
-                url = `/messages/${from_index}/table/${this.state.table}`;
+                url = `/messages/${from_index}/category/${this.state.table}`;
+                // url = `/messages/${from_index}/table/${this.state.table}`;
             }
             else {
                 url = `/messages/${from_index}`;
@@ -111,6 +115,8 @@ class Messagespage extends React.Component {
 
                 rows_loading: false,
                 rows: response.messages,
+
+                years: response.years,
             });
         }
         catch (err) {
@@ -140,50 +146,57 @@ class Messagespage extends React.Component {
 
         // Doing this manually helps in verification...
         let years;
-        if (COUNTERPARTY_VERSION.startsWith('9.59')) {
-            years = [
-                ['2014', 0],
-                ['2015', 505211],
-                ['2016', 1350000],
-                ['2017', 2582382],
-                ['2018', 4186987],
-                ['2019', 5228022],
-                ['2020', 5558510],
-                ['2021', 5855416],
-                ['2022', 7055629],
-                ['2023', 8460931],
-            ];
+
+        if (!this.state.years.length) {
+            if (COUNTERPARTY_VERSION.startsWith('9.59')) {
+                years = [
+                    ['2014', 0],
+                    ['2015', 505211],
+                    ['2016', 1350000],
+                    ['2017', 2582382],
+                    ['2018', 4186987],
+                    ['2019', 5228022],
+                    ['2020', 5558510],
+                    ['2021', 5855416],
+                    ['2022', 7055629],
+                    ['2023', 8460931],
+                ];
+            }
+            else if (COUNTERPARTY_VERSION.startsWith('9.60')) {
+                years = [
+                    ['2014', 0],
+                    ['2015', 505211],
+                    ['2016', 1350000],
+                    ['2017', 2582382],
+                    ['2018', 4186987],
+                    ['2019', 5228022],
+                    ['2020', 5558173], // update was in 2022...
+                    ['2021', 5850483],
+                    ['2022', 7070644],
+                    ['2023', 8820356],
+                    ['2024', 10307726],
+                ];
+            }
+            else { // 9.61
+                years = [
+                    ['2014', 0],
+                    ['2015', 505211],
+                    ['2016', 1350000],
+                    ['2017', 2582382],
+                    ['2018', 4186987],
+                    ['2019', 5228022],
+                    ['2020', 5558173],
+                    ['2021', 5850490], // update was in 2023...
+                    ['2022', 7070697],
+                    ['2023', 8820491],
+                    ['2024', 10315836], // ??? 10315837 2023 block time?
+                ];
+            }
         }
-        else if (COUNTERPARTY_VERSION.startsWith('9.60')) {
-            years = [
-                ['2014', 0],
-                ['2015', 505211],
-                ['2016', 1350000],
-                ['2017', 2582382],
-                ['2018', 4186987],
-                ['2019', 5228022],
-                ['2020', 5558173], // update was in 2022...
-                ['2021', 5850483],
-                ['2022', 7070644],
-                ['2023', 8820356],
-                ['2024', 10307726],
-            ];
+        else {
+            years = this.state.years;
         }
-        else { // 9.61
-            years = [
-                ['2014', 0],
-                ['2015', 505211],
-                ['2016', 1350000],
-                ['2017', 2582382],
-                ['2018', 4186987],
-                ['2019', 5228022],
-                ['2020', 5558173],
-                ['2021', 5850490], // update was in 2023...
-                ['2022', 7070697],
-                ['2023', 8820491],
-                ['2024', 10315836], // ??? 10315837 2023 block time?
-            ];
-        }
+
         const jump_year_element = (
             <>
                 <h3>
@@ -192,7 +205,7 @@ class Messagespage extends React.Component {
                 <p>
                     {years.map((value, index) => {
                         let include_separator = ' | ';
-                        if (index === years.length) {
+                        if (index === (years.length - 1)) {
                             include_separator = '';
                         }
                         const [year, message_index] = value;
