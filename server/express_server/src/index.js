@@ -819,10 +819,11 @@ app.get('/messages/:messageIndex', async (req, res) => {
         to_index,
         messages,
         query_timems: end - start,
+        years: [], // for v10 compatibility
     });
 });
 
-app.get('/messages/:messageIndex/table/:tableName', async (req, res) => {
+app.get('/messages/:messageIndex/category/:category', async (req, res) => {
     let message_index;
     try {
         message_index = Number(req.params.messageIndex);
@@ -835,7 +836,7 @@ app.get('/messages/:messageIndex/table/:tableName', async (req, res) => {
         return;
     }
 
-    const table_name = req.params.tableName;
+    const table_name = req.params.category;
 
     const start = new Date().getTime();
     const messages = await Queries.getMessagesFromMessageIndexTable(db, message_index, table_name);
@@ -853,6 +854,7 @@ app.get('/messages/:messageIndex/table/:tableName', async (req, res) => {
         to_index,
         messages,
         query_timems: end - start,
+        years: [], // for v10 compatibility
     });
 });
 
