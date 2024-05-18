@@ -634,6 +634,24 @@ class Queries {
         return queryDBRows(db, sql, params_obj);
     }
 
+    // for assets page
+    static async getAssetsRange(db, asset_name) {
+        const limit = 100;
+        const sql = `
+            SELECT a.*, b.block_time
+            FROM assets a
+            JOIN blocks b ON a.block_index = b.block_index
+            WHERE a.asset_name >= $asset_name
+            ORDER BY a.asset_name ASC
+            LIMIT $limit;
+        `;
+        const params_obj = {
+            asset_name,
+            limit,
+        };
+        return queryDBRows(db, sql, params_obj);
+    }
+
     // escrows
     static async getOrdersRowsGiveAssetByAssetName(db, asset_name) {
         const status = 'open';

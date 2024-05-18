@@ -1944,6 +1944,40 @@ class ListElements {
             </tr>
         );
     }
+
+    // assets
+    static getTableRowAssetsHeader() {
+        return (
+            <tr
+                class="whitespace-nowrap text-gray-600 dark:text-gray-400"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>genesis block</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>(genesis) block</td> */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>(genesis) time</td> */}
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>genesis block</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>genesis time</td> */}
+            </tr>
+        );
+    }
+    static getTableRowAssets(asset_row, index) {
+        const longname_if_applies = asset_row.asset_longname ? ` ${asset_row.asset_longname}` : '';
+        return (
+            <tr
+                key={index}
+                class="whitespace-nowrap dark:text-slate-100"
+                style={{ padding: "0.25rem" }}
+            >
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${asset_row.asset_name}`}>{asset_row.asset_name}</Link>{longname_if_applies}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link>{` ${timeIsoFormat(asset_row.block_time)}`}</code></td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link>{` [${timeIsoFormat(asset_row.block_time)}]`}</code></td> */}
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link>{` (${timeIsoFormat(asset_row.block_time)})`}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(asset_row.block_time)}</code></td> */}
+            </tr>
+        );
+    }
     ///////////////
 
 }
@@ -2042,6 +2076,7 @@ class OneElements extends React.Component {
                             }}
                         >
                             <Link to="/">Home</Link> |{" "}
+                            <Link to="/assets">Assets</Link> |{" "}
                             <Link to="/messages">Messages</Link> |{" "}
                             <Link to="/wallet">Wallet</Link>
 

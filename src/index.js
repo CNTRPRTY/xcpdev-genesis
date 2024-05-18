@@ -15,6 +15,7 @@ import Transaction from './routes/transaction';
 import Block from './routes/block';
 import Address from './routes/address';
 import Asset from './routes/asset';
+import Assetspage from './routes/assets_page';
 import Transactionspage from './routes/transactions_page';
 import Messagespage from './routes/messages_page';
 import Blockspage from './routes/blocks_page';
@@ -35,6 +36,7 @@ root.render(
           <Route path="block/:block" element={<Block />} />
           <Route path="address/:address" element={<Address />} />
           <Route path="asset/:assetName" element={<Asset />} /> {/* for now only the asset_name, not the asset_longname */}
+          <Route path="assets" element={<Assetspage />} />          
           <Route path="transactions" element={<Transactionspage />} />
           <Route path="messages" element={<Messagespage />} />
           <Route path="blocks" element={<Blockspage />} />

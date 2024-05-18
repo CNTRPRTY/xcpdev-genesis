@@ -353,6 +353,23 @@ app.get('/address/:address/balances', async (req, res) => {
     });
 });
 
+app.get('/assets/:fromString', async (req, res) => {
+    const from_string = req.params.fromString;
+    const start = new Date().getTime();
+    const assets = await Queries.getAssetsRange(db, from_string);
+    const end = new Date().getTime();
+
+    const from_asset_adjusted = assets.length ? assets[0].asset_name : from_string;
+    const to_asset = assets.length ? assets[assets.length - 1].asset_name : from_string;
+
+    res.status(200).json({
+        from_asset: from_asset_adjusted,
+        to_asset,
+        assets,
+        query_timems: end - start,
+    });
+});
+
 app.get('/asset/:assetName', async (req, res) => {
     const asset_name = req.params.assetName;
     const start = new Date().getTime();
