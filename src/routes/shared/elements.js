@@ -1954,10 +1954,6 @@ class ListElements {
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>genesis block</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>(genesis) block</td> */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>(genesis) time</td> */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>genesis block</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>genesis time</td> */}
             </tr>
         );
     }
@@ -1970,11 +1966,7 @@ class ListElements {
                 style={{ padding: "0.25rem" }}
             >
                 <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/asset/${asset_row.asset_name}`}>{asset_row.asset_name}</Link>{longname_if_applies}</code></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link>{` ${timeIsoFormat(asset_row.block_time)}`}</code></td> */}
-                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link>{` [${timeIsoFormat(asset_row.block_time)}]`}</code></td> */}
                 <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link>{` (${timeIsoFormat(asset_row.block_time)})`}</code></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${asset_row.block_index}`}>{asset_row.block_index}</Link></code></td>
-                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(asset_row.block_time)}</code></td> */}
             </tr>
         );
     }
