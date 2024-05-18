@@ -22,8 +22,12 @@ class Assetspage extends React.Component {
         };
     }
 
-    async fetchData(from_asset) {
+    async fetchData(_from_asset) {
+        let from_asset = _from_asset;
         try {
+            if (!_from_asset) {
+                from_asset = 'A';
+            }
             const response = await getCntrprty(`/assets/${from_asset}`);
             this.setState({
                 from_asset: response.from_asset,
