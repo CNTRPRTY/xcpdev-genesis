@@ -355,10 +355,19 @@ app.get('/address/:address/balances', async (req, res) => {
 });
 
 app.get('/assets/:fromString', async (req, res) => {
+    let start;
+    let end;
+
     const from_string = req.params.fromString;
-    const start = new Date().getTime();
+
+    start = new Date().getTime();
+    const tip_blocks_row = await Queries.getBlocksRowTip(db);
+    end = new Date().getTime();
+    const tip_blocks_row_timems = end - start;
+
+    start = new Date().getTime();
     const assets = await Queries.getAssetsRange(db, from_string);
-    const end = new Date().getTime();
+    end = new Date().getTime();
 
     const from_asset_adjusted = assets.length ? assets[0].asset_name : from_string;
     const to_asset = assets.length ? assets[assets.length - 1].asset_name : from_string;
@@ -366,8 +375,10 @@ app.get('/assets/:fromString', async (req, res) => {
     res.status(200).json({
         from_asset: from_asset_adjusted,
         to_asset,
+        tip_blocks_row,
+        query1_timems: tip_blocks_row_timems,
         assets,
-        query_timems: end - start,
+        query2_timems: end - start,
     });
 });
 

@@ -3,6 +3,7 @@ import { withRouter } from './shared/classhooks';
 import { getCntrprty } from "../api";
 import { Link } from "react-router-dom";
 import { OneElements, ListElements } from './shared/elements';
+import { timeIsoFormat } from '../utils';
 
 class Assetspage extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class Assetspage extends React.Component {
             rows_loading: true,
             rows_loading_error: null,
             rows: null,
+            tip_blocks_row: null,
         };
     }
 
@@ -34,6 +36,7 @@ class Assetspage extends React.Component {
                 to_asset: response.to_asset,
                 rows_loading: false,
                 rows: response.assets,
+                tip_blocks_row: response.tip_blocks_row,
             });
         }
         catch (err) {
@@ -138,6 +141,11 @@ class Assetspage extends React.Component {
                     );
         }
 
+        let tip_notice = '...';
+        if (this.state.tip_blocks_row) {
+            tip_notice = `, as of block ${this.state.tip_blocks_row.block_index} (${timeIsoFormat(this.state.tip_blocks_row.block_time)}).`;
+        }
+
         const route_element = (
             <div class="py-2 my-2">
                 <h2 class="font-bold text-xl mb-1">
@@ -145,7 +153,8 @@ class Assetspage extends React.Component {
                 </h2>
                 <div class="py-1 my-1">
                     <p class="dark:text-slate-100">
-                        All issued assets in alphabetical order.
+                        All issued assets in alphabetical order{tip_notice}
+                        {/* All issued assets in alphabetical order. */}
                     </p>
                 </div>
                 <div class="py-1 my-1">
