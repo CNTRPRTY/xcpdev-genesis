@@ -101,6 +101,91 @@ class Queries {
         }
     }
 
+    // testing added index...
+    // static async getBlockRowFirstAfterTime(db, block_time) {
+    //     const sql = `
+    //         SELECT *
+    //         FROM blocks
+    //         WHERE block_time >= $block_time
+    //         ORDER BY block_time ASC
+    //         LIMIT 1;
+    //     `;
+    //     const params_obj = {
+    //         block_time,
+    //     };
+    //     const rows = await queryDBRows(db, sql, params_obj);
+    //     // return queryDBRows(db, sql, params_obj)
+    //     // if (rows.length > 1) throw Error(`unexpected getOrdersRow:${tx_hash}`);
+    //     if (rows.length === 0) return null;
+    //     else { // rows.length === 1
+    //         return rows[0];
+    //     }
+    // }
+
+    static async getBlockRowFirstAfterTimeMessages(db, block_time) {
+        // v10.CNTRPRTY mensaje_index
+        const sql = `
+            SELECT
+                m.*,
+                m.message_index AS event_index,
+                m.mensaje_index AS message_index
+            FROM messages m
+            WHERE m.mensaje_index IS NOT NULL
+            AND m.block_index >= (
+                SELECT b.block_index
+                FROM blocks b
+                WHERE b.block_time >= $block_time
+                ORDER BY b.block_time ASC
+                LIMIT 1
+            )
+            ORDER BY m.block_index ASC, m.mensaje_index ASC
+            LIMIT 1;
+        `;
+        const params_obj = {
+            block_time,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        // if (rows.length > 1) throw Error(`unexpected getOrdersRow:${tx_hash}`);
+        if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+
+    static async getBlockRowFirstAfterTimeCategoryMessages(db, block_time, category) {
+        // v10.CNTRPRTY mensaje_index
+        const sql = `
+            SELECT
+                m.*,
+                m.message_index AS event_index,
+                m.mensaje_index AS message_index
+            FROM messages m
+            WHERE m.category = $category
+            AND m.mensaje_index IS NOT NULL
+            AND m.block_index >= (
+                SELECT b.block_index
+                FROM blocks b
+                WHERE b.block_time >= $block_time
+                ORDER BY b.block_time ASC
+                LIMIT 1
+            )
+            ORDER BY m.block_index ASC, m.mensaje_index ASC
+            LIMIT 1;
+        `;
+        const params_obj = {
+            block_time,
+            category,
+        };
+        const rows = await queryDBRows(db, sql, params_obj);
+        // return queryDBRows(db, sql, params_obj)
+        // if (rows.length > 1) throw Error(`unexpected getOrdersRow:${tx_hash}`);
+        if (rows.length === 0) return null;
+        else { // rows.length === 1
+            return rows[0];
+        }
+    }
+
     static async getMessagesRowsByBlock(db, block_index) {
         // this one is message_index instead of tx_index...
 
