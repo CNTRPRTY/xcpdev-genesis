@@ -421,14 +421,33 @@ class Block extends React.Component {
                     )
                     :
                     (
-                        <div class="py-1 my-1">
-                            <div class="pt-1 mt-1 ml-4 overflow-auto">
-                                <p class="text-gray-600 dark:text-gray-400">
-                                    the Counterparty protocol was not yet active by this block
-                                </p>
-                            </div>
-                        </div>
+                        <>
+                            {/* !nested terniary! */}
+                            {this.state.block_row ?
+                                (
+                                    (
+                                        <div class="py-1 my-1">
+                                            <div class="pt-1 mt-1 ml-4 overflow-auto">
+                                                <p class="text-gray-600 dark:text-gray-400">
+                                                    the Counterparty protocol was not yet active by this block
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )
+                                )
+                                : null
+                            }
+                        </>
                     )
+                    // (
+                    //     <div class="py-1 my-1">
+                    //         <div class="pt-1 mt-1 ml-4 overflow-auto">
+                    //             <p class="text-gray-600 dark:text-gray-400">
+                    //                 the Counterparty protocol was not yet active by this block
+                    //             </p>
+                    //         </div>
+                    //     </div>
+                    // )
                 }
 
                 <div class="py2 my-2">
