@@ -1,5 +1,5 @@
 import React from 'react';
-import { postLibApiProxyFetch } from '../api';
+import { postLibApiProxyFetch, API_HOST_IS_PROD } from '../api';
 
 class WalletCreate extends React.Component {
 
@@ -201,10 +201,14 @@ class WalletCreate extends React.Component {
                     dialog_state = 'error';
                 }
             }
-            // response_data = await fetch_res.json();
-            response_data = {
-                data: await fetch_res.json()
-            }; // direct to express_server api
+            if (API_HOST_IS_PROD){
+                response_data = await fetch_res.json();
+            }
+            else {
+                response_data = {
+                    data: await fetch_res.json()
+                };
+            }
 
             if (dialog_state === 'error') {
                 this.setState({

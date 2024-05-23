@@ -8,6 +8,7 @@ const COUNTERPARTY_VERSION_ALT_URL = "https://960.xcp.dev";
 const BITCOIN_VERSION = "24.0.1";
 const COUNTERPARTY_VERSION = "9.61.3";
 const API_HOST = "https://api.xcp.dev/v9_61";
+const API_HOST_IS_PROD = false;
 
 
 async function sleep(ms) {
@@ -35,8 +36,12 @@ async function getCntrprty(path) {
             else {
                 const data = await response.json();
 
-                return data.data;
-                // return data; // direct to express_server api
+                if (API_HOST_IS_PROD){
+                    return data.data;
+                }
+                else {
+                    return data;
+                }
 
             }
         }
@@ -61,8 +66,7 @@ async function getCntrprty(path) {
 
 async function postLibApiProxyFetch(method, params) {
 
-    const path = "/proxy";
-    // const path = "/lib_api_proxy"; // direct to express_server api
+    const path = API_HOST_IS_PROD ? "/proxy" : "/lib_api_proxy";
 
     const options = {
         method: "POST",
@@ -173,6 +177,7 @@ export {
     BITCOIN_VERSION,
     COUNTERPARTY_VERSION,
     API_HOST,
+    API_HOST_IS_PROD,
     getCntrprty,
     postLibApiProxyFetch,
     selectTransactionMessagesFromAll,
