@@ -70,6 +70,9 @@ async function postLibApiProxyFetch(method, params) {
             method,
             params,
         }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
     };
     return fetch(`${API_HOST}${path}`, options);
 }

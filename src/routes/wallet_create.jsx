@@ -201,8 +201,10 @@ class WalletCreate extends React.Component {
                     dialog_state = 'error';
                 }
             }
-            response_data = await fetch_res.json();
-
+            // response_data = await fetch_res.json();
+            response_data = {
+                data: await fetch_res.json()
+            }; // direct to express_server api
 
             if (dialog_state === 'error') {
                 this.setState({
