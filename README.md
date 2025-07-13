@@ -2,6 +2,10 @@
 
 ## Libre Counterparty Bitcoin Data Explorer
 
+The explorer service ended on 2025-07-13.
+
+---
+
 THIS IS ALPHA SOFTWARE, but is live at https://www.xcp.dev.
 
 This is an open source Counterparty data explorer server + client application. It requires a fednode to run the server... (WIP)
